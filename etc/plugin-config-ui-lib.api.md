@@ -16,6 +16,7 @@ export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandl
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, hideSubmitButton: boolean): {
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
+    apiAuthorizationToken: string;
 };
 
 // Warning: (ae-forgotten-export) The symbol "Success" needs to be exported by the entry point index.d.ts

@@ -16,25 +16,38 @@ export function useFormInit(
 ): {
   initialized: boolean;
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
+  apiAuthorizationToken: string;
 } {
   const [initialized, setInitialized] = useState(false);
+  const [apiAuthorizationToken, setApiAuthorizationToken] = useState('');
   const [initialValues, setInitialValues] = useState<
     FormMessagePayload['init']['initialValues'] | undefined
   >();
 
   useEffect(() => {
-    return pluginUiMessageHandler.subscribeToMessage('init', ({ initialValues }) => {
-      if (initialValues?.spec?.connection_string) {
-        setInitialValues(initialValues);
-      }
+    return pluginUiMessageHandler.subscribeToMessageOnce(
+      'init',
+      ({ initialValues, apiAuthorizationToken }) => {
+        if (initialValues?.spec?.connection_string) {
+          setInitialValues(initialValues);
+        }
 
-      setInitialized(true);
+        setInitialized(true);
+        setApiAuthorizationToken(apiAuthorizationToken);
 
-      pluginUiMessageHandler.sendMessage('ready', {
-        hideSubmitButton,
-      });
-    });
+        pluginUiMessageHandler.sendMessage('ready', {
+          hideSubmitButton,
+        });
+
+        pluginUiMessageHandler.subscribeToMessage(
+          'api_authorization_token_changed',
+          ({ token }) => {
+            setApiAuthorizationToken(token);
+          },
+        );
+      },
+    );
   }, []);
 
-  return { initialized, initialValues };
+  return { initialized, initialValues, apiAuthorizationToken };
 }
