@@ -13,10 +13,10 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): MutableRefObject<HTMLDivElement>;
 
 // @public
-export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, hideSubmitButton: boolean): {
+export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
-    apiAuthorizationToken: string;
+    name: string;
 };
 
 // Warning: (ae-forgotten-export) The symbol "Success" needs to be exported by the entry point index.d.ts

@@ -12,42 +12,35 @@ import { FormMessagePayload, PluginUiMessageHandler } from '@cloudquery/plugin-c
  */
 export function useFormInit(
   pluginUiMessageHandler: PluginUiMessageHandler,
-  hideSubmitButton: boolean,
+  implementsCustomFooter: boolean,
 ): {
   initialized: boolean;
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
-  apiAuthorizationToken: string;
+  name: string;
 } {
   const [initialized, setInitialized] = useState(false);
-  const [apiAuthorizationToken, setApiAuthorizationToken] = useState('');
   const [initialValues, setInitialValues] = useState<
     FormMessagePayload['init']['initialValues'] | undefined
   >();
+  const [name, setName] = useState<string>('');
 
   useEffect(() => {
-    return pluginUiMessageHandler.subscribeToMessageOnce(
-      'init',
-      ({ initialValues, apiAuthorizationToken }) => {
-        if (initialValues?.spec?.connection_string) {
-          setInitialValues(initialValues);
-        }
+    return pluginUiMessageHandler.subscribeToMessageOnce('init', ({ initialValues }) => {
+      if (initialValues?.spec?.connection_string) {
+        setInitialValues(initialValues);
+      }
 
-        setInitialized(true);
-        setApiAuthorizationToken(apiAuthorizationToken);
+      pluginUiMessageHandler.subscribeToMessage('name_changed', ({ name }) => {
+        setName(name);
+      });
 
-        pluginUiMessageHandler.sendMessage('ready', {
-          hideSubmitButton,
-        });
+      setInitialized(true);
 
-        pluginUiMessageHandler.subscribeToMessage(
-          'api_authorization_token_changed',
-          ({ token }) => {
-            setApiAuthorizationToken(token);
-          },
-        );
-      },
-    );
+      pluginUiMessageHandler.sendMessage('ready', {
+        implementsCustomFooter,
+      });
+    });
   }, []);
 
-  return { initialized, initialValues, apiAuthorizationToken };
+  return { initialized, initialValues, name };
 }

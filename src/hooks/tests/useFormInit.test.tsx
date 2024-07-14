@@ -21,7 +21,7 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
-      apiAuthorizationToken: '',
+      name: '',
     });
 
     await act(async () => {
@@ -33,7 +33,6 @@ describe('usePluginUiFormInit', () => {
       >(formMessageTypes, pluginUiMessageTypes, window.parent);
       formMessageHandler.sendMessage('init', {
         initialValues: undefined,
-        apiAuthorizationToken: 'test',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -42,18 +41,14 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: true,
       initialValues: undefined,
-      apiAuthorizationToken: 'test',
+      name: '',
     });
   });
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
     const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
-    expect(result.current).toEqual({
-      initialized: false,
-      initialValues: undefined,
-      apiAuthorizationToken: '',
-    });
+    expect(result.current).toEqual({ initialized: false, initialValues: undefined, name: '' });
 
     await act(async () => {
       const formMessageHandler = new MessageHandler<
@@ -63,7 +58,6 @@ describe('usePluginUiFormInit', () => {
         PluginUiMessagePayload
       >(formMessageTypes, pluginUiMessageTypes, window.parent);
       formMessageHandler.sendMessage('init', {
-        apiAuthorizationToken: 'test',
         initialValues: {
           tables: ['*'],
           migrateMode: undefined,
@@ -91,7 +85,7 @@ describe('usePluginUiFormInit', () => {
         skipTables: [],
         writeMode: 'append',
       },
-      apiAuthorizationToken: 'test',
+      name: '',
     });
   });
 
@@ -101,7 +95,7 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
-      apiAuthorizationToken: '',
+      name: '',
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -112,7 +106,6 @@ describe('usePluginUiFormInit', () => {
 
     await act(async () => {
       formMessageHandler.sendMessage('init', {
-        apiAuthorizationToken: 'test',
         initialValues: {
           tables: ['*'],
           migrateMode: undefined,
@@ -140,12 +133,12 @@ describe('usePluginUiFormInit', () => {
         skipTables: [],
         writeMode: 'append',
       },
-      apiAuthorizationToken: 'test',
+      name: '',
     });
 
     await act(async () => {
-      formMessageHandler.sendMessage('api_authorization_token_changed', {
-        token: 'changed',
+      formMessageHandler.sendMessage('name_changed', {
+        name: 'changed',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -163,7 +156,7 @@ describe('usePluginUiFormInit', () => {
         skipTables: [],
         writeMode: 'append',
       },
-      apiAuthorizationToken: 'changed',
+      name: 'changed',
     });
   });
 });
