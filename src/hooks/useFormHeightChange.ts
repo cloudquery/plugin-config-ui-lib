@@ -10,7 +10,7 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
  */
 export function useFormHeightChange(
   pluginUiMessageHandler: PluginUiMessageHandler,
-): MutableRefObject<HTMLDivElement> {
+): MutableRefObject<HTMLDivElement | null> {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

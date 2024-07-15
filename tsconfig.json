@@ -10,7 +10,8 @@
     "outDir": "lib",
     "jsx": "react-jsx",
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]

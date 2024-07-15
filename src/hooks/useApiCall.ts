@@ -16,9 +16,9 @@ export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessage
     (
       endpoint: string,
       method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE',
-      body: any,
-      options: {
-        headers?: HeadersInit;
+      body?: any,
+      options?: {
+        headers?: Record<string, string>;
         mode?: RequestMode;
       },
     ) => {
@@ -29,7 +29,7 @@ export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessage
       const requestPromise = new Promise<{
         body: ResponseData;
         endpoint: string;
-        headers: HeadersInit;
+        headers: Record<string, string>;
         status: number;
       }>((resolve, reject) => {
         rejectPromise = reject;
@@ -44,17 +44,27 @@ export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessage
 
         unsubscribeFromResponse = pluginUiMessageHandler.subscribeToMessage(
           'api_call_response',
-          ({ endpoint, headers, id, ok, status, body }) => {
-            if (id === requestId) {
-              unsubscribeFromResponse();
+          (response) => {
+            if (response.id === requestId) {
+              unsubscribeFromResponse?.();
               unsubscribeList.current = unsubscribeList.current.filter(
                 (unsubscribe) => unsubscribe !== unsubscribeFromResponse,
               );
 
-              if (ok) {
-                resolve({ body, endpoint, headers, status });
+              if (response.ok) {
+                resolve({
+                  body: response.body,
+                  endpoint: response.endpoint,
+                  headers: response.headers,
+                  status: response.status,
+                });
               } else {
-                reject({ body, endpoint, headers, status });
+                reject({
+                  body: response.body,
+                  endpoint: response.endpoint,
+                  headers: response.headers,
+                  status: response.status,
+                });
               }
             }
           },
@@ -64,7 +74,7 @@ export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessage
       });
 
       const abortRequest = () => {
-        unsubscribeFromResponse();
+        unsubscribeFromResponse?.();
         unsubscribeList.current = unsubscribeList.current.filter(
           (unsubscribe) => unsubscribe !== unsubscribeFromResponse,
         );

@@ -64,8 +64,9 @@ describe('useApiCall', () => {
       const { requestPromise, requestId: id } = callApi(endpoint, method, body, options);
       requestId = id;
 
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
+      const headers = {
+        'Content-Type': 'application/json',
+      };
       formMessageHandler.sendMessage('api_call_response', {
         endpoint,
         headers,
@@ -98,8 +99,9 @@ describe('useApiCall', () => {
     await act(async () => {
       const { requestPromise, requestId } = callApi(endpoint, method, body, options);
 
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
+      const headers = {
+        'Content-Type': 'application/json',
+      };
       formMessageHandler.sendMessage('api_call_response', {
         endpoint,
         headers,

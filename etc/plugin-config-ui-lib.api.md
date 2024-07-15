@@ -11,14 +11,14 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 // @public
 export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessageHandler): {
-    callApi: (endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body: any, options: {
-        headers?: HeadersInit;
+    callApi: (endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body?: any, options?: {
+        headers?: Record<string, string>;
         mode?: RequestMode;
     }) => {
         requestPromise: Promise<{
             body: ResponseData;
             endpoint: string;
-            headers: HeadersInit;
+            headers: Record<string, string>;
             status: number;
         }>;
         abortRequest: () => void;
@@ -27,7 +27,7 @@ export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessage
 };
 
 // @public
-export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): MutableRefObject<HTMLDivElement>;
+export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): MutableRefObject<HTMLDivElement | null>;
 
 // @public
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {
