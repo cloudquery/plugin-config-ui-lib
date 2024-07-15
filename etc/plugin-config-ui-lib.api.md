@@ -10,6 +10,23 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 // @public
+export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessageHandler): {
+    callApi: (endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body: any, options: {
+        headers?: HeadersInit;
+        mode?: RequestMode;
+    }) => {
+        requestPromise: Promise<{
+            body: ResponseData;
+            endpoint: string;
+            headers: HeadersInit;
+            status: number;
+        }>;
+        abortRequest: () => void;
+        requestId: string;
+    };
+};
+
+// @public
 export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): MutableRefObject<HTMLDivElement>;
 
 // @public
