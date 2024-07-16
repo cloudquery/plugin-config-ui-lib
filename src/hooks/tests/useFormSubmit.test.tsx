@@ -36,7 +36,7 @@ describe('usePluginUiFormSubmit', () => {
     renderHook(() => useFormSubmit(onValidate as any, getPluginUiMessageHandler()));
 
     await act(async () => {
-      formMessageHandler.sendMessage('validate', undefined);
+      formMessageHandler.sendMessage('validate');
 
       originalPostMessage = window.parent.postMessage;
       window.parent.postMessage = jest.fn();
@@ -60,7 +60,7 @@ describe('usePluginUiFormSubmit', () => {
     renderHook(() => useFormSubmit(onValidate as any, getPluginUiMessageHandler()));
 
     await act(async () => {
-      formMessageHandler.sendMessage('validate', undefined);
+      formMessageHandler.sendMessage('validate');
 
       originalPostMessage = window.parent.postMessage;
       window.parent.postMessage = jest.fn();

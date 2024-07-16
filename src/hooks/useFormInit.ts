@@ -16,23 +16,16 @@ export function useFormInit(
 ): {
   initialized: boolean;
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
-  name: string;
 } {
   const [initialized, setInitialized] = useState(false);
   const [initialValues, setInitialValues] = useState<
     FormMessagePayload['init']['initialValues'] | undefined
   >();
-  const [name, setName] = useState<string>('');
-
   useEffect(() => {
     return pluginUiMessageHandler.subscribeToMessageOnce('init', ({ initialValues }) => {
-      if (initialValues?.spec?.connection_string) {
+      if (initialValues) {
         setInitialValues(initialValues);
       }
-
-      pluginUiMessageHandler.subscribeToMessage('name_changed', ({ name }) => {
-        setName(name);
-      });
 
       setInitialized(true);
 
@@ -42,5 +35,5 @@ export function useFormInit(
     });
   }, []);
 
-  return { initialized, initialValues, name };
+  return { initialized, initialValues };
 }

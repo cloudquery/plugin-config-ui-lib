@@ -4,16 +4,18 @@
 
 ```ts
 
+import { Dispatch } from 'react';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { MutableRefObject } from 'react';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { SetStateAction } from 'react';
 
 // @public
-export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessageHandler): {
-    callApi: (endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body?: any, options?: {
+export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
+    callApi: <ResponseData>(endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body?: any, options?: {
         headers?: Record<string, string>;
-        mode?: RequestMode;
+        mode?: "cors" | "navigate" | "no-cors" | "same-origin";
     }) => {
         requestPromise: Promise<{
             body: ResponseData;
@@ -27,13 +29,51 @@ export function useApiCall<ResponseData>(pluginUiMessageHandler: PluginUiMessage
 };
 
 // @public
+export function useFormActions({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, }: {
+    pluginUiMessageHandler: PluginUiMessageHandler;
+    teamName: string;
+    pluginTeamName: string;
+    pluginName: string;
+    pluginKind: 'source' | 'destination';
+    getValues: () => FormValues;
+    pluginVersion: string;
+    isUpdating: boolean;
+}): {
+    submitError: string | undefined;
+    deleteDialogOpen: boolean;
+    handleCancel: () => void;
+    handleCancelTestConnection: () => void;
+    handleDelete: () => Promise<void>;
+    handleGoToPreviousStep: () => void;
+    handleTestConnection: () => Promise<string | null>;
+    handleSubmit: () => Promise<void>;
+    isSubmitting: boolean;
+    isTestingConnection: boolean;
+    setDeleteDialogOpen: Dispatch<SetStateAction<boolean>>;
+    testConnectionError: string | undefined;
+    submitPayload: ({
+        name: string;
+        migrateMode?: "forced" | "safe";
+        envs: Array<{
+            name: string;
+            value: string;
+        }>;
+        spec: Record<string, any>;
+        tables?: string[];
+        skipTables?: string[];
+        writeMode?: "append" | "overwrite" | "overwrite-delete-stale";
+    } & {
+        connectionId: string;
+    }) | undefined;
+};
+
+// @public
 export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): MutableRefObject<HTMLDivElement | null>;
 
 // @public
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
-    name: string;
 };
 
 // Warning: (ae-forgotten-export) The symbol "Success" needs to be exported by the entry point index.d.ts
@@ -41,6 +81,25 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
 //
 // @public
 export function useFormSubmit(onValidate: () => Promise<Success | Failure> | Success | Failure, pluginUiMessageHandler: PluginUiMessageHandler): void;
+
+// @public
+export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler): {
+    cancelTestConnection: () => void;
+    testConnection: (values: {
+        name: string;
+        path: string;
+        version: string;
+        spec: Record<string, any>;
+        env: Array<{
+            name: string;
+            value?: string;
+        }>;
+    }, teamName: string, isUpdating: boolean) => Promise<string>;
+};
+
+// Warnings were encountered during analysis:
+//
+// src/hooks/useFormActions.ts:35:3 - (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

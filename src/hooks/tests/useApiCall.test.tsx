@@ -128,17 +128,29 @@ describe('useApiCall', () => {
     const body = null;
     const options = { headers: { 'Content-Type': 'application/json' } };
 
-    let abortRequest;
-
     await act(async () => {
-      const { requestPromise, abortRequest: abort } = callApi(endpoint, method, body, options);
-      abortRequest = abort;
+      formMessageHandler.subscribeToMessage('api_call_request', () => {
+        formMessageHandler.subscribeToMessage('api_call_abort_request', () => {
+          formMessageHandler.sendMessage('api_call_response', {
+            endpoint,
+            headers: {},
+            id: requestId,
+            ok: false,
+            status: 0,
+            body: abortError,
+          });
+        });
+      });
+      const { requestPromise, abortRequest, requestId } = callApi(endpoint, method, body, options);
+
+      const abortError = new Error('Request aborted');
+      abortError.name = 'AbortError';
 
       abortRequest();
       await expect(requestPromise).rejects.toEqual({
-        body: null,
+        body: abortError,
         endpoint,
-        headers: null,
+        headers: {},
         status: 0,
       });
     });

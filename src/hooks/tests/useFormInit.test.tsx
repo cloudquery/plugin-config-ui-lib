@@ -21,7 +21,6 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
-      name: '',
     });
 
     await act(async () => {
@@ -41,14 +40,13 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: true,
       initialValues: undefined,
-      name: '',
     });
   });
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
     const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
-    expect(result.current).toEqual({ initialized: false, initialValues: undefined, name: '' });
+    expect(result.current).toEqual({ initialized: false, initialValues: undefined });
 
     await act(async () => {
       const formMessageHandler = new MessageHandler<
@@ -59,6 +57,7 @@ describe('usePluginUiFormInit', () => {
       >(formMessageTypes, pluginUiMessageTypes, window.parent);
       formMessageHandler.sendMessage('init', {
         initialValues: {
+          name: 'test',
           tables: ['*'],
           migrateMode: undefined,
           envs: [],
@@ -84,8 +83,8 @@ describe('usePluginUiFormInit', () => {
         },
         skipTables: [],
         writeMode: 'append',
+        name: 'test',
       },
-      name: '',
     });
   });
 
@@ -95,7 +94,6 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
-      name: '',
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -107,6 +105,7 @@ describe('usePluginUiFormInit', () => {
     await act(async () => {
       formMessageHandler.sendMessage('init', {
         initialValues: {
+          name: 'test',
           tables: ['*'],
           migrateMode: undefined,
           envs: [],
@@ -132,31 +131,8 @@ describe('usePluginUiFormInit', () => {
         },
         skipTables: [],
         writeMode: 'append',
+        name: 'test',
       },
-      name: '',
-    });
-
-    await act(async () => {
-      formMessageHandler.sendMessage('name_changed', {
-        name: 'changed',
-      });
-      await new Promise((resolve) => setTimeout(resolve, 0));
-    });
-
-    rerender();
-    expect(result.current).toEqual({
-      initialized: true,
-      initialValues: {
-        tables: ['*'],
-        migrateMode: undefined,
-        envs: [],
-        spec: {
-          connection_string: 'test',
-        },
-        skipTables: [],
-        writeMode: 'append',
-      },
-      name: 'changed',
     });
   });
 });
