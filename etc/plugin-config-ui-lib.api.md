@@ -6,25 +6,37 @@
 
 import { Dispatch } from 'react';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { ForwardRefExoticComponent } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { MutableRefObject } from 'react';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ReactNode } from 'react';
+import { RefAttributes } from 'react';
 import { SetStateAction } from 'react';
-
-// Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function CloudAppMock({ children, initialValues, authToken }: Props_2): JSX_2.Element;
-
-// @public
-export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onSubmit, }: Props): JSX_2.Element;
+export function CloudAppMock({ children, initialValues, authToken }: Props): JSX_2.Element;
+
+// @public
+export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
+
+// Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const ExclusiveToggle: ForwardRefExoticComponent<Props_2 & RefAttributes<unknown>>;
+
+// Warning: (ae-forgotten-export) The symbol "Props_3" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onSubmit, }: Props_3): JSX_2.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Props_4" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function FormStepper({ steps, activeIndex, setActiveIndex }: Props_4): JSX_2.Element;
 
 // @public
 export function generateApiAbortError(message?: string): Error;
@@ -38,8 +50,28 @@ export function getErrorMessage(error: any): any;
 // @public
 export function isApiAbortError(error: Error): boolean;
 
+// Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function Logo({ width, height, src, alt, fallbackSrc }: Props_5): JSX_2.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function RenderGuide({ sections }: Props_6): JSX_2.Element;
+
 // @public
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
+
+// Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, }: Props_7): JSX_2.Element;
+
+// Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type ServiceTypes = Record<string, ServiceType>;
 
 // @public
 export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
