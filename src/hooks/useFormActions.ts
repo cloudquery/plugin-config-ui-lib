@@ -93,7 +93,16 @@ export function useFormActions({
     setIsTestingConnection(false);
 
     return connectionId;
-  }, [testConnection]);
+  }, [
+    getValues,
+    isUpdating,
+    pluginKind,
+    pluginName,
+    pluginTeamName,
+    pluginVersion,
+    teamName,
+    testConnection,
+  ]);
 
   const handleSubmit = async () => {
     if (!submitPayload) {

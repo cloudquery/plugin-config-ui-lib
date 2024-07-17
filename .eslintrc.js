@@ -7,6 +7,8 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:prettier/recommended',
     'plugin:unicorn/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -113,6 +115,7 @@ module.exports = {
       },
     ],
     'prefer-template': 'error',
+    'react/react-in-jsx-scope': 'off',
     'unicorn/filename-case': 'off',
     'unicorn/no-nested-ternary': 'off',
     'unicorn/no-null': 'off',

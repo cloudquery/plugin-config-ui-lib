@@ -38,7 +38,7 @@ const _TableSelectorListItem: FC<Props> = ({
     });
 
     return unsubscribe;
-  }, []);
+  }, [subscribeToTablesValueChange, tableListItem.name]);
 
   return (
     <TreeNode isExpanded={true} isSelected={value} onSelect={handleSelect} sx={{ paddingLeft: 3 }}>

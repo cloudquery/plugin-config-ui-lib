@@ -33,6 +33,7 @@ export function useFormInit(
         implementsCustomFooter,
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { initialized, initialValues };

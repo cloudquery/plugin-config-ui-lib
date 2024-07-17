@@ -74,9 +74,7 @@ export function filterTableSelectorPluginTableList(
     .filter(Boolean) as PluginTableListItem[];
 }
 
-export function getTableSelectorPluginFlatTableList(
-  pluginTables: PluginTableListItem[],
-) {
+export function getTableSelectorPluginFlatTableList(pluginTables: PluginTableListItem[]) {
   const extract = (tableListItem: PluginTableListItem) => {
     const list = [tableListItem];
     if (tableListItem.relationTables.length > 0) {

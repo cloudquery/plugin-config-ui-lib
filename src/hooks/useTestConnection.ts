@@ -71,7 +71,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         throw error;
       }
     },
-    [],
+    [callApi],
   );
 
   const cancelTestConnection = useCallback(() => {
@@ -83,7 +83,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
 
   useEffect(() => {
     return cancelTestConnection;
-  }, []);
+  }, [cancelTestConnection]);
 
   return {
     cancelTestConnection,

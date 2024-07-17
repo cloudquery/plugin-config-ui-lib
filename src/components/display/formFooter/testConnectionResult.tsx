@@ -71,7 +71,8 @@ export function FormFooterTestConnectionResult({
       clearTimeout(intervalId.current);
       setProgress(100);
     }
-  }, [failureReason, isLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
 
   if (success) {
     return null;
