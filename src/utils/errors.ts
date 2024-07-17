@@ -1,13 +1,4 @@
 /**
- * Get error message from error object
- *
- * @public
- */
-export function getErrorMessage(error: any) {
-  return error?.data?.message || error?.message;
-}
-
-/**
  * Generate abort error
  *
  * @public

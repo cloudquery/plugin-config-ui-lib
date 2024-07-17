@@ -1,7 +1,7 @@
 /**
  * Generate name for the sync source/destination based on the plugin name
  *
- * @param pluginName name of the plugin
+ * @param pluginName - name of the plugin
  * @public
  */
 export function generateName(pluginName: string) {

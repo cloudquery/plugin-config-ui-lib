@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { Box, useTheme } from '@mui/material';
 
 type Props = {
@@ -17,7 +19,18 @@ const PADDING = 4;
  */
 export function Logo({ width = 24, height = 24, src, alt, fallbackSrc }: Props) {
   const { palette } = useTheme();
-  
+  const [currentSrc, setCurrentSrc] = useState(src);
+
+  const handleError = () => {
+    if (fallbackSrc) {
+      setCurrentSrc(fallbackSrc);
+    }
+  };
+
+  useEffect(() => {
+    setCurrentSrc(src);
+  }, [src]);
+
   return (
     <Box
       sx={{
@@ -32,16 +45,11 @@ export function Logo({ width = 24, height = 24, src, alt, fallbackSrc }: Props) 
       }}
     >
       <img
-        src={src}
+        src={currentSrc}
         alt={alt ?? src}
         height={height - PADDING}
         width={width - PADDING}
-        onError={({ currentTarget }) => {
-          if (fallbackSrc) {
-            currentTarget.onerror = null;
-            currentTarget.src = fallbackSrc;
-          }
-        }}
+        onError={currentSrc === src ? handleError : undefined}
       />
     </Box>
   );

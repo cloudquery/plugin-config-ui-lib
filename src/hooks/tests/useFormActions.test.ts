@@ -65,7 +65,9 @@ describe('useFormActions', () => {
     );
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -76,7 +78,7 @@ describe('useFormActions', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -137,7 +139,9 @@ describe('useFormActions', () => {
     );
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -148,7 +152,7 @@ describe('useFormActions', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -188,7 +192,9 @@ describe('useFormActions', () => {
     );
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -199,7 +205,7 @@ describe('useFormActions', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -252,7 +258,7 @@ describe('useFormActions', () => {
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
       switch (payload.endpoint) {
-        case `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`: {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`: {
           formMessageHandler.sendMessage('api_call_response', {
             id: payload.id,
             body: { id: 'some-connection-id' },
@@ -264,7 +270,7 @@ describe('useFormActions', () => {
 
           break;
         }
-        case `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`: {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`: {
           formMessageHandler.sendMessage('api_call_response', {
             id: payload.id,
             body: { status: 'completed' },
@@ -276,7 +282,7 @@ describe('useFormActions', () => {
 
           break;
         }
-        case `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id/promote`: {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id/promote`: {
           formMessageHandler.sendMessage('api_call_response', {
             id: payload.id,
             body: {},
@@ -372,7 +378,7 @@ describe('useFormActions', () => {
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
       switch (payload.endpoint) {
-        case `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`: {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`: {
           formMessageHandler.sendMessage('api_call_response', {
             id: payload.id,
             body: { id: 'some-connection-id' },
@@ -384,7 +390,7 @@ describe('useFormActions', () => {
 
           break;
         }
-        case `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`: {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`: {
           formMessageHandler.sendMessage('api_call_response', {
             id: payload.id,
             body: { status: 'completed' },
@@ -396,7 +402,7 @@ describe('useFormActions', () => {
 
           break;
         }
-        case `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id/promote`: {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id/promote`: {
           formMessageHandler.sendMessage('api_call_response', {
             id: payload.id,
             body: {},
@@ -473,7 +479,7 @@ describe('useFormActions', () => {
     expect(result.current.isTestingConnection).toBeFalsy();
     expect(result.current.isSubmitting).toBeFalsy();
     expect(result.current.submitPayload).toBeUndefined();
-    expect(result.current.submitError).toBe('Submit failed');
+    expect(result.current.submitError).toMatchObject({ message: 'Submit failed' });
 
     unsubscribe();
   });
@@ -493,7 +499,9 @@ describe('useFormActions', () => {
     );
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -504,7 +512,7 @@ describe('useFormActions', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,

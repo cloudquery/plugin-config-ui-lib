@@ -36,7 +36,9 @@ describe('useTestConnection', () => {
     const { testConnection } = result.current;
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -47,7 +49,7 @@ describe('useTestConnection', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -69,6 +71,7 @@ describe('useTestConnection', () => {
           env: [{ name: 'ENV_VAR', value: 'value' }],
         },
         'test-team',
+        'source',
         false,
       ),
     ).resolves.toBe('some-connection-id');
@@ -82,7 +85,9 @@ describe('useTestConnection', () => {
     const { testConnection } = result.current;
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -93,7 +98,7 @@ describe('useTestConnection', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -116,6 +121,7 @@ describe('useTestConnection', () => {
           env: [{ name: 'ENV_VAR', value: 'value' }],
         },
         'test-team',
+        'source',
         false,
       ),
     ).rejects.toMatchObject({ message: 'Unknown error' });
@@ -129,7 +135,9 @@ describe('useTestConnection', () => {
     const { testConnection, cancelTestConnection } = result.current;
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -140,7 +148,7 @@ describe('useTestConnection', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -161,6 +169,7 @@ describe('useTestConnection', () => {
         env: [{ name: 'ENV_VAR', value: 'value' }],
       },
       'test-team',
+      'source',
       false,
     );
 
@@ -179,7 +188,9 @@ describe('useTestConnection', () => {
     const { testConnection } = result.current;
 
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
-      if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/test-connections`) {
+      if (
+        payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`
+      ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
           body: { id: 'some-connection-id' },
@@ -190,7 +201,7 @@ describe('useTestConnection', () => {
         });
       } else if (
         payload.endpoint ===
-        `${cloudQueryApiBaseUrl}/teams/test-team/test-connections/some-connection-id`
+        `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`
       ) {
         formMessageHandler.sendMessage('api_call_response', {
           id: payload.id,
@@ -218,6 +229,7 @@ describe('useTestConnection', () => {
           env: [{ name: 'ENV_VAR', value: 'value' }],
         },
         'test-team',
+        'source',
         false,
       ),
     ).rejects.toMatchObject({ message: 'Connection timed out' });

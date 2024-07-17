@@ -1,9 +1,9 @@
 import { ChevronRight as ChevronRightIcon } from '@mui/icons-material';
+import Box from '@mui/material/Box';
 import Step from '@mui/material/Step';
+import { StepIconProps } from '@mui/material/StepIcon';
 import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
-import Box from '@mui/material/Box';
-import { StepIconProps } from '@mui/material/StepIcon';
 import useTheme from '@mui/material/styles/useTheme';
 
 function SyncFormStepIcon({

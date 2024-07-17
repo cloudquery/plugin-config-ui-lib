@@ -1,4 +1,5 @@
 import { Stack, Typography } from '@mui/material';
+
 import { CodeSnippet } from './codeSnippet';
 
 type Section = {
@@ -13,7 +14,6 @@ type Section = {
 type Props = {
   sections: Section[];
 };
-
 
 /**
  * RenderGuide component formats and displays Guide sections with code snippets and images.

@@ -1,27 +1,28 @@
-import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material';
 import { useMemo } from 'react';
+
+import { useTheme } from '@mui/material';
+import Box from '@mui/material/Box';
 
 // NOTE: idea is to keep this lightweight and not need to import a full library. Maybe worth putting something in cloud-ui..
 // https://dev.to/gauravadhikari1997/show-json-as-pretty-print-with-syntax-highlighting-3jpm
 function syntaxHighlight(json: any) {
-  if (!json) return ''; //no JSON from response
+  if (!json) {
+    return ''; //no JSON from response
+  }
 
-  json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  return json.replace(
-    /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+  const parsedJson = json.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+
+  return parsedJson.replaceAll(
+    /("(\\u[\dA-Za-z]{4}|\\[^u]|[^"\\])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[Ee][+-]?\d+)?)/g,
     function (match: any) {
-      var cls = 'number';
-      if (/^"/.test(match)) {
-        if (/:$/.test(match)) {
-          cls = 'key';
-        } else {
-          cls = 'value';
-        }
+      let cls = 'number';
+      if (match.startsWith('"')) {
+        cls = match.endsWith(':') ? 'key' : 'value';
       } else {
         cls = 'value';
       }
-      return '<span class="' + cls + '">' + match + '</span>';
+
+      return `<span class="${cls}">${match}</span>`;
     },
   );
 }
@@ -36,8 +37,9 @@ export function CodeSnippet({ text }: Props) {
   const html = useMemo(() => {
     try {
       const json = JSON.stringify(JSON.parse(text), undefined, 4);
+
       return syntaxHighlight(json);
-    } catch (e) {
+    } catch {
       return syntaxHighlight(text);
     }
   }, [text]);

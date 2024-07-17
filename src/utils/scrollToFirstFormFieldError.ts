@@ -1,7 +1,7 @@
 /**
  * Scroll to the first form field with an error
  *
- * @param errorFieldNames Array of field names that contain errors
+ * @param errorFieldNames - Array of field names that contain errors
  * @public
  */
 export function scrollToFirstFormFieldError(errorFieldNames: string[]) {

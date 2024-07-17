@@ -1,3 +1,5 @@
+import { useEffect, useMemo, useState } from 'react';
+
 import {
   Box,
   Button,
@@ -10,7 +12,7 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
+
 import { Logo } from './logo';
 
 enum ServiceListMode {
@@ -61,10 +63,10 @@ export function ServiceList({
 
   // prefetch logos
   useEffect(() => {
-    Object.values(services).forEach((service) => {
+    for (const service of Object.values(services)) {
       const img = new Image();
       img.src = service.logo;
-    });
+    }
   }, [services]);
 
   const filteredServices: ServiceType[] = useMemo(

@@ -8,7 +8,7 @@ import {
 import { useApiCall } from './useApiCall';
 import { useTestConnection } from './useTestConnection';
 import { cloudQueryApiBaseUrl } from '../utils/constants';
-import { getErrorMessage, isApiAbortError } from '../utils/errors';
+import { isApiAbortError } from '../utils/errors';
 
 type FormValues = PluginUiMessagePayload['current_values']['values'];
 
@@ -49,9 +49,10 @@ export function useFormActions({
       connectionId: string;
     }
   >();
-  const [submitError, setSubmitError] = useState<string>();
+  const [submitError, setSubmitError] = useState<any>();
 
   const handleTestConnection = useCallback(async () => {
+    setSubmitError(undefined);
     setTestConnectionError(undefined);
     setIsSubmitting(false);
     setSubmitPayload(undefined);
@@ -69,6 +70,7 @@ export function useFormActions({
         name: values.name,
       },
       teamName,
+      pluginKind,
       isUpdating,
     ).catch((error) => {
       if (!isApiAbortError(error)) {
@@ -102,7 +104,7 @@ export function useFormActions({
 
     try {
       const { requestPromise: promoteTestConnectionRequest } = callApi(
-        `${cloudQueryApiBaseUrl}/teams/${teamName}/test-connections/${submitPayload.connectionId}/promote`,
+        `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
         'POST',
       );
       await promoteTestConnectionRequest;
@@ -126,7 +128,8 @@ export function useFormActions({
 
       pluginUiMessageHandler.sendMessage('submitted', submitPayload);
     } catch (error: any) {
-      setSubmitError(getErrorMessage(error?.body || error) || 'Unknown error');
+      setSubmitError(error?.body || error);
+      pluginUiMessageHandler.sendMessage('submit_failed', error?.body || error);
     } finally {
       setIsSubmitting(false);
       setSubmitPayload(undefined);

@@ -25,11 +25,12 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         env: Array<{ name: string; value?: string }>;
       },
       teamName: string,
+      pluginKind: 'source' | 'destination',
       isUpdating: boolean,
     ): Promise<string> => {
       try {
         const { requestPromise, abortRequest } = callApi<{ id: string }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/test-connections`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
           'POST',
           {
             env: values.env,
@@ -60,6 +61,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
           callApi,
           teamName,
           testConnectionId: connectionId,
+          pluginKind,
         });
       } catch (error: any) {
         if (error.name === 'AbortError') {
@@ -94,11 +96,13 @@ async function monitorSyncTestConnection({
   callApi,
   teamName,
   testConnectionId,
+  pluginKind,
 }: {
   teamName: string;
   testConnectionId: string;
   abortObj: { abort: () => void; shouldAbort: boolean };
   callApi: ReturnType<typeof useApiCall>['callApi'];
+  pluginKind: 'source' | 'destination';
 }): Promise<string> {
   const iterations = 30;
   for (let i = 0; i < iterations; i++) {
@@ -106,7 +110,7 @@ async function monitorSyncTestConnection({
       throw generateApiAbortError();
     }
     const { requestPromise, abortRequest } = callApi<{ status: string; failure_reason: string }>(
-      `${cloudQueryApiBaseUrl}/teams/${teamName}/test-connections/${testConnectionId}`,
+      `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
       'GET',
     );
     abortObj.abort = abortRequest;
