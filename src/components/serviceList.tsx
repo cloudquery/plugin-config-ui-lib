@@ -61,12 +61,10 @@ export function ServiceList({
 
   // prefetch logos
   useEffect(() => {
-    if (services) {
-      Object.values(services).forEach((service) => {
-        const img = new Image();
-        img.src = service.logo;
-      });
-    }
+    Object.values(services).forEach((service) => {
+      const img = new Image();
+      img.src = service.logo;
+    });
   }, [services]);
 
   const filteredServices: ServiceType[] = useMemo(
