@@ -6,10 +6,40 @@
 
 import { Dispatch } from 'react';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { MutableRefObject } from 'react';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { ReactNode } from 'react';
 import { SetStateAction } from 'react';
+
+// Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function CloudAppMock({ children, initialValues, authToken }: Props_2): JSX_2.Element;
+
+// @public
+export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
+
+// Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onSubmit, }: Props): JSX_2.Element;
+
+// @public
+export function generateApiAbortError(message?: string): Error;
+
+// @public
+export function generateName(pluginName: string): string;
+
+// @public
+export function getErrorMessage(error: any): any;
+
+// @public
+export function isApiAbortError(error: Error): boolean;
+
+// @public
+export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
 
 // @public
 export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
