@@ -51,7 +51,7 @@ function SyncFormStepIcon({
 interface Props {
   steps: string[];
   activeIndex: number;
-  setActiveIndex: (index: number) => void;
+  setActiveIndex?: (index: number) => void;
 }
 
 /**
@@ -64,7 +64,6 @@ export function FormStepper({ steps, activeIndex, setActiveIndex }: Props) {
     <Stepper
       activeStep={activeIndex}
       connector={<ChevronRightIcon color="secondary" />}
-      nonLinear={true}
     >
       {steps.map((step, index) => {
         const stepProps: { completed?: boolean } = {};
@@ -76,7 +75,7 @@ export function FormStepper({ steps, activeIndex, setActiveIndex }: Props) {
         return (
           <Step key={step} {...stepProps}>
             <StepLabel
-              onClick={() => setActiveIndex(index)}
+              onClick={() => setActiveIndex?.(index)}
               StepIconComponent={(props) => (
                 <SyncFormStepIcon {...props} label={(index + 1).toString()} />
               )}
