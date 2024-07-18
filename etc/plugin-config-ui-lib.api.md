@@ -4,7 +4,6 @@
 
 ```ts
 
-import { Dispatch } from 'react';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
@@ -17,7 +16,6 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
 import { ReactNode } from 'react';
 import { RefAttributes } from 'react';
-import { SetStateAction } from 'react';
 import { SxProps } from '@mui/system';
 import { TextFieldProps } from '@mui/material/TextField';
 
@@ -141,7 +139,6 @@ export function useFormActions({ getValues, pluginUiMessageHandler, pluginTeamNa
     isUpdating: boolean;
 }): {
     submitError: any;
-    deleteDialogOpen: boolean;
     handleCancel: () => void;
     handleCancelTestConnection: () => void;
     handleDelete: () => Promise<void>;
@@ -150,7 +147,6 @@ export function useFormActions({ getValues, pluginUiMessageHandler, pluginTeamNa
     handleSubmit: () => Promise<void>;
     isSubmitting: boolean;
     isTestingConnection: boolean;
-    setDeleteDialogOpen: Dispatch<SetStateAction<boolean>>;
     testConnectionError: string | undefined;
     submitPayload: ({
         name: string;

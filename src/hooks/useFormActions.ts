@@ -37,7 +37,6 @@ export function useFormActions({
   isUpdating: boolean;
 }) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
   const { cancelTestConnection, testConnection } = useTestConnection(pluginUiMessageHandler);
   const [testConnectionError, setTestConnectionError] = useState<string>();
@@ -172,7 +171,6 @@ export function useFormActions({
 
   return {
     submitError,
-    deleteDialogOpen,
     handleCancel,
     handleCancelTestConnection,
     handleDelete,
@@ -181,7 +179,6 @@ export function useFormActions({
     handleSubmit,
     isSubmitting,
     isTestingConnection,
-    setDeleteDialogOpen,
     testConnectionError,
     submitPayload,
   };

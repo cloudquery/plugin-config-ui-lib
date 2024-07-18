@@ -62,7 +62,7 @@ export function FormFooter({
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
   return (
-    <>
+    <Stack spacing={4}>
       <Stack direction="row" justifyContent="space-between" marginTop={4} spacing={2}>
         <Box>
           {!isUpdating && (
@@ -112,6 +112,6 @@ export function FormFooter({
           onSuccess={onSubmit}
         />
       )}
-    </>
+    </Stack>
   );
 }
