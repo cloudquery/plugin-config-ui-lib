@@ -16,16 +16,20 @@ export function useFormInit(
 ): {
   initialized: boolean;
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
+  teamName: string;
 } {
   const [initialized, setInitialized] = useState(false);
   const [initialValues, setInitialValues] = useState<
     FormMessagePayload['init']['initialValues'] | undefined
   >();
+  const [teamName, setTeamName] = useState<string>('');
   useEffect(() => {
-    return pluginUiMessageHandler.subscribeToMessageOnce('init', ({ initialValues }) => {
+    return pluginUiMessageHandler.subscribeToMessageOnce('init', ({ initialValues, teamName }) => {
       if (initialValues) {
         setInitialValues(initialValues);
       }
+
+      setTeamName(teamName);
 
       setInitialized(true);
 
@@ -36,5 +40,5 @@ export function useFormInit(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { initialized, initialValues };
+  return { initialized, initialValues, teamName };
 }

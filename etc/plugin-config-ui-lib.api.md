@@ -24,7 +24,7 @@ import { TextFieldProps } from '@mui/material/TextField';
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function CloudAppMock({ children, initialValues, authToken }: Props): JSX_2.Element;
+export function CloudAppMock({ children, initialValues, authToken, teamName }: Props): JSX_2.Element;
 
 // @public
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
@@ -175,6 +175,7 @@ export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandl
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
+    teamName: string;
 };
 
 // Warning: (ae-forgotten-export) The symbol "Success" needs to be exported by the entry point index.d.ts

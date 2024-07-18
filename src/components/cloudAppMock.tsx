@@ -18,6 +18,8 @@ interface Props {
   initialValues?: FormMessagePayload['init']['initialValues'];
   /** CloudQuery auth token for the form (required only if you plan to make API calls from the form) */
   authToken?: string;
+  /** Team name for the form */
+  teamName: string;
 }
 
 const formMessageHandler = new MessageHandler<
@@ -33,13 +35,13 @@ const formMessageHandler = new MessageHandler<
  *
  * @public
  */
-export function CloudAppMock({ children, initialValues, authToken }: Props) {
+export function CloudAppMock({ children, initialValues, authToken, teamName }: Props) {
   const [values, setValues] = useState<string>('');
   const [errors, setErrors] = useState<string>('');
   const [implementsCustomFooter, setImplementsCustomFooter] = useState<boolean>(false);
 
   useEffect(() => {
-    formMessageHandler.sendMessage('init', { initialValues });
+    formMessageHandler.sendMessage('init', { initialValues, teamName });
 
     const unsubscribeReady = formMessageHandler.subscribeToMessageOnce(
       'ready',
@@ -130,7 +132,7 @@ export function CloudAppMock({ children, initialValues, authToken }: Props) {
       unsubscribeApiRequest();
       unsubscribeAbortRequest();
     };
-  }, []);
+  }, [authToken, initialValues, teamName]);
 
   const handleSubmit = async () => {
     formMessageHandler.sendMessage('validate');

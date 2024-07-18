@@ -21,6 +21,7 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
+      teamName: '',
     });
 
     await act(async () => {
@@ -32,6 +33,7 @@ describe('usePluginUiFormInit', () => {
       >(formMessageTypes, pluginUiMessageTypes, window.parent);
       formMessageHandler.sendMessage('init', {
         initialValues: undefined,
+        teamName: 'test',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -40,13 +42,14 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: true,
       initialValues: undefined,
+      teamName: 'test',
     });
   });
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
     const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
-    expect(result.current).toEqual({ initialized: false, initialValues: undefined });
+    expect(result.current).toEqual({ initialized: false, initialValues: undefined, teamName: '' });
 
     await act(async () => {
       const formMessageHandler = new MessageHandler<
@@ -67,6 +70,7 @@ describe('usePluginUiFormInit', () => {
           skipTables: [],
           writeMode: 'append',
         },
+        teamName: 'test',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -85,6 +89,7 @@ describe('usePluginUiFormInit', () => {
         writeMode: 'append',
         name: 'test',
       },
+      teamName: 'test',
     });
   });
 
@@ -94,6 +99,7 @@ describe('usePluginUiFormInit', () => {
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
+      teamName: '',
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -115,6 +121,7 @@ describe('usePluginUiFormInit', () => {
           skipTables: [],
           writeMode: 'append',
         },
+        teamName: 'test',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -133,6 +140,7 @@ describe('usePluginUiFormInit', () => {
         writeMode: 'append',
         name: 'test',
       },
+      teamName: 'test',
     });
   });
 });
