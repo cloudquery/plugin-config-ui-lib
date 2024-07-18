@@ -29,6 +29,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
       isUpdating: boolean,
     ): Promise<string> => {
       try {
+        const nameKey = pluginKind === 'source' ? 'source_name' : 'destination_name';
         const { requestPromise, abortRequest } = callApi<{ id: string }>(
           `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
           'POST',
@@ -37,7 +38,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
             path: values.path,
             spec: values.spec,
             version: values.version,
-            name: isUpdating ? values.name : undefined,
+            [nameKey]: isUpdating ? values.name : undefined,
           },
         );
 
