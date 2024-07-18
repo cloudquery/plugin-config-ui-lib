@@ -12,12 +12,22 @@ import { isApiAbortError } from '../utils/errors';
 
 type FormValues = PluginUiMessagePayload['current_values']['values'];
 
+interface SyncSourcePayload {
+  tables?: string[];
+  skipTables?: string[];
+}
+
+interface SyncDestinationPayload {
+  writeMode?: 'append' | 'overwrite' | 'overwrite-delete-stale';
+  migrateMode?: 'forced' | 'safe';
+}
+
 /**
  * Custom hook to handle form actions such as test connection, submit, cancel, and delete.
  *
  * @public
  */
-export function useFormActions({
+export function useFormActions<PluginKind extends 'source' | 'destination'>({
   getValues,
   pluginUiMessageHandler,
   pluginTeamName,
@@ -31,7 +41,7 @@ export function useFormActions({
   teamName: string;
   pluginTeamName: string;
   pluginName: string;
-  pluginKind: 'source' | 'destination';
+  pluginKind: PluginKind;
   getValues: () => FormValues;
   pluginVersion: string;
   isUpdating: boolean;
@@ -103,50 +113,64 @@ export function useFormActions({
     testConnection,
   ]);
 
-  const handleSubmit = async () => {
-    if (!submitPayload) {
-      return;
-    }
+  const isDataSource = useCallback(
+    (
+      submitData: SyncSourcePayload | SyncDestinationPayload | undefined,
+      pluginKind: PluginKind,
+    ): submitData is SyncSourcePayload | undefined => {
+      return pluginKind === 'source';
+    },
+    [],
+  );
 
-    setIsSubmitting(true);
+  const handleSubmit = useCallback(
+    async (
+      submitData?: PluginKind extends 'source' ? SyncSourcePayload : SyncDestinationPayload,
+    ) => {
+      if (!submitPayload) {
+        return;
+      }
 
-    try {
-      const pluginKindPayload =
-        pluginKind === 'source'
+      setIsSubmitting(true);
+
+      try {
+        const pluginKindPayload = isDataSource(submitData, pluginKind)
           ? {
-              tables: submitPayload.tables,
-              skip_tables: submitPayload.skipTables,
+              tables: submitData ? submitData.tables : submitPayload.tables,
+              skip_tables: submitData ? submitData.skipTables : submitPayload.skipTables,
             }
           : {
-              migrate_mode: submitPayload.migrateMode,
-              write_mode: submitPayload.writeMode,
+              migrate_mode: submitData ? submitData.migrateMode : submitPayload.migrateMode,
+              write_mode: submitData ? submitData.writeMode : submitPayload.writeMode,
             };
-      const { requestPromise: promoteTestConnectionRequest } = callApi(
-        `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
-        'POST',
-        {
-          name: submitPayload.name,
-          ...pluginKindPayload,
-        },
-      );
-      await promoteTestConnectionRequest;
+        const { requestPromise: promoteTestConnectionRequest } = callApi(
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
+          'POST',
+          {
+            name: submitPayload.name,
+            ...pluginKindPayload,
+          },
+        );
+        await promoteTestConnectionRequest;
 
-      const { requestPromise: updateSyncResourceRequest } = callApi(
-        `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
-        'PATCH',
-        { ...pluginKindPayload, last_update_source: 'ui', spec: submitPayload.spec },
-      );
-      await updateSyncResourceRequest;
+        const { requestPromise: updateSyncResourceRequest } = callApi(
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
+          'PATCH',
+          { ...pluginKindPayload, last_update_source: 'ui', spec: submitPayload.spec },
+        );
+        await updateSyncResourceRequest;
 
-      pluginUiMessageHandler.sendMessage('submitted', submitPayload);
-    } catch (error: any) {
-      setSubmitError(error?.body || error);
-      pluginUiMessageHandler.sendMessage('submit_failed', error?.body || error);
-    } finally {
-      setIsSubmitting(false);
-      setSubmitPayload(undefined);
-    }
-  };
+        pluginUiMessageHandler.sendMessage('submitted', submitPayload);
+      } catch (error: any) {
+        setSubmitError(error?.body || error);
+        pluginUiMessageHandler.sendMessage('submit_failed', error?.body || error);
+      } finally {
+        setIsSubmitting(false);
+        setSubmitPayload(undefined);
+      }
+    },
+    [callApi, isDataSource, pluginKind, pluginUiMessageHandler, submitPayload, teamName],
+  );
 
   const handleCancelTestConnection = () => {
     cancelTestConnection();

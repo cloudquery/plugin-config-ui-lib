@@ -15,7 +15,18 @@ import Stack from '@mui/material/Stack';
 interface Props {
   children: ReactNode;
   /** Initial values for the form */
-  initialValues?: FormMessagePayload['init']['initialValues'];
+  initialValues?: {
+    name: string;
+    migrateMode?: 'forced' | 'safe' | undefined;
+    envs: Array<{
+      name: string;
+      value: string;
+    }>;
+    spec: Record<string, any> | undefined;
+    tables?: string[] | undefined;
+    skipTables?: string[] | undefined;
+    writeMode?: 'append' | 'overwrite' | 'overwrite-delete-stale' | undefined;
+  };
   /** CloudQuery auth token for the form (required only if you plan to make API calls from the form) */
   authToken?: string;
   /** Team name for the form */
@@ -41,7 +52,18 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
   const [implementsCustomFooter, setImplementsCustomFooter] = useState<boolean>(false);
 
   useEffect(() => {
-    formMessageHandler.sendMessage('init', { initialValues, teamName });
+    formMessageHandler.sendMessage('init', {
+      initialValues: initialValues
+        ? {
+            migrateMode: initialValues.migrateMode,
+            writeMode: initialValues.writeMode,
+            tables: initialValues.tables,
+            skipTables: initialValues.skipTables,
+            ...initialValues,
+          }
+        : undefined,
+      teamName,
+    });
 
     const unsubscribeReady = formMessageHandler.subscribeToMessageOnce(
       'ready',

@@ -362,6 +362,133 @@ describe('useFormActions', () => {
     unsubscribe();
   });
 
+  test('should handle submit with submit data successfully', async () => {
+    const { result, rerender } = renderHook(() =>
+      useFormActions({
+        getValues,
+        pluginUiMessageHandler,
+        teamName: 'test-team',
+        pluginTeamName: 'plugin-team',
+        pluginName: 'plugin-name',
+        pluginKind: 'source',
+        pluginVersion: '1.0.0',
+        isUpdating: false,
+      }),
+    );
+
+    let tablesPayloadModified = false;
+    const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
+      switch (payload.endpoint) {
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections`: {
+          formMessageHandler.sendMessage('api_call_response', {
+            id: payload.id,
+            body: { id: 'some-connection-id' },
+            ok: true,
+            endpoint: payload.endpoint,
+            headers: {},
+            status: 201,
+          });
+
+          break;
+        }
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id`: {
+          formMessageHandler.sendMessage('api_call_response', {
+            id: payload.id,
+            body: { status: 'completed' },
+            ok: true,
+            endpoint: payload.endpoint,
+            headers: {},
+            status: 200,
+          });
+
+          break;
+        }
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-source-test-connections/some-connection-id/promote`: {
+          if (payload.body.tables[0] === '*') {
+            tablesPayloadModified = true;
+          }
+          formMessageHandler.sendMessage('api_call_response', {
+            id: payload.id,
+            body: {},
+            ok: true,
+            endpoint: payload.endpoint,
+            headers: {},
+            status: 200,
+          });
+
+          break;
+        }
+        case `${cloudQueryApiBaseUrl}/teams/test-team/sync-sources/test-name`: {
+          formMessageHandler.sendMessage('api_call_response', {
+            id: payload.id,
+            body: {},
+            ok: true,
+            endpoint: payload.endpoint,
+            headers: {},
+            status: 200,
+          });
+
+          break;
+        }
+        // No default
+      }
+    });
+
+    expect(result.current.isTestingConnection).toBeFalsy();
+    expect(result.current.isSubmitting).toBeFalsy();
+    expect(result.current.submitPayload).toBeUndefined();
+    expect(result.current.testConnectionError).toBeUndefined();
+
+    let testConnectionPromise: Promise<any>;
+    await act(async () => {
+      testConnectionPromise = result.current.handleTestConnection();
+    });
+
+    expect(result.current.isTestingConnection).toBeTruthy();
+    expect(result.current.isSubmitting).toBeFalsy();
+    expect(result.current.submitPayload).toBeUndefined();
+    expect(result.current.testConnectionError).toBeUndefined();
+
+    let submitPromise: Promise<any>;
+    await act(async () => {
+      await testConnectionPromise;
+    });
+
+    rerender();
+
+    await act(async () => {
+      submitPromise = result.current.handleSubmit({
+        tables: ['*'],
+      });
+    });
+
+    expect(result.current.isTestingConnection).toBeFalsy();
+    expect(result.current.isSubmitting).toBeTruthy();
+    expect(result.current.submitPayload).toEqual({
+      spec: { key: 'value' },
+      envs: [{ name: 'ENV_VAR', value: 'value' }],
+      tables: [],
+      skipTables: [],
+      migrateMode: 'mode',
+      writeMode: 'mode',
+      connectionId: 'some-connection-id',
+      name: 'test-name',
+    });
+    expect(result.current.testConnectionError).toBeUndefined();
+
+    await act(async () => {
+      await submitPromise;
+    });
+
+    expect(tablesPayloadModified).toBeTruthy();
+    expect(result.current.isTestingConnection).toBeFalsy();
+    expect(result.current.isSubmitting).toBeFalsy();
+    expect(result.current.submitPayload).toBeUndefined();
+    expect(result.current.testConnectionError).toBeUndefined();
+
+    unsubscribe();
+  });
+
   test('should handle submit failure', async () => {
     const { result, rerender } = renderHook(() =>
       useFormActions({

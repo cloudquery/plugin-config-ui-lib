@@ -34,8 +34,10 @@ interface Props {
   onDelete: () => Promise<void>;
   /** Callback to navigate to the previous step */
   onGoToPreviousStep: () => void;
-  /** Callback to handle form submission */
-  onSubmit: () => void;
+  /** Label for the submit button */
+  submitLabel?: string;
+  /** Callback to handle test connection success */
+  onTestConnectionSuccess: () => void;
 }
 
 /**
@@ -57,7 +59,8 @@ export function FormFooter({
   onCancelTestConnection,
   onDelete,
   onGoToPreviousStep,
-  onSubmit,
+  onTestConnectionSuccess,
+  submitLabel,
 }: Props) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
@@ -100,7 +103,7 @@ export function FormFooter({
             variant="contained"
             type="submit"
           >
-            Test connection
+            {submitLabel || 'Test connection'}
           </LoadingButton>
         </Stack>
       </Stack>
@@ -109,7 +112,7 @@ export function FormFooter({
           failureReason={testConnectionError}
           isLoading={isTestingConnection}
           onCancel={onCancelTestConnection}
-          onSuccess={onSubmit}
+          onSuccess={onTestConnectionSuccess}
         />
       )}
     </Stack>

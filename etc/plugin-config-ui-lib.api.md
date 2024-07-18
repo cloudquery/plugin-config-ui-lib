@@ -45,7 +45,7 @@ export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToF
 // Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onSubmit, }: Props_5): JSX_2.Element;
+export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, }: Props_5): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
 //
@@ -128,12 +128,12 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 };
 
 // @public
-export function useFormActions({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, }: {
+export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
     pluginName: string;
-    pluginKind: 'source' | 'destination';
+    pluginKind: PluginKind;
     getValues: () => FormValues;
     pluginVersion: string;
     isUpdating: boolean;
@@ -144,7 +144,7 @@ export function useFormActions({ getValues, pluginUiMessageHandler, pluginTeamNa
     handleDelete: () => Promise<void>;
     handleGoToPreviousStep: () => void;
     handleTestConnection: () => Promise<string | null>;
-    handleSubmit: () => Promise<void>;
+    handleSubmit: (submitData?: PluginKind extends "source" ? SyncSourcePayload : SyncDestinationPayload) => Promise<void>;
     isSubmitting: boolean;
     isTestingConnection: boolean;
     testConnectionError: string | undefined;
@@ -197,7 +197,9 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
 
 // Warnings were encountered during analysis:
 //
-// src/hooks/useFormActions.ts:35:3 - (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
+// src/hooks/useFormActions.ts:45:3 - (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
+// src/hooks/useFormActions.ts:55:5 - (ae-forgotten-export) The symbol "SyncSourcePayload" needs to be exported by the entry point index.d.ts
+// src/hooks/useFormActions.ts:55:5 - (ae-forgotten-export) The symbol "SyncDestinationPayload" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
