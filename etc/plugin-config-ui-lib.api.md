@@ -158,6 +158,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
         tables?: string[];
         skipTables?: string[];
         writeMode?: "append" | "overwrite" | "overwrite-delete-stale";
+        connectorId?: string;
     } & {
         connectionId: string;
     }) | undefined;

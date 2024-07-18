@@ -114,13 +114,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
             signal: apiRequestAbortControllers[id].signal,
           });
 
-          let responseBody;
-
-          try {
-            responseBody = await response.json();
-          } catch(error) {
-            console.error('Response body is not JSON', error);
-          }
+          const responseBody = await response.json().catch(() => null);
 
           formMessageHandler.sendMessage('api_call_response', {
             body: responseBody,
