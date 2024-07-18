@@ -91,6 +91,10 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
       alert('Submitted');
     });
 
+    const unsubscribeOpenUrl = formMessageHandler.subscribeToMessage('open_url', (payload) => {
+      window.open(payload.url, '_blank');
+    });
+
     const apiRequestAbortControllers: Record<string, AbortController> = {};
     const unsubscribeApiRequest = formMessageHandler.subscribeToMessage(
       'api_call_request',
@@ -110,7 +114,13 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
             signal: apiRequestAbortControllers[id].signal,
           });
 
-          const responseBody = await response.json();
+          let responseBody;
+
+          try {
+            responseBody = await response.json();
+          } catch(error) {
+            console.error('Response body is not JSON', error);
+          }
 
           formMessageHandler.sendMessage('api_call_response', {
             body: responseBody,
@@ -150,6 +160,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
       unsubscribeOnSubmitted();
       unsubscribeApiRequest();
       unsubscribeAbortRequest();
+      unsubscribeOpenUrl();
     };
   }, [authToken, initialValues, teamName]);
 

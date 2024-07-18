@@ -77,6 +77,8 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         spec: values.spec,
         env: values.envs,
         name: values.name,
+        // @ts-ignore type needs update in plugin-config-ui-connector package
+        connector_id: values.connector_id,
       },
       teamName,
       pluginKind,
