@@ -114,6 +114,9 @@ export function useFormActions({
       const { requestPromise: promoteTestConnectionRequest } = callApi(
         `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
         'POST',
+        {
+          name: submitPayload.name,
+        },
       );
       await promoteTestConnectionRequest;
 
