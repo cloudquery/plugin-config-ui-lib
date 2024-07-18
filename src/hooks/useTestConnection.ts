@@ -23,6 +23,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         version: string;
         spec: Record<string, any>;
         env: Array<{ name: string; value?: string }>;
+        connector_id?: string;
       },
       teamName: string,
       pluginKind: 'source' | 'destination',
@@ -39,6 +40,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
             spec: values.spec,
             version: values.version,
             [nameKey]: isUpdating ? values.name : undefined,
+            connector_id: values.connector_id,
           },
         );
 

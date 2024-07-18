@@ -36,6 +36,8 @@ interface Props {
   onGoToPreviousStep: () => void;
   /** Label for the submit button */
   submitLabel?: string;
+  /** Indicates whether the submit button should be disabled */
+  submitDisabled?: boolean;
   /** Callback to handle test connection success */
   onTestConnectionSuccess: () => void;
 }
@@ -61,6 +63,7 @@ export function FormFooter({
   onGoToPreviousStep,
   onTestConnectionSuccess,
   submitLabel,
+  submitDisabled
 }: Props) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 
@@ -102,6 +105,7 @@ export function FormFooter({
             size="medium"
             variant="contained"
             type="submit"
+            disabled={submitDisabled}
           >
             {submitLabel || 'Test connection'}
           </LoadingButton>

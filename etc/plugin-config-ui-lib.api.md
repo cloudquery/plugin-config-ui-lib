@@ -44,7 +44,7 @@ export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToF
 // Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, }: Props_5): JSX_2.Element;
+export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled }: Props_5): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
 //
@@ -158,6 +158,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
         tables?: string[];
         skipTables?: string[];
         writeMode?: "append" | "overwrite" | "overwrite-delete-stale";
+        connectorId?: string;
     } & {
         connectionId: string;
     }) | undefined;
@@ -191,6 +192,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
             name: string;
             value?: string;
         }>;
+        connector_id?: string;
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
 };
 
