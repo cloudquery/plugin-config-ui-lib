@@ -32,13 +32,18 @@ export function useFormInit(
       setTeamName(teamName);
 
       setInitialized(true);
-
-      pluginUiMessageHandler.sendMessage('ready', {
-        implementsCustomFooter,
-      });
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (initialized) {
+      pluginUiMessageHandler.sendMessage('ready', {
+        implementsCustomFooter,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialized]);
 
   return { initialized, initialValues, teamName };
 }

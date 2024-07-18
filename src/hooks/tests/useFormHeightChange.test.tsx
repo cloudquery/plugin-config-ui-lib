@@ -8,10 +8,10 @@ import { useFormHeightChange } from '../useFormHeightChange';
 global.ResizeObserver = ResizeObserver;
 
 const App = () => {
-  const containerRef = useFormHeightChange(getPluginUiMessageHandler());
+  useFormHeightChange(getPluginUiMessageHandler());
 
   return (
-    <div ref={containerRef}>
+    <div>
       <h1>Test</h1>
     </div>
   );
