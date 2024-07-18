@@ -76,6 +76,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
         apiRequestAbortControllers[id] = new AbortController();
         const headers = new Headers();
         headers.set('Content-Type', 'application/json');
+        headers.set('Accept', 'application/json');
         headers.set('Authorization', `Bearer ${authToken}`);
 
         try {
@@ -87,11 +88,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
             signal: apiRequestAbortControllers[id].signal,
           });
 
-          const contentType = response.headers.get('Content-Type');
-
-          const responseBody = await (contentType === 'application/json'
-            ? response.json()
-            : response.text());
+          const responseBody = await response.json();
 
           formMessageHandler.sendMessage('api_call_response', {
             body: responseBody,

@@ -111,16 +111,7 @@ export function useFormActions({
     setIsSubmitting(true);
 
     try {
-      const { requestPromise: promoteTestConnectionRequest } = callApi(
-        `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
-        'POST',
-        {
-          name: submitPayload.name,
-        },
-      );
-      await promoteTestConnectionRequest;
-
-      const payload =
+      const pluginKindPayload =
         pluginKind === 'source'
           ? {
               tables: submitPayload.tables,
@@ -130,10 +121,20 @@ export function useFormActions({
               migrate_mode: submitPayload.migrateMode,
               write_mode: submitPayload.writeMode,
             };
+      const { requestPromise: promoteTestConnectionRequest } = callApi(
+        `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
+        'POST',
+        {
+          name: submitPayload.name,
+          ...pluginKindPayload,
+        },
+      );
+      await promoteTestConnectionRequest;
+
       const { requestPromise: updateSyncResourceRequest } = callApi(
         `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
         'PATCH',
-        payload,
+        { ...pluginKindPayload, last_update_source: 'ui', spec: submitPayload.spec },
       );
       await updateSyncResourceRequest;
 
