@@ -10,7 +10,6 @@ import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { ListItemProps } from '@mui/material/ListItem';
 import { ListProps } from '@mui/material/List';
-import { MutableRefObject } from 'react';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
@@ -165,7 +164,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
 };
 
 // @public
-export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): MutableRefObject<HTMLDivElement | null>;
+export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): void;
 
 // @public
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {

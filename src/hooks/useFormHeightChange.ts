@@ -1,4 +1,4 @@
-import { useEffect, useRef, MutableRefObject } from 'react';
+import { useEffect } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
@@ -8,28 +8,22 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
  *
  * @public
  */
-export function useFormHeightChange(
-  pluginUiMessageHandler: PluginUiMessageHandler,
-): MutableRefObject<HTMLDivElement | null> {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
+export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler) {
   useEffect(() => {
     const observer = new ResizeObserver(() => {
       pluginUiMessageHandler.sendMessage('height_changed', {
-        height: containerRef.current?.offsetHeight ?? 0,
+        height: document.body?.scrollHeight ?? 0,
       });
     });
 
-    observer.observe(containerRef.current ?? document.body);
+    observer.observe(document.body);
 
     pluginUiMessageHandler.sendMessage('height_changed', {
-      height: containerRef.current?.offsetHeight ?? 0,
+      height: document.body?.scrollHeight ?? 0,
     });
 
     return () => {
       observer.disconnect();
     };
   }, [pluginUiMessageHandler]);
-
-  return containerRef;
 }
