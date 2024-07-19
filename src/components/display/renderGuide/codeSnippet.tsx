@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
-import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
+import useTheme from '@mui/material/styles/useTheme';
 
 // NOTE: idea is to keep this lightweight and not need to import a full library. Maybe worth putting something in cloud-ui..
 // https://dev.to/gauravadhikari1997/show-json-as-pretty-print-with-syntax-highlighting-3jpm

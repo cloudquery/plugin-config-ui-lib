@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Stack,
-  Tab,
-  Tabs,
-  ToggleButton,
-  Tooltip,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Stack from '@mui/material/Stack';
+import useTheme from '@mui/material/styles/useTheme';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import ToggleButton from '@mui/material/ToggleButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
 import { Logo } from './logo';
 
