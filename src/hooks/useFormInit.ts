@@ -24,6 +24,8 @@ export function useFormInit(
   >();
   const [teamName, setTeamName] = useState<string>('');
   useEffect(() => {
+    pluginUiMessageHandler.sendMessage('loaded');
+
     return pluginUiMessageHandler.subscribeToMessageOnce('init', ({ initialValues, teamName }) => {
       if (initialValues) {
         setInitialValues(initialValues);
