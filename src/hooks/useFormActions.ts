@@ -77,7 +77,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         spec: values.spec,
         env: values.envs,
         name: values.name,
-        connector_id: values.connectorId,
+        connector_id: values.connector_id,
       },
       teamName,
       pluginKind,
