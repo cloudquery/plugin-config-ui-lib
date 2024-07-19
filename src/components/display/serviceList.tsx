@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-import Box from '@mui/material/Box';
+import Box, { BoxProps } from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
@@ -38,6 +38,7 @@ interface Props {
   value?: string[];
   onChange?: (value: string[]) => void;
   fallbackLogoSrc?: string;
+  maxHeight?: BoxProps['maxHeight'];
 }
 
 /**
@@ -52,6 +53,7 @@ export function ServiceList({
   fallbackLogoSrc,
   value = [],
   onChange,
+  maxHeight = '400px',
 }: Props) {
   const { palette } = useTheme();
 
@@ -86,7 +88,7 @@ export function ServiceList({
         gap={2}
         gridTemplateColumns={{ xs: 'minmax(0, 1fr) minmax(0, 1fr)' }}
         width="100%"
-        maxHeight="calc(100vh - 550px)"
+        maxHeight={maxHeight}
         sx={{ overflowY: 'auto' }}
       >
         {filteredServices.map((service) => {
