@@ -157,7 +157,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         const { requestPromise: updateSyncResourceRequest } = callApi(
           `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
           'PATCH',
-          { ...pluginKindPayload, last_update_source: 'ui', spec: submitPayload.spec },
+          { ...pluginKindPayload, last_update_source: 'ui' },
         );
         await updateSyncResourceRequest;
 
