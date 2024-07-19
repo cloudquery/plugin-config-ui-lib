@@ -18,21 +18,53 @@ npm install @cloudquery/plugin-config-ui-lib
 
 ### Hooks
 
+#### useApiCall
+
+This hook is used to make API calls that require Authentication header from CloudQuery Cloud App.
+
+```tsx
+const { callApi } = useApiCall(pluginUiMessageHandler);
+
+callApi('https://api.cloudquery.io', 'POST', { name: 'my-source'});
+```
+
+#### useFormActions
+
+This hook is used export data and functions that can be used in the footer for plugin UI.
+
+```tsx
+const formActions = useFormActions({
+  pluginUiMessageHandler,
+  teamName: 'my-team',
+  pluginTeamName: 'cloudquery',
+  pluginName: 'postgresql',
+  pluginKind: 'source',
+  getValues;
+  pluginVersion: '1.0.0',
+  isUpdating: false,
+});
+
+return <FormFooter {...formActions} />;
+```
+
+#### useFormCurrentValues
+
+This hook is used to respond to request for current values from CloudQuery Cloud App.
+
+```tsx
+useFormCurrentValues({
+  pluginUiMessageHandler,
+  getCurrentValues,
+});
+```
+
 #### useFormHeightChange
 
 This hook is used to automatically detect the changes of the height of the form container and notify CloudQuery Cloud App about those.
 The hooks returns the React Ref object that should reference the HTML element that represents the form container.
 
 ```tsx
-const containerRef = useFormHeightChange(pluginUiMessageHandler);
-
-return (
-  <div ref={containerRef}>
-    <form>
-      <input type="text" />
-    </form>
-  </div>
-);
+useFormHeightChange(pluginUiMessageHandler);
 ```
 
 #### useFormInit

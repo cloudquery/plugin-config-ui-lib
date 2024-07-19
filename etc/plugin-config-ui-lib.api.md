@@ -166,6 +166,9 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
 };
 
 // @public
+export function useFormCurrentValues(pluginUiMessageHandler: PluginUiMessageHandler, getCurrentValues: () => PluginUiMessagePayload['current_values']['values']): void;
+
+// @public
 export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): void;
 
 // @public
