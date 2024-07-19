@@ -4,6 +4,7 @@
 
 ```ts
 
+import { BoxProps } from '@mui/material/Box';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
@@ -82,7 +83,7 @@ export function SearchField(props: TextFieldProps): JSX_2.Element;
 // Warning: (ae-forgotten-export) The symbol "Props_9" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, }: Props_9): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, }: Props_9): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
 //
