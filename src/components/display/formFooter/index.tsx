@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -63,7 +63,7 @@ export function FormFooter({
   onGoToPreviousStep,
   onTestConnectionSuccess,
   submitLabel,
-  submitDisabled
+  submitDisabled,
 }: Props) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
 

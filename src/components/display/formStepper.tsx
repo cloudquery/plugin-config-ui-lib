@@ -1,4 +1,4 @@
-import { ChevronRight as ChevronRightIcon } from '@mui/icons-material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Box from '@mui/material/Box';
 import Step from '@mui/material/Step';
 import { StepIconProps } from '@mui/material/StepIcon';
@@ -61,10 +61,7 @@ interface Props {
  */
 export function FormStepper({ steps, activeIndex, setActiveIndex }: Props) {
   return (
-    <Stepper
-      activeStep={activeIndex}
-      connector={<ChevronRightIcon color="secondary" />}
-    >
+    <Stepper activeStep={activeIndex} connector={<ChevronRightIcon color="secondary" />}>
       {steps.map((step, index) => {
         const stepProps: { completed?: boolean } = {};
 
