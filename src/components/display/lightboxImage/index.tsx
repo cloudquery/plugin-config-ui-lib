@@ -48,11 +48,11 @@ export function LightboxImage(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
     <>
       <button
-        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
+        style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: '100%' }}
         onClick={handleOpen}
         onKeyDown={handleKeyDown}
       >
-        <img {...props} style={{ display: 'block', ...props.style }} />
+        <img {...props} style={{ width: 'inherit', display: 'block', ...props.style }} />
       </button>
       <Modal aria-label={props.alt} onClose={handleClose} open={open}>
         <Box
