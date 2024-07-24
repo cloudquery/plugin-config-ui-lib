@@ -73,8 +73,16 @@ export function ServiceList({
   return (
     <Stack gap={2}>
       <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
-        <Tab sx={{ py: '9px' }} label={<Typography variant="subtitle1">Popular services</Typography>} value={ServiceListMode.Popular} />
-        <Tab sx={{ py: '9px' }} label={<Typography variant="subtitle1">All services</Typography>}  value={ServiceListMode.All} />
+        <Tab
+          sx={{ py: '9px' }}
+          label={<Typography variant="subtitle1">Popular services</Typography>}
+          value={ServiceListMode.Popular}
+        />
+        <Tab
+          sx={{ py: '9px' }}
+          label={<Typography variant="subtitle1">All services</Typography>}
+          value={ServiceListMode.All}
+        />
       </Tabs>
       <Box
         display="grid"
@@ -142,7 +150,7 @@ export function ServiceList({
         })}
       </Box>
       <Button
-        fullWidth
+        fullWidth={true}
         onClick={() =>
           setShowServices(
             showServices === ServiceListMode.Popular
