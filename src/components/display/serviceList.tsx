@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Box, { BoxProps } from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -21,6 +21,7 @@ enum ServiceListMode {
 type ServiceType = {
   name: string;
   label: string;
+  shortLabel?: string;
   logo: string;
   tables: string[];
 };
@@ -61,14 +62,6 @@ export function ServiceList({
     ServiceListMode.Popular,
   );
 
-  // prefetch logos
-  useEffect(() => {
-    for (const service of Object.values(services)) {
-      const img = new Image();
-      img.src = service.logo;
-    }
-  }, [services]);
-
   const filteredServices: ServiceType[] = useMemo(
     () =>
       showServices === ServiceListMode.Popular
@@ -80,8 +73,16 @@ export function ServiceList({
   return (
     <Stack gap={2}>
       <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
-        <Tab label="Popular Services" value={ServiceListMode.Popular}></Tab>
-        <Tab label="All Services" value={ServiceListMode.All}></Tab>
+        <Tab
+          sx={{ py: '9px' }}
+          label={<Typography variant="subtitle1">Popular services</Typography>}
+          value={ServiceListMode.Popular}
+        />
+        <Tab
+          sx={{ py: '9px' }}
+          label={<Typography variant="subtitle1">All services</Typography>}
+          value={ServiceListMode.All}
+        />
       </Tabs>
       <Box
         display="grid"
@@ -138,7 +139,7 @@ export function ServiceList({
                       fontWeight="bold"
                       variant="body1"
                     >
-                      {service.label}
+                      {service.shortLabel ?? service.label}
                     </Typography>
                   </Tooltip>
                 </Box>
@@ -149,7 +150,7 @@ export function ServiceList({
         })}
       </Box>
       <Button
-        fullWidth
+        fullWidth={true}
         onClick={() =>
           setShowServices(
             showServices === ServiceListMode.Popular

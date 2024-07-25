@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { CodeSnippet } from './codeSnippet';
+import { LightboxImage } from '../lightboxImage';
 
 type Section = {
   header?: string;
@@ -31,10 +32,10 @@ export function RenderGuide({ sections }: Props) {
             if (body.code) {
               return <CodeSnippet key={index} text={body.code} />;
             } else if (body.image) {
-              return <img key={body.image} src={body.image} alt={body.text} />;
+              return <LightboxImage key={body.image} src={body.image} alt={body.text} />;
             } else {
               return (
-                <Typography key={index} variant="body1" color="secondary">
+                <Typography key={index} variant="body1" color="textSecondary">
                   {body.text}
                 </Typography>
               );
