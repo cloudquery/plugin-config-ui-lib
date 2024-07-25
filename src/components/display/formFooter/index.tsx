@@ -91,7 +91,7 @@ export function FormFooter({
                 size="medium"
                 variant="contained"
               >
-                Delete
+                {`Delete this ${pluginKind}`}
               </Button>
             </>
           )}
