@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 interface Props {
   failureReason: string | undefined;
   isLoading: boolean;
+  pluginKind: 'source' | 'destination';
   onCancel: () => void;
   onSuccess: () => void;
 }
@@ -19,6 +20,7 @@ interface Props {
 export function FormFooterTestConnectionResult({
   failureReason,
   isLoading,
+  pluginKind,
   onCancel,
   onSuccess,
 }: Props) {
@@ -90,10 +92,10 @@ export function FormFooterTestConnectionResult({
           spacing={2}
           width="100%"
         >
-          <Typography variant="h6">Connection test</Typography>
+          <Typography variant="h6">{`Testing the ${pluginKind} connection`}</Typography>
           {isLoading && (
             <Button color="secondary" endIcon={<CloseIcon />} onClick={onCancel} variant="outlined">
-              Cancel test
+              Cancel
             </Button>
           )}
         </Stack>

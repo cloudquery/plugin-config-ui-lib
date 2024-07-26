@@ -117,6 +117,7 @@ export function FormFooter({
           isLoading={isTestingConnection}
           onCancel={onCancelTestConnection}
           onSuccess={onTestConnectionSuccess}
+          pluginKind={pluginKind}
         />
       )}
     </Stack>
