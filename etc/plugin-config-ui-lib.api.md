@@ -59,6 +59,18 @@ export function generateApiAbortError(message?: string): Error;
 export function generateName(pluginName: string): string;
 
 // @public
+export function generatePluginConfigs({ pluginKind, pluginName, pluginLocalPath, spec, }: {
+    pluginKind: 'source' | 'destination';
+    pluginName: string;
+    pluginLocalPath?: string;
+    spec: Record<string, any>;
+}): {
+    pluginConfig: string;
+    anotherPluginConfig: string;
+    envs: any;
+};
+
+// @public
 export function isApiAbortError(error: Error): boolean;
 
 // @public

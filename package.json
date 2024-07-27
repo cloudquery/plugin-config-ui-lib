@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "private": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -45,7 +45,8 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.20",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "yaml": "^2.5.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.24.7",
@@ -85,7 +86,8 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.2",
     "webpack": "^5.92.1",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "yaml": "^2.5.0"
   },
   "dependencies": {
     "@cloudquery/cloud-ui": "^0.1.8"
