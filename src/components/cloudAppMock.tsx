@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 
 import {
   MessageHandler,
@@ -9,8 +9,18 @@ import {
   formMessageTypes,
   pluginUiMessageTypes,
 } from '@cloudquery/plugin-config-ui-connector';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import ErrorIcon from '@mui/icons-material/Error';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
+import { alpha } from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
+import toast, { Toaster as HotToaster, ToastBar } from 'react-hot-toast';
 
 interface Props {
   children: ReactNode;
@@ -47,9 +57,13 @@ const formMessageHandler = new MessageHandler<
  * @public
  */
 export function CloudAppMock({ children, initialValues, authToken, teamName }: Props) {
+  const { palette, typography, shadows } = useTheme();
   const [values, setValues] = useState<string>('');
   const [errors, setErrors] = useState<string>('');
   const [implementsCustomFooter, setImplementsCustomFooter] = useState<boolean>(false);
+  const [lightboxProps, setLightboxProps] = useState<
+    PluginUiMessagePayload['show_lightbox'] & { isLoaded: boolean }
+  >();
 
   useEffect(() => {
     formMessageHandler.sendMessage('init', {
@@ -93,6 +107,27 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
 
     const unsubscribeOpenUrl = formMessageHandler.subscribeToMessage('open_url', (payload) => {
       window.open(payload.url, '_blank');
+    });
+
+    const unsubscribeShowLightbox = formMessageHandler.subscribeToMessage(
+      'show_lightbox',
+      (payload) => setLightboxProps({ ...payload, isLoaded: false }),
+    );
+
+    const unsubscribeShowToast = formMessageHandler.subscribeToMessage('show_toast', (payload) => {
+      switch (payload.type) {
+        case 'success': {
+          toast.success(payload.message, { duration: payload.duration });
+          break;
+        }
+        case 'error': {
+          toast.error(payload.message, { duration: payload.duration });
+          break;
+        }
+        default: {
+          toast(payload.message, { duration: payload.duration });
+        }
+      }
     });
 
     const apiRequestAbortControllers: Record<string, AbortController> = {};
@@ -155,6 +190,8 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
       unsubscribeApiRequest();
       unsubscribeAbortRequest();
       unsubscribeOpenUrl();
+      unsubscribeShowLightbox();
+      unsubscribeShowToast();
     };
   }, [authToken, initialValues, teamName]);
 
@@ -191,6 +228,22 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
     }
   };
 
+  const handleLightboxClose = useCallback(() => {
+    setLightboxProps(undefined);
+  }, []);
+
+  const handleLightboxContainerClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const closestImage = (event.target as HTMLDivElement).closest('img');
+      if (closestImage) {
+        return;
+      }
+
+      handleLightboxClose();
+    },
+    [handleLightboxClose],
+  );
+
   return (
     <>
       <Stack padding={2}>{children}</Stack>
@@ -207,6 +260,102 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
         <div>Errors:</div>
         <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>{errors || '-'}</pre>
       </Stack>
+      <Modal aria-label={lightboxProps?.alt} onClose={handleLightboxClose} open={!!lightboxProps}>
+        <Box
+          height="100%"
+          paddingX={2}
+          paddingY={7}
+          sx={{ position: 'relative' }}
+          width="100%"
+          onClick={handleLightboxContainerClick}
+        >
+          <IconButton
+            autoFocus={true}
+            onClick={handleLightboxClose}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+            title="Close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Stack
+            alignItems="center"
+            height="100%"
+            justifyContent="center"
+            overflow="auto"
+            width="100%"
+          >
+            {!lightboxProps?.isLoaded && <CircularProgress />}
+            <img
+              {...lightboxProps}
+              data-testid="fullbox-image"
+              onLoad={() =>
+                setLightboxProps({
+                  ...lightboxProps,
+                  isLoaded: true,
+                } as typeof lightboxProps)
+              }
+              style={{
+                height: 'auto',
+                maxHeight: lightboxProps?.isLoaded ? undefined : 0,
+                maxWidth: '100%',
+              }}
+            />
+          </Stack>
+        </Box>
+      </Modal>
+      <HotToaster
+        containerStyle={{
+          bottom: 40,
+          left: 40,
+          right: 40,
+          top: 40,
+        }}
+        position="bottom-right"
+        toastOptions={{
+          duration: 6000,
+          error: {
+            icon: <ErrorIcon />,
+            style: {
+              background: palette.error.main,
+              color: palette.common.white,
+            },
+          },
+          style: {
+            backdropFilter: 'blur(6px)',
+            background: alpha(palette.neutral[900], 0.8),
+            boxShadow: shadows[16],
+            color: palette.common.white,
+            ...typography.body1,
+            maxWidth: 500,
+          } as any,
+          success: {
+            icon: <CheckIcon />,
+            style: {
+              background: palette.success.main,
+              color: palette.common.white,
+            },
+          },
+        }}
+      >
+        {(t) => (
+          <ToastBar toast={t}>
+            {({ icon, message }) => (
+              <>
+                {icon}
+                {message}
+                {t.type !== 'loading' && (
+                  <IconButton
+                    onClick={() => toast.dismiss(t.id)}
+                    sx={{ color: palette.text.primary }}
+                  >
+                    <CloseIcon color="inherit" />
+                  </IconButton>
+                )}
+              </>
+            )}
+          </ToastBar>
+        )}
+      </HotToaster>
     </>
   );
 }
