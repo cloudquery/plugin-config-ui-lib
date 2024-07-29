@@ -28,7 +28,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: Props) {
   return (
     <Stack gap={3}>
       {sections.map((section, index) => (
-        <Stack key={index} gap={2}>
+        <Stack key={index} gap={2} sx={{wordBreak: 'break-all'}}>
           {section.header && <Typography variant="h6">{section.header}</Typography>}
           {section.bodies.map((body, index) => {
             if (body.code) {

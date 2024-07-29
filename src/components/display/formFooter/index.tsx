@@ -17,6 +17,8 @@ interface Props {
   isSubmitting: boolean;
   /** Error message for connection testing, if any */
   testConnectionError: string | undefined;
+  /** The type of plugin, either 'source' or 'destination' */
+  pluginKind: 'source' | 'destination';
   /** Payload to be submitted, containing form values and connection ID */
   submitPayload: (FormValues & { connectionId: string }) | undefined;
   /** Callback to cancel the current action */
@@ -47,6 +49,7 @@ export function FormFooter({
   isSubmitting,
   isTestingConnection,
   testConnectionError,
+  pluginKind,
   submitPayload,
   onCancel,
   onCancelTestConnection,
@@ -67,7 +70,7 @@ export function FormFooter({
           )}
           {!!isUpdating && (
             <Button color="error" onClick={onDelete} size="medium" variant="contained">
-              Delete
+              {`Delete this ${pluginKind}`}
             </Button>
           )}
         </Box>
@@ -92,6 +95,7 @@ export function FormFooter({
           isLoading={isTestingConnection}
           onCancel={onCancelTestConnection}
           onSuccess={onTestConnectionSuccess}
+          pluginKind={pluginKind}
         />
       )}
     </Stack>
