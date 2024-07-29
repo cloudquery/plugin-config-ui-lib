@@ -93,8 +93,8 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
       },
     );
 
-    const unsubscribeOnDeleted = formMessageHandler.subscribeToMessage('deleted', async () => {
-      alert('Deleted');
+    const unsubscribeOnDeleted = formMessageHandler.subscribeToMessage('delete', async () => {
+      alert('Delete');
     });
 
     const unsubscribeOnCancel = formMessageHandler.subscribeToMessage('cancel', () => {

@@ -1,12 +1,9 @@
-import { useState } from 'react';
-
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-import { FormFooterDeleteDialog } from './deleteDialog';
 import { FormFooterTestConnectionResult } from './testConnectionResult';
 
 type FormValues = PluginUiMessagePayload['current_values']['values'];
@@ -14,10 +11,6 @@ type FormValues = PluginUiMessagePayload['current_values']['values'];
 interface Props {
   /** Indicates whether the form is currently being updated */
   isUpdating: boolean;
-  /** The type of plugin, either 'source' or 'destination' */
-  pluginKind: 'source' | 'destination';
-  /** Function to get the current form values */
-  getValues: () => FormValues;
   /** Indicates whether the connection is currently being tested */
   isTestingConnection: boolean;
   /** Indicates whether the form is currently being submitted */
@@ -51,8 +44,6 @@ interface Props {
  */
 export function FormFooter({
   isUpdating,
-  pluginKind,
-  getValues,
   isSubmitting,
   isTestingConnection,
   testConnectionError,
@@ -65,8 +56,6 @@ export function FormFooter({
   submitLabel,
   submitDisabled,
 }: Props) {
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState<boolean>(false);
-
   return (
     <Stack spacing={4}>
       <Stack direction="row" justifyContent="space-between" marginTop={4} spacing={2}>
@@ -77,23 +66,9 @@ export function FormFooter({
             </Button>
           )}
           {!!isUpdating && (
-            <>
-              <FormFooterDeleteDialog
-                pluginKind={pluginKind}
-                onClose={() => setDeleteDialogOpen(false)}
-                onConfirm={onDelete}
-                open={deleteDialogOpen}
-                name={getValues().name}
-              />
-              <Button
-                color="error"
-                onClick={() => setDeleteDialogOpen(true)}
-                size="medium"
-                variant="contained"
-              >
-                Delete
-              </Button>
-            </>
+            <Button color="error" onClick={onDelete} size="medium" variant="contained">
+              Delete
+            </Button>
           )}
         </Box>
         <Stack alignItems="center" direction="row" spacing={2}>
