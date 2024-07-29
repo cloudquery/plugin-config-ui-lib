@@ -1,3 +1,4 @@
+import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -15,6 +16,7 @@ type Section = {
 
 type Props = {
   sections: Section[];
+  pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 /**
@@ -22,7 +24,7 @@ type Props = {
  *
  * @public
  */
-export function RenderGuide({ sections }: Props) {
+export function RenderGuide({ sections, pluginUiMessageHandler }: Props) {
   return (
     <Stack gap={3}>
       {sections.map((section, index) => (
@@ -32,7 +34,14 @@ export function RenderGuide({ sections }: Props) {
             if (body.code) {
               return <CodeSnippet key={index} text={body.code} />;
             } else if (body.image) {
-              return <LightboxImage key={body.image} src={body.image} alt={body.text} />;
+              return (
+                <LightboxImage
+                  pluginUiMessageHandler={pluginUiMessageHandler}
+                  key={body.image}
+                  src={body.image}
+                  alt={body.text}
+                />
+              );
             } else {
               return (
                 <Typography key={index} variant="body1" color="textSecondary">

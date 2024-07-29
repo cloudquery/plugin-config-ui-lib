@@ -189,13 +189,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   };
 
   const handleDelete = async () => {
-    const { requestPromise } = callApi(
-      `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-sources/${getValues().name}`,
-      'DELETE',
-    );
-    await requestPromise;
-
-    pluginUiMessageHandler.sendMessage('deleted');
+    pluginUiMessageHandler.sendMessage('delete');
   };
 
   return {

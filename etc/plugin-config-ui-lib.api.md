@@ -62,7 +62,9 @@ export function generateName(pluginName: string): string;
 export function isApiAbortError(error: Error): boolean;
 
 // @public
-export function LightboxImage(props: ImgHTMLAttributes<HTMLImageElement>): JSX_2.Element;
+export function LightboxImage({ pluginUiMessageHandler, ...props }: ImgHTMLAttributes<HTMLImageElement> & {
+    pluginUiMessageHandler: PluginUiMessageHandler;
+}): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_8" needs to be exported by the entry point index.d.ts
 //
@@ -72,7 +74,7 @@ export function Logo({ width, height, src, alt, fallbackSrc }: Props_8): JSX_2.E
 // Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function RenderGuide({ sections }: Props_6): JSX_2.Element;
+export function RenderGuide({ sections, pluginUiMessageHandler }: Props_6): JSX_2.Element;
 
 // @public
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
@@ -89,6 +91,9 @@ export function ServiceList({ services, topServices, fallbackLogoSrc, value, onC
 //
 // @public
 export type ServiceTypes = Record<string, ServiceType>;
+
+// @public
+export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;
 
 // Warning: (ae-forgotten-export) The symbol "Props_11" needs to be exported by the entry point index.d.ts
 //
