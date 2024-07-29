@@ -741,8 +741,6 @@ describe('useFormActions', () => {
 
     const callback = jest.fn();
 
-    formMessageHandler.subscribeToMessageOnce('deleted', callback);
-
     const unsubscribe = formMessageHandler.subscribeToMessage('api_call_request', (payload) => {
       if (payload.endpoint === `${cloudQueryApiBaseUrl}/teams/test-team/sync-sources/test-name`) {
         formMessageHandler.sendMessage('api_call_response', {

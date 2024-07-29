@@ -45,7 +45,7 @@ export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToF
 // Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFooter({ isUpdating, pluginKind, getValues, isSubmitting, isTestingConnection, testConnectionError, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_5): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_5): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
 //
