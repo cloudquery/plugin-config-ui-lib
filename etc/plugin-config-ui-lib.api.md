@@ -61,6 +61,9 @@ export function generateApiAbortError(message?: string): Error;
 // @public
 export function generateName(pluginName: string): string;
 
+// @public (undocumented)
+export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[];
+
 // @public
 export function getRandomId(length?: number): string;
 
@@ -76,6 +79,26 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: ImgHTMLAttri
 //
 // @public
 export function Logo({ width, height, src, alt, fallbackSrc }: Props_8): JSX_2.Element;
+
+// @public (undocumented)
+export interface PluginTable {
+    description: string;
+    is_incremental: boolean;
+    is_paid?: boolean;
+    // (undocumented)
+    name: string;
+    parent?: string;
+    relations: string[];
+    title: string;
+}
+
+// @public (undocumented)
+export interface PluginTableListItem extends PluginTable {
+    // (undocumented)
+    parentTable: PluginTableListItem | undefined;
+    // (undocumented)
+    relationTables: PluginTableListItem[];
+}
 
 // Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
 //
