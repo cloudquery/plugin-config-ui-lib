@@ -1,6 +1,6 @@
 
 /**
- * PluginTable[] is the expected shape of tables for the TableSelector component.
+ * PluginTable[] is shape of the response from `cloudquery tables` command
  *
  * @public
  */
@@ -20,6 +20,11 @@ export interface PluginTable {
   title: string;
 }
 
+/**
+ * PluginTableListItem[] is the expected shape of tables for the TableSelector component.
+ *
+ * @public
+ */
 export interface PluginTableListItem {
   name: string;
   parent?: string;
