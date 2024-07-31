@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
+import { getRandomId } from '../utils/getRandomId';
+
 /**
  * This hook is used to make API calls that require Authentication header from CloudQuery Cloud App.
  * It sends an `api_call_request` message to the CloudQuery Cloud App with the endpoint, method, body, and options.
@@ -24,7 +26,7 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler) {
       },
     ) => {
       let unsubscribeFromResponse: (() => void) | null = null;
-      const requestId = Math.random().toString(36).slice(7);
+      const requestId = getRandomId();
 
       const requestPromise = new Promise<{
         body: ResponseData;

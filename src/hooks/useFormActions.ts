@@ -36,6 +36,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   teamName,
   pluginVersion,
   isUpdating,
+  apiBaseUrl = cloudQueryApiBaseUrl,
 }: {
   pluginUiMessageHandler: PluginUiMessageHandler;
   teamName: string;
@@ -45,6 +46,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   getValues: () => FormValues;
   pluginVersion: string;
   isUpdating: boolean;
+  apiBaseUrl?: string;
 }) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
 
@@ -145,7 +147,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
               write_mode: submitData ? submitData.writeMode : submitPayload.writeMode,
             };
         const { requestPromise: promoteTestConnectionRequest } = callApi(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
+          `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
           'POST',
           {
             name: submitPayload.name,
@@ -155,7 +157,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         await promoteTestConnectionRequest;
 
         const { requestPromise: updateSyncResourceRequest } = callApi(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
+          `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
           'PATCH',
           { ...pluginKindPayload, last_update_source: 'ui' },
         );
@@ -170,7 +172,15 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         setSubmitPayload(undefined);
       }
     },
-    [callApi, isDataSource, pluginKind, pluginUiMessageHandler, submitPayload, teamName],
+    [
+      callApi,
+      isDataSource,
+      pluginKind,
+      pluginUiMessageHandler,
+      submitPayload,
+      teamName,
+      apiBaseUrl,
+    ],
   );
 
   const handleCancelTestConnection = () => {

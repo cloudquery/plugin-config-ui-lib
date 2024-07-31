@@ -58,6 +58,9 @@ export function generateApiAbortError(message?: string): Error;
 // @public
 export function generateName(pluginName: string): string;
 
+// @public (undocumented)
+export function getRandomId(): string;
+
 // @public
 export function isApiAbortError(error: Error): boolean;
 
@@ -133,7 +136,7 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 };
 
 // @public
-export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, }: {
+export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, apiBaseUrl, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
@@ -142,6 +145,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     getValues: () => FormValues;
     pluginVersion: string;
     isUpdating: boolean;
+    apiBaseUrl?: string;
 }): {
     submitError: any;
     handleCancel: () => void;
@@ -190,6 +194,23 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
 export function useFormSubmit(onValidate: () => Promise<Success | Failure> | Success | Failure, pluginUiMessageHandler: PluginUiMessageHandler): void;
 
 // @public
+export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
+    pluginUiMessageHandler: PluginUiMessageHandler;
+    teamName: string;
+    pluginTeamName: string;
+    pluginName: string;
+    pluginKind: 'source' | 'destination';
+    apiBaseUrl: string;
+    successBaseUrl: string;
+}): {
+    authenticate: () => Promise<void>;
+    isLoading: boolean;
+    connectorId: string | null;
+    authConnectorResult: Record<string, string> | null;
+    error: Error | null;
+};
+
+// @public
 export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler): {
     cancelTestConnection: () => void;
     testConnection: (values: {
@@ -207,9 +228,9 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
 
 // Warnings were encountered during analysis:
 //
-// src/hooks/useFormActions.ts:45:3 - (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
-// src/hooks/useFormActions.ts:55:5 - (ae-forgotten-export) The symbol "SyncSourcePayload" needs to be exported by the entry point index.d.ts
-// src/hooks/useFormActions.ts:55:5 - (ae-forgotten-export) The symbol "SyncDestinationPayload" needs to be exported by the entry point index.d.ts
+// src/hooks/useFormActions.ts:46:3 - (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
+// src/hooks/useFormActions.ts:57:5 - (ae-forgotten-export) The symbol "SyncSourcePayload" needs to be exported by the entry point index.d.ts
+// src/hooks/useFormActions.ts:57:5 - (ae-forgotten-export) The symbol "SyncDestinationPayload" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

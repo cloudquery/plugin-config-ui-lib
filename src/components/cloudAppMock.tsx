@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
 import {
   MessageHandler,
@@ -20,6 +20,7 @@ import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 import useTheme from '@mui/material/styles/useTheme';
+import Typography from '@mui/material/Typography';
 import toast, { Toaster as HotToaster, ToastBar } from 'react-hot-toast';
 
 interface Props {
@@ -64,6 +65,56 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
   const [lightboxProps, setLightboxProps] = useState<
     PluginUiMessagePayload['show_lightbox'] & { isLoaded: boolean }
   >();
+  const searchParams = useMemo(() => new URLSearchParams(window.location.search), []);
+
+  const handleSubmit = async () => {
+    formMessageHandler.sendMessage('validate');
+    let unsubscribeValidationPassed: (() => void) | undefined;
+    let unsubscribeValidationFailed: (() => void) | undefined;
+
+    try {
+      const values = await new Promise((resolve, reject) => {
+        unsubscribeValidationPassed = formMessageHandler.subscribeToMessageOnce(
+          'validation_passed',
+          ({ values }) => {
+            resolve(values);
+          },
+        );
+        unsubscribeValidationFailed = formMessageHandler.subscribeToMessageOnce(
+          'validation_failed',
+          ({ errors }) => reject(errors),
+        );
+      }).finally(() => {
+        unsubscribeValidationPassed?.();
+        unsubscribeValidationFailed?.();
+      });
+
+      setErrors('');
+      setValues(JSON.stringify(values, null, 2));
+    } catch (error) {
+      unsubscribeValidationPassed?.();
+      unsubscribeValidationFailed?.();
+
+      setValues('');
+      setErrors(JSON.stringify(error, null, 2));
+    }
+  };
+
+  const handleLightboxClose = useCallback(() => {
+    setLightboxProps(undefined);
+  }, []);
+
+  const handleLightboxContainerClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const closestImage = (event.target as HTMLDivElement).closest('img');
+      if (closestImage) {
+        return;
+      }
+
+      handleLightboxClose();
+    },
+    [handleLightboxClose],
+  );
 
   useEffect(() => {
     formMessageHandler.sendMessage('init', {
@@ -105,8 +156,12 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
       alert('Submitted');
     });
 
-    const unsubscribeOpenUrl = formMessageHandler.subscribeToMessage('open_url', (payload) => {
-      window.open(payload.url, '_blank');
+    let unsubscribeClose: (() => void) | undefined;
+    const unsubscribeOpenUrl = formMessageHandler.subscribeToMessage('open_url', ({ url }) => {
+      const linkWindow = window.open(url, '_blank');
+      unsubscribeClose = formMessageHandler.subscribeToMessageOnce('close', () => {
+        linkWindow?.close();
+      });
     });
 
     const unsubscribeShowLightbox = formMessageHandler.subscribeToMessage(
@@ -192,57 +247,55 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
       unsubscribeOpenUrl();
       unsubscribeShowLightbox();
       unsubscribeShowToast();
+      unsubscribeClose?.();
     };
   }, [authToken, initialValues, teamName]);
 
-  const handleSubmit = async () => {
-    formMessageHandler.sendMessage('validate');
-    let unsubscribeValidationPassed: (() => void) | undefined;
-    let unsubscribeValidationFailed: (() => void) | undefined;
+  useEffect(() => {
+    if (searchParams.size > 0 && window.opener) {
+      const pluginUIMessageHandler = new MessageHandler<
+        PluginUiMessageType,
+        PluginUiMessagePayload,
+        FormMessageType,
+        FormMessagePayload
+      >(pluginUiMessageTypes, formMessageTypes, window.opener);
 
-    try {
-      const values = await new Promise((resolve, reject) => {
-        unsubscribeValidationPassed = formMessageHandler.subscribeToMessageOnce(
-          'validation_passed',
-          ({ values }) => {
-            resolve(values);
-          },
-        );
-        unsubscribeValidationFailed = formMessageHandler.subscribeToMessageOnce(
-          'validation_failed',
-          ({ errors }) => reject(errors),
-        );
-      }).finally(() => {
-        unsubscribeValidationPassed?.();
-        unsubscribeValidationFailed?.();
+      window.localStorage.setItem(
+        'authConnectorResult',
+        JSON.stringify(Object.fromEntries(searchParams.entries())),
+      );
+
+      pluginUIMessageHandler.sendMessage('close');
+    } else {
+      window.addEventListener('storage', () => {
+        const authConnectorResult = window.localStorage.getItem('authConnectorResult');
+
+        if (!authConnectorResult) {
+          return;
+        }
+
+        try {
+          const value = JSON.parse(authConnectorResult) as Record<string, string>;
+          window.localStorage.removeItem('authConnectorResult');
+          formMessageHandler.sendMessage('auth_connector_result', value);
+        } catch {
+          return;
+        }
       });
-
-      setErrors('');
-      setValues(JSON.stringify(values, null, 2));
-    } catch (error) {
-      unsubscribeValidationPassed?.();
-      unsubscribeValidationFailed?.();
-
-      setValues('');
-      setErrors(JSON.stringify(error, null, 2));
     }
-  };
+  }, [searchParams]);
 
-  const handleLightboxClose = useCallback(() => {
-    setLightboxProps(undefined);
-  }, []);
-
-  const handleLightboxContainerClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      const closestImage = (event.target as HTMLDivElement).closest('img');
-      if (closestImage) {
-        return;
-      }
-
-      handleLightboxClose();
-    },
-    [handleLightboxClose],
-  );
+  if (searchParams.size > 0) {
+    return (
+      <Stack alignItems="center" spacing={4} textAlign="center">
+        <Typography variant="body1">
+          Authenticated successfully.
+          <br />
+          You can close this window now.
+        </Typography>
+      </Stack>
+    );
+  }
 
   return (
     <>

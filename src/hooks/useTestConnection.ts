@@ -11,7 +11,10 @@ import { generateApiAbortError } from '../utils/errors';
  *
  * @public
  */
-export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler) {
+export function useTestConnection(
+  pluginUiMessageHandler: PluginUiMessageHandler,
+  apiBaseUrl = cloudQueryApiBaseUrl,
+) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const abortRef = useRef<{ abort: () => void; shouldAbort: boolean }>();
 
@@ -32,7 +35,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
       try {
         const nameKey = pluginKind === 'source' ? 'source_name' : 'destination_name';
         const { requestPromise, abortRequest } = callApi<{ id: string }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
+          `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
           'POST',
           {
             env: values.env,
@@ -65,6 +68,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
           teamName,
           testConnectionId: connectionId,
           pluginKind,
+          apiBaseUrl,
         });
       } catch (error: any) {
         if (error.name === 'AbortError') {
@@ -74,7 +78,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         throw error;
       }
     },
-    [callApi],
+    [apiBaseUrl, callApi],
   );
 
   const cancelTestConnection = useCallback(() => {
@@ -100,12 +104,14 @@ async function monitorSyncTestConnection({
   teamName,
   testConnectionId,
   pluginKind,
+  apiBaseUrl,
 }: {
   teamName: string;
   testConnectionId: string;
   abortObj: { abort: () => void; shouldAbort: boolean };
   callApi: ReturnType<typeof useApiCall>['callApi'];
   pluginKind: 'source' | 'destination';
+  apiBaseUrl: string;
 }): Promise<string> {
   const iterations = 30;
   for (let i = 0; i < iterations; i++) {
@@ -113,7 +119,7 @@ async function monitorSyncTestConnection({
       throw generateApiAbortError();
     }
     const { requestPromise, abortRequest } = callApi<{ status: string; failure_reason: string }>(
-      `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
+      `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
       'GET',
     );
     abortObj.abort = abortRequest;
