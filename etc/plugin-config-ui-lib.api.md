@@ -211,7 +211,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
 };
 
 // @public
-export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler): {
+export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler, apiBaseUrl?: string): {
     cancelTestConnection: () => void;
     testConnection: (values: {
         name: string;
