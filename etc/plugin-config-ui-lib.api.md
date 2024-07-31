@@ -28,7 +28,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: P
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 
 // @public
-export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/oauth/connector";
+export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/auth/connector";
 
 // Warning: (ae-forgotten-export) The symbol "Props_10" needs to be exported by the entry point index.d.ts
 //
