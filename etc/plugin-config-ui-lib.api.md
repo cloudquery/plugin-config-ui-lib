@@ -61,7 +61,7 @@ export function generateApiAbortError(message?: string): Error;
 // @public
 export function generateName(pluginName: string): string;
 
-// @public (undocumented)
+// @public
 export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[];
 
 // @public
@@ -80,7 +80,7 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: ImgHTMLAttri
 // @public
 export function Logo({ width, height, src, alt, fallbackSrc }: Props_8): JSX_2.Element;
 
-// @public (undocumented)
+// @public
 export interface PluginTable {
     description: string;
     is_incremental: boolean;
@@ -92,10 +92,16 @@ export interface PluginTable {
     title: string;
 }
 
-// @public (undocumented)
-export interface PluginTableListItem extends PluginTable {
+// @public
+export interface PluginTableListItem {
     // (undocumented)
-    parentTable: PluginTableListItem | undefined;
+    name: string;
+    // (undocumented)
+    parent?: string;
+    // (undocumented)
+    parentTable?: PluginTableListItem;
+    // (undocumented)
+    relations?: string[];
     // (undocumented)
     relationTables: PluginTableListItem[];
 }

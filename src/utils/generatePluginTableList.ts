@@ -1,24 +1,11 @@
-export interface PluginTable {
-    /** Description of the table */
-    description: string;
-    /** Whether the table is incremental */
-    is_incremental: boolean;
-    /** Whether the table is paid */
-    is_paid?: boolean;
-    name: string;
-    /** Name of the parent table, if any */
-    parent?: string;
-    /** Names of the tables that depend on this table */
-    relations: string[];
-    /** Title of the table */
-    title: string;
-  }
-  
-  export interface PluginTableListItem extends PluginTable {
-    parentTable: PluginTableListItem | undefined;
-    relationTables: PluginTableListItem[];
-  }
-  
+import { PluginTable, PluginTableListItem } from "../components/fields/tableSelector/types";
+
+  /**
+ * generaetePluginTableList utility takes the output of `cloudquery tables` command and reshapes the data
+ * to compatability with the TableSelector component.
+ *
+ * @public
+ */
   export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[] {
     const tablesMap = new Map<string, PluginTableListItem>();
   
@@ -52,8 +39,8 @@ export interface PluginTable {
         table.parentTable = tablesMap.get(table.parent);
       }
   
-      if (table.relations.length > 0) {
-        for (const relation of table.relations) {
+      if ((table.relations?.length ?? 0) > 0) {
+        for (const relation of table.relations!) {
           const relationTable = tablesMap.get(relation);
           if (relationTable) {
             table.relationTables.push(relationTable);
