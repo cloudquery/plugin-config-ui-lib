@@ -61,8 +61,8 @@ export function generateApiAbortError(message?: string): Error;
 // @public
 export function generateName(pluginName: string): string;
 
-// @public (undocumented)
-export function getRandomId(): string;
+// @public
+export function getRandomId(length?: number): string;
 
 // @public
 export function isApiAbortError(error: Error): boolean;
