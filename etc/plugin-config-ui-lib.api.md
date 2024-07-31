@@ -61,8 +61,6 @@ export function generateApiAbortError(message?: string): Error;
 // @public
 export function generateName(pluginName: string): string;
 
-// Warning: (ae-forgotten-export) The symbol "PluginTableListItem" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[];
 
@@ -92,6 +90,20 @@ export interface PluginTable {
     parent?: string;
     relations: string[];
     title: string;
+}
+
+// @public
+export interface PluginTableListItem {
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    parent?: string;
+    // (undocumented)
+    parentTable?: PluginTableListItem;
+    // (undocumented)
+    relations?: string[];
+    // (undocumented)
+    relationTables: PluginTableListItem[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts

@@ -4,4 +4,4 @@ export { FormFieldGroup } from './formFieldGroup';
 export { FormFieldReset } from './formFieldReset';
 export { SearchField } from './searchField';
 
-export type { PluginTable } from './tableSelector/types';
+export type { PluginTable, PluginTableListItem } from './tableSelector/types';
