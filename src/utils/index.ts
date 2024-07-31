@@ -4,3 +4,6 @@ export { generateName } from './generateName';
 export { scrollToFirstFormFieldError } from './scrollToFirstFormFieldError';
 export { showToast } from './showToast';
 export { getRandomId } from './getRandomId';
+export { generatePluginTableList } from './generatePluginTableList';
+
+export type { PluginTable, PluginTableListItem } from './generatePluginTableList';
