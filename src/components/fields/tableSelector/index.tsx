@@ -40,7 +40,7 @@ interface Props {
 export function TableSelector({
   subscribeToTablesValueChange,
   errorMessage,
-  value,
+  value = {},
   onChange,
   tableList,
 }: Props) {

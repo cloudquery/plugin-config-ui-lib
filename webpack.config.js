@@ -26,6 +26,7 @@ module.exports = {
   externals: [
     'react',
     'react-dom',
+    'react-hook-form',
     /^@mui\/material.*/,
     /^@mui\/icons-material.*/,
     /^@mui\/lab.*/,

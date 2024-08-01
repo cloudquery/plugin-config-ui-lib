@@ -1,7 +1,7 @@
 import { PluginTable, PluginTableListItem } from "../components/fields/tableSelector/types";
 
   /**
- * generaetePluginTableList utility takes the output of `cloudquery tables` command and reshapes the data
+ * generatePluginTableList utility takes the output of `useGetTables` and reshapes the data
  * to compatability with the TableSelector component.
  *
  * @public
