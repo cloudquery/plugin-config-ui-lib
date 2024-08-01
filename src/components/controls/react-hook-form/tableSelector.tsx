@@ -1,9 +1,9 @@
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { useFormContext, useWatch } from 'react-hook-form';
+
 import { generatePluginTableList } from '../../../utils';
 import { PluginTable, TableSelector } from '../../fields';
-import React from 'react';
 
 interface Props {
   pluginTables: PluginTable[];
