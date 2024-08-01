@@ -30,30 +30,35 @@ export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 // @public
 export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/auth/connector";
 
-// Warning: (ae-forgotten-export) The symbol "Props_10" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CloudQueryTable" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const ExclusiveToggle: ForwardRefExoticComponent<Props_10 & RefAttributes<HTMLElement>>;
+export type CloudQueryTables = CloudQueryTable[];
 
-// Warning: (ae-forgotten-export) The symbol "Props_12" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_11" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFieldGroup({ children, subheader, title }: Props_12): JSX_2.Element;
+export const ExclusiveToggle: ForwardRefExoticComponent<Props_11 & RefAttributes<HTMLElement>>;
 
 // Warning: (ae-forgotten-export) The symbol "Props_13" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToFocus, sx }: Props_13): JSX_2.Element;
+export function FormFieldGroup({ children, subheader, title }: Props_13): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_14" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_5): JSX_2.Element;
+export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToFocus, sx }: Props_14): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormStepper({ steps, activeIndex, setActiveIndex }: Props_7): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_6): JSX_2.Element;
+
+// Warning: (ae-forgotten-export) The symbol "Props_8" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function FormStepper({ steps, activeIndex, setActiveIndex }: Props_8): JSX_2.Element;
 
 // @public
 export function generateApiAbortError(message?: string): Error;
@@ -75,10 +80,10 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: ImgHTMLAttri
     pluginUiMessageHandler: PluginUiMessageHandler;
 }): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_8" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_9" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function Logo({ width, height, src, alt, fallbackSrc }: Props_8): JSX_2.Element;
+export function Logo({ width, height, src, alt, fallbackSrc }: Props_9): JSX_2.Element;
 
 // @public
 export interface PluginTable {
@@ -106,10 +111,15 @@ export interface PluginTableListItem {
     relationTables: PluginTableListItem[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function RenderGuide({ sections, pluginUiMessageHandler }: Props_6): JSX_2.Element;
+export const ReactHookFormPluginTableSelector: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
+
+// Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function RenderGuide({ sections, pluginUiMessageHandler }: Props_7): JSX_2.Element;
 
 // @public
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
@@ -117,10 +127,10 @@ export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
 // @public
 export function SearchField(props: TextFieldProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_9" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_10" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, }: Props_9): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, }: Props_10): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
 //
@@ -130,10 +140,10 @@ export type ServiceTypes = Record<string, ServiceType>;
 // @public
 export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;
 
-// Warning: (ae-forgotten-export) The symbol "Props_11" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_12" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, }: Props_11): JSX_2.Element;
+export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, }: Props_12): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
 //
@@ -224,6 +234,9 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
 //
 // @public
 export function useFormSubmit(onValidate: () => Promise<Success | Failure> | Success | Failure, pluginUiMessageHandler: PluginUiMessageHandler): void;
+
+// @public
+export const useGetTables: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
 // @public
 export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
