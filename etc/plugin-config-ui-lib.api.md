@@ -125,7 +125,7 @@ export function SearchField(props: TextFieldProps): JSX_2.Element;
 // Warning: (ae-forgotten-export) The symbol "Props_10" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, }: Props_10): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled }: Props_10): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
 //
@@ -143,7 +143,7 @@ export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 
 // Warning: (ae-forgotten-export) The symbol "Props_12" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, }: Props_12): JSX_2.Element;
+export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, disabled }: Props_12): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
 //

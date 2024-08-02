@@ -40,6 +40,7 @@ interface Props {
   onChange?: (value: string[]) => void;
   fallbackLogoSrc?: string;
   maxHeight?: BoxProps['maxHeight'];
+  disabled?: boolean;
 }
 
 /**
@@ -55,6 +56,7 @@ export function ServiceList({
   value = [],
   onChange,
   maxHeight = '400px',
+  disabled
 }: Props) {
   const { palette } = useTheme();
 
@@ -74,11 +76,13 @@ export function ServiceList({
     <Stack gap={2}>
       <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
         <Tab
+          disabled={disabled}
           sx={{ py: '9px' }}
           label={<Typography variant="subtitle1">Popular services</Typography>}
           value={ServiceListMode.Popular}
         />
         <Tab
+          disabled={disabled}
           sx={{ py: '9px' }}
           label={<Typography variant="subtitle1">All services</Typography>}
           value={ServiceListMode.All}
@@ -105,6 +109,7 @@ export function ServiceList({
               }}
               key={service.name}
               value={service.name}
+              disabled={disabled}
               onClick={() =>
                 onChange?.(
                   isChecked
@@ -150,6 +155,7 @@ export function ServiceList({
         })}
       </Box>
       <Button
+        disabled={disabled}
         fullWidth={true}
         onClick={() =>
           setShowServices(

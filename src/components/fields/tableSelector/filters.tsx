@@ -16,6 +16,7 @@ interface Props {
   onTableTypeChange: (value: 'all' | 'selected' | 'unselected') => void;
   searchValue: string;
   tableTypeValue: 'all' | 'selected' | 'unselected';
+  disabled?: boolean;
 }
 
 export function TableSelectorFilters({
@@ -23,6 +24,7 @@ export function TableSelectorFilters({
   onTableTypeChange,
   searchValue,
   tableTypeValue,
+  disabled,
 }: Props) {
   const { palette } = useTheme();
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -37,10 +39,12 @@ export function TableSelectorFilters({
         onChange={(e) => onSearchChange(e.target.value)}
         placeholder="Search tables"
         value={searchValue}
+        disabled={disabled}
       />
       <Box>
         <Button
           ref={menuToggleRef}
+          disabled={disabled}
           aria-controls={menuIsOpen ? menuId : undefined}
           aria-expanded={menuIsOpen ? 'true' : undefined}
           aria-haspopup="true"
