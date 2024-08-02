@@ -30,6 +30,8 @@ interface Props {
   onChange: (value: Record<string, boolean>) => void;
   /** List of tables to display in the selector. */
   tableList: PluginTableListItem[];
+  /** Form disabled boolean */  
+  disabled?: boolean;
 }
 
 /**
@@ -43,6 +45,7 @@ export function TableSelector({
   value = {},
   onChange,
   tableList,
+  disabled
 }: Props) {
   const { palette } = useTheme();
 
@@ -122,13 +125,15 @@ export function TableSelector({
           onTableTypeChange={setFilterTablesValue}
           searchValue={searchValue}
           tableTypeValue={filterTablesValue}
+          disabled={disabled}
         />
       </Stack>
       <FormControlLabel
+        disabled={disabled}
         control={
           <Checkbox
+            disabled={disabled || noResults}
             checked={allTablesSelected || noResults}
-            disabled={noResults}
             onChange={handleSelectAll}
             size="small"
             sx={{
@@ -156,6 +161,7 @@ export function TableSelector({
                 onSelect={handleSelect}
                 selectedAsIndeterminate={filterTablesValue === 'unselected'}
                 tableListItem={table}
+                disabled={disabled}
               />
             ))}
           </TreeRoot>

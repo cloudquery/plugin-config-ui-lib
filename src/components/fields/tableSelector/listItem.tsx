@@ -13,6 +13,7 @@ interface Props {
   selectedAsIndeterminate: boolean;
   tableListItem: PluginTableListItem;
   subscribeToTablesValueChange: SubscribeToTablesValueChange;
+  disabled?: boolean;
 }
 
 const _TableSelectorListItem: FC<Props> = ({
@@ -21,6 +22,7 @@ const _TableSelectorListItem: FC<Props> = ({
   onSelect,
   selectedAsIndeterminate,
   tableListItem,
+  disabled
 }) => {
   const [value, setValue] = React.useState(!!valuesRef.current[tableListItem.name]);
   const valueRef = React.useRef(value);
@@ -44,8 +46,10 @@ const _TableSelectorListItem: FC<Props> = ({
     <TreeNode isExpanded={true} isSelected={value} onSelect={handleSelect} sx={{ paddingLeft: 3 }}>
       <Stack borderRadius={1} marginBottom={0.25}>
         <FormControlLabel
+          disabled={disabled}
           control={
             <Checkbox
+              disabled={disabled}
               checked={value}
               indeterminate={isIndeterminate}
               name={tableListItem.name}
@@ -77,6 +81,7 @@ const _TableSelectorListItem: FC<Props> = ({
               selectedAsIndeterminate={selectedAsIndeterminate}
               tableListItem={relationTable}
               subscribeToTablesValueChange={subscribeToTablesValueChange}
+              disabled={disabled}
             />
           ))}
         </TreeGroup>

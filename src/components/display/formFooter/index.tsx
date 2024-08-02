@@ -59,27 +59,29 @@ export function FormFooter({
   submitLabel,
   submitDisabled,
 }: Props) {
+  const isBusy = isTestingConnection || isSubmitting;
+
   return (
     <Stack spacing={4}>
       <Stack direction="row" justifyContent="space-between" marginTop={4} spacing={2}>
         <Box>
           {!isUpdating && (
-            <Button color="secondary" onClick={onGoToPreviousStep} size="medium">
+            <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
               Previous step
             </Button>
           )}
           {!!isUpdating && (
-            <Button color="error" onClick={onDelete} size="medium" variant="contained">
+            <Button disabled={isBusy} color="error" onClick={onDelete} size="medium" variant="contained">
               {`Delete this ${pluginKind}`}
             </Button>
           )}
         </Box>
         <Stack alignItems="center" direction="row" spacing={2}>
-          <Button disabled={isTestingConnection || isSubmitting} onClick={onCancel} size="medium">
+          <Button disabled={isBusy} onClick={onCancel} size="medium">
             Cancel
           </Button>
           <LoadingButton
-            loading={isTestingConnection || isSubmitting}
+            loading={isBusy}
             size="medium"
             variant="contained"
             type="submit"
