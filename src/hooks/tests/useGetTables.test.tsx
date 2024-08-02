@@ -2,7 +2,7 @@
 import { renderHook } from '@testing-library/react';
 import { useGetTables } from '../useGetTables';
 
-const tablesJson = require('./data/tables.json')
+const tablesJson = require('./data/cqTables.json')
 
 describe('useGetTables', () => {
   test('should flatten n-level nested table definition', async () => {
