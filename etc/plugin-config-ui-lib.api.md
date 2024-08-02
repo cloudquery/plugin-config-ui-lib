@@ -50,10 +50,10 @@ export function FormFieldGroup({ children, subheader, title }: Props_13): JSX_2.
 // @public
 export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToFocus, sx }: Props_14): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_6): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_5): JSX_2.Element;
 
 // Warning: (ae-forgotten-export) The symbol "Props_8" needs to be exported by the entry point index.d.ts
 //
@@ -111,11 +111,6 @@ export interface PluginTableListItem {
     relationTables: PluginTableListItem[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
-//
-// @public
-export const ReactHookFormPluginTableSelector: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
-
 // Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -136,6 +131,11 @@ export function ServiceList({ services, topServices, fallbackLogoSrc, value, onC
 //
 // @public
 export type ServiceTypes = Record<string, ServiceType>;
+
+// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export function SetupGuide({ docsLink, title, children, maxHeight }: Props_6): JSX_2.Element;
 
 // @public
 export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;

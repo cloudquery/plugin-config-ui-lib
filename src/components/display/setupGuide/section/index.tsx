@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { CodeSnippet } from './codeSnippet';
-import { LightboxImage } from '../lightboxImage';
+import { LightboxImage } from '../../lightboxImage';
 
 type Section = {
   header?: string;
@@ -28,7 +28,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: Props) {
   return (
     <Stack gap={3}>
       {sections.map((section, index) => (
-        <Stack key={index} gap={2} sx={{wordBreak: 'break-word'}}>
+        <Stack key={index} gap={2} sx={{ wordBreak: 'break-word' }}>
           {section.header && <Typography variant="h6">{section.header}</Typography>}
           {section.bodies.map((body, index) => {
             if (body.code) {
