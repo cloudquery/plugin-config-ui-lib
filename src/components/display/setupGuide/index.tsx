@@ -1,12 +1,12 @@
 import { ReactNode } from 'react';
 
+import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import LinkIcon from '@mui/icons-material/Link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -15,6 +15,7 @@ interface Props {
   title: string;
   maxHeight?: number;
   children: ReactNode;
+  pluginUiMessageHandler: PluginUiMessageHandler;
 }
 
 /**
@@ -22,7 +23,13 @@ interface Props {
  *
  * @public
  */
-export function SetupGuide({ docsLink, title, children, maxHeight }: Props) {
+export function SetupGuide({
+  docsLink,
+  title,
+  children,
+  maxHeight,
+  pluginUiMessageHandler,
+}: Props) {
   return (
     <Card>
       <CardContent>
@@ -31,9 +38,7 @@ export function SetupGuide({ docsLink, title, children, maxHeight }: Props) {
             <Typography variant="h6">Setup guide</Typography>
             {!!docsLink && (
               <Button
-                LinkComponent={Link}
-                href={docsLink}
-                target="_blank"
+                onClick={() => pluginUiMessageHandler.sendMessage('open_url', { url: docsLink })}
                 variant="outlined"
                 color="secondary"
                 endIcon={<LinkIcon />}

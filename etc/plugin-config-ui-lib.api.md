@@ -135,7 +135,7 @@ export type ServiceTypes = Record<string, ServiceType>;
 // Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function SetupGuide({ docsLink, title, children, maxHeight }: Props_6): JSX_2.Element;
+export function SetupGuide({ docsLink, title, children, maxHeight, pluginUiMessageHandler, }: Props_6): JSX_2.Element;
 
 // @public
 export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;
