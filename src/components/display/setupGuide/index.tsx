@@ -17,6 +17,11 @@ interface Props {
   children: ReactNode;
 }
 
+/**
+ * Display setup guide wrapper
+ *
+ * @public
+ */
 export function SetupGuide({ docsLink, title, children, maxHeight }: Props) {
   return (
     <Card>

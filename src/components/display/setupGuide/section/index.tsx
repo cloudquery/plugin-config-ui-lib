@@ -44,7 +44,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: Props) {
               );
             } else {
               return (
-                <Typography key={index} variant="body1" color="textSecondary">
+                <Typography component="div" key={index} variant="body1" color="textSecondary">
                   {body.text}
                 </Typography>
               );
