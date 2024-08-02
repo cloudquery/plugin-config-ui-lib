@@ -58,6 +58,7 @@ export function ServiceList({
   maxHeight = '400px',
   disabled
 }: Props) {
+  console.log({disabled})
   const { palette } = useTheme();
 
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
