@@ -1,3 +1,3 @@
-export { TreeRoot } from './root';
-export { TreeGroup } from './group';
-export { TreeNode } from './node';
+export { TreeRoot, TreeRootProps } from './root';
+export { TreeGroup, TreeGroupProps } from './group';
+export { TreeNode, TreeNodeProps } from './node';

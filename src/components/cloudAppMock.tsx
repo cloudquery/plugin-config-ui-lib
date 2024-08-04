@@ -23,7 +23,10 @@ import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import toast, { Toaster as HotToaster, ToastBar } from 'react-hot-toast';
 
-interface Props {
+/**
+ * @public
+ */
+export interface CloudAppMockProps {
   children: ReactNode;
   /** Initial values for the form */
   initialValues?: {
@@ -57,7 +60,7 @@ const formMessageHandler = new MessageHandler<
  *
  * @public
  */
-export function CloudAppMock({ children, initialValues, authToken, teamName }: Props) {
+export function CloudAppMock({ children, initialValues, authToken, teamName }: CloudAppMockProps) {
   const { palette, typography, shadows } = useTheme();
   const [values, setValues] = useState<string>('');
   const [errors, setErrors] = useState<string>('');

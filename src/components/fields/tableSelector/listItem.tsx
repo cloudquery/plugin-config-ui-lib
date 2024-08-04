@@ -22,7 +22,7 @@ const _TableSelectorListItem: FC<Props> = ({
   onSelect,
   selectedAsIndeterminate,
   tableListItem,
-  disabled
+  disabled,
 }) => {
   const [value, setValue] = React.useState(!!valuesRef.current[tableListItem.name]);
   const valueRef = React.useRef(value);

@@ -2,7 +2,10 @@ import React, { ReactNode, useCallback, useRef } from 'react';
 
 import List, { ListProps } from '@mui/material/List';
 
-interface Props extends ListProps {
+/**
+ * @public
+ */
+export interface TreeRootProps extends ListProps {
   children: ReactNode;
 }
 
@@ -11,7 +14,7 @@ interface Props extends ListProps {
  *
  * @public
  */
-export function TreeRoot({ children, ...props }: Props) {
+export function TreeRoot({ children, ...props }: TreeRootProps) {
   const treeRef = useRef<HTMLUListElement | null>(null);
 
   const handleFocus = useCallback((event: React.FocusEvent<HTMLUListElement>) => {

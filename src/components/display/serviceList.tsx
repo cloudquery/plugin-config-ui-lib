@@ -33,7 +33,10 @@ type ServiceType = {
  */
 export type ServiceTypes = Record<string, ServiceType>;
 
-interface Props {
+/**
+ * @public
+ */
+export interface ServiceListProps {
   services: ServiceTypes;
   topServices: string[];
   value?: string[];
@@ -56,8 +59,8 @@ export function ServiceList({
   value = [],
   onChange,
   maxHeight = '400px',
-  disabled
-}: Props) {
+  disabled,
+}: ServiceListProps) {
   const { palette } = useTheme();
 
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(

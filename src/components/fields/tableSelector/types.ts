@@ -1,4 +1,3 @@
-
 /**
  * PluginTable[] is shape of the response from `cloudquery tables` command
  *

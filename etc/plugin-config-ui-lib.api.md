@@ -16,13 +16,14 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
 import { ReactNode } from 'react';
 import { RefAttributes } from 'react';
+import { StepIconProps } from '@mui/material/StepIcon';
 import { SxProps } from '@mui/system';
 import { TextFieldProps } from '@mui/material/TextField';
 
-// Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CloudAppMockProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function CloudAppMock({ children, initialValues, authToken, teamName }: Props): JSX_2.Element;
+export function CloudAppMock({ children, initialValues, authToken, teamName }: CloudAppMockProps): JSX_2.Element;
 
 // @public
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
@@ -30,35 +31,119 @@ export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 // @public
 export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/auth/connector";
 
-// Warning: (ae-forgotten-export) The symbol "CloudQueryTable" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export interface CloudQueryTable {
+    // (undocumented)
+    columns: unknown[];
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    is_incremental?: boolean;
+    // (undocumented)
+    is_paid?: boolean;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    relations: CloudQueryTable[];
+    // (undocumented)
+    title: string;
+}
+
 // @public
 export type CloudQueryTables = CloudQueryTable[];
 
-// Warning: (ae-forgotten-export) The symbol "Props_11" needs to be exported by the entry point index.d.ts
-//
 // @public
-export const ExclusiveToggle: ForwardRefExoticComponent<Props_11 & RefAttributes<HTMLElement>>;
+export const ExclusiveToggle: ForwardRefExoticComponent<ExclusiveToggleProps & RefAttributes<HTMLElement>>;
 
-// Warning: (ae-forgotten-export) The symbol "Props_13" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function FormFieldGroup({ children, subheader, title }: Props_13): JSX_2.Element;
+// @public (undocumented)
+export interface ExclusiveToggleProps {
+    onChange: (newValue: string | number | boolean) => void;
+    options: Array<{
+        label: ReactNode;
+        description?: ReactNode;
+        value: string | number | boolean;
+        disabled?: boolean;
+    }>;
+    title?: string;
+    value: string | number | boolean;
+}
 
-// Warning: (ae-forgotten-export) The symbol "Props_14" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToFocus, sx }: Props_14): JSX_2.Element;
+// @public (undocumented)
+export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
 
-// Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: Props_5): JSX_2.Element;
+// @public (undocumented)
+export interface FormActionsSyncDestinationPayload {
+    // (undocumented)
+    migrateMode?: 'forced' | 'safe';
+    // (undocumented)
+    writeMode?: 'append' | 'overwrite' | 'overwrite-delete-stale';
+}
 
-// Warning: (ae-forgotten-export) The symbol "Props_8" needs to be exported by the entry point index.d.ts
+// @public (undocumented)
+export interface FormActionsSyncSourcePayload {
+    // (undocumented)
+    skipTables?: string[];
+    // (undocumented)
+    tables?: string[];
+}
+
+// @public
+export function FormFieldGroup({ children, subheader, title }: FormFieldGroupProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface FormFieldGroupProps {
+    // (undocumented)
+    children: ReactNode;
+    // (undocumented)
+    subheader?: ReactNode;
+    // (undocumented)
+    title?: ReactNode;
+}
+
+// @public
+export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToFocus, sx, }: FormFieldResetProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface FormFieldResetProps {
+    // (undocumented)
+    inputSelectorToFocus?: string;
+    // (undocumented)
+    isResetted: boolean;
+    // (undocumented)
+    onCancel: () => void;
+    // (undocumented)
+    onReset: () => void;
+    // (undocumented)
+    sx?: SxProps;
+}
+
+// @public
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: FormFooterProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface FormFooterProps {
+    isSubmitting: boolean;
+    isTestingConnection: boolean;
+    isUpdating: boolean;
+    onCancel: () => void;
+    onCancelTestConnection: () => void;
+    onDelete: () => Promise<void>;
+    onGoToPreviousStep: () => void;
+    onTestConnectionSuccess: () => void;
+    pluginKind: 'source' | 'destination';
+    submitDisabled?: boolean;
+    submitLabel?: string;
+    // Warning: (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
+    submitPayload: (FormValues & {
+        connectionId: string;
+    }) | undefined;
+    testConnectionError: string | undefined;
+}
+
+// Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormStepper({ steps, activeIndex, setActiveIndex }: Props_8): JSX_2.Element;
+export function FormStepper({ steps, activeIndex, setActiveIndex }: Props): JSX_2.Element;
 
 // @public
 export function generateApiAbortError(message?: string): Error;
@@ -70,20 +155,38 @@ export function generateName(pluginName: string): string;
 export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[];
 
 // @public
+export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
+
+// @public
 export function getRandomId(length?: number): string;
 
 // @public
 export function isApiAbortError(error: Error): boolean;
 
 // @public
-export function LightboxImage({ pluginUiMessageHandler, ...props }: ImgHTMLAttributes<HTMLImageElement> & {
-    pluginUiMessageHandler: PluginUiMessageHandler;
-}): JSX_2.Element;
+export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImageProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_9" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export type LightboxImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
 // @public
-export function Logo({ width, height, src, alt, fallbackSrc }: Props_9): JSX_2.Element;
+export function Logo({ width, height, src, alt, fallbackSrc }: LogoProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface LogoProps {
+    // (undocumented)
+    alt?: string;
+    // (undocumented)
+    fallbackSrc?: string;
+    // (undocumented)
+    height?: number;
+    // (undocumented)
+    src: string;
+    // (undocumented)
+    width?: number;
+}
 
 // @public
 export interface PluginTable {
@@ -111,10 +214,14 @@ export interface PluginTableListItem {
     relationTables: PluginTableListItem[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
-//
 // @public
-export function RenderGuide({ sections, pluginUiMessageHandler }: Props_7): JSX_2.Element;
+export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuideProps): JSX_2.Element;
+
+// @public (undocumented)
+export type RenderGuideProps = {
+    sections: Section[];
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
 
 // @public
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
@@ -122,43 +229,103 @@ export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
 // @public
 export function SearchField(props: TextFieldProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_10" needs to be exported by the entry point index.d.ts
-//
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled }: Props_10): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, }: ServiceListProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ServiceListProps {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    fallbackLogoSrc?: string;
+    // (undocumented)
+    maxHeight?: BoxProps['maxHeight'];
+    // (undocumented)
+    onChange?: (value: string[]) => void;
+    // (undocumented)
+    services: ServiceTypes;
+    // (undocumented)
+    topServices: string[];
+    // (undocumented)
+    value?: string[];
+}
 
 // Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
 //
 // @public
 export type ServiceTypes = Record<string, ServiceType>;
 
-// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
-//
 // @public
-export function SetupGuide({ docsLink, title, children, maxHeight, pluginUiMessageHandler, }: Props_6): JSX_2.Element;
+export function SetupGuide({ docsLink, title, children, maxHeight, pluginUiMessageHandler, }: SetupGuideProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SetupGuideProps {
+    // (undocumented)
+    children: ReactNode;
+    // (undocumented)
+    docsLink?: string;
+    // (undocumented)
+    maxHeight?: number;
+    // (undocumented)
+    pluginUiMessageHandler: PluginUiMessageHandler;
+    // (undocumented)
+    title: string;
+}
 
 // @public
 export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;
 
-// Warning: (ae-forgotten-export) The symbol "Props_12" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, disabled }: Props_12): JSX_2.Element;
+// @public (undocumented)
+export type SyncFormStepIconProps = StepIconProps & {
+    label: string;
+};
 
-// Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export const TreeGroup: React_2.NamedExoticComponent<Props_2>;
+export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, disabled, }: TableSelectorProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_3" needs to be exported by the entry point index.d.ts
-//
-// @public
-export const TreeNode: React_2.NamedExoticComponent<Props_3>;
+// @public (undocumented)
+export interface TableSelectorProps {
+    disabled?: boolean;
+    errorMessage?: string;
+    onChange: (value: Record<string, boolean>) => void;
+    // Warning: (ae-forgotten-export) The symbol "SubscribeToTablesValueChange" needs to be exported by the entry point index.d.ts
+    subscribeToTablesValueChange: SubscribeToTablesValueChange;
+    tableList: PluginTableListItem[];
+    value: Record<string, boolean>;
+}
 
-// Warning: (ae-forgotten-export) The symbol "Props_4" needs to be exported by the entry point index.d.ts
-//
 // @public
-export function TreeRoot({ children, ...props }: Props_4): JSX_2.Element;
+export const TreeGroup: React_2.NamedExoticComponent<TreeGroupProps>;
+
+// @public (undocumented)
+export interface TreeGroupProps extends ListProps {
+    // (undocumented)
+    children: ReactNode;
+}
+
+// @public
+export const TreeNode: React_2.NamedExoticComponent<TreeNodeProps>;
+
+// @public (undocumented)
+export interface TreeNodeProps extends ListItemProps {
+    // (undocumented)
+    children: ReactNode;
+    // (undocumented)
+    isExpanded: boolean;
+    // (undocumented)
+    isSelected: boolean;
+    // (undocumented)
+    onSelect: () => void;
+}
+
+// @public
+export function TreeRoot({ children, ...props }: TreeRootProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface TreeRootProps extends ListProps {
+    // (undocumented)
+    children: ReactNode;
+}
 
 // @public
 export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
@@ -184,7 +351,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     pluginTeamName: string;
     pluginName: string;
     pluginKind: PluginKind;
-    getValues: () => FormValues;
+    getValues: () => FormActionsFormValues;
     pluginVersion: string;
     isUpdating: boolean;
     apiBaseUrl?: string;
@@ -195,7 +362,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     handleDelete: () => Promise<void>;
     handleGoToPreviousStep: () => void;
     handleTestConnection: () => Promise<string | null>;
-    handleSubmit: (submitData?: PluginKind extends "source" ? SyncSourcePayload : SyncDestinationPayload) => Promise<void>;
+    handleSubmit: (submitData?: PluginKind extends "source" ? FormActionsSyncSourcePayload : FormActionsSyncDestinationPayload) => Promise<void>;
     isSubmitting: boolean;
     isTestingConnection: boolean;
     testConnectionError: string | undefined;
@@ -229,14 +396,11 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
     teamName: string;
 };
 
-// Warning: (ae-forgotten-export) The symbol "Success" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "Failure" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "FormSubmitSuccess" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "FormSubmitFailure" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function useFormSubmit(onValidate: () => Promise<Success | Failure> | Success | Failure, pluginUiMessageHandler: PluginUiMessageHandler): void;
-
-// @public
-export const useGetTables: (tablesJson: CloudQueryTable[]) => PluginTable[];
+export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): void;
 
 // @public
 export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
@@ -273,9 +437,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
 
 // Warnings were encountered during analysis:
 //
-// src/hooks/useFormActions.ts:46:3 - (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
-// src/hooks/useFormActions.ts:57:5 - (ae-forgotten-export) The symbol "SyncSourcePayload" needs to be exported by the entry point index.d.ts
-// src/hooks/useFormActions.ts:57:5 - (ae-forgotten-export) The symbol "SyncDestinationPayload" needs to be exported by the entry point index.d.ts
+// src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -4,13 +4,16 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import useTheme from '@mui/material/styles/useTheme';
 
-type Props = {
+/**
+ * @public
+ */
+export interface LogoProps {
   width?: number;
   height?: number;
   src: string;
   fallbackSrc?: string;
   alt?: string;
-};
+}
 
 const PADDING = 4;
 
@@ -19,7 +22,7 @@ const PADDING = 4;
  *
  * @public
  */
-export function Logo({ width = 24, height = 24, src, alt, fallbackSrc }: Props) {
+export function Logo({ width = 24, height = 24, src, alt, fallbackSrc }: LogoProps) {
   const { palette } = useTheme();
   const [currentSrc, setCurrentSrc] = useState(() => src);
   const [isLoaded, setIsLoaded] = useState(false);

@@ -10,14 +10,23 @@ import { useTestConnection } from './useTestConnection';
 import { cloudQueryApiBaseUrl } from '../utils/constants';
 import { isApiAbortError } from '../utils/errors';
 
-type FormValues = PluginUiMessagePayload['current_values']['values'];
+/**
+ * @public
+ */
+export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
 
-interface SyncSourcePayload {
+/**
+ * @public
+ */
+export interface FormActionsSyncSourcePayload {
   tables?: string[];
   skipTables?: string[];
 }
 
-interface SyncDestinationPayload {
+/**
+ * @public
+ */
+export interface FormActionsSyncDestinationPayload {
   writeMode?: 'append' | 'overwrite' | 'overwrite-delete-stale';
   migrateMode?: 'forced' | 'safe';
 }
@@ -43,7 +52,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   pluginTeamName: string;
   pluginName: string;
   pluginKind: PluginKind;
-  getValues: () => FormValues;
+  getValues: () => FormActionsFormValues;
   pluginVersion: string;
   isUpdating: boolean;
   apiBaseUrl?: string;
@@ -56,7 +65,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTestingConnection, setIsTestingConnection] = useState(false);
   const [submitPayload, setSubmitPayload] = useState<
-    FormValues & {
+    FormActionsFormValues & {
       connectionId: string;
     }
   >();
@@ -118,9 +127,9 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
 
   const isDataSource = useCallback(
     (
-      submitData: SyncSourcePayload | SyncDestinationPayload | undefined,
+      submitData: FormActionsSyncSourcePayload | FormActionsSyncDestinationPayload | undefined,
       pluginKind: PluginKind,
-    ): submitData is SyncSourcePayload | undefined => {
+    ): submitData is FormActionsSyncSourcePayload | undefined => {
       return pluginKind === 'source';
     },
     [],
@@ -128,7 +137,9 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
 
   const handleSubmit = useCallback(
     async (
-      submitData?: PluginKind extends 'source' ? SyncSourcePayload : SyncDestinationPayload,
+      submitData?: PluginKind extends 'source'
+        ? FormActionsSyncSourcePayload
+        : FormActionsSyncDestinationPayload,
     ) => {
       if (!submitPayload) {
         return;

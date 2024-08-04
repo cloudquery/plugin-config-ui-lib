@@ -8,7 +8,10 @@ import { FormFooterTestConnectionResult } from './testConnectionResult';
 
 type FormValues = PluginUiMessagePayload['current_values']['values'];
 
-interface Props {
+/**
+ * @public
+ */
+export interface FormFooterProps {
   /** Indicates whether the form is currently being updated */
   isUpdating: boolean;
   /** Indicates whether the connection is currently being tested */
@@ -58,7 +61,7 @@ export function FormFooter({
   onTestConnectionSuccess,
   submitLabel,
   submitDisabled,
-}: Props) {
+}: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
   return (
@@ -71,7 +74,13 @@ export function FormFooter({
             </Button>
           )}
           {!!isUpdating && (
-            <Button disabled={isBusy} color="error" onClick={onDelete} size="medium" variant="contained">
+            <Button
+              disabled={isBusy}
+              color="error"
+              onClick={onDelete}
+              size="medium"
+              variant="contained"
+            >
               {`Delete this ${pluginKind}`}
             </Button>
           )}

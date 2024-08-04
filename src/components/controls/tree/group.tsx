@@ -2,11 +2,14 @@ import React, { FC, ReactNode } from 'react';
 
 import List, { ListProps } from '@mui/material/List';
 
-interface Props extends ListProps {
+/**
+ * @public
+ */
+export interface TreeGroupProps extends ListProps {
   children: ReactNode;
 }
 
-const _TreeGroup: FC<Props> = ({ children, ...props }) => {
+const _TreeGroup: FC<TreeGroupProps> = ({ children, ...props }) => {
   return (
     <List role="group" {...props}>
       {children}
