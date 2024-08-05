@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { FormMessagePayload, PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
+import { RudderAnalytics } from '@rudderstack/analytics-js';
 
 /**
  * This hook is used to initialize the plugin UI form.
@@ -26,15 +27,29 @@ export function useFormInit(
   useEffect(() => {
     pluginUiMessageHandler.sendMessage('loaded');
 
-    return pluginUiMessageHandler.subscribeToMessageOnce('init', ({ initialValues, teamName }) => {
-      if (initialValues) {
-        setInitialValues(initialValues);
-      }
+    return pluginUiMessageHandler.subscribeToMessageOnce(
+      'init',
+      ({ initialValues, teamName, rudderstackConfig }) => {
+        if (rudderstackConfig) {
+          const rudderAnalytics = new RudderAnalytics();
+          rudderAnalytics.load(rudderstackConfig.key, rudderstackConfig.dataPlaneUrl);
 
-      setTeamName(teamName);
+          trackAllClicks(rudderAnalytics);
 
-      setInitialized(true);
-    });
+          rudderAnalytics.group(teamName, {
+            name: 'team',
+          });
+        }
+
+        if (initialValues) {
+          setInitialValues(initialValues);
+        }
+
+        setTeamName(teamName);
+
+        setInitialized(true);
+      },
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -48,4 +63,29 @@ export function useFormInit(
   }, [initialized]);
 
   return { initialized, initialValues, teamName };
+}
+
+function trackAllClicks(rudderAnalytics: RudderAnalytics) {
+  document.addEventListener(
+    'click',
+    (event: MouseEvent) => {
+      const buttonOrLink: HTMLButtonElement | HTMLAnchorElement | null = (
+        event.target as HTMLElement
+      ).closest('button, a');
+
+      if (buttonOrLink) {
+        const payload: { disabled?: boolean; text: string } = {
+          text: buttonOrLink.title || buttonOrLink.textContent || 'Unknown',
+        };
+
+        if (buttonOrLink instanceof HTMLButtonElement && buttonOrLink.disabled) {
+          payload.disabled = true;
+        }
+
+        const eventName = buttonOrLink instanceof HTMLButtonElement ? 'buttonClick' : 'linkClick';
+        rudderAnalytics.track(eventName, payload);
+      }
+    },
+    true,
+  );
 }

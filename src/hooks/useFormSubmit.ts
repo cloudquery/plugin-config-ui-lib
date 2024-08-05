@@ -5,12 +5,18 @@ import {
   PluginUiMessagePayload,
 } from '@cloudquery/plugin-config-ui-connector';
 
-interface Success {
+/**
+ * @public
+ */
+export interface FormSubmitSuccess {
   values: PluginUiMessagePayload['validation_passed']['values'];
   errors?: never;
 }
 
-interface Failure {
+/**
+ * @public
+ */
+export interface FormSubmitFailure {
   values?: never;
   errors: PluginUiMessagePayload['validation_failed']['errors'];
 }
@@ -23,7 +29,10 @@ interface Failure {
  * @public
  */
 export function useFormSubmit(
-  onValidate: () => Promise<Success | Failure> | Success | Failure,
+  onValidate: () =>
+    | Promise<FormSubmitSuccess | FormSubmitFailure>
+    | FormSubmitSuccess
+    | FormSubmitFailure,
   pluginUiMessageHandler: PluginUiMessageHandler,
 ) {
   useEffect(() => {

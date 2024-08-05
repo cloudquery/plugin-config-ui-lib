@@ -6,14 +6,24 @@ import useTheme from '@mui/material/styles/useTheme';
 
 import { usePluginSectionTableListKeyboardNavigation } from './utils/useKeyboardNavigation';
 
-interface Props extends ListItemProps {
+/**
+ * @public
+ */
+export interface TreeNodeProps extends ListItemProps {
   children: ReactNode;
   isExpanded: boolean;
   isSelected: boolean;
   onSelect: () => void;
 }
 
-const _TreeNode: FC<Props> = ({ children, isExpanded, isSelected, onSelect, sx, ...props }) => {
+const _TreeNode: FC<TreeNodeProps> = ({
+  children,
+  isExpanded,
+  isSelected,
+  onSelect,
+  sx,
+  ...props
+}) => {
   const { palette } = useTheme();
   const { handleFocus, handleKeyDown, listItemRef } =
     usePluginSectionTableListKeyboardNavigation(onSelect);

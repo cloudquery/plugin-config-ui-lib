@@ -1,6 +1,9 @@
-import { PluginTable } from "../components";
+import { PluginTable } from '../components';
 
-interface CloudQueryTable {
+/**
+ * @public
+ */
+export interface CloudQueryTable {
   name: string;
   title: string;
   description: string;
@@ -18,11 +21,11 @@ interface CloudQueryTable {
 export type CloudQueryTables = CloudQueryTable[];
 
 /**
- * useGetTables massages the output of `cloudquery tables` to recursively expand child nodes under their parents.
+ * Utility takes the output of `cloudquery tables` to recursively expand child nodes under their parents.
  *
  * @public
  */
-export const useGetTables = (tablesJson: CloudQueryTable[]): PluginTable[] => {
+export const generateTablesFromJson = (tablesJson: CloudQueryTable[]): PluginTable[] => {
   const tables: PluginTable[] = [];
 
   const addTables = (table: CloudQueryTable) => {

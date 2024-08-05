@@ -16,7 +16,10 @@ import {
 } from './utils';
 import { TreeRoot } from '../../controls/tree';
 
-interface Props {
+/**
+ * @public
+ */
+export interface TableSelectorProps {
   /**
    * This function is used to subscribe to the table values change.
    * It returns a function to unsubscribe.
@@ -30,7 +33,7 @@ interface Props {
   onChange: (value: Record<string, boolean>) => void;
   /** List of tables to display in the selector. */
   tableList: PluginTableListItem[];
-  /** Form disabled boolean */  
+  /** Form disabled boolean */
   disabled?: boolean;
 }
 
@@ -45,8 +48,8 @@ export function TableSelector({
   value = {},
   onChange,
   tableList,
-  disabled
-}: Props) {
+  disabled,
+}: TableSelectorProps) {
   const { palette } = useTheme();
 
   const [searchValue, setSearchValue] = useState('');

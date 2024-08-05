@@ -3,7 +3,10 @@ import { useCallback } from 'react';
 import Button from '@mui/material/Button';
 import { SxProps } from '@mui/system';
 
-interface Props {
+/**
+ * @public
+ */
+export interface FormFieldResetProps {
   // Whether the field is currently resetted or not
   isResetted: boolean;
   // The function to call when the field is resetted
@@ -22,7 +25,13 @@ interface Props {
  *
  * @public
  */
-export function FormFieldReset({ isResetted, onReset, onCancel, inputSelectorToFocus, sx }: Props) {
+export function FormFieldReset({
+  isResetted,
+  onReset,
+  onCancel,
+  inputSelectorToFocus,
+  sx,
+}: FormFieldResetProps) {
   const handleReset = useCallback(() => {
     onReset();
     if (inputSelectorToFocus) {

@@ -1,1 +1,1 @@
-export { TreeGroup, TreeNode, TreeRoot } from './tree';
+export * from './tree';

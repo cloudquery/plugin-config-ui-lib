@@ -14,7 +14,10 @@ type Section = {
   }[];
 };
 
-type Props = {
+/**
+ * @public
+ */
+export type RenderGuideProps = {
   sections: Section[];
   pluginUiMessageHandler: PluginUiMessageHandler;
 };
@@ -24,7 +27,7 @@ type Props = {
  *
  * @public
  */
-export function RenderGuide({ sections, pluginUiMessageHandler }: Props) {
+export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuideProps) {
   return (
     <Stack gap={3}>
       {sections.map((section, index) => (

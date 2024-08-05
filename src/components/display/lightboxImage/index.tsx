@@ -3,14 +3,18 @@ import React, { ImgHTMLAttributes, useCallback } from 'react';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
 /**
+ * @public
+ */
+export type LightboxImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+  pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
+/**
  * This component displays an image that can be opened in a lightbox.
  *
  * @public
  */
-export function LightboxImage({
-  pluginUiMessageHandler,
-  ...props
-}: ImgHTMLAttributes<HTMLImageElement> & { pluginUiMessageHandler: PluginUiMessageHandler }) {
+export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImageProps) {
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.code === 'Enter' || event.code === 'Space') {

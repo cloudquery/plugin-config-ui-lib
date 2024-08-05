@@ -1,9 +1,7 @@
-export { FormFooter } from './formFooter';
-export { LightboxImage } from './lightboxImage';
-export { SetupGuide } from './setupGuide';
-export { RenderGuide } from './setupGuide/section';
-export { FormStepper } from './formStepper';
-export { Logo } from './logo';
-export { ServiceList } from './serviceList';
-
-export type { ServiceTypes } from './serviceList';
+export { FormFooter, FormFooterProps } from './formFooter';
+export { LightboxImage, LightboxImageProps } from './lightboxImage';
+export { SetupGuide, SetupGuideProps } from './setupGuide';
+export { RenderGuide, RenderGuideProps } from './setupGuide/section';
+export { FormStepper, SyncFormStepIconProps } from './formStepper';
+export { Logo, LogoProps } from './logo';
+export { ServiceList, ServiceListProps, ServiceTypes } from './serviceList';

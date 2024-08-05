@@ -6,12 +6,12 @@ import StepLabel from '@mui/material/StepLabel';
 import Stepper from '@mui/material/Stepper';
 import useTheme from '@mui/material/styles/useTheme';
 
-function SyncFormStepIcon({
-  active,
-  className,
-  completed,
-  label,
-}: StepIconProps & { label: string }) {
+/**
+ * @public
+ */
+export type SyncFormStepIconProps = StepIconProps & { label: string };
+
+function SyncFormStepIcon({ active, className, completed, label }: SyncFormStepIconProps) {
   const theme = useTheme();
 
   return (

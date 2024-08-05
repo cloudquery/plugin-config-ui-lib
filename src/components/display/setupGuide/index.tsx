@@ -10,7 +10,10 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-interface Props {
+/**
+ * @public
+ */
+export interface SetupGuideProps {
   docsLink?: string;
   title: string;
   maxHeight?: number;
@@ -29,7 +32,7 @@ export function SetupGuide({
   children,
   maxHeight,
   pluginUiMessageHandler,
-}: Props) {
+}: SetupGuideProps) {
   return (
     <Card>
       <CardContent>

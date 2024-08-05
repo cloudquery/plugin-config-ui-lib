@@ -5,7 +5,10 @@ import CardContent, { cardContentClasses } from '@mui/material/CardContent';
 import CardHeader, { cardHeaderClasses } from '@mui/material/CardHeader';
 import Stack from '@mui/material/Stack';
 
-interface Props {
+/**
+ * @public
+ */
+export interface FormFieldGroupProps {
   children: ReactNode;
   subheader?: ReactNode;
   title?: ReactNode;
@@ -16,7 +19,7 @@ interface Props {
  *
  * @public
  */
-export function FormFieldGroup({ children, subheader, title }: Props) {
+export function FormFieldGroup({ children, subheader, title }: FormFieldGroupProps) {
   return (
     <Card>
       <CardHeader subheader={subheader} title={title} />
