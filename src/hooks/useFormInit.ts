@@ -19,6 +19,7 @@ export function useFormInit(
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
   teamName: string;
 } {
+  const [context, setContext] = useState<FormMessagePayload['init']['context'] | undefined>();
   const [initialized, setInitialized] = useState(false);
   const [initialValues, setInitialValues] = useState<
     FormMessagePayload['init']['initialValues'] | undefined
@@ -29,7 +30,7 @@ export function useFormInit(
 
     return pluginUiMessageHandler.subscribeToMessageOnce(
       'init',
-      ({ initialValues, teamName, rudderstackConfig }) => {
+      ({ initialValues, teamName, rudderstackConfig, context }) => {
         if (rudderstackConfig) {
           const rudderAnalytics = new RudderAnalytics();
           rudderAnalytics.load(rudderstackConfig.key, rudderstackConfig.dataPlaneUrl);
@@ -48,6 +49,8 @@ export function useFormInit(
         setTeamName(teamName);
 
         setInitialized(true);
+
+        setContext(context);
       },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

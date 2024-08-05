@@ -34,6 +34,7 @@ describe('usePluginUiFormInit', () => {
       formMessageHandler.sendMessage('init', {
         initialValues: undefined,
         teamName: 'test',
+        context: 'wizard'
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -71,6 +72,7 @@ describe('usePluginUiFormInit', () => {
           writeMode: 'append',
         },
         teamName: 'test',
+        context: 'wizard'
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -90,6 +92,7 @@ describe('usePluginUiFormInit', () => {
         name: 'test',
       },
       teamName: 'test',
+      context: 'wizard'
     });
   });
 
@@ -122,6 +125,7 @@ describe('usePluginUiFormInit', () => {
           writeMode: 'append',
         },
         teamName: 'test',
+        context: 'wizard'
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -141,6 +145,7 @@ describe('usePluginUiFormInit', () => {
         name: 'test',
       },
       teamName: 'test',
+      context: 'wizard'
     });
   });
 });
