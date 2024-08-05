@@ -3,7 +3,7 @@ import { generateTablesFromJson } from '../generateTablesFromJson';
 
 const tablesJson = require('./data/cqTables.json')
 
-describe('useGetTables', () => {
+describe('generateTablesFromJson', () => {
   test('should flatten n-level nested table definition', async () => {
 
     const flatTables = generateTablesFromJson(tablesJson)
