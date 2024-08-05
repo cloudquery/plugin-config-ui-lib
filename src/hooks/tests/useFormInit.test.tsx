@@ -44,6 +44,7 @@ describe('usePluginUiFormInit', () => {
       initialized: true,
       initialValues: undefined,
       teamName: 'test',
+      context: 'wizard'
     });
   });
 

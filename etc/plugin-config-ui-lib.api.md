@@ -394,6 +394,7 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
     teamName: string;
+    context: FormMessagePayload['init']['context'] | undefined;
 };
 
 // Warning: (ae-forgotten-export) The symbol "FormSubmitSuccess" needs to be exported by the entry point index.d.ts
