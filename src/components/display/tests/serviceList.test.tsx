@@ -22,7 +22,7 @@ const defaultProps = {
   onChange: jest.fn(), 
 };
 
-describe('ExclusiveToggle Component', () => {
+describe('ServiceList Component', () => {
   test('renders correctly with given props', () => {
     renderWithTheme(<ServiceList {...defaultProps} />);
 
