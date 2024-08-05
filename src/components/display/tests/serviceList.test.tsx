@@ -50,29 +50,4 @@ describe('ExclusiveToggle Component', () => {
     fireEvent.click(screen.getByRole('button', {name : 'Option 8 Option 8'}));
     expect(defaultProps.onChange).toHaveBeenCalledWith(newValue);
   });
-
-  // test('item styles are correct based on selection', () => {
-  //   renderWithTheme(<ExclusiveToggle {...defaultProps} />);
-
-  //   for (const item of options) {
-  //     const expectedOpacity = item.value === defaultProps.value ? '1' : '0.8';
-  //     expect(screen.getByText(item.label)).toHaveStyle(`opacity: ${expectedOpacity}`);
-  //     if (item.description) {
-  //       expect(screen.getByText(item.description)).toHaveStyle(`opacity: ${expectedOpacity}`);
-  //     }
-  //   }
-  // });
-
-  // test('changes theme styles correctly', () => {
-  //   renderWithTheme(<ExclusiveToggle {...defaultProps} />);
-
-  //   for (const item of options) {
-  //     const isSelected = item.value === defaultProps.value;
-  //     const expectedColor = isSelected ? theme.palette.text.primary : theme.palette.text.secondary;
-  //     expect(screen.getByText(item.label)).toHaveStyle(`color: ${expectedColor}`);
-  //     if (item.description) {
-  //       expect(screen.getByText(item.description)).toHaveStyle(`color: ${expectedColor}`);
-  //     }
-  //   }
-  // });
 });
