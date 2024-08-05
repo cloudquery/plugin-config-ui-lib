@@ -131,6 +131,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: C
           }
         : undefined,
       teamName,
+      context: 'wizard'
     });
 
     const unsubscribeReady = formMessageHandler.subscribeToMessageOnce(
