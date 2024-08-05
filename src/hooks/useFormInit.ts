@@ -18,6 +18,7 @@ export function useFormInit(
   initialized: boolean;
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
   teamName: string;
+  context: FormMessagePayload['init']['context'] | undefined;
 } {
   const [context, setContext] = useState<FormMessagePayload['init']['context'] | undefined>();
   const [initialized, setInitialized] = useState(false);
@@ -65,7 +66,7 @@ export function useFormInit(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized]);
 
-  return { initialized, initialValues, teamName };
+  return { initialized, initialValues, teamName, context};
 }
 
 function trackAllClicks(rudderAnalytics: RudderAnalytics) {
