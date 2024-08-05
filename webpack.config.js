@@ -41,7 +41,13 @@ module.exports = {
       extractComments: false,
       terserOptions: {
         format: {
-          comments: false,
+          comments: (_, comment) => {
+            // Preserve webpackIgnore comments
+            if (/webpackIgnore:/.test(comment.value)) {
+              return true;
+            }
+            return false;
+          },
         },
       },
     })],
