@@ -35,13 +35,11 @@ interface Props {
 export function CodeSnippet({ text }: Props) {
   const { palette } = useTheme();
 
-  const html = useMemo(() => {
+  const code = useMemo(() => {
     try {
-      const json = JSON.stringify(JSON.parse(text), undefined, 4);
-
-      return syntaxHighlight(json);
+      return JSON.stringify(JSON.parse(text), undefined, 4);
     } catch {
-      return syntaxHighlight(text);
+      return text;
     }
   }, [text]);
 
@@ -56,10 +54,10 @@ export function CodeSnippet({ text }: Props) {
     >
       <pre
         dangerouslySetInnerHTML={{
-          __html: html,
+          __html: syntaxHighlight(code),
         }}
       />
-      <CopyToClipboardButton text={html} />
+      <CopyToClipboardButton text={code} />
     </Box>
   );
 }
