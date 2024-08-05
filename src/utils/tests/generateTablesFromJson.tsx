@@ -1,14 +1,12 @@
 
-import { renderHook } from '@testing-library/react';
-import { useGetTables } from '../useGetTables';
+import { generateTablesFromJson } from '../generateTablesFromJson';
 
 const tablesJson = require('./data/cqTables.json')
 
 describe('useGetTables', () => {
   test('should flatten n-level nested table definition', async () => {
 
-    const { result } = renderHook(() => useGetTables(tablesJson));
-    const flatTables = result.current;
+    const flatTables = generateTablesFromJson(tablesJson)
 
     expect(flatTables.length).toBe(10);
     expect(flatTables.find(table => table.name === 'github_repositories')?.relations).toMatchObject([
