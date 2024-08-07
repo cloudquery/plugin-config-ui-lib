@@ -22,6 +22,7 @@ describe('usePluginUiFormInit', () => {
       initialized: false,
       initialValues: undefined,
       teamName: '',
+      isManagedDestination: false,
     });
 
     await act(async () => {
@@ -34,7 +35,7 @@ describe('usePluginUiFormInit', () => {
       formMessageHandler.sendMessage('init', {
         initialValues: undefined,
         teamName: 'test',
-        context: 'wizard'
+        context: 'wizard',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -44,14 +45,20 @@ describe('usePluginUiFormInit', () => {
       initialized: true,
       initialValues: undefined,
       teamName: 'test',
-      context: 'wizard'
+      context: 'wizard',
+      isManagedDestination: false,
     });
   });
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
     const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
-    expect(result.current).toEqual({ initialized: false, initialValues: undefined, teamName: '' });
+    expect(result.current).toEqual({
+      initialized: false,
+      initialValues: undefined,
+      teamName: '',
+      isManagedDestination: false,
+    });
 
     await act(async () => {
       const formMessageHandler = new MessageHandler<
@@ -73,7 +80,7 @@ describe('usePluginUiFormInit', () => {
           writeMode: 'append',
         },
         teamName: 'test',
-        context: 'wizard'
+        context: 'wizard',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -93,7 +100,8 @@ describe('usePluginUiFormInit', () => {
         name: 'test',
       },
       teamName: 'test',
-      context: 'wizard'
+      context: 'wizard',
+      isManagedDestination: false,
     });
   });
 
@@ -104,6 +112,7 @@ describe('usePluginUiFormInit', () => {
       initialized: false,
       initialValues: undefined,
       teamName: '',
+      isManagedDestination: false,
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -126,7 +135,7 @@ describe('usePluginUiFormInit', () => {
           writeMode: 'append',
         },
         teamName: 'test',
-        context: 'wizard'
+        context: 'wizard',
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -146,7 +155,8 @@ describe('usePluginUiFormInit', () => {
         name: 'test',
       },
       teamName: 'test',
-      context: 'wizard'
+      context: 'wizard',
+      isManagedDestination: false,
     });
   });
 });
