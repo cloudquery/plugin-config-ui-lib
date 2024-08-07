@@ -9,6 +9,7 @@ import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
+import { LinkProps as LinkProps_2 } from '@mui/material/Link';
 import { ListItemProps } from '@mui/material/ListItem';
 import { ListProps } from '@mui/material/List';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
@@ -168,6 +169,16 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
 
 // @public (undocumented)
 export type LightboxImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
+// @public
+export function Link({ children, href, pluginUiMessageHandler, ...linkProps }: LinkProps): JSX_2.Element;
+
+// @public (undocumented)
+export type LinkProps = Omit<LinkProps_2, 'onClick' | 'children' | 'href'> & {
+    children: ReactNode;
+    href: string;
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
