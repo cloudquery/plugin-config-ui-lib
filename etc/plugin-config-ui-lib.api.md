@@ -9,6 +9,7 @@ import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
+import { LinkProps } from '@mui/material/Link';
 import { ListItemProps } from '@mui/material/ListItem';
 import { ListProps } from '@mui/material/List';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
@@ -187,6 +188,16 @@ export interface LogoProps {
     // (undocumented)
     width?: number;
 }
+
+// @public
+export function PluginLink({ children, href, pluginUiMessageHandler, ...linkProps }: PluginLinkProps): JSX_2.Element;
+
+// @public (undocumented)
+export type PluginLinkProps = Omit<LinkProps, 'onClick' | 'children' | 'href'> & {
+    children: ReactNode;
+    href: string;
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
 
 // @public
 export interface PluginTable {
