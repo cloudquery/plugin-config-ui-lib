@@ -19,6 +19,7 @@ export function useFormInit(
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
   teamName: string;
   context: FormMessagePayload['init']['context'] | undefined;
+  isManagedDestination: boolean;
 } {
   const [context, setContext] = useState<FormMessagePayload['init']['context'] | undefined>();
   const [initialized, setInitialized] = useState(false);
@@ -26,12 +27,14 @@ export function useFormInit(
     FormMessagePayload['init']['initialValues'] | undefined
   >();
   const [teamName, setTeamName] = useState<string>('');
+  const [isManagedDestination, setIsManagedDestination] = useState(false);
+
   useEffect(() => {
     pluginUiMessageHandler.sendMessage('loaded');
 
     return pluginUiMessageHandler.subscribeToMessageOnce(
       'init',
-      ({ initialValues, teamName, rudderstackConfig, context }) => {
+      ({ initialValues, teamName, rudderstackConfig, context, isManagedDestination }) => {
         if (rudderstackConfig) {
           const rudderAnalytics = new RudderAnalytics();
           rudderAnalytics.load(rudderstackConfig.key, rudderstackConfig.dataPlaneUrl);
@@ -48,10 +51,10 @@ export function useFormInit(
         }
 
         setTeamName(teamName);
+        setContext(context);
+        setIsManagedDestination(!!isManagedDestination);
 
         setInitialized(true);
-
-        setContext(context);
       },
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,7 +69,7 @@ export function useFormInit(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized]);
 
-  return { initialized, initialValues, teamName, context};
+  return { initialized, initialValues, teamName, context, isManagedDestination };
 }
 
 function trackAllClicks(rudderAnalytics: RudderAnalytics) {
