@@ -1,11 +1,11 @@
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
-import Link, { LinkProps } from '@mui/material/Link';
+import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 import React, { ReactNode } from 'react';
 
 /**
  * @public
  */
-export type PluginLinkProps = Omit<LinkProps, 'onClick' | 'children' | 'href'> & {
+export type LinkProps = Omit<MuiLinkProps, 'onClick' | 'children' | 'href'> & {
   children: ReactNode;
   href: string;
   pluginUiMessageHandler: PluginUiMessageHandler;
@@ -16,9 +16,9 @@ export type PluginLinkProps = Omit<LinkProps, 'onClick' | 'children' | 'href'> &
  *
  * @public
  */
-export function PluginLink({ children, href, pluginUiMessageHandler, ...linkProps }: PluginLinkProps) {
+export function Link({ children, href, pluginUiMessageHandler, ...linkProps }: LinkProps) {
   return (
-    <Link
+    <MuiLink
       {...linkProps}
       sx={{ cursor: 'pointer', ...(linkProps.sx) }}
       onClick={() => {
@@ -28,6 +28,6 @@ export function PluginLink({ children, href, pluginUiMessageHandler, ...linkProp
       }}
     >
       {children}
-    </Link>
+    </MuiLink>
   );
 }
