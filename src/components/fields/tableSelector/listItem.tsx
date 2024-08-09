@@ -72,7 +72,7 @@ const _TableSelectorListItem: FC<Props> = ({
         />
       </Stack>
       {tableListItem.relationTables.length > 0 && (
-        <TreeGroup sx={{ padding: 0 }}>
+        <TreeGroup sx={{ padding: 0, paddingY: 0 }}>
           {tableListItem.relationTables.map((relationTable) => (
             <TableSelectorListItem
               key={`${relationTable.parent}-${relationTable.name}`}

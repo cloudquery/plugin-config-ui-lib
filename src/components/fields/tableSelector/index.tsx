@@ -114,7 +114,7 @@ export function TableSelector({
   const noResults = filteredTableList.length === 0;
 
   const numberOfSelectedTables = Object.values(value).filter(Boolean).length;
-  const maxHeight = Math.min(tableList.length, 11) * 38;
+  const maxHeight = Math.min(tableList.length, 11) * 40;
 
   return (
     <Box
@@ -155,7 +155,7 @@ export function TableSelector({
       />
       <Box height={`min(${maxHeight}px, 90vh)`} maxHeight="90vh" overflow="auto">
         {!noResults && (
-          <TreeRoot sx={{ maxWidth: '100%' }}>
+          <TreeRoot sx={{ maxWidth: '100%', paddingY: 0 }}>
             {filteredTableList.map((table) => (
               <TableSelectorListItem
                 key={`${table.parent}-${table.name}`}
