@@ -14,6 +14,18 @@ import { renderHook } from '@testing-library/react';
 
 import { useFormInit } from '../useFormInit';
 
+const emptyUser = {
+  name: '',
+  email: '',
+  id: '',
+};
+
+const exampleUser = {
+  name: 'test',
+  email: 'test',
+  id: 'test',
+};
+
 describe('usePluginUiFormInit', () => {
   test('no initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
@@ -23,6 +35,7 @@ describe('usePluginUiFormInit', () => {
       initialValues: undefined,
       teamName: '',
       isManagedDestination: false,
+      user: emptyUser,
     });
 
     await act(async () => {
@@ -36,6 +49,7 @@ describe('usePluginUiFormInit', () => {
         initialValues: undefined,
         teamName: 'test',
         context: 'wizard',
+        user: exampleUser,
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -47,6 +61,7 @@ describe('usePluginUiFormInit', () => {
       teamName: 'test',
       context: 'wizard',
       isManagedDestination: false,
+      user: exampleUser,
     });
   });
 
@@ -58,6 +73,7 @@ describe('usePluginUiFormInit', () => {
       initialValues: undefined,
       teamName: '',
       isManagedDestination: false,
+      user: emptyUser,
     });
 
     await act(async () => {
@@ -81,6 +97,7 @@ describe('usePluginUiFormInit', () => {
         },
         teamName: 'test',
         context: 'wizard',
+        user: exampleUser,
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -102,6 +119,7 @@ describe('usePluginUiFormInit', () => {
       teamName: 'test',
       context: 'wizard',
       isManagedDestination: false,
+      user: exampleUser,
     });
   });
 
@@ -113,6 +131,7 @@ describe('usePluginUiFormInit', () => {
       initialValues: undefined,
       teamName: '',
       isManagedDestination: false,
+      user: emptyUser,
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -136,6 +155,7 @@ describe('usePluginUiFormInit', () => {
         },
         teamName: 'test',
         context: 'wizard',
+        user: exampleUser,
       });
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -157,6 +177,7 @@ describe('usePluginUiFormInit', () => {
       teamName: 'test',
       context: 'wizard',
       isManagedDestination: false,
+      user: exampleUser,
     });
   });
 });

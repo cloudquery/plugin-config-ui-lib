@@ -20,6 +20,7 @@ export function useFormInit(
   teamName: string;
   context: FormMessagePayload['init']['context'] | undefined;
   isManagedDestination: boolean;
+  user: { id: string; name: string; email: string };
 } {
   const [context, setContext] = useState<FormMessagePayload['init']['context'] | undefined>();
   const [initialized, setInitialized] = useState(false);
@@ -27,6 +28,7 @@ export function useFormInit(
     FormMessagePayload['init']['initialValues'] | undefined
   >();
   const [teamName, setTeamName] = useState<string>('');
+  const [user, setUser] = useState({ id: '', name: '', email: '' });
   const [isManagedDestination, setIsManagedDestination] = useState(false);
 
   useEffect(() => {
@@ -34,17 +36,24 @@ export function useFormInit(
 
     return pluginUiMessageHandler.subscribeToMessageOnce(
       'init',
-      ({ initialValues, teamName, rudderstackConfig, context, isManagedDestination }) => {
+      ({ initialValues, teamName, rudderstackConfig, context, isManagedDestination, user }) => {
         if (rudderstackConfig) {
           const rudderAnalytics = new RudderAnalytics();
           rudderAnalytics.load(rudderstackConfig.key, rudderstackConfig.dataPlaneUrl);
 
-          trackAllClicks(rudderAnalytics);
+          rudderAnalytics.identify(user.id, {
+            email: user.email,
+            name: user.name,
+          });
 
           rudderAnalytics.group(teamName, {
             name: 'team',
           });
+
+          trackAllClicks(rudderAnalytics);
         }
+
+        setUser(user);
 
         if (initialValues) {
           setInitialValues(initialValues);
@@ -69,7 +78,7 @@ export function useFormInit(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized]);
 
-  return { initialized, initialValues, teamName, context, isManagedDestination };
+  return { initialized, initialValues, teamName, context, isManagedDestination, user };
 }
 
 function trackAllClicks(rudderAnalytics: RudderAnalytics) {
