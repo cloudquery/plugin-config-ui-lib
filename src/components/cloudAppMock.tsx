@@ -45,6 +45,8 @@ export interface CloudAppMockProps {
   authToken?: string;
   /** Team name for the form */
   teamName: string;
+  /** User information */
+  user: { id: string; name: string; email: string };
 }
 
 const formMessageHandler = new MessageHandler<
@@ -60,7 +62,13 @@ const formMessageHandler = new MessageHandler<
  *
  * @public
  */
-export function CloudAppMock({ children, initialValues, authToken, teamName }: CloudAppMockProps) {
+export function CloudAppMock({
+  children,
+  initialValues,
+  authToken,
+  teamName,
+  user,
+}: CloudAppMockProps) {
   const { palette, typography, shadows } = useTheme();
   const [values, setValues] = useState<string>('');
   const [errors, setErrors] = useState<string>('');
@@ -131,7 +139,8 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: C
           }
         : undefined,
       teamName,
-      context: 'wizard'
+      context: 'wizard',
+      user,
     });
 
     const unsubscribeReady = formMessageHandler.subscribeToMessageOnce(
@@ -253,7 +262,7 @@ export function CloudAppMock({ children, initialValues, authToken, teamName }: C
       unsubscribeShowToast();
       unsubscribeClose?.();
     };
-  }, [authToken, initialValues, teamName]);
+  }, [authToken, initialValues, teamName, user]);
 
   useEffect(() => {
     if (searchParams.size > 0 && window.opener) {

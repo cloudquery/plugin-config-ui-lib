@@ -24,7 +24,7 @@ import { TextFieldProps } from '@mui/material/TextField';
 // Warning: (ae-forgotten-export) The symbol "CloudAppMockProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function CloudAppMock({ children, initialValues, authToken, teamName }: CloudAppMockProps): JSX_2.Element;
+export function CloudAppMock({ children, initialValues, authToken, teamName, user, }: CloudAppMockProps): JSX_2.Element;
 
 // @public
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
@@ -407,6 +407,11 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
     teamName: string;
     context: FormMessagePayload['init']['context'] | undefined;
     isManagedDestination: boolean;
+    user: {
+        id: string;
+        name: string;
+        email: string;
+    };
 };
 
 // Warning: (ae-forgotten-export) The symbol "FormSubmitSuccess" needs to be exported by the entry point index.d.ts
