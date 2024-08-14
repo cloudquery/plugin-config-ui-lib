@@ -10,4 +10,4 @@ export const cloudQueryApiBaseUrl = 'https://api.cloudquery.io';
  *
  * @public
  */
-export const cloudQueryOauthConnectorUrl = 'https://cloud.cloudquery.io/auth/connector';
+export const cloudQueryOauthConnectorUrl = `https://${window.location.hostname}/auth/connector`;
