@@ -1,6 +1,5 @@
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
@@ -67,12 +66,7 @@ export function FormFooter({
   return (
     <Stack spacing={4}>
       <Stack direction="row" justifyContent="space-between" marginTop={4} spacing={2}>
-        <Box>
-          {!isUpdating && (
-            <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
-              Previous step
-            </Button>
-          )}
+        <Stack alignItems="center" direction="row" spacing={2}> 
           {!!isUpdating && (
             <Button
               disabled={isBusy}
@@ -84,7 +78,10 @@ export function FormFooter({
               {`Delete this ${pluginKind}`}
             </Button>
           )}
-        </Box>
+          <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
+            Previous step
+          </Button>
+        </Stack>
         <Stack alignItems="center" direction="row" spacing={2}>
           <Button disabled={isBusy} onClick={onCancel} size="medium">
             Cancel
