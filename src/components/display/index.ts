@@ -1,4 +1,5 @@
 export { FormFooter, FormFooterProps } from './formFooter';
+export { FormWrapper, FormWrapperProps } from './formWrapper';
 export { LightboxImage, LightboxImageProps } from './lightboxImage';
 export { SetupGuide, SetupGuideProps } from './setupGuide';
 export { RenderGuide, RenderGuideProps } from './setupGuide/section';

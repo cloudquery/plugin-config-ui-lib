@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   PluginUiMessageHandler,
@@ -34,9 +34,12 @@ export function useFormSubmit(
     | FormSubmitSuccess
     | FormSubmitFailure,
   pluginUiMessageHandler: PluginUiMessageHandler,
-) {
+): { formDisabled: boolean } {
+  const [formDisabled, setFormDisabled] = useState(false);
+
   useEffect(() => {
     const handleValidate = async () => {
+      setFormDisabled(true);
       const { errors, values } = await onValidate();
 
       if (errors) {
@@ -48,8 +51,11 @@ export function useFormSubmit(
           values,
         });
       }
+      setFormDisabled(false);
     };
 
     return pluginUiMessageHandler.subscribeToMessage('validate', handleValidate);
-  }, [onValidate, pluginUiMessageHandler]);
+  }, [onValidate, pluginUiMessageHandler, setFormDisabled]);
+
+  return { formDisabled };
 }

@@ -7,6 +7,7 @@
 import { BoxProps } from '@mui/material/Box';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ForwardRefExoticComponent } from 'react';
+import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { LinkProps as LinkProps_2 } from '@mui/material/Link';
@@ -17,6 +18,7 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
 import { ReactNode } from 'react';
 import { RefAttributes } from 'react';
+import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { SxProps } from '@mui/system';
 import { TextFieldProps } from '@mui/material/TextField';
@@ -147,6 +149,15 @@ export interface FormFooterProps {
 export function FormStepper({ steps, activeIndex, setActiveIndex }: Props): JSX_2.Element;
 
 // @public
+export function FormWrapper({ children, formDisabled }: FormWrapperProps): JSX_2.Element;
+
+// @public (undocumented)
+export type FormWrapperProps = {
+    children: ReactNode;
+    formDisabled: boolean;
+};
+
+// @public
 export function generateApiAbortError(message?: string): Error;
 
 // @public
@@ -197,6 +208,31 @@ export interface LogoProps {
     src: string;
     // (undocumented)
     width?: number;
+}
+
+// @public
+export function MultiAutocomplete({ label, disabled, value, onChange, onBlur, name, ref, helperText, error, }: MultiAutocompleteProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface MultiAutocompleteProps {
+    // (undocumented)
+    disabled?: boolean | undefined;
+    // (undocumented)
+    error?: boolean;
+    // (undocumented)
+    helperText?: ReturnType<typeof getFieldHelperText>;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    onBlur: () => void;
+    // (undocumented)
+    onChange: (value: any) => void;
+    // (undocumented)
+    ref: RefCallback<HTMLInputElement>;
+    // (undocumented)
+    value: any;
 }
 
 // @public
@@ -418,7 +454,9 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
 // Warning: (ae-forgotten-export) The symbol "FormSubmitFailure" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): void;
+export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): {
+    formDisabled: boolean;
+};
 
 // @public
 export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
