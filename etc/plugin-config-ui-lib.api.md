@@ -150,6 +150,9 @@ export function FormStepper({ steps, activeIndex, setActiveIndex }: Props): JSX_
 export function generateApiAbortError(message?: string): Error;
 
 // @public
+export function generateDisplayName(pluginDisplayName: string): string;
+
+// @public
 export function generateName(pluginName: string): string;
 
 // @public
