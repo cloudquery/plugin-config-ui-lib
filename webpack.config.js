@@ -21,12 +21,11 @@ module.exports = {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
     libraryTarget: 'umd',
-    globalObject: 'this'
+    globalObject: 'this',
   },
   externals: [
     'react',
     'react-dom',
-    'react-hook-form',
     /^@mui\/material.*/,
     /^@mui\/icons-material.*/,
     /^@mui\/lab.*/,
@@ -37,19 +36,21 @@ module.exports = {
     'humanize-string',
   ],
   optimization: {
-    minimizer: [new TerserPlugin({
-      extractComments: false,
-      terserOptions: {
-        format: {
-          comments: (_, comment) => {
-            // Preserve webpackIgnore comments
-            if (/webpackIgnore:/.test(comment.value)) {
-              return true;
-            }
-            return false;
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+        terserOptions: {
+          format: {
+            comments: (_, comment) => {
+              // Preserve webpackIgnore comments
+              if (/webpackIgnore:/.test(comment.value)) {
+                return true;
+              }
+              return false;
+            },
           },
         },
-      },
-    })],
+      }),
+    ],
   },
 };

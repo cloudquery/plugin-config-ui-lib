@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "0.0.58",
+  "version": "0.0.59",
   "private": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -46,7 +46,6 @@
     "@mui/material": "^5.15.20",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.52.0",
     "react-hot-toast": "^2.4.1",
     "yaml": "^2.5.0"
   },
@@ -81,7 +80,6 @@
     "prettier": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.52.0",
     "react-hot-toast": "^2.4.1",
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^5.0.7",
@@ -94,7 +92,7 @@
     "yaml": "^2.5.0"
   },
   "dependencies": {
-    "@cloudquery/cloud-ui": "^0.1.8",
+    "@cloudquery/cloud-ui": "^0.1.13",
     "@rudderstack/analytics-js": "3.7.6"
   }
 }
