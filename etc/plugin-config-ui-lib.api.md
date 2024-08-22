@@ -5,8 +5,10 @@
 ```ts
 
 import { BoxProps } from '@mui/material/Box';
+import { ChangeEventHandler } from 'react';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { ForwardRefExoticComponent } from 'react';
+import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { LinkProps as LinkProps_2 } from '@mui/material/Link';
@@ -17,6 +19,7 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
 import { ReactNode } from 'react';
 import { RefAttributes } from 'react';
+import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { SxProps } from '@mui/system';
 import { TextFieldProps } from '@mui/material/TextField';
@@ -147,6 +150,15 @@ export interface FormFooterProps {
 export function FormStepper({ steps, activeIndex, setActiveIndex }: Props): JSX_2.Element;
 
 // @public
+export function FormWrapper({ children, formDisabled }: FormWrapperProps): JSX_2.Element;
+
+// @public (undocumented)
+export type FormWrapperProps = {
+    children: ReactNode;
+    formDisabled: boolean;
+};
+
+// @public
 export function generateApiAbortError(message?: string): Error;
 
 // @public
@@ -203,6 +215,31 @@ export interface LogoProps {
 }
 
 // @public
+export function MultiAutocomplete({ label, disabled, value, onChange, onBlur, name, ref, helperText, error, }: MultiAutocompleteProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface MultiAutocompleteProps {
+    // (undocumented)
+    disabled?: boolean | undefined;
+    // (undocumented)
+    error?: boolean;
+    // (undocumented)
+    helperText?: ReturnType<typeof getFieldHelperText>;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    onBlur: () => void;
+    // (undocumented)
+    onChange: (value: any) => void;
+    // (undocumented)
+    ref: RefCallback<HTMLInputElement>;
+    // (undocumented)
+    value: any;
+}
+
+// @public
 export interface PluginTable {
     description: string;
     is_incremental: boolean;
@@ -229,6 +266,12 @@ export interface PluginTableListItem {
 }
 
 // @public
+export function readSecretsFromInitialValues<T extends object>(defaultEnv: T, apiEnv?: {
+    name: string;
+    value: string;
+}[]): T;
+
+// @public
 export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuideProps): JSX_2.Element;
 
 // @public (undocumented)
@@ -242,6 +285,41 @@ export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
 
 // @public
 export function SearchField(props: TextFieldProps): JSX_2.Element;
+
+// @public
+export function SecretField({ name, label, disabled, value, onChange, onBlur, editMode, defaultValues, textFieldProps, setValue, getValues, error, helperText, }: SecretFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SecretFieldProps {
+    // (undocumented)
+    defaultValues: any;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    editMode: boolean;
+    // (undocumented)
+    error?: boolean;
+    // (undocumented)
+    getValues: (name?: string) => any;
+    // (undocumented)
+    helperText?: ReturnType<typeof getFieldHelperText>;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    onBlur?: () => void;
+    // (undocumented)
+    onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
+    // (undocumented)
+    ref: RefCallback<HTMLInputElement>;
+    // (undocumented)
+    setValue: (name: string, value: any) => void;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+    // (undocumented)
+    value: any;
+}
 
 // @public
 export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, }: ServiceListProps): JSX_2.Element;
@@ -421,7 +499,9 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
 // Warning: (ae-forgotten-export) The symbol "FormSubmitFailure" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): void;
+export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): {
+    formDisabled: boolean;
+};
 
 // @public
 export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
@@ -454,6 +534,15 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         }>;
         connector_id?: string;
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
+};
+
+// @public
+export function writeSecretsToPrepareValues(env?: Record<string, string>): {
+    envs: {
+        name: string;
+        value: string;
+    }[];
+    spec: Record<string, string>;
 };
 
 // Warnings were encountered during analysis:
