@@ -8,3 +8,4 @@ export { getRandomId } from './getRandomId';
 export { generatePluginTableList } from './generatePluginTableList';
 export { generateTablesFromJson } from './generateTablesFromJson';
 export { readSecretsFromInitialValues, writeSecretsToPrepareValues } from './processEnvSecrets';
+export { convertStringToSlug } from './convertStringToSlug';
