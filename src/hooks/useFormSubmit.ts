@@ -45,6 +45,7 @@ export function useFormSubmit(
 
   useEffect(() => {
     const handleValidate = async () => {
+      setFormDisabled(true);
       const { errors, values } = await onValidate();
 
       if (errors) {
@@ -56,6 +57,7 @@ export function useFormSubmit(
           values,
         });
       }
+      setFormDisabled(false);
     };
 
     return pluginUiMessageHandler.subscribeToMessage('validate', handleValidate);
