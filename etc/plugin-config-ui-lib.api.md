@@ -457,6 +457,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     testConnectionError: string | undefined;
     submitPayload: ({
         name: string;
+        displayName?: string;
         migrateMode?: "forced" | "safe";
         envs: Array<{
             name: string;

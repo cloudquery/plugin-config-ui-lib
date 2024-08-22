@@ -83,6 +83,10 @@ export function CloudAppMock({
     let unsubscribeValidationPassed: (() => void) | undefined;
     let unsubscribeValidationFailed: (() => void) | undefined;
 
+    formMessageHandler.sendMessage('is_busy', {
+      status: true,
+    });
+
     try {
       const values = await new Promise((resolve, reject) => {
         unsubscribeValidationPassed = formMessageHandler.subscribeToMessageOnce(
@@ -109,6 +113,10 @@ export function CloudAppMock({
       setValues('');
       setErrors(JSON.stringify(error, null, 2));
     }
+
+    formMessageHandler.sendMessage('is_busy', {
+      status: false,
+    });
   };
 
   const handleLightboxClose = useCallback(() => {
