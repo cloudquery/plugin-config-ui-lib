@@ -57,6 +57,9 @@ export interface CloudQueryTable {
 export type CloudQueryTables = CloudQueryTable[];
 
 // @public
+export function convertStringToSlug(value: string): string;
+
+// @public
 export const ExclusiveToggle: ForwardRefExoticComponent<ExclusiveToggleProps & RefAttributes<HTMLElement>>;
 
 // @public (undocumented)
