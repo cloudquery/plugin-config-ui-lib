@@ -80,13 +80,9 @@ describe('usePluginUiFormSubmit', () => {
   });
 
   test('formDisabled state', async () => {
-    const onValidate = jest.fn(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-
-      expect(result.current.formDisabled).toBe(true);
-
-      return Promise.resolve({ values: { email: 'john@doe.com', name: 'John Doe' } });
-    });
+    const onValidate = jest.fn(() =>
+      Promise.resolve({ values: { email: 'john@doe.com', name: 'John Doe' } }),
+    );
 
     const { result } = renderHook(() =>
       useFormSubmit(onValidate as any, getPluginUiMessageHandler()),
@@ -95,25 +91,19 @@ describe('usePluginUiFormSubmit', () => {
     expect(result.current.formDisabled).toBe(false);
 
     await act(async () => {
-      formMessageHandler.sendMessage('validate');
-
-      originalPostMessage = window.parent.postMessage;
-      window.parent.postMessage = jest.fn();
-      jest.spyOn(window, 'addEventListener');
+      formMessageHandler.sendMessage('is_busy', { status: true });
 
       await new Promise((resolve) => setTimeout(resolve, 100));
     });
 
-    await expect(onValidate).toHaveBeenCalledTimes(1);
-    expect(window.parent.postMessage).toHaveBeenCalledWith(
-      {
-        type: 'validation_passed',
-        payload: { values: { email: 'john@doe.com', name: 'John Doe' } },
-        id: 'plugin-ui-connector-iframe',
-      },
-      '*',
-    );
+    await expect(result.current.formDisabled).toBe(true);
 
-    expect(result.current.formDisabled).toBe(false);
+    await act(async () => {
+      formMessageHandler.sendMessage('is_busy', { status: false });
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    });
+
+    await expect(result.current.formDisabled).toBe(false);
   });
 });

@@ -38,6 +38,12 @@ export function useFormSubmit(
   const [formDisabled, setFormDisabled] = useState(false);
 
   useEffect(() => {
+    return pluginUiMessageHandler.subscribeToMessage('is_busy', ({ status }) => {
+      setFormDisabled(!!status);
+    });
+  }, [setFormDisabled, pluginUiMessageHandler]);
+
+  useEffect(() => {
     const handleValidate = async () => {
       setFormDisabled(true);
       const { errors, values } = await onValidate();
@@ -55,7 +61,7 @@ export function useFormSubmit(
     };
 
     return pluginUiMessageHandler.subscribeToMessage('validate', handleValidate);
-  }, [onValidate, pluginUiMessageHandler, setFormDisabled]);
+  }, [onValidate, pluginUiMessageHandler]);
 
   return { formDisabled };
 }
