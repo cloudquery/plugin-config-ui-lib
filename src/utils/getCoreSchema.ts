@@ -75,7 +75,6 @@ const getEnabledTablesObject = (
   tablesList: PluginTable[],
   tables: string[] = [],
 ): Record<string, boolean> => {
-  console.log({ tablesList, tables });
   const enabledTablesObject: Record<string, boolean> = {};
 
   if (tables.length === 1 && tables[0] === '*') {
@@ -91,7 +90,6 @@ const getEnabledTablesObject = (
       }
     }
   }
-  console.log({ enabledTablesObject });
 
   return enabledTablesObject;
 };

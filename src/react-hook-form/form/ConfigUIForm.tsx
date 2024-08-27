@@ -80,7 +80,6 @@ export function ConfigUIForm({
   const isLastStep = !config.steps || step === config.steps.length - 1;
 
   const onSubmit = handleFormSubmit(async function () {
-    console.log({ getValues: getValues() });
     if (isLastStep) {
       await handleTestConnection();
     } else {
