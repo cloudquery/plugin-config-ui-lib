@@ -31,7 +31,6 @@ export interface SecretFieldProps {
   helperText?: ReturnType<typeof getFieldHelperText>;
 }
 
-// TODO: This component can be simplified when react-hook-form is supported in the lib.
 /**
  * SecretField component is a TextField wrapper to obfuscate sensitive values, while allowing value override.
  * It works well in conjunction with the utils: readSecretsFromInitialValues & writeSecretsToPrepareValues

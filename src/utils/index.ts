@@ -1,4 +1,4 @@
-export { cloudQueryApiBaseUrl, cloudQueryOauthConnectorUrl } from './constants';
+export { cloudQueryApiBaseUrl, cloudQueryOauthConnectorUrl, secretFieldValue } from './constants';
 export { generateApiAbortError, isApiAbortError } from './errors';
 export { generateName } from './generateName';
 export { generateDisplayName } from './generateDisplayName';
@@ -9,3 +9,4 @@ export { generatePluginTableList } from './generatePluginTableList';
 export { generateTablesFromJson } from './generateTablesFromJson';
 export { readSecretsFromInitialValues, writeSecretsToPrepareValues } from './processEnvSecrets';
 export { convertStringToSlug } from './convertStringToSlug';
+export { corePrepareSubmitValues } from './corePrepareSubmitValues';

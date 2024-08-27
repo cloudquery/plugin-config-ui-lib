@@ -89,10 +89,12 @@
     "typescript": "^5.4.2",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
-    "yaml": "^2.5.0"
+    "yaml": "^2.5.0",
+    "yup": "^1.4.0"
   },
   "dependencies": {
     "@cloudquery/cloud-ui": "^0.1.13",
-    "@rudderstack/analytics-js": "3.7.6"
+    "@rudderstack/analytics-js": "3.7.6",
+    "react-hook-form": "^7.52.0"
   }
 }
