@@ -171,7 +171,7 @@ describe('useFormActions', () => {
       await result.current.handleTestConnection();
     });
 
-    expect(result.current.testConnectionError).toBe('Unknown error');
+    expect(result.current.testConnectionError?.message).toBe('Unknown error');
     expect(result.current.isTestingConnection).toBeFalsy();
     expect(result.current.isSubmitting).toBeFalsy();
     expect(result.current.submitPayload).toBeUndefined();
