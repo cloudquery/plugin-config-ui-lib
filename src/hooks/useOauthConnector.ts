@@ -90,7 +90,7 @@ export function useOauthConnector({
       });
     } catch (error: any) {
       setIsLoading(false);
-      setError(error);
+      setError(error?.body || error);
     }
   }, [
     apiBaseUrl,
@@ -124,7 +124,7 @@ export function useOauthConnector({
         await finishOauth;
       } catch (error: any) {
         setIsLoading(false);
-        setError(error);
+        setError(error?.body || error);
       }
     },
     [apiBaseUrl, callApi, successBaseUrl, teamName],

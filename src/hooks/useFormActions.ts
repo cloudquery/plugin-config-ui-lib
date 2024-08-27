@@ -95,7 +95,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
       isUpdating,
     ).catch((error) => {
       if (!isApiAbortError(error)) {
-        setTestConnectionError(error.message || 'Unknown error');
+        setTestConnectionError(error.body?.message || 'Unknown error');
       }
 
       return null;
