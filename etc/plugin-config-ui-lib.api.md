@@ -20,6 +20,7 @@ import { ListProps } from '@mui/material/List';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
+import { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import { Ref } from 'react';
 import { RefAttributes } from 'react';
@@ -269,7 +270,7 @@ export function getRandomId(length?: number): string;
 export function GuideComponent({ config, pluginUiMessageHandler, }: {
     config: PluginConfig;
     pluginUiMessageHandler: any;
-}): JSX_2.Element;
+}): ReactElement | null;
 
 // Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
 //

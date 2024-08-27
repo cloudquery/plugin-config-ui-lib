@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { RenderGuideProps } from './components/display';
 import { RenderSection } from './components/display/renderer/types';
 
@@ -22,7 +21,7 @@ export interface PluginConfig {
   docsLink: string;
   steps: { sections: RenderSection[]; title: string }[];
   auth: AuthType[];
-  guide: ReactNode | GuideConfig;
+  guide: React.FC | GuideConfig;
 }
 
 /**
