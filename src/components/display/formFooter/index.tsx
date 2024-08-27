@@ -18,7 +18,7 @@ export interface FormFooterProps {
   /** Indicates whether the form is currently being submitted */
   isSubmitting: boolean;
   /** Error message for connection testing, if any */
-  testConnectionError: string | undefined;
+  testConnectionError: (Error & { code?: string }) | undefined;
   /** The type of plugin, either 'source' or 'destination' */
   pluginKind: 'source' | 'destination';
   /** Payload to be submitted, containing form values and connection ID */
@@ -66,7 +66,7 @@ export function FormFooter({
   return (
     <Stack spacing={4}>
       <Stack direction="row" justifyContent="space-between" marginTop={4} spacing={2}>
-        <Stack alignItems="center" direction="row" spacing={2}> 
+        <Stack alignItems="center" direction="row" spacing={2}>
           {!!isUpdating && (
             <Button
               disabled={isBusy}
@@ -99,7 +99,7 @@ export function FormFooter({
       </Stack>
       {(isTestingConnection || testConnectionError || submitPayload) && (
         <FormFooterTestConnectionResult
-          failureReason={testConnectionError}
+          failureError={testConnectionError}
           isLoading={isTestingConnection}
           onCancel={onCancelTestConnection}
           onSuccess={onTestConnectionSuccess}

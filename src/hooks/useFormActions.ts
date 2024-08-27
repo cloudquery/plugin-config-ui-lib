@@ -60,7 +60,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   const { callApi } = useApiCall(pluginUiMessageHandler);
 
   const { cancelTestConnection, testConnection } = useTestConnection(pluginUiMessageHandler);
-  const [testConnectionError, setTestConnectionError] = useState<string>();
+  const [testConnectionError, setTestConnectionError] = useState<Error & { code?: string }>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isTestingConnection, setIsTestingConnection] = useState(false);
@@ -95,7 +95,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
       isUpdating,
     ).catch((error) => {
       if (!isApiAbortError(error)) {
-        setTestConnectionError(error.body?.message || 'Unknown error');
+        setTestConnectionError(error);
       }
 
       return null;

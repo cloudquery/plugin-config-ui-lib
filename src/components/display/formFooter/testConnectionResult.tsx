@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 interface Props {
-  failureReason: string | undefined;
+  failureError: (Error & { code?: string }) | undefined;
   isLoading: boolean;
   pluginKind: 'source' | 'destination';
   onCancel: () => void;
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export function FormFooterTestConnectionResult({
-  failureReason,
+  failureError,
   isLoading,
   pluginKind,
   onCancel,
@@ -62,8 +62,8 @@ export function FormFooterTestConnectionResult({
         ?.querySelector(`.${linearProgressClasses.bar}`)
         ?.addEventListener('transitionend', () => {
           window.setTimeout(() => {
-            if (failureReason) {
-              setErrorMessage(failureReason);
+            if (failureError) {
+              setErrorMessage(failureError.message || 'Unknown error');
             } else {
               setSuccess(true);
               onSuccess();

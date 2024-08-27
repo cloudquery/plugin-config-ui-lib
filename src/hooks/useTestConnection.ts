@@ -54,7 +54,9 @@ export function useTestConnection(
 
         const {
           body: { id: connectionId },
-        } = await requestPromise;
+        } = await requestPromise.catch((error) => {
+          throw error.body;
+        });
 
         abortRef.current.abort = () => undefined;
 
@@ -118,21 +120,31 @@ async function monitorSyncTestConnection({
     if (abortObj.shouldAbort) {
       throw generateApiAbortError();
     }
-    const { requestPromise, abortRequest } = callApi<{ status: string; failure_reason: string }>(
+    const { requestPromise, abortRequest } = callApi<{
+      status: string;
+      failure_reason: string;
+      failure_code: string;
+    }>(
       `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
       'GET',
     );
     abortObj.abort = abortRequest;
 
-    const { body } = await requestPromise;
+    const { body } = await requestPromise.catch((error) => {
+      throw error.body;
+    });
     abortObj.abort = () => undefined;
 
     if (body.status === 'failed') {
-      throw new Error(body.failure_reason || 'Unknown error');
+      const error: Error & { code?: string } = new Error(body.failure_reason || 'Unknown error');
+      error.code = body.failure_code;
+      throw error;
     }
 
     if (body.status === 'completed' && body.failure_reason?.trim()) {
-      throw new Error(body.failure_reason.trim());
+      const error: Error & { code?: string } = new Error(body.failure_reason.trim());
+      error.code = body.failure_code;
+      throw error;
     }
 
     if (body.status === 'completed') {

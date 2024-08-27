@@ -144,7 +144,9 @@ export interface FormFooterProps {
     submitPayload: (FormValues & {
         connectionId: string;
     }) | undefined;
-    testConnectionError: string | undefined;
+    testConnectionError: (Error & {
+        code?: string;
+    }) | undefined;
 }
 
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
@@ -460,7 +462,9 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     handleSubmit: (submitData?: PluginKind extends "source" ? FormActionsSyncSourcePayload : FormActionsSyncDestinationPayload) => Promise<void>;
     isSubmitting: boolean;
     isTestingConnection: boolean;
-    testConnectionError: string | undefined;
+    testConnectionError: (Error & {
+        code?: string;
+    }) | undefined;
     submitPayload: ({
         name: string;
         displayName?: string;
