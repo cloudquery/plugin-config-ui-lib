@@ -95,7 +95,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
       isUpdating,
     ).catch((error) => {
       if (!isApiAbortError(error)) {
-        setTestConnectionError(error.message || 'Unknown error');
+        setTestConnectionError(error.body?.message || 'Unknown error');
       }
 
       return null;
@@ -152,10 +152,12 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
           ? {
               tables: submitData ? submitData.tables : submitPayload.tables,
               skip_tables: submitData ? submitData.skipTables : submitPayload.skipTables,
+              overwrite_source: !!isUpdating,
             }
           : {
               migrate_mode: submitData ? submitData.migrateMode : submitPayload.migrateMode,
               write_mode: submitData ? submitData.writeMode : submitPayload.writeMode,
+              overwrite_destination: !!isUpdating,
             };
         const { requestPromise: promoteTestConnectionRequest } = callApi(
           `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
@@ -184,6 +186,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
       }
     },
     [
+      isUpdating,
       callApi,
       isDataSource,
       pluginKind,

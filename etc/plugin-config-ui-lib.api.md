@@ -672,6 +672,7 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
 // @public
 export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): {
     formDisabled: boolean;
+    submitError: any | undefined;
 };
 
 // @public
