@@ -21,6 +21,7 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
 import { ReactNode } from 'react';
+import { Ref } from 'react';
 import { RefAttributes } from 'react';
 import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
@@ -109,7 +110,7 @@ export function ControlMultiSelect({ name, helperText, label }: ControlMultiSele
 export function ControlNumberField({ name, label, helperText, textFieldProps, }: ControlNumberFieldProps): JSX_2.Element;
 
 // @public
-export function ControlOAuth({ pluginUiMessageHandler }: {
+export function ControlOAuth({ pluginUiMessageHandler, }: {
     pluginUiMessageHandler: any;
 }): JSX_2.Element;
 
@@ -265,10 +266,8 @@ export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTa
 export function getRandomId(length?: number): string;
 
 // @public
-export function GuideComponent({ sections, title, docsLink, pluginUiMessageHandler, }: {
-    sections: RenderGuideProps['sections'];
-    title: string;
-    docsLink: string;
+export function GuideComponent({ config, pluginUiMessageHandler, }: {
+    config: PluginConfig;
     pluginUiMessageHandler: any;
 }): JSX_2.Element;
 
@@ -403,17 +402,17 @@ export interface SecretFieldProps {
     // (undocumented)
     getValues: (name?: string) => any;
     // (undocumented)
-    helperText?: ReturnType<typeof getFieldHelperText>;
+    helperText?: ReactNode;
     // (undocumented)
-    label: string;
+    label: ReactNode;
     // (undocumented)
     name: string;
     // (undocumented)
-    onBlur?: () => void;
+    onBlur?: (e: any) => void;
     // (undocumented)
     onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
     // (undocumented)
-    ref: RefCallback<HTMLInputElement>;
+    ref: Ref<HTMLDivElement>;
     // (undocumented)
     setValue: (name: string, value: any) => void;
     // (undocumented)
@@ -563,7 +562,7 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fields, secretFields, tablesData, }: Props) => yup.ObjectSchema<{
     _secretKeys: any[];
     _editMode: boolean;

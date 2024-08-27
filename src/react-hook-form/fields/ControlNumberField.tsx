@@ -24,7 +24,7 @@ export function ControlNumberField({
   return (
     <Controller
       name={name}
-      render={({ field, fieldState }: any) => (
+      render={({ field, fieldState }) => (
         <TextField
           error={!!fieldState.error}
           fullWidth={true}

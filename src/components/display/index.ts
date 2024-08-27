@@ -2,7 +2,7 @@ export { FormFooter, FormFooterProps } from './formFooter';
 export { FormWrapper, FormWrapperProps } from './formWrapper';
 export { LightboxImage, LightboxImageProps } from './lightboxImage';
 export { SetupGuide, SetupGuideProps } from './setupGuide';
-export { GuideComponent } from './guidePage';
+export { GuideComponent } from './guide';
 export { RenderGuide, RenderGuideProps } from './setupGuide/section';
 export { Link, LinkProps } from './link';
 export { FormStepper, SyncFormStepIconProps } from './formStepper';

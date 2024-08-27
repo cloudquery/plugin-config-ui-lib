@@ -30,7 +30,7 @@ export function ControlBooleanField({
   return (
     <Controller
       name={name}
-      render={({ field, fieldState }: any) => (
+      render={({ field, fieldState }) => (
         <FormControl>
           <FormControlLabel
             control={<ConcreteComponent checked={field.value} {...field} />}

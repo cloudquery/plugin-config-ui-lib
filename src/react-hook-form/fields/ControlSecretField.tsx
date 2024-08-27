@@ -28,7 +28,7 @@ export function ControlSecretField({
   return (
     <Controller
       name={name}
-      render={({ field, fieldState }: any) => (
+      render={({ field, fieldState }) => (
         <SecretField
           editMode={editMode}
           label={label}

@@ -22,7 +22,7 @@ export function ControlExclusiveToggle({ name, options, children }: ControlExclu
       {children}
       <Controller
         name={name}
-        render={({ field }: any) => <ExclusiveToggle options={options} {...field} />}
+        render={({ field }) => <ExclusiveToggle options={options} {...field} />}
       />
     </Stack>
   );

@@ -32,7 +32,7 @@ export function ControlTextField({
   return (
     <Controller
       name={name}
-      render={({ field, fieldState }: any) => (
+      render={({ field, fieldState }) => (
         <ConcreteComponent
           error={!!fieldState.error}
           fullWidth={true}

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import { RenderGuideProps } from './components/display';
 import { RenderSection } from './components/display/renderer/types';
 
@@ -9,6 +10,11 @@ export enum AuthType {
   OTHER,
 }
 
+export interface GuideConfig {
+  title: string;
+  sections: RenderGuideProps['sections'];
+}
+
 export interface PluginConfig {
   name: string;
   type: 'source' | 'destination';
@@ -16,7 +22,7 @@ export interface PluginConfig {
   docsLink: string;
   steps: { sections: RenderSection[]; title: string }[];
   auth: AuthType[];
-  guide?: { title: string; sections: RenderGuideProps['sections'] };
+  guide: ReactNode | GuideConfig;
 }
 
 /**

@@ -33,7 +33,7 @@ export function ControlMultiSelect({ name, helperText = '', label }: ControlMult
   return (
     <Controller
       name={name}
-      render={({ field }: any) => {
+      render={({ field }) => {
         const { onChange, value, ...fieldProps } = field;
 
         return (

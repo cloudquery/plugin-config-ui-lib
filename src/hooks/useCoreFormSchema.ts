@@ -15,6 +15,11 @@ interface Props {
   tablesData: CloudQueryTables;
 }
 
+/**
+ * Custom hook to handle form schema instantiation.
+ *
+ * @public
+ */
 export const useCoreFormSchema = ({
   config,
   initialValues,

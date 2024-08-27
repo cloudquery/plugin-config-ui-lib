@@ -13,7 +13,11 @@ import { useFormContext } from 'react-hook-form';
  *
  * @public
  */
-export function ControlOAuth({ pluginUiMessageHandler }: { pluginUiMessageHandler: any }) {
+export function ControlOAuth({
+  pluginUiMessageHandler,
+}: {
+  pluginUiMessageHandler: any; // TODO: delete after iframe deprecation
+}) {
   const form = useFormContext();
   const { watch, formState, setValue } = form;
   const plugin = watch('_plugin');
