@@ -34,7 +34,8 @@ export function useFormSubmit(
     | FormSubmitSuccess
     | FormSubmitFailure,
   pluginUiMessageHandler: PluginUiMessageHandler,
-): { formDisabled: boolean } {
+): { formDisabled: boolean; submitError: any | undefined } {
+  const [submitError, setSubmitError] = useState<any | undefined>();
   const [formDisabled, setFormDisabled] = useState(false);
 
   useEffect(() => {
@@ -46,6 +47,7 @@ export function useFormSubmit(
   useEffect(() => {
     const handleValidate = async () => {
       setFormDisabled(true);
+      setSubmitError(undefined);
       const { errors, values } = await onValidate();
 
       if (errors) {
@@ -60,8 +62,23 @@ export function useFormSubmit(
       setFormDisabled(false);
     };
 
-    return pluginUiMessageHandler.subscribeToMessage('validate', handleValidate);
+    const unsubscribeSubmitFailed = pluginUiMessageHandler.subscribeToMessage(
+      'submit_failed',
+      ({ error }) => {
+        setSubmitError(error);
+      },
+    );
+
+    const unsubscribeValidate = pluginUiMessageHandler.subscribeToMessage(
+      'validate',
+      handleValidate,
+    );
+
+    return () => {
+      unsubscribeSubmitFailed();
+      unsubscribeValidate();
+    };
   }, [onValidate, pluginUiMessageHandler]);
 
-  return { formDisabled };
+  return { formDisabled, submitError };
 }
