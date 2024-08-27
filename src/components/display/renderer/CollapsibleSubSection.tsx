@@ -6,7 +6,10 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { SubSection } from './SubSection';
 
-interface Props {
+/**
+ * @public
+ */
+export interface CollapsibleSubSectionProps {
   children: React.ReactNode;
   defaultExpanded: AccordionProps['defaultExpanded'];
   title: React.ReactNode;
@@ -21,7 +24,7 @@ export function CollapsibleSubSection({
   defaultExpanded = true,
   title,
   subtitle,
-}: Props) {
+}: CollapsibleSubSectionProps) {
   return (
     <Accordion
       disableGutters={true}

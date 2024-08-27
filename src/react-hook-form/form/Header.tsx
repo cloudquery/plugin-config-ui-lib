@@ -5,7 +5,10 @@ import { Section, Logo } from '../../components';
 import { PluginConfig } from '../../types';
 import { ControlTextField } from '../fields/ControlTextField';
 
-interface Props {
+/**
+ * @public
+ */
+export interface HeaderProps {
   config: PluginConfig;
 }
 
@@ -14,7 +17,7 @@ interface Props {
  *
  * @public
  */
-export function Header({ config }: Props) {
+export function Header({ config }: HeaderProps) {
   const { watch } = useFormContext();
   const editMode = watch('_editMode');
   const step = watch('_step');

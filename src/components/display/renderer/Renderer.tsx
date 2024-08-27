@@ -12,7 +12,7 @@ import {
   ControlTableSelector,
   ControlExclusiveToggle,
 } from '../../../react-hook-form';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export function ComponentsRenderer({ section }: { section: any }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (

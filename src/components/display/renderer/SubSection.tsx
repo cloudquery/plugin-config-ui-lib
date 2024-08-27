@@ -2,7 +2,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography/Typography';
 import React from 'react';
 
-interface Props {
+/**
+ * @public
+ */
+export interface SubSectionProps {
   children: React.ReactNode;
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
@@ -11,7 +14,7 @@ interface Props {
 /**
  * @public
  */
-export function SubSection({ children, title, subtitle }: Props) {
+export function SubSection({ children, title, subtitle }: SubSectionProps) {
   return (
     <Stack gap={2}>
       {(title || subtitle) && (

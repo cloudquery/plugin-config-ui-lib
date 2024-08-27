@@ -4,6 +4,9 @@ import { ReactNode } from 'react';
 import Stack from '@mui/system/Stack';
 import { ExclusiveToggle } from '../../components';
 
+/**
+ * @public
+ */
 export interface ControlExclusiveToggleProps {
   name: string;
   options: { label: string; value: string | number }[];

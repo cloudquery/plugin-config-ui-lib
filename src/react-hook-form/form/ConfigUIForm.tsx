@@ -11,7 +11,10 @@ import {
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
 import { PluginConfig } from '../../types';
 
-interface Props {
+/**
+ * @public
+ */
+export interface ConfigUIFormProps {
   config: PluginConfig;
   getCurrentValues: any;
   hideStepper?: boolean; // TODO: remove after iframe deprecation
@@ -28,7 +31,7 @@ export function ConfigUIForm({
   getCurrentValues,
   config,
   pluginUiMessageHandler,
-}: Props) {
+}: ConfigUIFormProps) {
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch } = useFormContext();
 
   const step = watch('_step');

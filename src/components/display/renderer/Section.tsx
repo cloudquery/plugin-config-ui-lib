@@ -3,6 +3,9 @@ import CardContent from '@mui/material/CardContent';
 import React from 'react';
 import { SubSection } from './SubSection';
 
+/**
+ * @public
+ */
 export interface SectionProps {
   children: React.ReactNode;
   title?: React.ReactNode;

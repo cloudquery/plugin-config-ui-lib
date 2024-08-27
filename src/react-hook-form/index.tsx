@@ -1,13 +1,16 @@
 export { useFormContext, Controller, useWatch, useForm, FormProvider } from 'react-hook-form';
 
-export { ControlTextField } from './fields/ControlTextField';
+export { ControlTextField, ControlTextFieldProps } from './fields/ControlTextField';
 export { ControlTableSelector } from './fields/ControlTableSelector';
-export { ControlSecretField } from './fields/ControlSecretField';
-export { ControlBooleanField } from './fields/ControlBooleanField';
-export { ControlNumberField } from './fields/ControlNumberField';
-export { ControlExclusiveToggle } from './fields/ControlExclusiveToggle';
-export { ControlMultiSelect } from './fields/ControlMultiSelect';
+export { ControlSecretField, ControlSecretFieldProps } from './fields/ControlSecretField';
+export { ControlBooleanField, ControlBooleanFieldProps } from './fields/ControlBooleanField';
+export { ControlNumberField, ControlNumberFieldProps } from './fields/ControlNumberField';
+export {
+  ControlExclusiveToggle,
+  ControlExclusiveToggleProps,
+} from './fields/ControlExclusiveToggle';
+export { ControlMultiSelect, ControlMultiSelectProps } from './fields/ControlMultiSelect';
 export { ControlOAuth } from './fields/ControlOAuth';
 
-export { ConfigUIForm } from './form/ConfigUIForm';
-export { Header } from './form/Header';
+export { ConfigUIForm, ConfigUIFormProps } from './form/ConfigUIForm';
+export { Header, HeaderProps } from './form/Header';

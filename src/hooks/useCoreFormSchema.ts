@@ -5,7 +5,10 @@ import { CloudQueryTables } from '../utils/generateTablesFromJson';
 import { getCoreSchema } from '../utils/getCoreSchema';
 import { PluginConfig } from '../types';
 
-interface Props {
+/**
+ * @public
+ */
+export interface UseCoreFormSchemaProps {
   config: PluginConfig;
   initialValues: FormMessagePayload['init']['initialValues'];
   plugin: any;
@@ -30,7 +33,7 @@ export const useCoreFormSchema = ({
   secretFields = {},
   stateFields = {},
   tablesData,
-}: Props) => {
+}: UseCoreFormSchemaProps) => {
   resetYupDefaultErrorMessages(yup);
 
   return yup.object({

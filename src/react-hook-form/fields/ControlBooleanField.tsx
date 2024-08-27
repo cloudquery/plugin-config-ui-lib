@@ -7,6 +7,9 @@ import Checkbox from '@mui/material/Checkbox';
 import { ReactNode } from 'react';
 import { Controller } from 'react-hook-form';
 
+/**
+ * @public
+ */
 export interface ControlBooleanFieldProps {
   name: string;
   type: 'toggle' | 'checkbox';

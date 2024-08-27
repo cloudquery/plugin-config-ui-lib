@@ -3,6 +3,9 @@ import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { ReactNode } from 'react';
 
+/**
+ * @public
+ */
 export interface ControlNumberFieldProps {
   name: string;
   helperText?: ReactNode;

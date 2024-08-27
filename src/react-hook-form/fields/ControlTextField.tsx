@@ -4,6 +4,9 @@ import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { ReactNode } from 'react';
 import { ControlSecretField } from './ControlSecretField';
 
+/**
+ * @public
+ */
 export interface ControlTextFieldProps {
   name: string;
   helperText?: ReactNode;

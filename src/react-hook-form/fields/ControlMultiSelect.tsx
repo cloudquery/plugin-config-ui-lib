@@ -3,6 +3,9 @@ import { useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { MultiAutocomplete } from '../../components';
 
+/**
+ * @public
+ */
 export interface ControlMultiSelectProps {
   name: string;
   label: string;

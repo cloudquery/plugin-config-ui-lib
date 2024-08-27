@@ -73,62 +73,151 @@ export interface CloudQueryTable {
 // @public
 export type CloudQueryTables = CloudQueryTable[];
 
-// Warning: (ae-forgotten-export) The symbol "Props_3" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export function CollapsibleSection({ children, defaultExpanded, title, subtitle }: Props_3): JSX_2.Element;
+export function CollapsibleSection({ children, defaultExpanded, title, subtitle }: CollapsibleSectionProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "Props_4" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export function CollapsibleSubSection({ children, defaultExpanded, title, subtitle, }: Props_4): JSX_2.Element;
+export interface CollapsibleSectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    defaultExpanded: AccordionProps['defaultExpanded'];
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title: React_2.ReactNode;
+}
 
-// Warning: (ae-forgotten-export) The symbol "Props_6" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export function CollapsibleSubSection({ children, defaultExpanded, title, subtitle, }: CollapsibleSubSectionProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface CollapsibleSubSectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    defaultExpanded: AccordionProps['defaultExpanded'];
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title: React_2.ReactNode;
+}
+
 // @public
-export function ConfigUIForm({ hideStepper, getCurrentValues, config, pluginUiMessageHandler, }: Props_6): JSX_2.Element;
+export function ConfigUIForm({ hideStepper, getCurrentValues, config, pluginUiMessageHandler, }: ConfigUIFormProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "ControlBooleanFieldProps" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export interface ConfigUIFormProps {
+    // (undocumented)
+    config: PluginConfig;
+    // (undocumented)
+    getCurrentValues: any;
+    // (undocumented)
+    hideStepper?: boolean;
+    // (undocumented)
+    pluginUiMessageHandler: any;
+}
+
 // @public
 export function ControlBooleanField({ name, label, type, helperText, }: ControlBooleanFieldProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "ControlExclusiveToggleProps" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export interface ControlBooleanFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: 'toggle' | 'checkbox';
+}
+
 // @public
 export function ControlExclusiveToggle({ name, options, children }: ControlExclusiveToggleProps): JSX_2.Element;
 
+// @public (undocumented)
+export interface ControlExclusiveToggleProps {
+    // (undocumented)
+    children?: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    options: {
+        label: string;
+        value: string | number;
+    }[];
+}
+
 export { Controller }
 
-// Warning: (ae-forgotten-export) The symbol "ControlMultiSelectProps" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function ControlMultiSelect({ name, helperText, label }: ControlMultiSelectProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "ControlNumberFieldProps" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export interface ControlMultiSelectProps {
+    // (undocumented)
+    helperText?: string;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+}
+
 // @public
 export function ControlNumberField({ name, label, helperText, textFieldProps, }: ControlNumberFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlNumberFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
 
 // @public
 export function ControlOAuth({ pluginUiMessageHandler, }: {
     pluginUiMessageHandler: any;
 }): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "ControlSecretFieldProps" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSecretFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
 
 // Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
 //
 // @public
 export const ControlTableSelector: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
 
-// Warning: (ae-forgotten-export) The symbol "ControlTextFieldProps" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlTextFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
 
 // @public
 export function convertStringToSlug(value: string): string;
@@ -232,10 +321,10 @@ export interface FormFooterProps {
 
 export { FormProvider }
 
-// Warning: (ae-forgotten-export) The symbol "Props_2" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function FormStepper({ steps, activeIndex, setActiveIndex }: Props_2): JSX_2.Element;
+export function FormStepper({ steps, activeIndex, setActiveIndex }: Props): JSX_2.Element;
 
 // @public
 export function FormWrapper({ children, formDisabled }: FormWrapperProps): JSX_2.Element;
@@ -270,10 +359,14 @@ export function GuideComponent({ config, pluginUiMessageHandler, }: {
     pluginUiMessageHandler: any;
 }): ReactElement | null;
 
-// Warning: (ae-forgotten-export) The symbol "Props_7" needs to be exported by the entry point index.d.ts
-//
 // @public
-export function Header({ config }: Props_7): JSX_2.Element;
+export function Header({ config }: HeaderProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface HeaderProps {
+    // (undocumented)
+    config: PluginConfig;
+}
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -448,15 +541,27 @@ export interface SecretFieldProps {
 // @public
 export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
 
-// Warning: (ae-forgotten-export) The symbol "SectionProps" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export function Section({ children, title, subtitle }: SectionProps): JSX_2.Element;
 
-// Warning: (ae-forgotten-export) The symbol "SectionsProps" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export interface SectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+}
+
 // @public (undocumented)
 export function Sections({ children }: SectionsProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SectionsProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+}
 
 // @public
 export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, }: ServiceListProps): JSX_2.Element;
@@ -510,10 +615,18 @@ export interface SourceConfig extends PluginConfig {
     type: 'source';
 }
 
-// Warning: (ae-forgotten-export) The symbol "Props_5" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
-export function SubSection({ children, title, subtitle }: Props_5): JSX_2.Element;
+export function SubSection({ children, title, subtitle }: SubSectionProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SubSectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+}
 
 // @public (undocumented)
 export type SyncFormStepIconProps = StepIconProps & {
@@ -584,10 +697,8 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
     };
 };
 
-// Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
-//
 // @public
-export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fields, secretFields, stateFields, tablesData, }: Props) => yup.ObjectSchema<{
+export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fields, secretFields, stateFields, tablesData, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{
     _secretKeys: any[];
     _editMode: boolean;
     _authType: number;
@@ -624,6 +735,26 @@ export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fiel
     tables: Record<string, boolean>;
     connectorId: "";
 }, "">;
+
+// @public (undocumented)
+export interface UseCoreFormSchemaProps {
+    // (undocumented)
+    config: PluginConfig;
+    // (undocumented)
+    fields: Record<string, yup.AnySchema>;
+    // (undocumented)
+    initialValues: FormMessagePayload['init']['initialValues'];
+    // (undocumented)
+    plugin: any;
+    // (undocumented)
+    secretFields?: Record<string, yup.AnySchema>;
+    // (undocumented)
+    stateFields?: Record<string, yup.AnySchema>;
+    // (undocumented)
+    tablesData: CloudQueryTables;
+    // (undocumented)
+    teamName: any;
+}
 
 export { useForm }
 

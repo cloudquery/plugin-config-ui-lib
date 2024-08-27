@@ -1,6 +1,9 @@
 import Stack from '@mui/material/Stack';
 import React from 'react';
 
+/**
+ * @public
+ */
 export interface SectionsProps {
   children: React.ReactNode;
 }

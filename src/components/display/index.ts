@@ -9,8 +9,11 @@ export { FormStepper, SyncFormStepIconProps } from './formStepper';
 export { Logo, LogoProps } from './logo';
 export { ServiceList, ServiceListProps, ServiceTypes } from './serviceList';
 
-export { CollapsibleSection } from './renderer/CollapsibleSection';
-export { CollapsibleSubSection } from './renderer/CollapsibleSubSection';
-export { Section } from './renderer/Section';
-export { SubSection } from './renderer/SubSection';
-export { Sections } from './renderer/Sections';
+export { CollapsibleSection, CollapsibleSectionProps } from './renderer/CollapsibleSection';
+export {
+  CollapsibleSubSection,
+  CollapsibleSubSectionProps,
+} from './renderer/CollapsibleSubSection';
+export { Section, SectionProps } from './renderer/Section';
+export { SubSection, SubSectionProps } from './renderer/SubSection';
+export { Sections, SectionsProps } from './renderer/Sections';

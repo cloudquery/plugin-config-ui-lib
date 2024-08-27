@@ -4,7 +4,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CollapsibleSubSection } from './CollapsibleSubSection';
 
-interface Props {
+/**
+ * @public
+ */
+export interface CollapsibleSectionProps {
   children: React.ReactNode;
   defaultExpanded: AccordionProps['defaultExpanded'];
   title: React.ReactNode;
@@ -14,7 +17,7 @@ interface Props {
 /**
  * @public
  */
-export function CollapsibleSection({ children, defaultExpanded = true, title, subtitle }: Props) {
+export function CollapsibleSection({ children, defaultExpanded = true, title, subtitle }: CollapsibleSectionProps) {
   return (
     <Card>
       <CardContent>
