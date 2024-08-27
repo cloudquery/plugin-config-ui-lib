@@ -28,13 +28,15 @@ describe('readSecretsFromInitialValues', () => {
 
 describe('writeSecretsToPrepareValues', () => {
   const newSecret = 'secret_two';
-  const env = {
+  const values = {
     SECRET_ONE: secretFieldValue,
     SECRET_TWO: newSecret,
+    NOT_A_SECRET: 'abc',
+    _secretKeys: ['SECRET_ONE', 'SECRET_TWO'],
   };
 
   it('should return an env file with all existing properties equal to the secret placeholder', () => {
-    const result = writeSecretsToPrepareValues(env);
+    const result = writeSecretsToPrepareValues(values);
 
     expect(result.envs).toMatchObject([
       {
