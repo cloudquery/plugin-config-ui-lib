@@ -1,6 +1,6 @@
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { writeSecretsToPrepareValues } from './processEnvSecrets';
 import { PluginTable } from '../components';
+import { prepareSecretValues } from './prepareSecretValues';
 
 /**
  * Prepare values for submit
@@ -16,7 +16,7 @@ export function corePrepareSubmitValues(
     spec: {} as Record<string, any>,
   };
 
-  const secrets = writeSecretsToPrepareValues(values);
+  const secrets = prepareSecretValues(values);
 
   return {
     ...base,

@@ -32,7 +32,6 @@ export interface SecretFieldProps {
 
 /**
  * SecretField component is a TextField wrapper to obfuscate sensitive values, while allowing value override.
- * It works well in conjunction with the utils: readSecretsFromInitialValues & writeSecretsToPrepareValues
  *
  * @public
  */

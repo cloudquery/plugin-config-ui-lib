@@ -33,18 +33,17 @@ export function readSecretsFromInitialValues<T extends object>(
  * This works well with the SecretField component.
  *
  * @public
- * @deprecated - This is only internally used with the new pattern, but it must remain public until all plugins are upgraded.
- * Then it should not be in the public api export.
+ * @deprecated - This is not used in the new pattern, but it must remain until all plugins are upgraded.
+ * Then it should be deleted.
  */
-export function writeSecretsToPrepareValues(values: Record<string, any>): {
+export function writeSecretsToPrepareValues(env?: Record<string, string>): {
   envs: { name: string; value: string }[];
   spec: Record<string, string>;
 } {
   const envs = [];
   const spec: Record<string, string> = {};
 
-  for (const name of values._secretKeys ?? []) {
-    const value = values[name];
+  for (const [name, value] of Object.entries(env || {})) {
     if (value !== undefined) {
       envs.push({
         name,
