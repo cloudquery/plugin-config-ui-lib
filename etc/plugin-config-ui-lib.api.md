@@ -136,8 +136,6 @@ export function convertStringToSlug(value: string): string;
 // @public
 export function corePrepareSubmitValues(values: any): PluginUiMessagePayload['validation_passed']['values'];
 
-// Warning: (ae-forgotten-export) The symbol "PluginConfig" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export interface DestinationConfig extends PluginConfig {
     // (undocumented)
@@ -338,6 +336,31 @@ export interface MultiAutocompleteProps {
     ref: RefCallback<HTMLInputElement>;
     // (undocumented)
     value: any;
+}
+
+// @public (undocumented)
+export interface PluginConfig {
+    // (undocumented)
+    auth: AuthType[];
+    // (undocumented)
+    docsLink: string;
+    // Warning: (ae-forgotten-export) The symbol "GuideConfig" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    guide: React.FC<{
+        config: PluginConfig;
+    }> | GuideConfig;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    steps: {
+        sections: RenderSection[];
+        title: string;
+    }[];
+    // (undocumented)
+    type: 'source' | 'destination';
 }
 
 // @public
@@ -564,7 +587,7 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fields, secretFields, tablesData, }: Props) => yup.ObjectSchema<{
+export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fields, secretFields, stateFields, tablesData, }: Props) => yup.ObjectSchema<{
     _secretKeys: any[];
     _editMode: boolean;
     _authType: number;
@@ -722,6 +745,7 @@ export function writeSecretsToPrepareValues(values: Record<string, any>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
+// src/types.ts:25:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

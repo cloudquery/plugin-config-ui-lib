@@ -20,7 +20,7 @@ export const getCoreSchema = ({ config, initialValues, plugin, teamName, tablesD
   const coreFieldProps = {
     name: yup
       .string()
-      .default(generateName('github'))
+      .default(generateName(config.name))
       .matches(
         /^[a-z](-?[\da-z]+)+$/,
         'Name must consist of a lower case letter, followed by alphanumeric segments separated by single dashes',

@@ -14,6 +14,9 @@ export interface GuideConfig {
   sections: RenderGuideProps['sections'];
 }
 
+/**
+ * @public
+ */
 export interface PluginConfig {
   name: string;
   type: 'source' | 'destination';
@@ -21,7 +24,7 @@ export interface PluginConfig {
   docsLink: string;
   steps: { sections: RenderSection[]; title: string }[];
   auth: AuthType[];
-  guide: React.FC | GuideConfig;
+  guide: React.FC<{ config: PluginConfig }> | GuideConfig;
 }
 
 /**

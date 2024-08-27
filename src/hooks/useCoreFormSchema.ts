@@ -11,7 +11,8 @@ interface Props {
   plugin: any;
   teamName: any;
   fields: Record<string, yup.AnySchema>;
-  secretFields: Record<string, yup.AnySchema>;
+  secretFields?: Record<string, yup.AnySchema>;
+  stateFields?: Record<string, yup.AnySchema>;
   tablesData: CloudQueryTables;
 }
 
@@ -26,13 +27,15 @@ export const useCoreFormSchema = ({
   plugin,
   teamName,
   fields,
-  secretFields,
+  secretFields = {},
+  stateFields = {},
   tablesData,
 }: Props) => {
   resetYupDefaultErrorMessages(yup);
 
   return yup.object({
     ...getCoreSchema({ config, initialValues, plugin, teamName, tablesData }),
+    ...stateFields,
     ...fields,
     ...secretFields,
     _secretKeys: yup.array().default(Object.keys(secretFields)),

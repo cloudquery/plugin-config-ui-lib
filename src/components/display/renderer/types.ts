@@ -6,8 +6,12 @@ import { ControlBooleanFieldProps } from '../../../react-hook-form/fields/Contro
 import { ControlMultiSelectProps } from '../../../react-hook-form/fields/ControlMultiSelect';
 import { ControlExclusiveToggleProps } from '../../../react-hook-form/fields/ControlExclusiveToggle';
 
-export type RenderSection = LayoutSection | LayoutCollapsibleSection;
-type RenderComponent = ReactNode | LayoutComponent | LayoutCollapsibleSubSection | LayoutSubSection;
+export type RenderSection = LayoutSection | LayoutCollapsibleSection | React.FC<any>;
+type RenderComponent =
+  | React.FC<any>
+  | LayoutComponent
+  | LayoutCollapsibleSubSection
+  | LayoutSubSection;
 
 // Components
 type LayoutComponent =

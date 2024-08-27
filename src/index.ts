@@ -4,4 +4,4 @@ export * from './components';
 export * from './react-hook-form';
 
 export { AuthType } from './types';
-export type { SourceConfig, DestinationConfig } from './types';
+export type { PluginConfig, SourceConfig, DestinationConfig } from './types';

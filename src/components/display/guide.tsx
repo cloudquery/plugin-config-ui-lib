@@ -33,9 +33,19 @@ export function GuideComponent({
       </SetupGuide>
     );
   } else if (config.guide) {
-    const ConcreteComponent = config.guide as React.FC;
+    const ConcreteComponent = config.guide as React.FC<{ config: PluginConfig }>;
 
-    return <ConcreteComponent />;
+    return (
+      <SetupGuide
+        title={`${config.label} configuration`}
+        docsLink={config.docsLink}
+        pluginUiMessageHandler={pluginUiMessageHandler}
+      >
+        <Stack spacing={3}>
+          <ConcreteComponent config={config} />;
+        </Stack>
+      </SetupGuide>
+    );
   }
 
   return null;
