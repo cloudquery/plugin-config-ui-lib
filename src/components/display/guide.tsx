@@ -43,7 +43,7 @@ export function GuideComponent({
         pluginUiMessageHandler={pluginUiMessageHandler}
       >
         <Stack spacing={3}>
-          <ConcreteComponent />;
+          <ConcreteComponent />
         </Stack>
       </SetupGuide>
     );
