@@ -220,7 +220,7 @@ export interface ControlTextFieldProps {
 export function convertStringToSlug(value: string): string;
 
 // @public
-export function corePrepareSubmitValues(values: any, tablesList: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
+export function corePrepareSubmitValues(values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public (undocumented)
 export interface DestinationConfig extends PluginConfig {
@@ -342,10 +342,16 @@ export function generateDisplayName(pluginDisplayName: string): string;
 export function generateName(pluginName: string): string;
 
 // @public
-export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[];
+export function generatePluginTableList(tables?: PluginTable[]): PluginTableListItem[];
 
 // @public
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
+
+// @public
+export const getEnabledTablesObject: ({ tablesList, tables, }: {
+    tablesList?: PluginTable[];
+    tables?: string[];
+}) => Record<string, boolean>;
 
 // @public
 export function getRandomId(length?: number): string;
@@ -446,19 +452,10 @@ export interface PluginConfig {
     type: 'source' | 'destination';
 }
 
+// Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
+//
 // @public
-export const PluginContext: Context<    {
-config: PluginConfig;
-plugin: {
-name: string;
-kind: string;
-version: string;
-team: string;
-};
-teamName: string;
-hideStepper: boolean;
-tablesList: PluginTable[];
-}>;
+export const PluginContext: Context<PluginContextProps>;
 
 // @public
 export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, }: PluginContextProviderProps) => JSX_2.Element;
@@ -479,7 +476,7 @@ export interface PluginContextProviderProps {
         team: string;
     };
     // (undocumented)
-    tablesData: CloudQueryTables;
+    tablesData?: CloudQueryTables;
     // (undocumented)
     teamName: string;
 }
@@ -731,17 +728,11 @@ export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFie
     _editMode: boolean;
     _authType: number;
     _step: number;
-    name: string;
-    tables: {};
-    connectorId: string;
 }, yup.AnyObject, {
     _secretKeys: string[];
     _editMode: boolean;
     _authType: AuthType;
     _step: 0;
-    name: string;
-    tables: Record<string, boolean>;
-    connectorId: "";
 }, "">;
 
 // @public (undocumented)

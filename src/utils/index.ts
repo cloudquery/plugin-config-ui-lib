@@ -10,3 +10,4 @@ export { generateTablesFromJson } from './generateTablesFromJson';
 export { readSecretsFromInitialValues, writeSecretsToPrepareValues } from './processEnvSecrets';
 export { convertStringToSlug } from './convertStringToSlug';
 export { corePrepareSubmitValues } from './corePrepareSubmitValues';
+export { getEnabledTablesObject } from './getEnabledTablesObject';

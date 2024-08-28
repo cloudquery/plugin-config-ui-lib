@@ -9,11 +9,11 @@ import { prepareSecretValues } from './prepareSecretValues';
  */
 export function corePrepareSubmitValues(
   values: any,
-  tablesList: PluginTable[],
+  tablesList?: PluginTable[],
 ): PluginUiMessagePayload['validation_passed']['values'] {
   const base = {
     name: values.name,
-    tables: getEnabledTablesArray(values.tables, tablesList),
+    tables: tablesList ? getEnabledTablesArray(values.tables, tablesList) : undefined,
     spec: {} as Record<string, any>,
   };
 

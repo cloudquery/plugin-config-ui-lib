@@ -6,8 +6,12 @@ import { PluginTable, PluginTableListItem } from '../components/fields/tableSele
  *
  * @public
  */
-export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[] {
+export function generatePluginTableList(tables?: PluginTable[]): PluginTableListItem[] {
   const tablesMap = new Map<string, PluginTableListItem>();
+
+  if (!tables) {
+    return [];
+  }
 
   // Some of the child tables might not have explicit "parent"
   // but the "parent" always lists them in the "relations". Therefore,

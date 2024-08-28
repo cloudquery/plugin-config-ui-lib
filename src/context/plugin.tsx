@@ -16,9 +16,22 @@ export interface PluginContextProviderProps {
     team: string;
   };
   teamName: string;
-  tablesData: CloudQueryTables;
+  tablesData?: CloudQueryTables;
   hideStepper: boolean;
   children: React.ReactNode;
+}
+
+interface PluginContextProps {
+  config: PluginConfig;
+  plugin: {
+    name: string;
+    kind: string;
+    version: string;
+    team: string;
+  };
+  teamName: string;
+  hideStepper: boolean;
+  tablesList?: PluginTable[];
 }
 
 /**
@@ -26,7 +39,7 @@ export interface PluginContextProviderProps {
  *
  * @public
  */
-export const PluginContext = createContext({
+export const PluginContext = createContext<PluginContextProps>({
   config: {
     name: '',
     type: 'source' as PluginConfig['type'],
@@ -45,7 +58,7 @@ export const PluginContext = createContext({
   },
   teamName: '',
   hideStepper: false,
-  tablesList: [] as PluginTable[],
+  tablesList: undefined,
 });
 
 /**
@@ -61,7 +74,9 @@ export const PluginContextProvider = ({
   tablesData,
   hideStepper,
 }: PluginContextProviderProps) => {
-  const tablesList = generateTablesFromJson(tablesData as CloudQueryTables);
+  const tablesList = tablesData
+    ? generateTablesFromJson(tablesData as CloudQueryTables)
+    : undefined;
 
   return (
     <PluginContext.Provider value={{ config, plugin, teamName, tablesList, hideStepper }}>
