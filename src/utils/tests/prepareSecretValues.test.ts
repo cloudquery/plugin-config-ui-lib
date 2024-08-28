@@ -1,3 +1,4 @@
+import { AuthType } from '../../types';
 import { secretFieldValue } from '../constants';
 import { prepareSecretValues } from '../prepareSecretValues';
 
@@ -10,8 +11,8 @@ describe('prepareSecretValues', () => {
     _secretKeys: ['SECRET_ONE', 'SECRET_TWO'],
   };
 
-  it('should return an env file with all existing properties equal to the secret placeholder', () => {
-    const result = prepareSecretValues(values);
+  it('should return an envs array and spec object with all existing properties equal to the secret placeholder', () => {
+    const result = prepareSecretValues({ ...values, _authType: AuthType.OTHER });
 
     expect(result.envs).toMatchObject([
       {
@@ -28,5 +29,13 @@ describe('prepareSecretValues', () => {
       SECRET_ONE: '${SECRET_ONE}',
       SECRET_TWO: '${SECRET_TWO}',
     });
+  });
+
+  it('should return an env empty array and spec empty object', () => {
+    const result = prepareSecretValues({ ...values, _authType: AuthType.OAUTH });
+
+    expect(result.envs).toMatchObject([]);
+
+    expect(result.spec).toMatchObject({});
   });
 });
