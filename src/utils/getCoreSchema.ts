@@ -24,7 +24,7 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
       .required(),
     connectorId: yup
       .string()
-      .default('')
+      .default(initialValues?.connectorId ?? '')
       .when('_authType', {
         is: (authType: AuthType) => authType === AuthType.OAUTH,
         // eslint-disable-next-line unicorn/no-thenable
