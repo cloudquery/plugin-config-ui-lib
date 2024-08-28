@@ -14,6 +14,7 @@ export function corePrepareSubmitValues(
 ): PluginUiMessagePayload['validation_passed']['values'] {
   const base = {
     name: values.name,
+    displayName: values.displayName,
     tables: tablesList ? getEnabledTablesArray(values.tables, tablesList) : undefined,
     spec: {} as Record<string, any>,
   };

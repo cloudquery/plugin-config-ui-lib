@@ -2,8 +2,9 @@ import * as yup from 'yup';
 import { AuthType, PluginConfig } from '../types';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { PluginTable } from '../components';
-import { generateName } from './generateName';
 import { getEnabledTablesObject } from './getEnabledTablesObject';
+import { generateDisplayName } from './generateDisplayName';
+import { generateUniqueName } from './generateUniqueName';
 
 interface Props {
   config: PluginConfig;
@@ -15,10 +16,14 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
   const coreFieldProps: Record<string, yup.AnySchema> = {
     name: yup
       .string()
-      .default(generateName(config.name))
+      .default(initialValues?.name ?? generateUniqueName(config.name))
+      .required(),
+    displayName: yup
+      .string()
+      .default(initialValues?.displayName ?? generateDisplayName(config.label))
       .matches(
-        /^[a-z](-?[\da-z]+)+$/,
-        'Name must consist of a lower case letter, followed by alphanumeric segments separated by single dashes',
+        /^[a-zA-Z][a-zA-Z0-9_ \-']*$/,
+        'Name must start with a letter and cannot include special characters.',
       )
       .max(255)
       .required(),

@@ -164,6 +164,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
           'POST',
           {
             name: submitPayload.name,
+            display_name: submitPayload.displayName,
             ...pluginKindPayload,
           },
         );

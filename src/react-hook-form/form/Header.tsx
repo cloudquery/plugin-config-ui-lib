@@ -27,7 +27,7 @@ export function Header() {
       </Box>
       {step === 0 && (
         <ControlTextField
-          name="name"
+          name="displayName"
           textFieldProps={{ disabled: editMode }}
           helperText={`Unique ${config.type} name that helps identify the ${config.type} within your workspace.`}
           label={`${config.type.charAt(0).toUpperCase() + config.type.slice(1)} name`}
