@@ -12,4 +12,9 @@ export const cloudQueryApiBaseUrl = 'https://api.cloudquery.io';
  */
 export const cloudQueryOauthConnectorUrl = 'https://cloud.cloudquery.io/auth/connector';
 
+/**
+ * Universal placeholder for the SecretField value
+ *
+ * @public
+ */
 export const secretFieldValue = 'b25b8efe-63fd-4c32-9f87-059cfd649128';

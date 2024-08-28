@@ -6,6 +6,8 @@ import { secretFieldValue } from './constants';
  * This works well with the SecretField component and it's counterpart utility writeSecretsToPrepareValues.
  *
  * @public
+ * @deprecated - This is not used in the new pattern, but it must remain until all plugins are upgraded.
+ * Then it should be deleted.
  */
 export function readSecretsFromInitialValues<T extends object>(
   defaultEnv: T,
@@ -27,10 +29,12 @@ export function readSecretsFromInitialValues<T extends object>(
 
 /**
  * writeSecretsToPrepareValues util is designed to be used in a plugin's `prepareSubmitValues` function.
- * It takes an object of environment variables and returns an array of API environment variables and a cleaned spec object.
- * This works well with the SecretField component and it's counterpart utility readSecretsFromInitialValues.
+ * It takes the form values and returns an array of API environment variables and a cleaned spec object.
+ * This works well with the SecretField component.
  *
  * @public
+ * @deprecated - This is not used in the new pattern, but it must remain until all plugins are upgraded.
+ * Then it should be deleted.
  */
 export function writeSecretsToPrepareValues(env?: Record<string, string>): {
   envs: { name: string; value: string }[];

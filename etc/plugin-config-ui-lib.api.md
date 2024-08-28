@@ -4,9 +4,12 @@
 
 ```ts
 
+import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
 import { ChangeEventHandler } from 'react';
+import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { FormProvider } from 'react-hook-form';
 import { ForwardRefExoticComponent } from 'react';
 import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import { ImgHTMLAttributes } from 'react';
@@ -17,12 +20,26 @@ import { ListProps } from '@mui/material/List';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
+import { ReactElement } from 'react';
 import { ReactNode } from 'react';
+import { Ref } from 'react';
 import { RefAttributes } from 'react';
 import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { SxProps } from '@mui/system';
 import { TextFieldProps } from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
+import * as yup from 'yup';
+
+// @public (undocumented)
+export enum AuthType {
+    // (undocumented)
+    OAUTH = 0,
+    // (undocumented)
+    OTHER = 1
+}
 
 // Warning: (ae-forgotten-export) The symbol "CloudAppMockProps" needs to be exported by the entry point index.d.ts
 //
@@ -56,8 +73,159 @@ export interface CloudQueryTable {
 // @public
 export type CloudQueryTables = CloudQueryTable[];
 
+// @public (undocumented)
+export function CollapsibleSection({ children, defaultExpanded, title, subtitle }: CollapsibleSectionProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface CollapsibleSectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    defaultExpanded: AccordionProps['defaultExpanded'];
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title: React_2.ReactNode;
+}
+
+// @public (undocumented)
+export function CollapsibleSubSection({ children, defaultExpanded, title, subtitle, }: CollapsibleSubSectionProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface CollapsibleSubSectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    defaultExpanded: AccordionProps['defaultExpanded'];
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title: React_2.ReactNode;
+}
+
+// @public
+export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ConfigUIFormProps {
+    // (undocumented)
+    getCurrentValues: any;
+    // (undocumented)
+    pluginUiMessageHandler: any;
+}
+
+// @public
+export function ControlBooleanField({ name, label, type, helperText, }: ControlBooleanFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlBooleanFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: 'toggle' | 'checkbox';
+}
+
+// @public
+export function ControlExclusiveToggle({ name, options, children }: ControlExclusiveToggleProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlExclusiveToggleProps {
+    // (undocumented)
+    children?: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    options: {
+        label: string;
+        value: string | number;
+    }[];
+}
+
+export { Controller }
+
+// @public
+export function ControlMultiSelect({ name, helperText, label }: ControlMultiSelectProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlMultiSelectProps {
+    // (undocumented)
+    helperText?: string;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlNumberField({ name, label, helperText, textFieldProps, }: ControlNumberFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlNumberFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
+// @public
+export function ControlOAuth({ pluginUiMessageHandler, }: {
+    pluginUiMessageHandler: any;
+}): JSX_2.Element;
+
+// @public
+export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSecretFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
+// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const ControlTableSelector: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
+
+// @public
+export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlTextFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
 // @public
 export function convertStringToSlug(value: string): string;
+
+// @public
+export function corePrepareSubmitValues(values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
+
+// @public (undocumented)
+export interface DestinationConfig extends PluginConfig {
+    // (undocumented)
+    type: 'destination';
+}
 
 // @public
 export const ExclusiveToggle: ForwardRefExoticComponent<ExclusiveToggleProps & RefAttributes<HTMLElement>>;
@@ -149,6 +317,8 @@ export interface FormFooterProps {
     }) | undefined;
 }
 
+export { FormProvider }
+
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -173,13 +343,27 @@ export function generateDisplayName(pluginDisplayName: string): string;
 export function generateName(pluginName: string): string;
 
 // @public
-export function generatePluginTableList(tables: PluginTable[]): PluginTableListItem[];
+export function generatePluginTableList(tables?: PluginTable[]): PluginTableListItem[];
 
 // @public
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
 // @public
+export const getEnabledTablesObject: ({ tablesList, tables, }: {
+    tablesList?: PluginTable[];
+    tables?: string[];
+}) => Record<string, boolean>;
+
+// @public
 export function getRandomId(length?: number): string;
+
+// @public
+export function GuideComponent({ pluginUiMessageHandler, }: {
+    pluginUiMessageHandler: any;
+}): ReactElement | null;
+
+// @public
+export function Header(): JSX_2.Element;
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -244,6 +428,55 @@ export interface MultiAutocompleteProps {
     value: any;
 }
 
+// @public (undocumented)
+export interface PluginConfig {
+    // (undocumented)
+    auth: AuthType[];
+    // (undocumented)
+    docsLink: string;
+    // Warning: (ae-forgotten-export) The symbol "GuideConfig" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    guide: React.FC | GuideConfig;
+    // (undocumented)
+    iconLink: string;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    steps: {
+        sections: RenderSection[];
+        title: string;
+    }[];
+    // (undocumented)
+    type: 'source' | 'destination';
+}
+
+// @public
+export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, }: PluginContextProviderProps) => JSX_2.Element;
+
+// @public (undocumented)
+export interface PluginContextProviderProps {
+    // (undocumented)
+    children: React.ReactNode;
+    // (undocumented)
+    config: PluginConfig;
+    // (undocumented)
+    hideStepper: boolean;
+    // (undocumented)
+    plugin: {
+        name: string;
+        kind: string;
+        version: string;
+        team: string;
+    };
+    // (undocumented)
+    tablesData?: CloudQueryTables;
+    // (undocumented)
+    teamName: string;
+}
+
 // @public
 export interface PluginTable {
     description: string;
@@ -270,7 +503,7 @@ export interface PluginTableListItem {
     relationTables: PluginTableListItem[];
 }
 
-// @public
+// @public @deprecated
 export function readSecretsFromInitialValues<T extends object>(defaultEnv: T, apiEnv?: {
     name: string;
     value: string;
@@ -281,7 +514,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
 
 // @public (undocumented)
 export type RenderGuideProps = {
-    sections: Section[];
+    sections: Section_2[];
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
@@ -307,23 +540,48 @@ export interface SecretFieldProps {
     // (undocumented)
     getValues: (name?: string) => any;
     // (undocumented)
-    helperText?: ReturnType<typeof getFieldHelperText>;
+    helperText?: ReactNode;
     // (undocumented)
-    label: string;
+    label: ReactNode;
     // (undocumented)
     name: string;
     // (undocumented)
-    onBlur?: () => void;
+    onBlur?: (e: any) => void;
     // (undocumented)
     onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
     // (undocumented)
-    ref: RefCallback<HTMLInputElement>;
+    ref: Ref<HTMLDivElement>;
     // (undocumented)
     setValue: (name: string, value: any) => void;
     // (undocumented)
     textFieldProps?: TextFieldProps;
     // (undocumented)
     value: any;
+}
+
+// @public
+export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
+
+// @public (undocumented)
+export function Section({ children, title, subtitle }: SectionProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+}
+
+// @public (undocumented)
+export function Sections({ children }: SectionsProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SectionsProps {
+    // (undocumented)
+    children: React_2.ReactNode;
 }
 
 // @public
@@ -371,6 +629,25 @@ export interface SetupGuideProps {
 
 // @public
 export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;
+
+// @public (undocumented)
+export interface SourceConfig extends PluginConfig {
+    // (undocumented)
+    type: 'source';
+}
+
+// @public (undocumented)
+export function SubSection({ children, title, subtitle }: SubSectionProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface SubSectionProps {
+    // (undocumented)
+    children: React_2.ReactNode;
+    // (undocumented)
+    subtitle?: React_2.ReactNode;
+    // (undocumented)
+    title?: React_2.ReactNode;
+}
 
 // @public (undocumented)
 export type SyncFormStepIconProps = StepIconProps & {
@@ -442,6 +719,33 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 };
 
 // @public
+export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFields, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{
+    _secretKeys: any[];
+    _editMode: boolean;
+    _authType: number;
+    _step: number;
+}, yup.AnyObject, {
+    _secretKeys: string[];
+    _editMode: boolean;
+    _authType: AuthType;
+    _step: 0;
+}, "">;
+
+// @public (undocumented)
+export interface UseCoreFormSchemaProps {
+    // (undocumented)
+    fields: Record<string, yup.AnySchema>;
+    // (undocumented)
+    initialValues: FormMessagePayload['init']['initialValues'];
+    // (undocumented)
+    secretFields?: Record<string, yup.AnySchema>;
+    // (undocumented)
+    stateFields?: Record<string, yup.AnySchema>;
+}
+
+export { useForm }
+
+// @public
 export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, apiBaseUrl, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
@@ -482,6 +786,8 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
         connectionId: string;
     }) | undefined;
 };
+
+export { useFormContext }
 
 // @public
 export function useFormCurrentValues(pluginUiMessageHandler: PluginUiMessageHandler, getCurrentValues: () => PluginUiMessagePayload['current_values']['values']): void;
@@ -529,6 +835,11 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
     error: Error | null;
 };
 
+// Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const usePluginContext: () => PluginContextProps;
+
 // @public
 export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler, apiBaseUrl?: string): {
     cancelTestConnection: () => void;
@@ -545,7 +856,9 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
 };
 
-// @public
+export { useWatch }
+
+// @public @deprecated
 export function writeSecretsToPrepareValues(env?: Record<string, string>): {
     envs: {
         name: string;
@@ -556,7 +869,8 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
+// src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
+// src/types.ts:26:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

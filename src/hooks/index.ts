@@ -11,5 +11,6 @@ export { useFormSubmit } from './useFormSubmit';
 export { useTestConnection } from './useTestConnection';
 export { useFormCurrentValues } from './useFormCurrentValues';
 export { useOauthConnector } from './useOauthConnector';
+export { useCoreFormSchema, UseCoreFormSchemaProps } from './useCoreFormSchema';
 
 export type { CloudQueryTables, CloudQueryTable } from '../utils/generateTablesFromJson';

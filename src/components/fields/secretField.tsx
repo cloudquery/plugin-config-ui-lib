@@ -1,6 +1,5 @@
-import { ChangeEventHandler, RefCallback, useState } from 'react';
+import { ChangeEventHandler, ReactNode, Ref, useState } from 'react';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import { FormFieldReset } from './formFieldReset';
 import Stack from '@mui/material/Stack';
 import { secretFieldValue } from '../../utils/constants';
@@ -16,25 +15,23 @@ const getDefaultValue = (object: any, path: string) =>
  */
 export interface SecretFieldProps {
   editMode: boolean;
-  label: string;
+  label: ReactNode;
   onChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
-  onBlur?: () => void;
+  onBlur?: (e: any) => void;
   value: any;
   defaultValues: any;
   disabled?: boolean;
   name: string;
-  ref: RefCallback<HTMLInputElement>;
+  ref: Ref<HTMLDivElement>;
   textFieldProps?: TextFieldProps;
   setValue: (name: string, value: any) => void;
   getValues: (name?: string) => any;
   error?: boolean;
-  helperText?: ReturnType<typeof getFieldHelperText>;
+  helperText?: ReactNode;
 }
 
-// TODO: This component can be simplified when react-hook-form is supported in the lib.
 /**
  * SecretField component is a TextField wrapper to obfuscate sensitive values, while allowing value override.
- * It works well in conjunction with the utils: readSecretsFromInitialValues & writeSecretsToPrepareValues
  *
  * @public
  */

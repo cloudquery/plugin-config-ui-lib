@@ -18,7 +18,6 @@ export interface MultiAutocompleteProps {
   label: string;
 }
 
-// TODO: This component can be simplified when react-hook-form is supported in the lib.
 /**
  * MultiAutocomplete component is a multi value, free entry component.
  *
