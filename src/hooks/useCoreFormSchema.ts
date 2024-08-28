@@ -2,8 +2,7 @@ import { resetYupDefaultErrorMessages } from '@cloudquery/cloud-ui';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import * as yup from 'yup';
 import { getCoreSchema } from '../utils/getCoreSchema';
-import { PluginContext } from '../context/plugin';
-import { useContext } from 'react';
+import { usePluginContext } from '../context/plugin';
 
 /**
  * @public
@@ -27,7 +26,7 @@ export const useCoreFormSchema = ({
   stateFields = {},
 }: UseCoreFormSchemaProps) => {
   resetYupDefaultErrorMessages(yup);
-  const { tablesList, config } = useContext(PluginContext);
+  const { tablesList, config } = usePluginContext();
 
   return yup.object({
     ...getCoreSchema({ initialValues, tablesList, config }),

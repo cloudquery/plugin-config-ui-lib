@@ -3,8 +3,7 @@ import Box from '@mui/material/Box';
 import { useFormContext } from 'react-hook-form';
 import { Section, Logo } from '../../components';
 import { ControlTextField } from '../fields/ControlTextField';
-import { useContext } from 'react';
-import { PluginContext } from '../../context/plugin';
+import { usePluginContext } from '../../context/plugin';
 
 /**
  * This component serves as a header for the form, encapsulating the Name input field.
@@ -12,7 +11,7 @@ import { PluginContext } from '../../context/plugin';
  * @public
  */
 export function Header() {
-  const { config } = useContext(PluginContext);
+  const { config } = usePluginContext();
   const { watch } = useFormContext();
   const editMode = watch('_editMode');
   const step = watch('_step');

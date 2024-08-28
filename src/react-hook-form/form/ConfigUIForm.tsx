@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import {
   FormFooter,
   FormStepper,
@@ -10,7 +9,7 @@ import {
   useFormCurrentValues,
 } from '../..';
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
-import { PluginContext } from '../../context/plugin';
+import { usePluginContext } from '../../context/plugin';
 
 /**
  * @public
@@ -27,7 +26,7 @@ export interface ConfigUIFormProps {
  */
 export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps) {
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch } = useFormContext();
-  const { plugin, teamName, config, hideStepper } = useContext(PluginContext);
+  const { plugin, teamName, config, hideStepper } = usePluginContext();
 
   const step = watch('_step');
   const editMode = watch('_editMode');

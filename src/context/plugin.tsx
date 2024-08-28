@@ -1,4 +1,4 @@
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import { PluginConfig } from '../types';
 import { CloudQueryTables } from '../hooks';
 import { generateTablesFromJson } from '../utils';
@@ -34,12 +34,7 @@ interface PluginContextProps {
   tablesList?: PluginTable[];
 }
 
-/**
- * Shared/static plugin context.
- *
- * @public
- */
-export const PluginContext = createContext<PluginContextProps>({
+const PluginContext = createContext<PluginContextProps>({
   config: {
     name: '',
     type: 'source' as PluginConfig['type'],
@@ -60,6 +55,13 @@ export const PluginContext = createContext<PluginContextProps>({
   hideStepper: false,
   tablesList: undefined,
 });
+
+/**
+ * Shared/static plugin context.
+ *
+ * @public
+ */
+export const usePluginContext = () => useContext(PluginContext);
 
 /**
  * Provider for shared/static plugin context.

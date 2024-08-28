@@ -1,13 +1,13 @@
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import Box from '@mui/system/Box';
 import { useOauthConnector } from '../../hooks';
 import { cloudQueryApiBaseUrl } from '../../utils';
 import { getOauthSuccessBaseUrl } from '../../utils/getOauthSuccessBaseUrl';
 import { useFormContext } from 'react-hook-form';
-import { PluginContext } from '../../context/plugin';
+import { usePluginContext } from '../../context/plugin';
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
@@ -20,7 +20,7 @@ export function ControlOAuth({
   pluginUiMessageHandler: any; // TODO: delete after iframe deprecation
 }) {
   const form = useFormContext();
-  const { plugin, teamName, config } = useContext(PluginContext);
+  const { plugin, teamName, config } = usePluginContext();
   const { watch, formState, setValue } = form;
 
   const {

@@ -2,8 +2,8 @@ import Stack from '@mui/system/Stack';
 import { SetupGuide } from './setupGuide';
 import { RenderGuide } from './setupGuide/section';
 import { GuideConfig } from '../../types';
-import React, { ReactElement, useContext } from 'react';
-import { PluginContext } from '../../context/plugin';
+import React, { ReactElement } from 'react';
+import { usePluginContext } from '../../context/plugin';
 
 /**
  * Renderer for the config guide.
@@ -15,7 +15,7 @@ export function GuideComponent({
 }: {
   pluginUiMessageHandler: any; // TODO: remove after iframe deprecation
 }): ReactElement | null {
-  const { config } = useContext(PluginContext);
+  const { config } = usePluginContext();
 
   if (!config.guide) {
     return null;

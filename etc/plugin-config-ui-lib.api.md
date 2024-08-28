@@ -7,7 +7,6 @@
 import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
 import { ChangeEventHandler } from 'react';
-import { Context } from 'react';
 import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { FormProvider } from 'react-hook-form';
@@ -452,11 +451,6 @@ export interface PluginConfig {
     type: 'source' | 'destination';
 }
 
-// Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
-//
-// @public
-export const PluginContext: Context<PluginContextProps>;
-
 // @public
 export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, }: PluginContextProviderProps) => JSX_2.Element;
 
@@ -836,6 +830,11 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
     authConnectorResult: Record<string, string> | null;
     error: Error | null;
 };
+
+// Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const usePluginContext: () => PluginContextProps;
 
 // @public
 export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler, apiBaseUrl?: string): {
