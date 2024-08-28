@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import {
   FormFooter,
   FormStepper,
@@ -9,15 +10,13 @@ import {
   useFormCurrentValues,
 } from '../..';
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
-import { PluginConfig } from '../../types';
+import { PluginContext } from '../../context/plugin';
 
 /**
  * @public
  */
 export interface ConfigUIFormProps {
-  config: PluginConfig;
   getCurrentValues: any;
-  hideStepper?: boolean; // TODO: remove after iframe deprecation
   pluginUiMessageHandler: any;
 }
 
@@ -26,18 +25,12 @@ export interface ConfigUIFormProps {
  *
  * @public
  */
-export function ConfigUIForm({
-  hideStepper,
-  getCurrentValues,
-  config,
-  pluginUiMessageHandler,
-}: ConfigUIFormProps) {
+export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps) {
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch } = useFormContext();
+  const { plugin, teamName, config, hideStepper } = useContext(PluginContext);
 
   const step = watch('_step');
   const editMode = watch('_editMode');
-  const plugin = watch('_plugin');
-  const teamName = watch('_teamName');
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
 
@@ -94,7 +87,7 @@ export function ConfigUIForm({
           {!hideStepper && config.steps?.length > 1 && (
             <FormStepper steps={config.steps.map(({ title }) => title)} activeIndex={step} />
           )}
-          <Header config={config} />
+          <Header />
           {config.steps?.map(({ sections }, index) => {
             return (
               step === index && (

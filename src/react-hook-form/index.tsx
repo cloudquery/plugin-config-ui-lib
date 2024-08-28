@@ -13,4 +13,4 @@ export { ControlMultiSelect, ControlMultiSelectProps } from './fields/ControlMul
 export { ControlOAuth } from './fields/ControlOAuth';
 
 export { ConfigUIForm, ConfigUIFormProps } from './form/ConfigUIForm';
-export { Header, HeaderProps } from './form/Header';
+export { Header } from './form/Header';

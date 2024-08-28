@@ -1,8 +1,9 @@
 import Stack from '@mui/system/Stack';
 import { SetupGuide } from './setupGuide';
 import { RenderGuide } from './setupGuide/section';
-import { GuideConfig, PluginConfig } from '../../types';
-import React, { ReactElement } from 'react';
+import { GuideConfig } from '../../types';
+import React, { ReactElement, useContext } from 'react';
+import { PluginContext } from '../../context/plugin';
 
 /**
  * Renderer for the config guide.
@@ -10,12 +11,12 @@ import React, { ReactElement } from 'react';
  * @public
  */
 export function GuideComponent({
-  config,
   pluginUiMessageHandler,
 }: {
-  config: PluginConfig;
   pluginUiMessageHandler: any; // TODO: remove after iframe deprecation
 }): ReactElement | null {
+  const { config } = useContext(PluginContext);
+
   if (!config.guide) {
     return null;
   } else if ((config.guide as GuideConfig)?.sections) {
@@ -33,7 +34,7 @@ export function GuideComponent({
       </SetupGuide>
     );
   } else if (config.guide) {
-    const ConcreteComponent = config.guide as React.FC<{ config: PluginConfig }>;
+    const ConcreteComponent = config.guide as React.FC;
 
     return (
       <SetupGuide
@@ -42,7 +43,7 @@ export function GuideComponent({
         pluginUiMessageHandler={pluginUiMessageHandler}
       >
         <Stack spacing={3}>
-          <ConcreteComponent config={config} />;
+          <ConcreteComponent />;
         </Stack>
       </SetupGuide>
     );

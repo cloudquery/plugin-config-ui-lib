@@ -1,12 +1,13 @@
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import Box from '@mui/system/Box';
 import { useOauthConnector } from '../../hooks';
 import { cloudQueryApiBaseUrl } from '../../utils';
 import { getOauthSuccessBaseUrl } from '../../utils/getOauthSuccessBaseUrl';
 import { useFormContext } from 'react-hook-form';
+import { PluginContext } from '../../context/plugin';
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
@@ -19,9 +20,8 @@ export function ControlOAuth({
   pluginUiMessageHandler: any; // TODO: delete after iframe deprecation
 }) {
   const form = useFormContext();
+  const { plugin, teamName, config } = useContext(PluginContext);
   const { watch, formState, setValue } = form;
-  const plugin = watch('_plugin');
-  const teamName = watch('_teamName');
 
   const {
     authConnectorResult,
@@ -69,7 +69,7 @@ export function ControlOAuth({
       )}
       {!authenticateError && formState.errors.connectorId && (
         <FormHelperText error={true} sx={{ marginTop: 2 }}>
-          You must authenticate with Github to continue.
+          {`You must authenticate with ${config.label} to continue.`}
         </FormHelperText>
       )}
     </Stack>

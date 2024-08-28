@@ -1,10 +1,11 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 
 import { useFormContext, useWatch } from 'react-hook-form';
 import React from 'react';
 import { FormControl, FormHelperText } from '@mui/material';
 import { generatePluginTableList } from '../../utils';
 import { TableSelector } from '../../components/fields/tableSelector';
+import { PluginContext } from '../../context/plugin';
 
 function _PluginTableSelector() {
   const {
@@ -12,9 +13,8 @@ function _PluginTableSelector() {
     formState: { errors, submitCount },
     setValue,
     trigger,
-    watch,
   } = useFormContext();
-  const tablesList = watch('_data.tablesList');
+  const { tablesList } = useContext(PluginContext);
   const selectedTables: Record<string, boolean> = useWatch({
     exact: true,
     name: 'tables',

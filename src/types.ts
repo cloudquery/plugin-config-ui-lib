@@ -22,9 +22,10 @@ export interface PluginConfig {
   type: 'source' | 'destination';
   label: string;
   docsLink: string;
+  iconLink: string;
   steps: { sections: RenderSection[]; title: string }[];
   auth: AuthType[];
-  guide: React.FC<{ config: PluginConfig }> | GuideConfig;
+  guide: React.FC | GuideConfig;
 }
 
 /**

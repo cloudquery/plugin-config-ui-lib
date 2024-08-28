@@ -7,6 +7,7 @@
 import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
 import { ChangeEventHandler } from 'react';
+import { Context } from 'react';
 import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { FormProvider } from 'react-hook-form';
@@ -104,16 +105,12 @@ export interface CollapsibleSubSectionProps {
 }
 
 // @public
-export function ConfigUIForm({ hideStepper, getCurrentValues, config, pluginUiMessageHandler, }: ConfigUIFormProps): JSX_2.Element;
+export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ConfigUIFormProps {
     // (undocumented)
-    config: PluginConfig;
-    // (undocumented)
     getCurrentValues: any;
-    // (undocumented)
-    hideStepper?: boolean;
     // (undocumented)
     pluginUiMessageHandler: any;
 }
@@ -223,7 +220,7 @@ export interface ControlTextFieldProps {
 export function convertStringToSlug(value: string): string;
 
 // @public
-export function corePrepareSubmitValues(values: any): PluginUiMessagePayload['validation_passed']['values'];
+export function corePrepareSubmitValues(values: any, tablesList: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public (undocumented)
 export interface DestinationConfig extends PluginConfig {
@@ -354,19 +351,12 @@ export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTa
 export function getRandomId(length?: number): string;
 
 // @public
-export function GuideComponent({ config, pluginUiMessageHandler, }: {
-    config: PluginConfig;
+export function GuideComponent({ pluginUiMessageHandler, }: {
     pluginUiMessageHandler: any;
 }): ReactElement | null;
 
 // @public
-export function Header({ config }: HeaderProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface HeaderProps {
-    // (undocumented)
-    config: PluginConfig;
-}
+export function Header(): JSX_2.Element;
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -440,9 +430,9 @@ export interface PluginConfig {
     // Warning: (ae-forgotten-export) The symbol "GuideConfig" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    guide: React.FC<{
-        config: PluginConfig;
-    }> | GuideConfig;
+    guide: React.FC | GuideConfig;
+    // (undocumented)
+    iconLink: string;
     // (undocumented)
     label: string;
     // (undocumented)
@@ -454,6 +444,44 @@ export interface PluginConfig {
     }[];
     // (undocumented)
     type: 'source' | 'destination';
+}
+
+// @public
+export const PluginContext: Context<    {
+config: PluginConfig;
+plugin: {
+name: string;
+kind: string;
+version: string;
+team: string;
+};
+teamName: string;
+hideStepper: boolean;
+tablesList: PluginTable[];
+}>;
+
+// @public
+export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, }: PluginContextProviderProps) => JSX_2.Element;
+
+// @public (undocumented)
+export interface PluginContextProviderProps {
+    // (undocumented)
+    children: React.ReactNode;
+    // (undocumented)
+    config: PluginConfig;
+    // (undocumented)
+    hideStepper: boolean;
+    // (undocumented)
+    plugin: {
+        name: string;
+        kind: string;
+        version: string;
+        team: string;
+    };
+    // (undocumented)
+    tablesData: CloudQueryTables;
+    // (undocumented)
+    teamName: string;
 }
 
 // @public
@@ -698,21 +726,11 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 };
 
 // @public
-export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fields, secretFields, stateFields, tablesData, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{
+export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFields, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{
     _secretKeys: any[];
     _editMode: boolean;
     _authType: number;
     _step: number;
-    _plugin: {
-        team?: string | undefined;
-        version?: string | undefined;
-        name: string;
-        kind: string;
-    };
-    _teamName: string | undefined;
-    _data: {
-        tablesList: {}[];
-    };
     name: string;
     tables: {};
     connectorId: string;
@@ -721,16 +739,6 @@ export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fiel
     _editMode: boolean;
     _authType: AuthType;
     _step: 0;
-    _plugin: {
-        team: any;
-        name: string;
-        version: any;
-        kind: "source" | "destination";
-    };
-    _teamName: any;
-    _data: {
-        tablesList: PluginTable[];
-    };
     name: string;
     tables: Record<string, boolean>;
     connectorId: "";
@@ -739,21 +747,13 @@ export const useCoreFormSchema: ({ config, initialValues, plugin, teamName, fiel
 // @public (undocumented)
 export interface UseCoreFormSchemaProps {
     // (undocumented)
-    config: PluginConfig;
-    // (undocumented)
     fields: Record<string, yup.AnySchema>;
     // (undocumented)
     initialValues: FormMessagePayload['init']['initialValues'];
     // (undocumented)
-    plugin: any;
-    // (undocumented)
     secretFields?: Record<string, yup.AnySchema>;
     // (undocumented)
     stateFields?: Record<string, yup.AnySchema>;
-    // (undocumented)
-    tablesData: CloudQueryTables;
-    // (undocumented)
-    teamName: any;
 }
 
 export { useForm }
@@ -865,7 +865,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
 export { useWatch }
 
 // @public @deprecated
-export function writeSecretsToPrepareValues(values: Record<string, any>): {
+export function writeSecretsToPrepareValues(env?: Record<string, string>): {
     envs: {
         name: string;
         value: string;
@@ -876,7 +876,7 @@ export function writeSecretsToPrepareValues(values: Record<string, any>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:25:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
+// src/types.ts:26:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

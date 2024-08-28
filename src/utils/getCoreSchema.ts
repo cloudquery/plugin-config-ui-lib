@@ -1,22 +1,16 @@
 import * as yup from 'yup';
 import { AuthType, PluginConfig } from '../types';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { generateTablesFromJson } from '.';
 import { PluginTable } from '../components';
 import { generateName } from './generateName';
-import { CloudQueryTables } from './generateTablesFromJson';
 
 interface Props {
   config: PluginConfig;
   initialValues: FormMessagePayload['init']['initialValues'];
-  plugin: any;
-  teamName: any;
-  tablesData: CloudQueryTables;
+  tablesList: PluginTable[];
 }
 
-export const getCoreSchema = ({ config, initialValues, plugin, teamName, tablesData }: Props) => {
-  const tablesList = generateTablesFromJson(tablesData as CloudQueryTables);
-
+export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
   const coreFieldProps = {
     name: yup
       .string()
@@ -28,7 +22,7 @@ export const getCoreSchema = ({ config, initialValues, plugin, teamName, tablesD
       .max(255)
       .required(),
     tables: yup
-      .mixed()
+      .object()
       .default(initialValues ? getEnabledTablesObject(tablesList, initialValues.tables) : {})
       .test({
         name: 'has-tables',
@@ -46,28 +40,15 @@ export const getCoreSchema = ({ config, initialValues, plugin, teamName, tablesD
       }),
   };
 
-  const statefulProps = {
+  const formStateProps = {
     _editMode: yup.boolean().default(!!initialValues?.name),
     _authType: yup.number().oneOf(Object.values(config.auth)).default(config.auth[0]),
     _step: yup.number().default(0),
-    _plugin: yup.object({
-      team: yup.string().default(plugin?.team ?? 'cloudquery'),
-      name: yup.string().default(config.name),
-      version: yup.string().default(plugin?.version ?? 'development'),
-      kind: yup.string().default(config.type),
-    }),
-    _teamName: yup.string().default(teamName ?? ''),
-    _data: yup.object({
-      tablesList: yup
-        .array()
-        .of(yup.object())
-        .default(tablesList ?? []),
-    }),
   };
 
   return {
     ...coreFieldProps,
-    ...statefulProps,
+    ...formStateProps,
   };
 };
 

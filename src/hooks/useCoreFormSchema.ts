@@ -1,22 +1,18 @@
 import { resetYupDefaultErrorMessages } from '@cloudquery/cloud-ui';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import * as yup from 'yup';
-import { CloudQueryTables } from '../utils/generateTablesFromJson';
 import { getCoreSchema } from '../utils/getCoreSchema';
-import { PluginConfig } from '../types';
+import { PluginContext } from '../context/plugin';
+import { useContext } from 'react';
 
 /**
  * @public
  */
 export interface UseCoreFormSchemaProps {
-  config: PluginConfig;
   initialValues: FormMessagePayload['init']['initialValues'];
-  plugin: any;
-  teamName: any;
   fields: Record<string, yup.AnySchema>;
   secretFields?: Record<string, yup.AnySchema>;
   stateFields?: Record<string, yup.AnySchema>;
-  tablesData: CloudQueryTables;
 }
 
 /**
@@ -25,19 +21,16 @@ export interface UseCoreFormSchemaProps {
  * @public
  */
 export const useCoreFormSchema = ({
-  config,
   initialValues,
-  plugin,
-  teamName,
   fields,
   secretFields = {},
   stateFields = {},
-  tablesData,
 }: UseCoreFormSchemaProps) => {
   resetYupDefaultErrorMessages(yup);
+  const { tablesList, config } = useContext(PluginContext);
 
   return yup.object({
-    ...getCoreSchema({ config, initialValues, plugin, teamName, tablesData }),
+    ...getCoreSchema({ initialValues, tablesList, config }),
     ...stateFields,
     ...fields,
     ...secretFields,

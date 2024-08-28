@@ -2,22 +2,17 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useFormContext } from 'react-hook-form';
 import { Section, Logo } from '../../components';
-import { PluginConfig } from '../../types';
 import { ControlTextField } from '../fields/ControlTextField';
-
-/**
- * @public
- */
-export interface HeaderProps {
-  config: PluginConfig;
-}
+import { useContext } from 'react';
+import { PluginContext } from '../../context/plugin';
 
 /**
  * This component serves as a header for the form, encapsulating the Name input field.
  *
  * @public
  */
-export function Header({ config }: HeaderProps) {
+export function Header() {
+  const { config } = useContext(PluginContext);
   const { watch } = useFormContext();
   const editMode = watch('_editMode');
   const step = watch('_step');
@@ -25,9 +20,9 @@ export function Header({ config }: HeaderProps) {
   return (
     <Section>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography variant="h5">{editMode ? 'Update' : 'Create'} a source</Typography>
+        <Typography variant="h5">{`${editMode ? 'Update' : 'Create'} a ${config.type}`}</Typography>
         <Box display="flex" justifyContent="space-between" alignItems="center" gap={1.5}>
-          <Logo src={`images/logo.webp`} fallbackSrc="favicon.ico" alt={config.label} />
+          <Logo src={config.iconLink} fallbackSrc="favicon.ico" alt={config.label} />
           <Typography variant="body1">{config.label}</Typography>
         </Box>
       </Box>
@@ -35,8 +30,8 @@ export function Header({ config }: HeaderProps) {
         <ControlTextField
           name="name"
           textFieldProps={{ disabled: editMode }}
-          helperText={'Unique source name that helps identify the source within your workspace.'}
-          label="Source name"
+          helperText={`Unique ${config.type} name that helps identify the ${config.type} within your workspace.`}
+          label={`${config.type.charAt(0).toUpperCase() + config.type.slice(1)} name`}
         />
       )}
     </Section>
