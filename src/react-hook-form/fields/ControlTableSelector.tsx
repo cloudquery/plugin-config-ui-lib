@@ -55,6 +55,7 @@ function _PluginTableSelector() {
         onChange={handleChange}
         subscribeToTablesValueChange={subscribeToTablesValueChange}
         tableList={tableList}
+        disabled={tableList.length === 1}
         value={selectedTables}
       />
       <FormHelperText error={!!errorMessage}>{errorMessage}</FormHelperText>

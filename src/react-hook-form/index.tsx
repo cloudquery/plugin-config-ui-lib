@@ -5,6 +5,7 @@ export { ControlTableSelector } from './fields/ControlTableSelector';
 export { ControlSecretField, ControlSecretFieldProps } from './fields/ControlSecretField';
 export { ControlBooleanField, ControlBooleanFieldProps } from './fields/ControlBooleanField';
 export { ControlNumberField, ControlNumberFieldProps } from './fields/ControlNumberField';
+export { ControlDateTimeField, ControlDateTimeFieldProps } from './fields/ControlDateTimeField';
 export {
   ControlExclusiveToggle,
   ControlExclusiveToggleProps,

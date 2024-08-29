@@ -34,11 +34,15 @@ export const useCoreFormSchema = ({
     [initialValues, tablesList, config],
   );
 
-  return yup.object({
-    ...coreSchema,
-    ...stateFields,
-    ...fields,
-    ...secretFields,
-    _secretKeys: yup.array().default(Object.keys(secretFields)),
-  });
+  return useMemo(
+    () =>
+      yup.object({
+        ...coreSchema,
+        ...stateFields,
+        ...fields,
+        ...secretFields,
+        _secretKeys: yup.array().default(Object.keys(secretFields)),
+      }),
+    [coreSchema, stateFields, fields, secretFields],
+  );
 };
