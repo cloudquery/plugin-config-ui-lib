@@ -130,6 +130,23 @@ export interface ControlBooleanFieldProps {
 }
 
 // @public
+export function ControlDateTimeField({ name, label, helperText, disabled, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlDateTimeFieldProps {
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    InputProps?: TextFieldProps['InputProps'];
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+}
+
+// @public
 export function ControlExclusiveToggle({ name, options, children }: ControlExclusiveToggleProps): JSX_2.Element;
 
 // @public (undocumented)
