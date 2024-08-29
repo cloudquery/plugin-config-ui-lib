@@ -5,6 +5,7 @@ import { ControlNumberFieldProps } from '../../../react-hook-form/fields/Control
 import { ControlBooleanFieldProps } from '../../../react-hook-form/fields/ControlBooleanField';
 import { ControlMultiSelectProps } from '../../../react-hook-form/fields/ControlMultiSelect';
 import { ControlExclusiveToggleProps } from '../../../react-hook-form/fields/ControlExclusiveToggle';
+import { ControlDateTimeFieldProps } from '../../../react-hook-form/fields/ControlDateTimeField';
 
 export type RenderSection = LayoutSection | LayoutCollapsibleSection | React.FC<any>;
 type RenderComponent =
@@ -18,6 +19,7 @@ type LayoutComponent =
   | LayoutTextField
   | LayoutSecretField
   | LayoutNumberField
+  | LayoutDateTimeField
   | LayoutBooleanField
   | LayoutMultiSelectField
   | LayoutTableSelector
@@ -37,6 +39,10 @@ interface LayoutNumberField extends ControlNumberFieldProps {
 
 interface LayoutBooleanField extends ControlBooleanFieldProps {
   component: 'control-boolean-field';
+}
+
+interface LayoutDateTimeField extends ControlDateTimeFieldProps {
+  component: 'control-date-time-field';
 }
 
 interface LayoutMultiSelectField extends ControlMultiSelectProps {

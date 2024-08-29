@@ -11,6 +11,7 @@ import {
   ControlMultiSelect,
   ControlTableSelector,
   ControlExclusiveToggle,
+  ControlDateTimeField,
 } from '../../../react-hook-form';
 import { ReactNode } from 'react';
 
@@ -73,6 +74,9 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
       }
       case 'control-boolean-field': {
         return <ControlBooleanField {...component} />;
+      }
+      case 'control-date-time-field': {
+        return <ControlDateTimeField {...component} />;
       }
       case 'control-multi-select': {
         return <ControlMultiSelect {...component} />;
