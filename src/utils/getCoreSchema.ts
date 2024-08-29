@@ -14,10 +14,7 @@ interface Props {
 
 export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
   const coreFieldProps: Record<string, yup.AnySchema> = {
-    name: yup
-      .string()
-      .default(initialValues?.name ?? generateUniqueName(config.name))
-      .required(),
+    name: yup.string().default(initialValues?.name ?? generateUniqueName(config.name)),
     displayName: yup
       .string()
       .default(initialValues?.displayName ?? generateDisplayName(config.label))
