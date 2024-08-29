@@ -9,7 +9,8 @@ describe('generateUniqueName', () => {
   it('should generate the correct name based on the plugin name', () => {
     const name = generateUniqueName('aws');
 
-    expect(name).toBe('aws-2020-04-01-05-15-30');
+    expect(name).toMatch(/^aws-2020-04-01-05-15-30/);
+    expect(name.length).toBe(27);
   });
 });
 
