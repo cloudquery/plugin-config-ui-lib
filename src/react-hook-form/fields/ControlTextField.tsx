@@ -3,12 +3,11 @@ import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { ReactNode } from 'react';
 import { ControlSecretField } from './ControlSecretField';
-import { useShouldRender, UseShouldRenderProps } from '../hooks/useShouldRender';
 
 /**
  * @public
  */
-export interface ControlTextFieldProps extends UseShouldRenderProps {
+export interface ControlTextFieldProps extends Pick<ShouldRenderProps, 'shouldRender'> {
   name: string;
   helperText?: ReactNode;
   label: ReactNode;
@@ -34,10 +33,8 @@ export function ControlTextField({
 
   const ConcreteComponent = isSecret ? ControlSecretField : TextField;
 
-  const willRender = useShouldRender({ shouldRender });
-
   return (
-    willRender && (
+    <ShouldRenderWrapper shouldRender={shouldRender}>
       <Controller
         name={name}
         render={({ field, fieldState }) => (
@@ -51,6 +48,18 @@ export function ControlTextField({
           />
         )}
       />
-    )
+    </ShouldRenderWrapper>
   );
+}
+
+interface ShouldRenderProps {
+  shouldRender?: (values: Record<string, any>) => boolean;
+  children: ReactNode;
+}
+
+function ShouldRenderWrapper({ shouldRender, children }: ShouldRenderProps) {
+  const { watch } = useFormContext();
+  const willRender = shouldRender ? shouldRender(watch()) : true;
+
+  return willRender ? children : null;
 }
