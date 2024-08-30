@@ -170,7 +170,7 @@ export function ControlMultiSelect({ name, helperText, label }: ControlMultiSele
 // @public (undocumented)
 export interface ControlMultiSelectProps {
     // (undocumented)
-    helperText?: string;
+    helperText?: ReactNode;
     // (undocumented)
     label: string;
     // (undocumented)
@@ -212,6 +212,23 @@ export interface ControlSecretFieldProps {
     textFieldProps?: TextFieldProps;
 }
 
+// @public
+export function ControlSelectField({ name, helperText, label, options, }: ControlSelectFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSelectFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // Warning: (ae-forgotten-export) The symbol "OptionObject" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    options: (string | OptionObject)[];
+}
+
 // Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -243,6 +260,9 @@ export interface DestinationConfig extends PluginConfig {
     // (undocumented)
     type: 'destination';
 }
+
+// @public
+export function escapeSingleQuotesAndBackslashes(str: string): string;
 
 // @public
 export const ExclusiveToggle: ForwardRefExoticComponent<ExclusiveToggleProps & RefAttributes<HTMLElement>>;
@@ -741,7 +761,7 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
 export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFields, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{
     _secretKeys: any[];
     _editMode: boolean;
-    _authType: number;
+    _authType: {};
     _step: number;
 }, yup.AnyObject, {
     _secretKeys: string[];

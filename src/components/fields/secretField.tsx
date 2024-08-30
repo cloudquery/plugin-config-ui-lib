@@ -64,6 +64,9 @@ export function SecretField({
 
   const isSecret = editMode && getDefaultValue(defaultValues, name) === secretFieldValue;
   const isObscured = isSecret && !fieldResetted && getValues(name as any) === secretFieldValue;
+  const displayValue = isObscured
+    ? value.replace(/\$\{[^}]+\}/g, envPlaceholder.slice(0, 6))
+    : value;
 
   return (
     <Stack direction="row" alignItems="flex-start" spacing={2}>
@@ -77,7 +80,7 @@ export function SecretField({
         onChange={onChange}
         onBlur={onBlur}
         disabled={disabled || isObscured}
-        value={isObscured ? envPlaceholder : value}
+        value={displayValue}
         {...textFieldProps}
       />
       {isSecret && (

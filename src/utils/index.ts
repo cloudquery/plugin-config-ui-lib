@@ -11,3 +11,4 @@ export { readSecretsFromInitialValues, writeSecretsToPrepareValues } from './pro
 export { convertStringToSlug } from './convertStringToSlug';
 export { corePrepareSubmitValues } from './corePrepareSubmitValues';
 export { getEnabledTablesObject } from './getEnabledTablesObject';
+export { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';

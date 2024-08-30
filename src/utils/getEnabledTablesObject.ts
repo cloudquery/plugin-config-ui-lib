@@ -15,7 +15,7 @@ export const getEnabledTablesObject = ({
 }): Record<string, boolean> => {
   const enabledTablesObject: Record<string, boolean> = {};
 
-  if (tables.length === 1 && tables[0] === '*') {
+  if ((tables.length === 1 && tables[0] === '*') || tablesList.length === 1) {
     for (const table of tablesList) {
       enabledTablesObject[table.name] = true;
     }
