@@ -44,6 +44,7 @@ const PluginContext = createContext<PluginContextProps>({
     steps: [],
     auth: [],
     guide: () => <></>,
+    errorCodes: {},
   } as PluginConfig,
   plugin: {
     name: '',

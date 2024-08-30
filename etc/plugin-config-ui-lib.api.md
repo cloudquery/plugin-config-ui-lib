@@ -451,6 +451,8 @@ export interface PluginConfig {
     auth: AuthType[];
     // (undocumented)
     docsLink: string;
+    // (undocumented)
+    errorCodes?: Record<string, string>;
     // Warning: (ae-forgotten-export) The symbol "GuideConfig" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
