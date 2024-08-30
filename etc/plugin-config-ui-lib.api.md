@@ -235,7 +235,7 @@ export interface ControlSelectFieldProps {
 export const ControlTableSelector: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
 
 // @public
-export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;
+export function ControlTextField({ name, label, helperText, textFieldProps, shouldRender, }: ControlTextFieldProps): false | JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlTextFieldProps {
@@ -245,6 +245,8 @@ export interface ControlTextFieldProps {
     label: ReactNode;
     // (undocumented)
     name: string;
+    // (undocumented)
+    shouldRender?: (values: any) => boolean;
     // (undocumented)
     textFieldProps?: TextFieldProps;
 }

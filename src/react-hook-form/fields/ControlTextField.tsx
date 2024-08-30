@@ -3,11 +3,12 @@ import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 import { ReactNode } from 'react';
 import { ControlSecretField } from './ControlSecretField';
+import { useShouldRender, UseShouldRenderProps } from '../hooks/useShouldRender';
 
 /**
  * @public
  */
-export interface ControlTextFieldProps {
+export interface ControlTextFieldProps extends UseShouldRenderProps {
   name: string;
   helperText?: ReactNode;
   label: ReactNode;
@@ -24,6 +25,7 @@ export function ControlTextField({
   label,
   helperText = '',
   textFieldProps = {},
+  shouldRender,
 }: ControlTextFieldProps) {
   const { watch } = useFormContext();
 
@@ -32,19 +34,23 @@ export function ControlTextField({
 
   const ConcreteComponent = isSecret ? ControlSecretField : TextField;
 
+  const willRender = useShouldRender({ shouldRender });
+
   return (
-    <Controller
-      name={name}
-      render={({ field, fieldState }) => (
-        <ConcreteComponent
-          error={!!fieldState.error}
-          fullWidth={true}
-          helperText={getFieldHelperText(fieldState.error?.message, helperText)}
-          label={label}
-          {...field}
-          {...textFieldProps}
-        />
-      )}
-    />
+    willRender && (
+      <Controller
+        name={name}
+        render={({ field, fieldState }) => (
+          <ConcreteComponent
+            error={!!fieldState.error}
+            fullWidth={true}
+            helperText={getFieldHelperText(fieldState.error?.message, helperText)}
+            label={label}
+            {...field}
+            {...textFieldProps}
+          />
+        )}
+      />
+    )
   );
 }
