@@ -12,6 +12,7 @@ import {
   ControlTableSelector,
   ControlExclusiveToggle,
   ControlDateTimeField,
+  ControlSelectField,
 } from '../../../react-hook-form';
 import { ReactNode } from 'react';
 
@@ -75,6 +76,9 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
       case 'control-boolean-field': {
         return <ControlBooleanField {...component} />;
       }
+      case 'control-select-field': {
+        return <ControlSelectField {...component} />;
+      }
       case 'control-date-time-field': {
         return <ControlDateTimeField {...component} />;
       }
@@ -85,6 +89,7 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
         return <ControlTableSelector {...component} />;
       }
       case 'control-oauth': {
+        // TODO: after iframe deprecation
         return <>This will work after the iframe deprecation.</>;
       }
       case 'exclusive-toggle': {

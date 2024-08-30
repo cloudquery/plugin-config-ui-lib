@@ -1,5 +1,5 @@
 import { getFieldHelperText } from '@cloudquery/cloud-ui';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { MultiAutocomplete } from '../../components';
 
@@ -9,7 +9,7 @@ import { MultiAutocomplete } from '../../components';
 export interface ControlMultiSelectProps {
   name: string;
   label: string;
-  helperText?: string;
+  helperText?: ReactNode;
 }
 
 /**

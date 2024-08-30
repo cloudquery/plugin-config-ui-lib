@@ -37,14 +37,15 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
   if (tablesList) {
     coreFieldProps.tables = yup
       .object()
-      .default(
-        initialValues ? getEnabledTablesObject({ tablesList, tables: initialValues.tables }) : {},
-      );
+      .default(getEnabledTablesObject({ tablesList, tables: initialValues?.tables }));
   }
 
   const formStateProps = {
     _editMode: yup.boolean().default(!!initialValues?.name),
-    _authType: yup.number().oneOf(Object.values(config.auth)).default(config.auth[0]),
+    _authType: yup
+      .mixed()
+      .oneOf(Object.values(AuthType))
+      .default(config.auth[0] ?? AuthType.OTHER),
     _step: yup.number().default(0),
   };
 

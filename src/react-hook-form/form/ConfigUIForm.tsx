@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from 'react';
 import {
   FormFooter,
   FormStepper,
@@ -10,6 +11,9 @@ import {
 } from '../..';
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
 import { usePluginContext } from '../../context/plugin';
+import FormHelperText from '@mui/material/FormHelperText';
+import { Path } from 'react-hook-form';
+import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 
 /**
  * @public
@@ -25,7 +29,14 @@ export interface ConfigUIFormProps {
  * @public
  */
 export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps) {
-  const { getValues, handleSubmit: handleFormSubmit, setValue, watch } = useFormContext();
+  const {
+    getValues,
+    handleSubmit: handleFormSubmit,
+    setValue,
+    watch,
+    setError,
+    formState,
+  } = useFormContext();
   const { plugin, teamName, config, hideStepper } = usePluginContext();
 
   const step = watch('_step');
@@ -44,6 +55,7 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
     isTestingConnection,
     testConnectionError,
     submitPayload,
+    submitError,
   } = useFormActions({
     getValues: getCurrentValues,
     teamName,
@@ -55,11 +67,38 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
     isUpdating: editMode,
   });
 
+  useEffect(() => {
+    if (submitError) {
+      const fieldErrors = submitError.data?.field_errors;
+
+      if (fieldErrors) {
+        for (const key of Object.keys(fieldErrors)) {
+          if (key in getValues()) {
+            setError(key as Path<any>, {
+              message: fieldErrors[key],
+            });
+          } else {
+            setError('root', { message: submitError.data.message || submitError.message });
+
+            return;
+          }
+        }
+      } else {
+        setError('root', { message: submitError.data.message || submitError.message });
+      }
+    }
+  }, [submitError, getValues, setError]);
+
   const formDisabled = isSubmitting || isTestingConnection;
 
   const onTestConnectionSuccess = async () => {
     await handleSubmit(getCurrentValues());
   };
+
+  const parsedTestConnectionError = useMemo(
+    () => (testConnectionError ? parseTestConnectionError(testConnectionError, config) : undefined),
+    [testConnectionError, config],
+  );
 
   const onGoToPreviousStep = () => {
     if (step === 0) {
@@ -98,12 +137,15 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
               )
             );
           })}
+          <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+            {formState.errors.root?.message}
+          </FormHelperText>
           <FormFooter
             isUpdating={editMode}
             pluginKind={plugin.kind as any}
             isTestingConnection={isTestingConnection}
             isSubmitting={isSubmitting}
-            testConnectionError={testConnectionError}
+            testConnectionError={parsedTestConnectionError}
             submitPayload={submitPayload}
             onCancel={handleCancel}
             onCancelTestConnection={handleCancelTestConnection}

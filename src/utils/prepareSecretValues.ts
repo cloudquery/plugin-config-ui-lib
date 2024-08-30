@@ -1,5 +1,6 @@
 import { AuthType } from '../types';
 import { secretFieldValue } from './constants';
+import { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';
 
 /**
  * Prepare secret values for the deployment
@@ -20,7 +21,7 @@ export function prepareSecretValues(values: Record<string, any>): {
           name,
           value: value === secretFieldValue ? '' : value,
         });
-        spec[name] = `\${${name}}`;
+        spec[name] = `\${${escapeSingleQuotesAndBackslashes(name)}}`;
       }
     }
   }
