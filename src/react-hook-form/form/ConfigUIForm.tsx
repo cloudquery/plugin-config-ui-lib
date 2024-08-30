@@ -78,13 +78,13 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
               message: fieldErrors[key],
             });
           } else {
-            setError('root', { message: submitError.data.message || submitError.message });
+            setError('root', { message: submitError.data?.message || submitError.message });
 
             return;
           }
         }
       } else {
-        setError('root', { message: submitError.data.message || submitError.message });
+        setError('root', { message: submitError.data?.message || submitError.message });
       }
     }
   }, [submitError, getValues, setError]);
