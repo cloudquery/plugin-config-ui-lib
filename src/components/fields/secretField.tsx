@@ -65,8 +65,9 @@ export function SecretField({
   const isSecret = editMode && getDefaultValue(defaultValues, name) === secretFieldValue;
   const isObscured = isSecret && !fieldResetted && getValues(name as any) === secretFieldValue;
   const displayValue = isObscured
-    ? value.replace(/\$\{[^}]+\}/g, envPlaceholder.slice(0, 6))
-    : value;
+    ? envPlaceholder
+    : // ? value.replace(/\$\{[^}]+\}/g, envPlaceholder.slice(0, 6)) TODO: partial obfuscation
+      value;
 
   return (
     <Stack direction="row" alignItems="flex-start" spacing={2}>

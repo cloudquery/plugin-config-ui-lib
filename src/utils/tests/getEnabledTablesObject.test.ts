@@ -2,12 +2,10 @@ import { getEnabledTablesObject } from '../getEnabledTablesObject';
 
 describe('getEnabledTablesObject', () => {
   it('should generate an empty object given no inputs', () => {
-    // Test case 1: pluginName with spaces
     expect(getEnabledTablesObject({})).toMatchObject({});
   });
 
   it('should enable all tables if tablesList is only 1 record', () => {
-    // Test case 1: pluginName with spaces
     expect(
       getEnabledTablesObject({
         tablesList: [
@@ -25,7 +23,6 @@ describe('getEnabledTablesObject', () => {
   });
 
   it('should all tables if tables === *', () => {
-    // Test case 1: pluginName with spaces
     expect(
       getEnabledTablesObject({
         tablesList: [
