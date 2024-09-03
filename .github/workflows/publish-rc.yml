@@ -26,23 +26,23 @@ jobs:
           PACKAGE_NAME=$(jq -r .name < package.json)
           echo "::set-output name=package_name::$PACKAGE_NAME"
 
-      # - name: Install dependencies
-      #   run: npm install
+      - name: Install dependencies
+        run: npm install
 
-      # - name: Run tests
-      #   run: npm test
+      - name: Run tests
+        run: npm test
 
-      # - name: Build package
-      #   run: npm run build
+      - name: Build package
+        run: npm run build
 
-      # - name: Ensure no untracked changes after build
-      #   run: |
-      #     if [ -n "$(git status --porcelain)" ]; then
-      #       echo "Untracked changes found after build"
-      #       exit 1
-      #     else
-      #       echo "No untracked changes"
-      #     fi
+      - name: Ensure no untracked changes after build
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Untracked changes found after build"
+            exit 1
+          else
+            echo "No untracked changes"
+          fi
 
       - name: Set Git config
         run: |
@@ -76,7 +76,7 @@ jobs:
 
           echo "Ready to publish: $(node -p "require('./package.json').version")"
 
-      # - name: Publish to npm
-      #   run: npm publish --tag rc
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - name: Publish to npm
+        run: npm publish --tag rc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
