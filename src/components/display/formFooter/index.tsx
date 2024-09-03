@@ -83,13 +83,9 @@ export function FormFooter({
           </Button>
         </Stack>
         <Stack alignItems="center" direction="row" spacing={2}>
-          {/* legend excludes the Cancel button from the form  */}
-          <legend>
-            <Button disabled={isBusy} onClick={onCancel} size="medium">
-              Cancel
-            </Button>
-          </legend>
-
+          <Button disabled={isBusy} onClick={onCancel} size="medium">
+            Cancel
+          </Button>
           <LoadingButton
             loading={isBusy}
             size="medium"
@@ -105,7 +101,6 @@ export function FormFooter({
         <FormFooterTestConnectionResult
           failureError={testConnectionError}
           isLoading={isTestingConnection}
-          isSubmitting={isSubmitting}
           onCancel={onCancelTestConnection}
           onSuccess={onTestConnectionSuccess}
           pluginKind={pluginKind}
