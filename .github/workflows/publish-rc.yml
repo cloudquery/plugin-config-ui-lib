@@ -62,7 +62,7 @@ jobs:
           if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
             latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')  # Get the latest rc version
             echo "$latest_rc_version"  # Output the last version
-            npm version "$latest_rc_version" -f
+            npm version "$latest_rc_version" --allow-same-version
             npm version prerelease --preid=rc
           else
             echo "No matching rc versions found."
