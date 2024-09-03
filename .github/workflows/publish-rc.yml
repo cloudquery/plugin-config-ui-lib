@@ -55,7 +55,7 @@ jobs:
           PACKAGE_BASE_VERSION=$(node -p "require('./package.json').version" | cut -d "-" -f 1)
           echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
           # Check for matching npm versions
-          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json)
+          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION-rc")
           if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
             latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
             echo "Catching version up to latest rc: $latest_rc_version"
