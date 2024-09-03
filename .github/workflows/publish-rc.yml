@@ -24,9 +24,7 @@ jobs:
         id: get_package_info
         run: |
           PACKAGE_NAME=$(jq -r .name < package.json)
-          PACKAGE_VERSION=$(jq -r .version < package.json)
           echo "::set-output name=package_name::$PACKAGE_NAME"
-          echo "::set-output name=current_version::$PACKAGE_VERSION"
 
       # - name: Install dependencies
       #   run: npm install
@@ -57,12 +55,10 @@ jobs:
       - name: Check and update package.json version
         run: |
           # Get the current version from package.json
-          current_base_version=$(node -p "require('./package.json').version") | cut -d "-" -f 1
-          echo $current_base_version
+          PACKAGE_BASE_VERSION=$(node -p "require('./package.json').version") | cut -d "-" -f 1
+          echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
           # Check for matching npm versions
-          matching_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep $current_base_version)
-          echo $matching_versions
-          echo $current_base_version
+          matching_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep ${{ steps.get_package_info.outputs.base_version }})
           if [ -n "$matching_versions" ]; then
             # Overwrite package.json version with the latest rc version
             latest_rc_version=$(echo "$matching_versions" | sort -V | tail -n 1)
