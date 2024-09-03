@@ -8,8 +8,6 @@ on:
 
 jobs:
   publish_rc:
-    if: ${{ github.event.label.name == 'release-candidate' }}
-
     runs-on: ubuntu-latest
 
     steps:
