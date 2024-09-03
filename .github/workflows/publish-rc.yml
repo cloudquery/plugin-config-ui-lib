@@ -49,9 +49,6 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "Github Actions"
 
-      - name: Iterate rc version
-        run: npm version prerelease --preid=rc
-
       - name: Check and update package.json version
         run: |
           # Get the current version from package.json
@@ -60,13 +57,16 @@ jobs:
           # Check for matching npm versions
           matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json)
           if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
-            latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')  # Get the latest rc version
-            echo "$latest_rc_version"  # Output the last version
+            latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
+            echo "Catching version up to latest rc: $latest_rc_version"
             npm version "$latest_rc_version" --allow-same-version
+            echo "Iterating over version: $latest_rc_version"
             npm version prerelease --preid=rc
           else
-            echo "No matching rc versions found."
+            echo "No matching rc versions found. Initializing version $PACKAGE_BASE_VERSION-rc.0"
+            npm version "$PACKAGE_BASE_VERSION-rc.0"
           fi
+
           echo "Ready to publish: $(node -p "require('./package.json').version")"
 
       # - name: Publish to npm
