@@ -20,6 +20,14 @@ jobs:
           node-version: '18.18.0'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Get package name and current version from package.json
+        id: get_package_info
+        run: |
+          PACKAGE_NAME=$(jq -r .name < package.json)
+          PACKAGE_VERSION=$(jq -r .version < package.json)
+          echo "::set-output name=package_name::$PACKAGE_NAME"
+          echo "::set-output name=current_version::$PACKAGE_VERSION"
+
       - name: Install dependencies
         run: npm install
 
@@ -45,6 +53,21 @@ jobs:
 
       - name: Iterate rc version
         run: npm version prerelease --preid=rc
+
+      - name: Check and update package.json version
+        run: |
+          # Get the current version from package.json
+          current_version=$(node -p "require('./package.json').version")
+          # Check for matching npm versions
+          matching_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | jq -r '.[]' | grep "$current_version")
+          if [ -n "$matching_versions" ]; then
+            # Overwrite package.json version with the latest rc version
+            latest_rc_version=$(echo "$matching_versions" | grep -E 'rc[0-9]+' | sort -V | tail -n 1)
+            npm version "$latest_rc_version"
+            echo "Updated package.json to version $latest_rc_version"
+            # Run npm version prerelease again
+            npm version prerelease --preid=rc
+          fi
 
       - name: Publish to npm
         run: npm publish --tag rc
