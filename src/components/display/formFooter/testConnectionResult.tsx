@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 interface Props {
   failureError: (Error & { code?: string }) | undefined;
   isLoading: boolean;
+  isSubmitting?: boolean;
   pluginKind: 'source' | 'destination';
   onCancel: () => void;
   onSuccess: () => void;
@@ -20,6 +21,7 @@ interface Props {
 export function FormFooterTestConnectionResult({
   failureError,
   isLoading,
+  isSubmitting,
   pluginKind,
   onCancel,
   onSuccess,
@@ -27,6 +29,7 @@ export function FormFooterTestConnectionResult({
   const cardRef = useRef<HTMLDivElement>(null);
   const progressElemRef = useRef<HTMLDivElement>(null);
   const intervalId = useRef<number>();
+  const timeoutId = useRef<number>();
   const [progress, setProgress] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const [success, setSuccess] = useState(false);
@@ -57,11 +60,12 @@ export function FormFooterTestConnectionResult({
   }, [isLoading]);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !isSubmitting) {
       progressElemRef.current
         ?.querySelector(`.${linearProgressClasses.bar}`)
         ?.addEventListener('transitionend', () => {
-          window.setTimeout(() => {
+          clearTimeout(timeoutId.current);
+          timeoutId.current = window.setTimeout(() => {
             if (failureError) {
               setErrorMessage(failureError.message || 'Unknown error');
             } else {
@@ -73,8 +77,10 @@ export function FormFooterTestConnectionResult({
       clearTimeout(intervalId.current);
       setProgress(100);
     }
+
+    return () => clearTimeout(timeoutId.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading]);
+  }, [isLoading, isSubmitting]);
 
   if (success) {
     return null;

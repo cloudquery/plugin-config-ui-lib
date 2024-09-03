@@ -101,6 +101,7 @@ export function FormFooter({
         <FormFooterTestConnectionResult
           failureError={testConnectionError}
           isLoading={isTestingConnection}
+          isSubmitting={isSubmitting}
           onCancel={onCancelTestConnection}
           onSuccess={onTestConnectionSuccess}
           pluginKind={pluginKind}
