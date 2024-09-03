@@ -59,12 +59,12 @@ jobs:
           echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
           # Check for matching npm versions
           matching_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION")
-          latest_rc_version=$(echo "$matching_versions" | jq -r '.[-1]')  # Get the last version
+          latest_rc_version=$(echo "$matching_versions" | jq -r '.[-1]')  # Get the latest rc version
           echo "$latest_rc_version"  # Output the last version
-          npm version $latest_rc_version
-          echo "Updated package.json to version $latest_rc_version"
-          # Run npm version prerelease again
-          npm version prerelease --preid=rc
+          while [ "$latest_rc_version" != "$(node -p "require('./package.json').version")" ]
+          do npm version prerelease --preid=rc
+          done
+          echo "$(node -p "require('./package.json').version")"
 
       # - name: Publish to npm
       #   run: npm publish --tag rc
