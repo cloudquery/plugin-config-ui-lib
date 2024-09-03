@@ -46,10 +46,10 @@ jobs:
       #       echo "No untracked changes"
       #     fi
 
-      # - name: Set Git config
-      #   run: |
-      #     git config --local user.email "actions@github.com"
-      #     git config --local user.name "Github Actions"
+      - name: Set Git config
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
 
       - name: Iterate rc version
         run: npm version prerelease --preid=rc
