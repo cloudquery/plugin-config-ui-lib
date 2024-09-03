@@ -62,6 +62,11 @@ jobs:
             echo "No untracked changes"
           fi
 
+      - name: Set Git config
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Github Actions"
+
       - name: Iterate version if it was not manually iterated
         if: steps.check_version.outputs.version_changed == 'false'
         run: npm version patch
