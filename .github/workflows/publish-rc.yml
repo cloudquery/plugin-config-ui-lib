@@ -55,16 +55,17 @@ jobs:
       - name: Check and update package.json version
         run: |
           # Get the current version from package.json
-          PACKAGE_BASE_VERSION=$(node -p "require('./package.json').version") | cut -d "-" -f 1
+          PACKAGE_BASE_VERSION=$(node -p "require('./package.json').version" | cut -d "-" -f 1)
           echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
           # Check for matching npm versions
-          matching_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION")
-          latest_rc_version=$(echo "$matching_versions" | jq -r '.[-1]')  # Get the latest rc version
-          echo "$latest_rc_version"  # Output the last version
-          if [ "$latest_rc_version" != "$(node -p "require('./package.json').version")" ]
-             npm version "$latest_rc_version -f"
-             npm version prerelease --preid=rc
+          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION-rc")
+          if [ -n "$matching_rc_versions" ]; then
+            latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')  # Get the latest rc version
+            echo "$latest_rc_version"  # Output the last version
+            npm version "$latest_rc_version" -f
+            npm version prerelease --preid=rc
           fi
+          echo $(node -p "require('./package.json').version")
 
       # - name: Publish to npm
       #   run: npm publish --tag rc
