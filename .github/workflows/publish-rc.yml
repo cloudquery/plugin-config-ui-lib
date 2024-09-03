@@ -68,7 +68,6 @@ jobs:
             else 
               latest_rc_version=$matching_rc_version
             fi
-            latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
             echo "Catching version up to latest rc: $latest_rc_version"
             npm version "$latest_rc_version" --allow-same-version
             echo "Iterating over version: $latest_rc_version"
