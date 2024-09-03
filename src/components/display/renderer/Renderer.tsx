@@ -15,6 +15,7 @@ import {
   ControlSelectField,
 } from '../../../react-hook-form';
 import { ReactNode } from 'react';
+import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
 
 export function ComponentsRenderer({ section }: { section: any }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
@@ -24,7 +25,9 @@ export function ComponentsRenderer({ section }: { section: any }): ReactNode[] |
       })}
     </>
   ) : (
-    <ComponentRenderer component={section} />
+    <ConditionalRenderingWrapper shouldRender={section.shouldRender}>
+      <ComponentRenderer component={section} />
+    </ConditionalRenderingWrapper>
   );
 }
 

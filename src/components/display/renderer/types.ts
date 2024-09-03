@@ -7,13 +7,13 @@ import { ControlMultiSelectProps } from '../../../react-hook-form/fields/Control
 import { ControlExclusiveToggleProps } from '../../../react-hook-form/fields/ControlExclusiveToggle';
 import { ControlDateTimeFieldProps } from '../../../react-hook-form/fields/ControlDateTimeField';
 import { ControlSelectFieldProps } from '../../../react-hook-form';
+import { ConditionalRenderingProps } from './ConditionalRenderingWrapper';
 
-export type RenderSection = LayoutSection | LayoutCollapsibleSection | React.FC<any>;
-type RenderComponent =
-  | React.FC<any>
-  | LayoutComponent
-  | LayoutCollapsibleSubSection
-  | LayoutSubSection;
+type RenderingBase = Pick<ConditionalRenderingProps, 'shouldRender'>;
+export type RenderSection = RenderingBase &
+  (LayoutSection | LayoutCollapsibleSection | React.FC<any>);
+type RenderComponent = RenderingBase &
+  (React.FC<any> | LayoutComponent | LayoutCollapsibleSubSection | LayoutSubSection);
 
 // Components
 type LayoutComponent =
