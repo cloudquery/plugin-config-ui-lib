@@ -56,7 +56,9 @@ jobs:
           echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
           # Check for matching npm versions
           matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION-rc")
+          echo "$matching_rc_versions"
           if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
+            echo "$matching_rc_versions"
             latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
             echo "Catching version up to latest rc: $latest_rc_version"
             npm version "$latest_rc_version" --allow-same-version
