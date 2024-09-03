@@ -38,6 +38,9 @@ jobs:
             echo "No untracked changes"
           fi
 
+      - name: Iterate rc version
+        run: npm version prerelease --preid=rc
+
       - name: Publish to npm
         run: npm publish --tag rc
         env:
