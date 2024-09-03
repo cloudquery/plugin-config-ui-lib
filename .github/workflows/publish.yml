@@ -19,6 +19,31 @@ jobs:
           node-version: '18.18.0'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: Get package name and current version from package.json
+        id: get_package_info
+        run: |
+          PACKAGE_NAME=$(jq -r .name < package.json)
+          PACKAGE_VERSION=$(jq -r .version < package.json)
+          echo "::set-output name=package_name::$PACKAGE_NAME"
+          echo "::set-output name=current_version::$PACKAGE_VERSION"
+
+      - name: Get latest published version from npm
+        id: get_latest_npm_version
+        run: echo "::set-output name=latest_npm_version::$(npm view ${{ steps.get_package_info.outputs.package_name }} version)"
+
+      - name: Check if version changed
+        id: check_version
+        run: |
+          echo "Latest npm version: ${{ steps.get_latest_npm_version.outputs.latest_npm_version }}"
+          echo "Current package.json version: ${{ steps.get_package_info.outputs.current_version }}"
+          if [ "${{ steps.get_latest_npm_version.outputs.latest_npm_version }}" != "${{ steps.get_package_info.outputs.current_version }}" ]; then
+            echo "Version has changed"
+            echo "::set-output name=version_changed::true"
+          else
+            echo "Version has not changed"
+            echo "::set-output name=version_changed::false"
+          fi
+
       - name: Install dependencies
         run: npm install
 
@@ -37,8 +62,9 @@ jobs:
             echo "No untracked changes"
           fi
 
-      - name: Iterate version
-        run: npm version
+      - name: Iterate version if it was not manually iterated
+        if: steps.check_version.outputs.version_changed == 'false'
+        run: npm version patch
 
       - name: Publish to npm
         run: npm publish
