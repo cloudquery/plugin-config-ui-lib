@@ -7,7 +7,9 @@ on:
       - '!main'
 
 jobs:
-  publish:
+  publish_rc:
+    if: ${{ github.event.label.name == 'release-candidate' }}
+
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +26,9 @@ jobs:
         id: get_package_info
         run: |
           PACKAGE_NAME=$(jq -r .name < package.json)
+          PACKAGE_VERSION=$(jq -r .version < package.json)
           echo "::set-output name=package_name::$PACKAGE_NAME"
+          echo "::set-output name=current_version::$PACKAGE_VERSION"
 
       - name: Install dependencies
         run: npm install
@@ -53,13 +57,8 @@ jobs:
         run: |
           set -e  # Exit immediately if a command exits with a non-zero status
 
-          # Get the current version from package.json
-          PACKAGE_BASE_VERSION=$(node -p "require('./package.json').version" | cut -d "-" -f 1)
-          echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
-          echo "$PACKAGE_BASE_VERSION"
-
           # Check for matching rc versions
-          matching_rc_versions=$(npm view @cloudquery/plugin-config-ui-lib versions --json | jq -c 'map(select(. | contains("'"$PACKAGE_BASE_VERSION"'-rc")))')
+          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | jq -c 'map(select(. | contains("'"${{ steps.get_package_info.outputs.current_version }}"'-rc")))')
 
           echo "$matching_rc_versions"
 
