@@ -83,9 +83,13 @@ export function FormFooter({
           </Button>
         </Stack>
         <Stack alignItems="center" direction="row" spacing={2}>
-          <Button disabled={isBusy} onClick={onCancel} size="medium">
-            Cancel
-          </Button>
+          {/* legend excludes the Cancel button from the form  */}
+          <legend>
+            <Button disabled={isBusy} onClick={onCancel} size="medium">
+              Cancel
+            </Button>
+          </legend>
+
           <LoadingButton
             loading={isBusy}
             size="medium"
