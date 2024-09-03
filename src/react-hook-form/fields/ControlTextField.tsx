@@ -7,7 +7,7 @@ import { ControlSecretField } from './ControlSecretField';
 /**
  * @public
  */
-export interface ControlTextFieldProps extends Pick<ShouldRenderProps, 'shouldRender'> {
+export interface ControlTextFieldProps {
   name: string;
   helperText?: ReactNode;
   label: ReactNode;
@@ -24,7 +24,6 @@ export function ControlTextField({
   label,
   helperText = '',
   textFieldProps = {},
-  shouldRender,
 }: ControlTextFieldProps) {
   const { watch } = useFormContext();
 
@@ -34,32 +33,18 @@ export function ControlTextField({
   const ConcreteComponent = isSecret ? ControlSecretField : TextField;
 
   return (
-    <ShouldRenderWrapper shouldRender={shouldRender}>
-      <Controller
-        name={name}
-        render={({ field, fieldState }) => (
-          <ConcreteComponent
-            error={!!fieldState.error}
-            fullWidth={true}
-            helperText={getFieldHelperText(fieldState.error?.message, helperText)}
-            label={label}
-            {...field}
-            {...textFieldProps}
-          />
-        )}
-      />
-    </ShouldRenderWrapper>
+    <Controller
+      name={name}
+      render={({ field, fieldState }) => (
+        <ConcreteComponent
+          error={!!fieldState.error}
+          fullWidth={true}
+          helperText={getFieldHelperText(fieldState.error?.message, helperText)}
+          label={label}
+          {...field}
+          {...textFieldProps}
+        />
+      )}
+    />
   );
-}
-
-interface ShouldRenderProps {
-  shouldRender?: (values: Record<string, any>) => boolean;
-  children: ReactNode;
-}
-
-function ShouldRenderWrapper({ shouldRender, children }: ShouldRenderProps) {
-  const { watch } = useFormContext();
-  const willRender = shouldRender ? shouldRender(watch()) : true;
-
-  return willRender ? children : null;
 }
