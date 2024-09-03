@@ -66,7 +66,7 @@ jobs:
             if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
               latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
             else 
-              latest_rc_version=$matching_rc_version
+              latest_rc_version="$matching_rc_versions"
             fi
             echo "Catching version up to latest rc: $latest_rc_version"
             npm version "$latest_rc_version" --allow-same-version
