@@ -51,13 +51,17 @@ jobs:
 
       - name: Check and update package.json version
         run: |
+          set -e  # Exit immediately if a command exits with a non-zero status
+
           # Get the current version from package.json
           PACKAGE_BASE_VERSION=$(node -p "require('./package.json').version" | cut -d "-" -f 1)
           echo "::set-output name=base_version::$PACKAGE_BASE_VERSION"
           echo "$PACKAGE_BASE_VERSION"
+
           # Check for matching rc versions
-          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION-rc")
+          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION-rc" || true)
           echo "$matching_rc_versions"
+
           if [ -n "$matching_rc_versions" ] && [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
             echo "$matching_rc_versions"
             latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
