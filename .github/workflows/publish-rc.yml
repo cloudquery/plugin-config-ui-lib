@@ -59,20 +59,17 @@ jobs:
           echo "$PACKAGE_BASE_VERSION"
 
           # Check for matching rc versions
-          matching_rc_versions=$(npm view ${{ steps.get_package_info.outputs.package_name }} versions --json | grep "$PACKAGE_BASE_VERSION-rc" || true)
+          matching_rc_versions=$(npm view @cloudquery/plugin-config-ui-lib versions --json | jq -c 'map(select(. | contains("'"$PACKAGE_BASE_VERSION"'-rc")))')
 
-          if [ -n "$matching_rc_versions" ]; then
-            echo "$matching_rc_versions"
-            if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ]; then
-              latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]')
-            else 
-              latest_rc_version=$(echo "$matching_rc_versions" | sed 's/^"\(.*\)"$/\1/')
-            fi
+          echo "$matching_rc_versions"
+
+          if [ "$(echo "$matching_rc_versions" | jq 'type')" == '"array"' ] && [ "$(echo "$matching_rc_versions" | jq 'length')" -gt 0 ]; then
+            latest_rc_version=$(echo "$matching_rc_versions" | jq -r '.[-1]') 
             echo "Catching version up to latest rc: $latest_rc_version"
             npm version "$latest_rc_version" --allow-same-version
             echo "Iterating over version: $latest_rc_version"
             npm version prerelease --preid=rc
-          else
+          else 
             echo "No matching rc versions found. Initializing version $PACKAGE_BASE_VERSION-rc.0"
             npm version "$PACKAGE_BASE_VERSION-rc.0"
           fi
