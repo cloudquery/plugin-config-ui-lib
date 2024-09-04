@@ -81,10 +81,10 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Create or update comment
-      uses: peter-evans/create-or-update-comment@8da4c50e7142257262c9df90da4e74a59068c038
-      with:
-        token: ${{ secrets.GH_CQ_BOT }}
-        issue-number: ${{ github.event.pull_request.number }}
-        body: |
-          ### Published rc version:
-          ${{steps.get-prepare_and_publish.outputs.publishing_rc_version}}
+        uses: peter-evans/create-or-update-comment@8da4c50e7142257262c9df90da4e74a59068c038
+        with:
+          token: ${{ secrets.GH_CQ_BOT }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            ### Published rc version:
+            ${{steps.get-prepare_and_publish.outputs.publishing_rc_version}}
