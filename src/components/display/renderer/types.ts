@@ -79,7 +79,7 @@ interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggl
 // }
 
 interface SectionAbstract extends ComponentAbstract {
-  children: (RenderSection | RenderSection)[];
+  children: (RenderSection | React.FC<any>)[];
 }
 
 // Layouts
