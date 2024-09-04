@@ -67,8 +67,8 @@ jobs:
             echo "Iterating over version: $latest_rc_version"
             npm version prerelease --preid=rc
           else 
-            echo "No matching rc versions found. Initializing version $PACKAGE_VERSION-rc.0"
-            npm version "$PACKAGE_VERSION-rc.0"
+            echo "No matching rc versions found. Initializing version ${{ steps.get_package_info.outputs.current_version }}-rc.0"
+            npm version "${{ steps.get_package_info.outputs.current_version }}-rc.0"
           fi
 
           echo "Ready to publish: $(node -p "require('./package.json').version")"
