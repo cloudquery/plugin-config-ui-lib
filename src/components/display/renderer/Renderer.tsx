@@ -21,7 +21,7 @@ import { RenderSection } from './types';
 export function ComponentsRenderer({
   section,
 }: {
-  section: RenderSection | ReactNode;
+  section: RenderSection | ReactNode | React.FC<any>;
 }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
     <>
@@ -39,7 +39,7 @@ export function ComponentsRenderer({
 function ComponentRenderer({
   component,
 }: {
-  component: RenderSection | ReactNode;
+  component: RenderSection | ReactNode | React.FC<any>;
 }): ReactNode[] | ReactNode {
   if ((component as RenderSection)?.component) {
     const switchComponent = component as RenderSection;

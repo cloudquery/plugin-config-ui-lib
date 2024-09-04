@@ -22,7 +22,6 @@ export type RenderSection = ComponentAbstract &
     | LayoutCollapsibleSection
     | LayoutCollapsibleSubSection
     | LayoutSubSection
-    // | React.FC<any>
     | LayoutComponent
   );
 
