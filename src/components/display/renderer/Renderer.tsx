@@ -36,33 +36,37 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
     switch (component.component) {
       // Layouts
       case 'section': {
+        const { children, ...props } = component;
         return (
-          <Section title={component.title}>
-            <ComponentsRenderer section={component.children} />
+          <Section {...props}>
+            <ComponentsRenderer section={children} />
           </Section>
         );
       }
       case 'collapsible-section': {
+        const { children, ...props } = component;
+
         return (
-          <CollapsibleSection title={component.title} defaultExpanded={component.defaultExpanded}>
-            <ComponentsRenderer section={component.children} />
+          <CollapsibleSection {...props}>
+            <ComponentsRenderer section={children} />
           </CollapsibleSection>
         );
       }
       case 'sub-section': {
+        const { children, ...props } = component;
+
         return (
-          <SubSection title={component.title}>
-            <ComponentsRenderer section={component.children} />
+          <SubSection {...props}>
+            <ComponentsRenderer section={children} />
           </SubSection>
         );
       }
       case 'collapsible-sub-section': {
+        const { children, ...props } = component;
+
         return (
-          <CollapsibleSubSection
-            title={component.title}
-            defaultExpanded={component.defaultExpanded}
-          >
-            <ComponentsRenderer section={component.children} />
+          <CollapsibleSubSection {...props}>
+            <ComponentsRenderer section={children} />
           </CollapsibleSubSection>
         );
       }
