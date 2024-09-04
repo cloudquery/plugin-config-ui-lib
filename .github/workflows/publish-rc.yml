@@ -86,4 +86,4 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body: |
             ### Published rc version:
-            ${{steps.get-prepare_and_publish.outputs.publishing_rc_version}}
+            ${{steps.prepare_and_publish.outputs.publishing_rc_version}}
