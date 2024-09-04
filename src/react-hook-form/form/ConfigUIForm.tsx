@@ -14,6 +14,7 @@ import { usePluginContext } from '../../context/plugin';
 import FormHelperText from '@mui/material/FormHelperText';
 import { Path } from 'react-hook-form';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
+import { Stack } from '@mui/material';
 
 /**
  * @public
@@ -120,42 +121,44 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
 
   return (
     <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-      <FormWrapper formDisabled={formDisabled}>
-        <Sections>
-          {!hideStepper && config.steps?.length > 1 && (
-            <FormStepper steps={config.steps.map(({ title }) => title)} activeIndex={step} />
-          )}
-          <Header />
-          {config.steps?.map(({ sections }, index) => {
-            return (
-              step === index && (
-                <Sections key={index}>
-                  {sections.map((section, index) => (
-                    <ComponentsRenderer section={section} key={index} />
-                  ))}
-                </Sections>
-              )
-            );
-          })}
-          <FormHelperText sx={{ textAlign: 'right' }} error={true}>
-            {formState.errors.root?.message}
-          </FormHelperText>
-          <FormFooter
-            isUpdating={editMode}
-            pluginKind={plugin.kind as any}
-            isTestingConnection={isTestingConnection}
-            isSubmitting={isSubmitting}
-            testConnectionError={parsedTestConnectionError}
-            submitPayload={submitPayload}
-            onCancel={handleCancel}
-            onCancelTestConnection={handleCancelTestConnection}
-            onTestConnectionSuccess={onTestConnectionSuccess}
-            onDelete={handleDelete}
-            onGoToPreviousStep={onGoToPreviousStep}
-            submitLabel={isLastStep ? undefined : 'Continue'}
-          />
-        </Sections>
-      </FormWrapper>
+      <Stack gap={3}>
+        <FormWrapper formDisabled={formDisabled}>
+          <Sections>
+            {!hideStepper && config.steps?.length > 1 && (
+              <FormStepper steps={config.steps.map(({ title }) => title)} activeIndex={step} />
+            )}
+            <Header />
+            {config.steps?.map(({ sections }, index) => {
+              return (
+                step === index && (
+                  <Sections key={index}>
+                    {sections.map((section, index) => (
+                      <ComponentsRenderer section={section} key={index} />
+                    ))}
+                  </Sections>
+                )
+              );
+            })}
+            <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+              {formState.errors.root?.message}
+            </FormHelperText>
+          </Sections>
+        </FormWrapper>
+        <FormFooter
+          isUpdating={editMode}
+          pluginKind={plugin.kind as any}
+          isTestingConnection={isTestingConnection}
+          isSubmitting={isSubmitting}
+          testConnectionError={parsedTestConnectionError}
+          submitPayload={submitPayload}
+          onCancel={handleCancel}
+          onCancelTestConnection={handleCancelTestConnection}
+          onTestConnectionSuccess={onTestConnectionSuccess}
+          onDelete={handleDelete}
+          onGoToPreviousStep={onGoToPreviousStep}
+          submitLabel={isLastStep ? undefined : 'Continue'}
+        />
+      </Stack>
     </form>
   );
 }
