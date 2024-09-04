@@ -69,7 +69,7 @@ interface LayoutExclusiveToggle extends ControlExclusiveToggleProps {
 // }
 
 // Layouts
-interface SectionAbstract {
+interface SectionAbstract extends Pick<ConditionalRenderingProps, 'shouldRender'> {
   title: ReactNode;
   subtitle?: ReactNode;
   children: (RenderSection | RenderComponent)[];
