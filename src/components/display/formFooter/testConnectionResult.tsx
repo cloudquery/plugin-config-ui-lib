@@ -61,24 +61,41 @@ export function FormFooterTestConnectionResult({
 
   useEffect(() => {
     if (!isLoading && !isSubmitting) {
-      progressElemRef.current
-        ?.querySelector(`.${linearProgressClasses.bar}`)
-        ?.addEventListener('transitionend', () => {
-          clearTimeout(timeoutId.current);
-          timeoutId.current = window.setTimeout(() => {
+      let hasTransitionEnded = false;
+
+      const handleTransitionEnd = () => {
+        clearTimeout(timeoutId.current);
+        timeoutId.current = window.setTimeout(() => {
+          if (!hasTransitionEnded) {
+            hasTransitionEnded = true;
             if (failureError) {
-              setErrorMessage(failureError.message || 'Unknown error');
+              setErrorMessage(
+                failureError.message ||
+                  'Connection failed, please check your configuration and try again',
+              );
             } else {
               setSuccess(true);
               onSuccess();
             }
-          }, 300);
-        });
+          }
+        }, 300);
+      };
+
+      const progressBar = progressElemRef.current?.querySelector(`.${linearProgressClasses.bar}`);
+
+      progressBar?.addEventListener('transitionend', handleTransitionEnd, { once: true });
+      progressBar?.addEventListener('webkitTransitionEnd', handleTransitionEnd, { once: true });
+
       clearTimeout(intervalId.current);
       setProgress(100);
+
+      return () => {
+        progressBar?.removeEventListener('transitionend', handleTransitionEnd);
+        progressBar?.removeEventListener('webkitTransitionEnd', handleTransitionEnd);
+        clearTimeout(timeoutId.current);
+      };
     }
 
-    return () => clearTimeout(timeoutId.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isSubmitting]);
 
