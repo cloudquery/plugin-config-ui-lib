@@ -25,7 +25,7 @@ This hook is used to make API calls that require Authentication header from Clou
 ```tsx
 const { callApi } = useApiCall(pluginUiMessageHandler);
 
-callApi('https://api.cloudquery.io', 'POST', { name: 'my-source'});
+callApi('https://api.cloudquery.io', 'POST', { name: 'my-source' });
 ```
 
 #### useFormActions
@@ -100,17 +100,15 @@ a Promise of the same type.
 const [name, setName] = useState('');
 const handleValidate = () => {
   if (!name.trim()) {
-    return { errors: { name: 'Name is required' } }
+    return { errors: { name: 'Name is required' } };
   }
 
   return { values: { name } };
-}
+};
 
 useFormSubmit(handleValidate);
 
-return (
-  <input type="text" value={name} onChange={event => setName(event.target.value)} />
-)
+return <input type="text" value={name} onChange={(event) => setName(event.target.value)} />;
 ```
 
 ## Development
