@@ -71,8 +71,10 @@ jobs:
             npm version "${{ steps.get_package_info.outputs.current_version }}-rc.0"
           fi
 
-          echo "Ready to publish: $(node -p "require('./package.json').version")"
-          echo "::set-output name=publishing_rc_version::$latest_rc_version"
+          NEW_PACKAGE_VERSION=$(node -p "require('./package.json').version")
+
+          echo "Ready to publish: $NEW_PACKAGE_VERSION"
+          echo "::set-output name=publishing_rc_version::$NEW_PACKAGE_VERSION"
 
       - name: Publish to npm
         run: npm publish --tag rc
