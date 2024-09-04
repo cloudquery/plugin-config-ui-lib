@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import { ControlSecretFieldProps } from '../../../react-hook-form/fields/ControlSecretField';
 import { ControlTextFieldProps } from '../../../react-hook-form/fields/ControlTextField';
 import { ControlNumberFieldProps } from '../../../react-hook-form/fields/ControlNumberField';
@@ -8,12 +7,24 @@ import { ControlExclusiveToggleProps } from '../../../react-hook-form/fields/Con
 import { ControlDateTimeFieldProps } from '../../../react-hook-form/fields/ControlDateTimeField';
 import { ControlSelectFieldProps } from '../../../react-hook-form';
 import { ConditionalRenderingProps } from './ConditionalRenderingWrapper';
+import {
+  CollapsibleSectionProps,
+  CollapsibleSubSectionProps,
+  SectionProps,
+  SubSectionProps,
+} from '../..';
 
-type RenderingBase = Pick<ConditionalRenderingProps, 'shouldRender'>;
-export type RenderSection = RenderingBase &
-  (LayoutSection | LayoutCollapsibleSection | React.FC<any>);
-type RenderComponent = RenderingBase &
-  (React.FC<any> | LayoutComponent | LayoutCollapsibleSubSection | LayoutSubSection);
+type ComponentAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
+
+export type RenderSection = ComponentAbstract &
+  (
+    | LayoutSection
+    | LayoutCollapsibleSection
+    | LayoutCollapsibleSubSection
+    | LayoutSubSection
+    // | React.FC<any>
+    | LayoutComponent
+  );
 
 // Components
 type LayoutComponent =
@@ -27,39 +38,39 @@ type LayoutComponent =
   | LayoutTableSelector
   | LayoutExclusiveToggle;
 
-interface LayoutTextField extends ControlTextFieldProps {
+interface LayoutTextField extends ComponentAbstract, ControlTextFieldProps {
   component: 'control-text-field';
 }
 
-interface LayoutSecretField extends ControlSecretFieldProps {
+interface LayoutSecretField extends ComponentAbstract, ControlSecretFieldProps {
   component: 'control-secret-field';
 }
 
-interface LayoutNumberField extends ControlNumberFieldProps {
+interface LayoutNumberField extends ComponentAbstract, ControlNumberFieldProps {
   component: 'control-number-field';
 }
 
-interface LayoutSelectField extends ControlSelectFieldProps {
+interface LayoutSelectField extends ComponentAbstract, ControlSelectFieldProps {
   component: 'control-select-field';
 }
 
-interface LayoutBooleanField extends ControlBooleanFieldProps {
+interface LayoutBooleanField extends ComponentAbstract, ControlBooleanFieldProps {
   component: 'control-boolean-field';
 }
 
-interface LayoutDateTimeField extends ControlDateTimeFieldProps {
+interface LayoutDateTimeField extends ComponentAbstract, ControlDateTimeFieldProps {
   component: 'control-date-time-field';
 }
 
-interface LayoutMultiSelectField extends ControlMultiSelectProps {
+interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiSelectProps {
   component: 'control-multi-select';
 }
 
-interface LayoutTableSelector {
+interface LayoutTableSelector extends ComponentAbstract {
   component: 'control-table-selector';
 }
 
-interface LayoutExclusiveToggle extends ControlExclusiveToggleProps {
+interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
   component: 'control-exclusive-toggle';
 }
 
@@ -69,32 +80,18 @@ interface LayoutExclusiveToggle extends ControlExclusiveToggleProps {
 // }
 
 // Layouts
-interface SectionAbstract extends Pick<ConditionalRenderingProps, 'shouldRender'> {
-  title: ReactNode;
-  subtitle?: ReactNode;
-  children: (RenderSection | RenderComponent)[];
-}
-
-interface LayoutSection extends SectionAbstract {
+interface LayoutSection extends ComponentAbstract, SectionProps {
   component: 'section';
 }
 
-interface LayoutCollapsibleSection extends SectionAbstract {
+interface LayoutCollapsibleSection extends ComponentAbstract, CollapsibleSectionProps {
   component: 'collapsible-section';
-  defaultExpanded?: boolean;
 }
 
-interface SubSectionAbstract {
-  title: ReactNode;
-  subtitle?: ReactNode;
-  children: LayoutComponent[];
-}
-
-interface LayoutSubSection extends SubSectionAbstract {
+interface LayoutSubSection extends ComponentAbstract, SubSectionProps {
   component: 'sub-section';
 }
 
-interface LayoutCollapsibleSubSection extends SubSectionAbstract {
+interface LayoutCollapsibleSubSection extends ComponentAbstract, CollapsibleSubSectionProps {
   component: 'collapsible-sub-section';
-  defaultExpanded?: boolean;
 }

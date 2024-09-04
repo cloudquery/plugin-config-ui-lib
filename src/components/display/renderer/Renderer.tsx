@@ -16,8 +16,13 @@ import {
 } from '../../../react-hook-form';
 import { ReactNode } from 'react';
 import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
+import { RenderSection } from './types';
 
-export function ComponentsRenderer({ section }: { section: any }): ReactNode[] | ReactNode {
+export function ComponentsRenderer({
+  section,
+}: {
+  section: RenderSection | ReactNode;
+}): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
     <>
       {section.map((component: any, index: number) => {
@@ -25,18 +30,23 @@ export function ComponentsRenderer({ section }: { section: any }): ReactNode[] |
       })}
     </>
   ) : (
-    <ConditionalRenderingWrapper shouldRender={section.shouldRender}>
+    <ConditionalRenderingWrapper shouldRender={(section as RenderSection).shouldRender}>
       <ComponentRenderer component={section} />
     </ConditionalRenderingWrapper>
   );
 }
 
-function ComponentRenderer({ component }: { component: any }): ReactNode[] | ReactNode {
-  if (component?.component) {
-    switch (component.component) {
+function ComponentRenderer({
+  component,
+}: {
+  component: RenderSection | ReactNode;
+}): ReactNode[] | ReactNode {
+  if ((component as RenderSection)?.component) {
+    const switchComponent = component as RenderSection;
+    switch (switchComponent.component) {
       // Layouts
       case 'section': {
-        const { children, ...props } = component;
+        const { children, ...props } = switchComponent;
         return (
           <Section {...props}>
             <ComponentsRenderer section={children} />
@@ -44,7 +54,7 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
         );
       }
       case 'collapsible-section': {
-        const { children, ...props } = component;
+        const { children, ...props } = switchComponent;
 
         return (
           <CollapsibleSection {...props}>
@@ -53,7 +63,7 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
         );
       }
       case 'sub-section': {
-        const { children, ...props } = component;
+        const { children, ...props } = switchComponent;
 
         return (
           <SubSection {...props}>
@@ -62,7 +72,7 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
         );
       }
       case 'collapsible-sub-section': {
-        const { children, ...props } = component;
+        const { children, ...props } = switchComponent;
 
         return (
           <CollapsibleSubSection {...props}>
@@ -72,42 +82,42 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
       }
       // Components
       case 'control-text-field': {
-        return <ControlTextField {...component} />;
+        return <ControlTextField {...switchComponent} />;
       }
       case 'control-secret-field': {
-        return <ControlSecretField {...component} />;
+        return <ControlSecretField {...switchComponent} />;
       }
       case 'control-number-field': {
-        return <ControlNumberField {...component} />;
+        return <ControlNumberField {...switchComponent} />;
       }
       case 'control-boolean-field': {
-        return <ControlBooleanField {...component} />;
+        return <ControlBooleanField {...switchComponent} />;
       }
       case 'control-select-field': {
-        return <ControlSelectField {...component} />;
+        return <ControlSelectField {...switchComponent} />;
       }
       case 'control-date-time-field': {
-        return <ControlDateTimeField {...component} />;
+        return <ControlDateTimeField {...switchComponent} />;
       }
       case 'control-multi-select': {
-        return <ControlMultiSelect {...component} />;
+        return <ControlMultiSelect {...switchComponent} />;
       }
       case 'control-table-selector': {
-        return <ControlTableSelector {...component} />;
+        return <ControlTableSelector />;
       }
-      case 'control-oauth': {
-        // TODO: after iframe deprecation
-        return <>This will work after the iframe deprecation.</>;
-      }
+      // case 'control-oauth': {
+      //   // TODO: after iframe deprecation
+      //   return <>This will work after the iframe deprecation.</>;
+      // }
       case 'control-exclusive-toggle': {
-        return <ControlExclusiveToggle {...component} />;
+        return <ControlExclusiveToggle {...switchComponent} />;
       }
       default: {
         return <>Component was not added to the Renderer.</>;
       }
     }
   } else {
-    const ConcreteComponent = component;
+    const ConcreteComponent = component as any;
 
     return <ConcreteComponent />;
   }
