@@ -1,13 +1,12 @@
 name: Publish release-candidate npm package
 
 on:
-  push:
-    branches:
-      - '**'
-      - '!main'
+  pull_request:
+    types: [synchronize]
 
 jobs:
   publish_rc:
+    if: contains(github.event.pull_request.labels.*.name, 'release-candidate')
     runs-on: ubuntu-latest
 
     steps:
