@@ -99,7 +99,7 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
         // TODO: after iframe deprecation
         return <>This will work after the iframe deprecation.</>;
       }
-      case 'exclusive-toggle': {
+      case 'control-exclusive-toggle': {
         return <ControlExclusiveToggle {...component} />;
       }
       default: {
