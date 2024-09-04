@@ -76,10 +76,10 @@ jobs:
           echo "Ready to publish: $NEW_PACKAGE_VERSION"
           echo "::set-output name=publishing_rc_version::$NEW_PACKAGE_VERSION"
 
-      # - name: Publish to npm
-      #   run: npm publish --tag rc
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+      - name: Publish to npm
+        run: npm publish --tag rc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Create comment
         uses: peter-evans/create-or-update-comment@8da4c50e7142257262c9df90da4e74a59068c038
