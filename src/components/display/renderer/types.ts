@@ -78,19 +78,27 @@ interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggl
 //   component: 'control-oauth';
 // }
 
+interface SectionAbstract extends ComponentAbstract {
+  children: (RenderSection | RenderSection)[];
+}
+
 // Layouts
-interface LayoutSection extends ComponentAbstract, SectionProps {
+interface LayoutSection extends SectionAbstract, Omit<SectionProps, 'children'> {
   component: 'section';
 }
 
-interface LayoutCollapsibleSection extends ComponentAbstract, CollapsibleSectionProps {
+interface LayoutCollapsibleSection
+  extends SectionAbstract,
+    Omit<CollapsibleSectionProps, 'children'> {
   component: 'collapsible-section';
 }
 
-interface LayoutSubSection extends ComponentAbstract, SubSectionProps {
+interface LayoutSubSection extends SectionAbstract, Omit<SubSectionProps, 'children'> {
   component: 'sub-section';
 }
 
-interface LayoutCollapsibleSubSection extends ComponentAbstract, CollapsibleSubSectionProps {
+interface LayoutCollapsibleSubSection
+  extends SectionAbstract,
+    Omit<CollapsibleSubSectionProps, 'children'> {
   component: 'collapsible-sub-section';
 }
