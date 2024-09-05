@@ -25,7 +25,7 @@ export interface PluginConfig {
   label: string;
   docsLink: string;
   iconLink: string;
-  steps: { sections: RenderSection[]; title: string }[];
+  steps: { sections: (RenderSection | React.FC<any>)[]; title: string }[];
   auth: AuthType[];
   guide: React.FC | GuideConfig;
   errorCodes?: Record<string, string>;

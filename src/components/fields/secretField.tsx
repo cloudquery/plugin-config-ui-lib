@@ -32,6 +32,12 @@ export interface SecretFieldProps {
   helperText?: ReactNode;
 }
 
+const obfuscate = (value: string): string => {
+  return value.includes(secretFieldValue) && value !== secretFieldValue
+    ? value.replace(new RegExp(secretFieldValue, 'g'), envPlaceholder.slice(0, 6))
+    : envPlaceholder;
+};
+
 /**
  * SecretField component is a TextField wrapper to obfuscate sensitive values, while allowing value override.
  *
@@ -61,15 +67,13 @@ export function SecretField({
 
   const handelCancelReset = () => {
     setFieldResetted(false);
-    setValue(name as any, secretFieldValue);
+    setValue(name as any, getDefaultValue(defaultValues, name));
   };
 
-  const isSecret = editMode && getDefaultValue(defaultValues, name) === secretFieldValue;
-  const isObscured = isSecret && !fieldResetted && getValues(name as any) === secretFieldValue;
-  const displayValue = isObscured
-    ? envPlaceholder
-    : // ? value.replace(/\$\{[^}]+\}/g, envPlaceholder.slice(0, 6)) TODO: partial obfuscation
-      value;
+  const isSecret = editMode && getDefaultValue(defaultValues, name).includes(secretFieldValue);
+  const isObscured =
+    isSecret && !fieldResetted && getValues(name as any).includes(secretFieldValue);
+  const displayValue = isObscured ? obfuscate(value) : value;
 
   return (
     <Stack direction="row" alignItems="flex-start" spacing={2}>
