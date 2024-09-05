@@ -763,11 +763,19 @@ export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFie
     _editMode: boolean;
     _authType: {};
     _step: number;
+    tables?: unknown;
+    name: string;
+    displayName: string;
+    connectorId: string;
 }, yup.AnyObject, {
     _secretKeys: string[];
     _editMode: boolean;
     _authType: AuthType;
     _step: 0;
+    tables?: undefined;
+    name: string;
+    displayName: string;
+    connectorId: string;
 }, "">;
 
 // @public (undocumented)

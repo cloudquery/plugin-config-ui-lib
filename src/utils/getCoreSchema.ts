@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
-  const coreFieldProps: Record<string, yup.AnySchema> = {
+  const coreFieldProps = {
     name: yup.string().default(initialValues?.name ?? generateUniqueName(config.name)),
     displayName: yup
       .string()
@@ -32,13 +32,12 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
         // eslint-disable-next-line unicorn/no-thenable
         then: (schema: any) => schema.trim().required(),
       }),
+    ...(tablesList && {
+      tables: yup
+        .object()
+        .default(getEnabledTablesObject({ tablesList, tables: initialValues?.tables })),
+    }),
   };
-
-  if (tablesList) {
-    coreFieldProps.tables = yup
-      .object()
-      .default(getEnabledTablesObject({ tablesList, tables: initialValues?.tables }));
-  }
 
   const formStateProps = {
     _editMode: yup.boolean().default(!!initialValues?.name),
