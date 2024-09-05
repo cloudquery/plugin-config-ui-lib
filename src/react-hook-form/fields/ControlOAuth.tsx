@@ -1,13 +1,16 @@
+import { useEffect } from 'react';
+
 import LoadingButton from '@mui/lab/LoadingButton';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
-import { useEffect } from 'react';
 import Box from '@mui/system/Box';
+
+import { useFormContext } from 'react-hook-form';
+
+import { usePluginContext } from '../../context/plugin';
 import { useOauthConnector } from '../../hooks';
 import { cloudQueryApiBaseUrl } from '../../utils';
 import { getOauthSuccessBaseUrl } from '../../utils/getOauthSuccessBaseUrl';
-import { useFormContext } from 'react-hook-form';
-import { usePluginContext } from '../../context/plugin';
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.

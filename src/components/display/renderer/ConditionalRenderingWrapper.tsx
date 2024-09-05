@@ -1,5 +1,6 @@
-import { useFormContext } from 'react-hook-form';
 import { ReactNode, useMemo } from 'react';
+
+import { useFormContext } from 'react-hook-form';
 
 export interface ConditionalRenderingProps {
   shouldRender?: (values: Record<string, any>) => boolean;
@@ -11,6 +12,7 @@ export function ConditionalRenderingWrapper({ shouldRender, children }: Conditio
   const values = watch();
   const renderChildren: boolean = useMemo(
     () => (shouldRender ? shouldRender(values) : true),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [values],
   );
 

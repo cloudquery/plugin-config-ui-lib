@@ -12,7 +12,7 @@ export function generateUniqueName(pluginName: string) {
   const hour = today.getHours().toString().padStart(2, '0');
   const minutes = today.getMinutes().toString().padStart(2, '0');
   const seconds = today.getSeconds().toString().padStart(2, '0');
-  const randomChars = Math.random().toString(36).substring(2, 5).toUpperCase();
+  const randomChars = Math.random().toString(36).slice(2, 5).toUpperCase();
 
   return `${pluginName}-${[year, month, day, hour, minutes, seconds, randomChars].join('-')}`;
 }

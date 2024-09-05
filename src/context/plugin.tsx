@@ -1,8 +1,9 @@
-import { createContext, useContext } from 'react';
-import { PluginConfig } from '../types';
-import { CloudQueryTables } from '../hooks';
-import { generateTablesFromJson } from '../utils';
+import React, { createContext, useContext } from 'react';
+
 import { PluginTable } from '../components';
+import { CloudQueryTables } from '../hooks';
+import { PluginConfig } from '../types';
+import { generateTablesFromJson } from '../utils';
 
 /**
  * @public

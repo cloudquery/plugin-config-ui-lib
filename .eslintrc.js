@@ -120,9 +120,10 @@ module.exports = {
     'unicorn/no-nested-ternary': 'off',
     'unicorn/no-null': 'off',
     'unicorn/no-useless-undefined': 'off',
+    'unicorn/prefer-string-replace-all': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
-  ignorePatterns: ['node_modules/', 'dist/', '*.js', '*.cjs'],
+  ignorePatterns: ['node_modules/', 'dist/', '*.js', '*.cjs', '*.test.ts*'],
   settings: {
     'import/resolver': {
       typescript: {},

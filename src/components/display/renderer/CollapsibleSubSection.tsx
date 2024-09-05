@@ -1,9 +1,11 @@
-import Typography from '@mui/material/Typography/Typography';
 import React from 'react';
+
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion, { AccordionProps } from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Typography from '@mui/material/Typography/Typography';
+
 import { SubSection } from './SubSection';
 
 /**

@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import Box from '@mui/material/Box';
 import useTheme from '@mui/material/styles/useTheme';
+
 import { CopyToClipboardButton } from './copyToClipboard';
 
 // NOTE: idea is to keep this lightweight and not need to import a full library. Maybe worth putting something in cloud-ui..
@@ -49,7 +50,7 @@ export function CodeSnippet({ text }: Props) {
         '& pre': { whiteSpace: 'break-spaces', outline: 'none', margin: 1.5, fontSize: '12px' },
         '& .value': { color: palette.text.secondary },
         '& .key': { color: palette.info.main },
-        position: 'relative'
+        position: 'relative',
       }}
     >
       <pre
