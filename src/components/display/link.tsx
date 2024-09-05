@@ -1,6 +1,7 @@
+import { ReactNode } from 'react';
+
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
-import { ReactNode } from 'react';
 
 /**
  * @public

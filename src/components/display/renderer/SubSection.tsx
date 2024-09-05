@@ -1,6 +1,7 @@
+import React from 'react';
+
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography/Typography';
-import React from 'react';
 
 /**
  * @public

@@ -1,7 +1,9 @@
 import { ChangeEventHandler, ReactNode, Ref, useState } from 'react';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
-import { FormFieldReset } from './formFieldReset';
+
 import Stack from '@mui/material/Stack';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
+
+import { FormFieldReset } from './formFieldReset';
 import { secretFieldValue } from '../../utils/constants';
 
 const envPlaceholder = '************';
@@ -31,13 +33,11 @@ export interface SecretFieldProps {
 }
 
 const obfuscate = (value: string) => {
-  const partialSecretRegex = /\$\{[^}]+\}/g;
+  const partialSecretRegex = /\${[^}]+}/g;
 
-  if (partialSecretRegex.test(value)) {
-    return value.replace(/\$\{[^}]+\}/g, envPlaceholder.slice(0, 6));
-  } else {
-    return envPlaceholder;
-  }
+  return partialSecretRegex.test(value)
+    ? value.replace(/\${[^}]+}/g, envPlaceholder.slice(0, 6))
+    : envPlaceholder;
 };
 
 /**

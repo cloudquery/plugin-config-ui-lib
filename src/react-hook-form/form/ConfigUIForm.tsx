@@ -1,4 +1,10 @@
 import { useEffect, useMemo } from 'react';
+
+import { Stack } from '@mui/material';
+import FormHelperText from '@mui/material/FormHelperText';
+
+import { Path } from 'react-hook-form';
+
 import {
   FormFooter,
   FormStepper,
@@ -11,10 +17,8 @@ import {
 } from '../..';
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
 import { usePluginContext } from '../../context/plugin';
-import FormHelperText from '@mui/material/FormHelperText';
-import { Path } from 'react-hook-form';
+
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
-import { Stack } from '@mui/material';
 
 /**
  * @public

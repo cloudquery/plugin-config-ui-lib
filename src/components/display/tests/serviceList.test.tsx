@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
+
 import { renderWithTheme } from '../../../utils/tests/renderWithTheme';
 import { ServiceList } from '../serviceList';
-
 
 const services = {
   'Option 1': { label: 'Option 1', name: 'Option 1', logo: '1', tables: [], shortlabel: '1' },
@@ -18,8 +18,17 @@ const services = {
 
 const defaultProps = {
   services,
-  topServices: ['Option 3', 'Option 4', 'Option 5', 'Option 6', 'Option 7', 'Option 8', 'Option 9', 'Option 10'],
-  onChange: jest.fn(), 
+  topServices: [
+    'Option 3',
+    'Option 4',
+    'Option 5',
+    'Option 6',
+    'Option 7',
+    'Option 8',
+    'Option 9',
+    'Option 10',
+  ],
+  onChange: jest.fn(),
 };
 
 describe('ServiceList Component', () => {
@@ -40,14 +49,16 @@ describe('ServiceList Component', () => {
   test('inits with values already checked', () => {
     renderWithTheme(<ServiceList {...defaultProps} value={['Option 3']} />);
 
-    expect(screen.getByRole('button', {name : 'Option 3 Option 3'}).querySelector('.Mui-checked')).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Option 3 Option 3' }).querySelector('.Mui-checked'),
+    ).toBeInTheDocument();
   });
 
   test('onChange is called with correct value when an item is clicked', () => {
     renderWithTheme(<ServiceList {...defaultProps} value={['Option 3']} />);
 
     const newValue = ['Option 3', 'Option 8'];
-    fireEvent.click(screen.getByRole('button', {name : 'Option 8 Option 8'}));
+    fireEvent.click(screen.getByRole('button', { name: 'Option 8 Option 8' }));
     expect(defaultProps.onChange).toHaveBeenCalledWith(newValue);
   });
 });

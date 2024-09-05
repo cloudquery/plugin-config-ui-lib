@@ -1,8 +1,12 @@
-import { CollapsibleSection } from './CollapsibleSection';
-import { SubSection } from './SubSection';
+import React, { ReactNode } from 'react';
 
+import { CollapsibleSection } from './CollapsibleSection';
 import { CollapsibleSubSection } from './CollapsibleSubSection';
+import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
 import { Section } from './Section';
+import { SubSection } from './SubSection';
+import { RenderSection } from './types';
+
 import {
   ControlTextField,
   ControlSecretField,
@@ -14,9 +18,6 @@ import {
   ControlDateTimeField,
   ControlSelectField,
 } from '../../../react-hook-form';
-import { ReactNode } from 'react';
-import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
-import { RenderSection } from './types';
 
 export function ComponentsRenderer({
   section,
@@ -51,6 +52,7 @@ function ComponentRenderer({
       // Layouts
       case 'section': {
         const { children, ...props } = switchComponent;
+
         return (
           <Section {...props}>
             <ComponentsRenderer section={children} />

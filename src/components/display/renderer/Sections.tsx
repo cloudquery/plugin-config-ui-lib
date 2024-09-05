@@ -1,5 +1,6 @@
-import Stack from '@mui/material/Stack';
 import React from 'react';
+
+import Stack from '@mui/material/Stack';
 
 /**
  * @public

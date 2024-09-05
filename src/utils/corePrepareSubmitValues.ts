@@ -1,7 +1,8 @@
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { PluginTable } from '../components';
-import { prepareSecretValues } from './prepareSecretValues';
+
 import { prepareOAuthValue } from './prepareOAuthValue';
+import { prepareSecretValues } from './prepareSecretValues';
+import { PluginTable } from '../components';
 
 /**
  * Prepare values for submit

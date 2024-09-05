@@ -74,7 +74,7 @@ export interface CloudQueryTable {
 export type CloudQueryTables = CloudQueryTable[];
 
 // @public (undocumented)
-export function CollapsibleSection({ children, defaultExpanded, title, subtitle }: CollapsibleSectionProps): JSX_2.Element;
+export function CollapsibleSection({ children, defaultExpanded, title, subtitle, }: CollapsibleSectionProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface CollapsibleSectionProps {
@@ -476,7 +476,7 @@ export interface PluginConfig {
     // Warning: (ae-forgotten-export) The symbol "GuideConfig" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    guide: React.FC | GuideConfig;
+    guide: React_2.FC | GuideConfig;
     // (undocumented)
     iconLink: string;
     // (undocumented)
@@ -498,7 +498,7 @@ export const PluginContextProvider: ({ children, config, plugin, teamName, table
 // @public (undocumented)
 export interface PluginContextProviderProps {
     // (undocumented)
-    children: React.ReactNode;
+    children: React_2.ReactNode;
     // (undocumented)
     config: PluginConfig;
     // (undocumented)
@@ -917,7 +917,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:26:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
+// src/types.ts:28:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
