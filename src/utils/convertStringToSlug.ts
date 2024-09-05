@@ -7,9 +7,9 @@
 export function convertStringToSlug(value: string) {
   let slug = value
     .toLowerCase()
-    .replace(/[^\da-z-]+/g, '-')
-    .replace(/-{2,}/g, '-')
-    .replace(/^-+|-+$/g, '');
+    .replaceAll(/[^\da-z-]+/g, '-')
+    .replaceAll(/-{2,}/g, '-')
+    .replaceAll(/^-+|-+$/g, '');
 
   if (!/^[a-z]/.test(slug)) {
     slug = `a${slug}`;

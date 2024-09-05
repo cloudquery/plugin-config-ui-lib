@@ -1,11 +1,11 @@
-import { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
-import { useFormContext, useWatch } from 'react-hook-form';
-import React from 'react';
 import { FormControl, FormHelperText } from '@mui/material';
-import { generatePluginTableList } from '../../utils';
+import { useFormContext, useWatch } from 'react-hook-form';
+
 import { TableSelector } from '../../components/fields/tableSelector';
 import { usePluginContext } from '../../context/plugin';
+import { generatePluginTableList } from '../../utils';
 
 function _PluginTableSelector() {
   const {

@@ -1,8 +1,11 @@
+import { ReactNode } from 'react';
+
 import { CollapsibleSection } from './CollapsibleSection';
+import { CollapsibleSubSection } from './CollapsibleSubSection';
+import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
+import { Section } from './Section';
 import { SubSection } from './SubSection';
 
-import { CollapsibleSubSection } from './CollapsibleSubSection';
-import { Section } from './Section';
 import {
   ControlTextField,
   ControlSecretField,
@@ -14,8 +17,6 @@ import {
   ControlDateTimeField,
   ControlSelectField,
 } from '../../../react-hook-form';
-import { ReactNode } from 'react';
-import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
 
 export function ComponentsRenderer({ section }: { section: any }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
@@ -37,6 +38,7 @@ function ComponentRenderer({ component }: { component: any }): ReactNode[] | Rea
       // Layouts
       case 'section': {
         const { children, ...props } = component;
+
         return (
           <Section {...props}>
             <ComponentsRenderer section={children} />

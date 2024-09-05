@@ -5,5 +5,5 @@
  * @public
  */
 export function escapeSingleQuotesAndBackslashes(str: string) {
-  return str.replace(/\\/g, '\\\\').replace(/'/g, String.raw`\'`);
+  return str.replaceAll('\\', '\\\\').replaceAll("'", String.raw`\'`);
 }

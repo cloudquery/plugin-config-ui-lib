@@ -1,9 +1,10 @@
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { useFormContext } from 'react-hook-form';
+
 import { Section, Logo } from '../../components';
-import { ControlTextField } from '../fields/ControlTextField';
 import { usePluginContext } from '../../context/plugin';
+import { ControlTextField } from '../fields/ControlTextField';
 
 /**
  * This component serves as a header for the form, encapsulating the Name input field.

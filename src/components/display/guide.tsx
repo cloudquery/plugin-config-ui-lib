@@ -1,9 +1,11 @@
+import React, { ReactElement } from 'react';
+
 import Stack from '@mui/system/Stack';
+
 import { SetupGuide } from './setupGuide';
 import { RenderGuide } from './setupGuide/section';
-import { GuideConfig } from '../../types';
-import React, { ReactElement } from 'react';
 import { usePluginContext } from '../../context/plugin';
+import { GuideConfig } from '../../types';
 
 /**
  * Renderer for the config guide.

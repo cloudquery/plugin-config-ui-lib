@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
+
 import { getFieldHelperText } from '@cloudquery/cloud-ui';
-import FormHelperText from '@mui/material/FormHelperText';
+import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
-import Checkbox from '@mui/material/Checkbox';
-import { ReactNode } from 'react';
 import { Controller } from 'react-hook-form';
 
 /**

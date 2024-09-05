@@ -1,10 +1,10 @@
+import { useState } from 'react';
 
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ContentCopiedIcon from '@mui/icons-material/ContentCopyRounded';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import { SxProps } from '@mui/material/styles';
-import { useState } from 'react';
 
 interface Props {
   sx?: SxProps;
@@ -16,7 +16,7 @@ export function CopyToClipboardButton({ sx, text }: Props) {
 
   const handleClick = () => {
     navigator.clipboard.writeText(text);
-   setWasCopied(true);
+    setWasCopied(true);
   };
 
   return (

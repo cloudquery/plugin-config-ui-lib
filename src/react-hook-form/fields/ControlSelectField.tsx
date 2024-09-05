@@ -1,8 +1,9 @@
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
-import { Controller } from 'react-hook-form';
-import TextField from '@mui/material/TextField';
-import { MenuItem } from '@mui/material';
 import { ReactNode } from 'react';
+
+import { getFieldHelperText } from '@cloudquery/cloud-ui';
+import { MenuItem } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import { Controller } from 'react-hook-form';
 
 type OptionObject = {
   value: any;
@@ -58,6 +59,7 @@ export function ControlSelectField({
               );
             } else {
               const menuOption = option as OptionObject;
+
               return (
                 <MenuItem key={menuOption.value} value={menuOption.value}>
                   {menuOption.label}

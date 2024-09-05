@@ -1,10 +1,11 @@
-import * as yup from 'yup';
-import { AuthType, PluginConfig } from '../types';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { PluginTable } from '../components';
-import { getEnabledTablesObject } from './getEnabledTablesObject';
+import * as yup from 'yup';
+
 import { generateDisplayName } from './generateDisplayName';
 import { generateUniqueName } from './generateUniqueName';
+import { getEnabledTablesObject } from './getEnabledTablesObject';
+import { PluginTable } from '../components';
+import { AuthType, PluginConfig } from '../types';
 
 interface Props {
   config: PluginConfig;
@@ -19,7 +20,7 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
       .string()
       .default(initialValues?.displayName ?? generateDisplayName(config.label))
       .matches(
-        /^[a-zA-Z][a-zA-Z0-9_ \-']*$/,
+        /^[A-Za-z][\w '\-]*$/,
         'Name must start with a letter and cannot include special characters.',
       )
       .max(255)
