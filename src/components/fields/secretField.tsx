@@ -32,11 +32,9 @@ export interface SecretFieldProps {
   helperText?: ReactNode;
 }
 
-const obfuscate = (value: string) => {
-  const partialSecretRegex = /\${[^}]+}/g;
-
-  return partialSecretRegex.test(value)
-    ? value.replace(/\${[^}]+}/g, envPlaceholder.slice(0, 6))
+const obfuscate = (value: string): string => {
+  return value.includes(secretFieldValue) && value !== secretFieldValue
+    ? value.replace(new RegExp(secretFieldValue, 'g'), envPlaceholder.slice(0, 6))
     : envPlaceholder;
 };
 
@@ -69,11 +67,12 @@ export function SecretField({
 
   const handelCancelReset = () => {
     setFieldResetted(false);
-    setValue(name as any, secretFieldValue);
+    setValue(name as any, getDefaultValue(defaultValues, name));
   };
 
-  const isSecret = editMode && getDefaultValue(defaultValues, name) === secretFieldValue;
-  const isObscured = isSecret && !fieldResetted && getValues(name as any) === secretFieldValue;
+  const isSecret = editMode && getDefaultValue(defaultValues, name).includes(secretFieldValue);
+  const isObscured =
+    isSecret && !fieldResetted && getValues(name as any).includes(secretFieldValue);
   const displayValue = isObscured ? obfuscate(value) : value;
 
   return (

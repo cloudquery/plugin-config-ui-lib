@@ -17,7 +17,7 @@ export interface ControlSecretFieldProps {
 }
 
 /**
- * This component is a renders an OAuth authentication button and handles the data transfer process.
+ * This component is a react-hook-form wrapper around the SecretField component.
  *
  * @public
  */
