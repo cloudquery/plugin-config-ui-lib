@@ -11,7 +11,7 @@ import { CollapsibleSubSection } from './CollapsibleSubSection';
  */
 export interface CollapsibleSectionProps {
   children: React.ReactNode;
-  defaultExpanded: AccordionProps['defaultExpanded'];
+  defaultExpanded?: AccordionProps['defaultExpanded'];
   title: React.ReactNode;
   subtitle?: React.ReactNode;
 }

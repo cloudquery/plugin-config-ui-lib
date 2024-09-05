@@ -81,7 +81,7 @@ export interface CollapsibleSectionProps {
     // (undocumented)
     children: React_2.ReactNode;
     // (undocumented)
-    defaultExpanded: AccordionProps['defaultExpanded'];
+    defaultExpanded?: AccordionProps['defaultExpanded'];
     // (undocumented)
     subtitle?: React_2.ReactNode;
     // (undocumented)
@@ -96,7 +96,7 @@ export interface CollapsibleSubSectionProps {
     // (undocumented)
     children: React_2.ReactNode;
     // (undocumented)
-    defaultExpanded: AccordionProps['defaultExpanded'];
+    defaultExpanded?: AccordionProps['defaultExpanded'];
     // (undocumented)
     subtitle?: React_2.ReactNode;
     // (undocumented)
