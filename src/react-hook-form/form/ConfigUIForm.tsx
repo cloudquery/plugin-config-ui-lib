@@ -1,7 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
-import Alert from '@mui/material/Alert';
-import AlertTitle from '@mui/material/AlertTitle';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 
@@ -42,7 +40,6 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
     formState,
   } = useFormContext();
   const { plugin, teamName, config, hideStepper } = usePluginContext();
-  const [submitErrorMessage, setSubmitErrorMessage] = useState<string | undefined>(undefined);
 
   const step = watch('_step');
   const editMode = watch('_editMode');
@@ -71,10 +68,6 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
     pluginVersion: plugin.version,
     isUpdating: editMode,
   });
-
-  useEffect(() => {
-    setSubmitErrorMessage(submitError?.message);
-  }, [submitError]);
 
   const formDisabled = isSubmitting || isTestingConnection;
 
@@ -143,13 +136,13 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
           onDelete={handleDelete}
           onGoToPreviousStep={onGoToPreviousStep}
           submitLabel={isLastStep ? undefined : 'Continue'}
+          submitErrorMessage={
+            submitError
+              ? submitError.message ||
+                'Failed to process the request. Please check the form and try again.'
+              : undefined
+          }
         />
-        {submitErrorMessage && (
-          <Alert color="error" severity="error" variant="filled">
-            <AlertTitle>Submission error</AlertTitle>
-            {submitErrorMessage.charAt(0).toUpperCase() + submitErrorMessage.slice(1)}
-          </Alert>
-        )}
       </Stack>
     </form>
   );

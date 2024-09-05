@@ -1,5 +1,7 @@
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import LoadingButton from '@mui/lab/LoadingButton';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
@@ -37,6 +39,8 @@ export interface FormFooterProps {
   submitDisabled?: boolean;
   /** Callback to handle test connection success */
   onTestConnectionSuccess: () => void;
+  /** Error message for submission, if any */
+  submitErrorMessage?: string;
 }
 
 /**
@@ -60,6 +64,7 @@ export function FormFooter({
   onTestConnectionSuccess,
   submitLabel,
   submitDisabled,
+  submitErrorMessage,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -105,6 +110,12 @@ export function FormFooter({
           onSuccess={onTestConnectionSuccess}
           pluginKind={pluginKind}
         />
+      )}
+      {submitErrorMessage && (
+        <Alert color="error" severity="error" variant="filled">
+          <AlertTitle>Submission error</AlertTitle>
+          {submitErrorMessage.charAt(0).toUpperCase() + submitErrorMessage.slice(1)}
+        </Alert>
       )}
     </Stack>
   );
