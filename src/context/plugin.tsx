@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 
 import { PluginTable } from '../components';
 import { CloudQueryTables } from '../hooks';

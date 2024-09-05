@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { RenderGuideProps } from './components/display';
 import { RenderSection } from './components/display/renderer/types';
 

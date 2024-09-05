@@ -20,7 +20,7 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
       .string()
       .default(initialValues?.displayName ?? generateDisplayName(config.label))
       .matches(
-        /^[A-Za-z][\w '\-]*$/,
+        /^[A-Za-z][\w '-]*$/,
         'Name must start with a letter and cannot include special characters.',
       )
       .max(255)

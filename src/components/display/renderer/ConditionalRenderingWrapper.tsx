@@ -12,6 +12,7 @@ export function ConditionalRenderingWrapper({ shouldRender, children }: Conditio
   const values = watch();
   const renderChildren: boolean = useMemo(
     () => (shouldRender ? shouldRender(values) : true),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [values],
   );
 

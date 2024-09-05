@@ -33,6 +33,7 @@ export function ControlMultiSelect({ name, helperText = '', label }: ControlMult
     }
 
     return '';
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formState.errors]);
 
   return (

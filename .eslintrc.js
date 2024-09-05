@@ -122,7 +122,7 @@ module.exports = {
     'unicorn/no-useless-undefined': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
-  ignorePatterns: ['node_modules/', 'dist/', '*.js', '*.cjs'],
+  ignorePatterns: ['node_modules/', 'dist/', '*.js', '*.cjs', '*.test.ts*'],
   settings: {
     'import/resolver': {
       typescript: {},
