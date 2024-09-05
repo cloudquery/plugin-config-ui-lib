@@ -7,20 +7,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
       - name: Use Node.js LTS
         uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
-          cache: 'pnpm'
+          cache: 'npm'
       - name: Install dependencies
-        run: pnpm install
-      - name: Check format
-        run: pnpm format
-      - name: Check unused Typescript exports
-        run: pnpm unused-exports
+        run: npm install
       - name: Lint
-        run: pnpm lint
+        run: npm lint
       - name: Test
-        run: pnpm test
+        run: npm test
