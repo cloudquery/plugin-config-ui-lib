@@ -3,7 +3,7 @@ import { ReactNode, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 export interface ConditionalRenderingProps {
-  shouldRender?: (values: Record<string, any>) => boolean;
+  shouldRender?: (values: any) => boolean;
   children: ReactNode;
 }
 

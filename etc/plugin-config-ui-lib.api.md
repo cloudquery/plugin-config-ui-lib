@@ -81,7 +81,7 @@ export interface CollapsibleSectionProps {
     // (undocumented)
     children: React_2.ReactNode;
     // (undocumented)
-    defaultExpanded: AccordionProps['defaultExpanded'];
+    defaultExpanded?: AccordionProps['defaultExpanded'];
     // (undocumented)
     subtitle?: React_2.ReactNode;
     // (undocumented)
@@ -96,7 +96,7 @@ export interface CollapsibleSubSectionProps {
     // (undocumented)
     children: React_2.ReactNode;
     // (undocumented)
-    defaultExpanded: AccordionProps['defaultExpanded'];
+    defaultExpanded?: AccordionProps['defaultExpanded'];
     // (undocumented)
     subtitle?: React_2.ReactNode;
     // (undocumented)
@@ -485,7 +485,7 @@ export interface PluginConfig {
     name: string;
     // (undocumented)
     steps: {
-        sections: RenderSection[];
+        sections: (RenderSection | React_2.FC<any>)[];
         title: string;
     }[];
     // (undocumented)
@@ -763,11 +763,19 @@ export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFie
     _editMode: boolean;
     _authType: {};
     _step: number;
+    tables?: unknown;
+    name: string;
+    displayName: string;
+    connectorId: string;
 }, yup.AnyObject, {
     _secretKeys: string[];
     _editMode: boolean;
     _authType: AuthType;
     _step: 0;
+    tables?: undefined;
+    name: string;
+    displayName: string;
+    connectorId: string;
 }, "">;
 
 // @public (undocumented)
