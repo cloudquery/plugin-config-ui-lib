@@ -485,7 +485,7 @@ export interface PluginConfig {
     name: string;
     // (undocumented)
     steps: {
-        sections: (RenderSection | React.FC<any>)[];
+        sections: (RenderSection | React_2.FC<any>)[];
         title: string;
     }[];
     // (undocumented)
