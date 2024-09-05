@@ -330,7 +330,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, submitErrorMessage, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -344,6 +344,7 @@ export interface FormFooterProps {
     onTestConnectionSuccess: () => void;
     pluginKind: 'source' | 'destination';
     submitDisabled?: boolean;
+    submitErrorMessage?: string;
     submitLabel?: string;
     // Warning: (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
     submitPayload: (FormValues & {
@@ -880,6 +881,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
     connectorId: string | null;
     authConnectorResult: Record<string, string> | null;
     error: Error | null;
+    cancel: () => Promise<void>;
 };
 
 // Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
