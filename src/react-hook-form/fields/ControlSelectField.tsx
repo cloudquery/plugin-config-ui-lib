@@ -38,7 +38,6 @@ export function ControlSelectField({
         <TextField
           error={!!fieldState.error}
           fullWidth={true}
-          required={true}
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           label={label}
           select={true}
