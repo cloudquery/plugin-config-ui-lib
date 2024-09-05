@@ -130,6 +130,16 @@ export function useOauthConnector({
     [apiBaseUrl, callApi, successBaseUrl, teamName],
   );
 
+  /**
+   * Cancel connector authentication
+   */
+  const cancelConnectorAuthentication = useCallback(async () => {
+    setIsLoading(false);
+    setError(null);
+    setAuthConnectorResult(null);
+    setConnectorId(null);
+  }, []);
+
   useEffect(() => {
     if (isLoading && connectorId) {
       return pluginUiMessageHandler.subscribeToMessage('auth_connector_result', async (payload) => {
@@ -151,5 +161,6 @@ export function useOauthConnector({
     connectorId,
     authConnectorResult,
     error,
+    cancel: cancelConnectorAuthentication,
   };
 }

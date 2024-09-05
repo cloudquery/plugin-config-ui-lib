@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
-import LoadingButton from '@mui/lab/LoadingButton';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/system/Box';
@@ -32,6 +33,7 @@ export function ControlOAuth({
     connectorId,
     error: authenticateError,
     isLoading,
+    cancel,
   } = useOauthConnector({
     apiBaseUrl: cloudQueryApiBaseUrl,
     pluginKind: plugin.kind as any,
@@ -53,15 +55,24 @@ export function ControlOAuth({
   return (
     <Stack gap={1} pt={2}>
       <Box>
-        <LoadingButton
+        <Button
           size="large"
           variant={connectorIdValue ? 'outlined' : 'contained'}
-          onClick={authenticate}
-          loading={isLoading}
+          onClick={isLoading ? cancel : authenticate}
           fullWidth={false}
         >
+          {isLoading ? (
+            <Stack direction="row" alignItems="center" gap={1}>
+              <CircularProgress size={20} />
+              <span>Cancel</span>
+            </Stack>
+          ) : connectorIdValue ? (
+            'Re-authenticate'
+          ) : (
+            'Authenticate'
+          )}
           {connectorIdValue ? 'Re-authenticate' : 'Authenticate'}
-        </LoadingButton>
+        </Button>
       </Box>
 
       {!!authenticateError && (

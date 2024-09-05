@@ -1,9 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { Stack } from '@mui/material';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import FormHelperText from '@mui/material/FormHelperText';
-
-import { Path } from 'react-hook-form';
+import Stack from '@mui/material/Stack';
 
 import {
   FormFooter,
@@ -39,10 +39,10 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
     handleSubmit: handleFormSubmit,
     setValue,
     watch,
-    setError,
     formState,
   } = useFormContext();
   const { plugin, teamName, config, hideStepper } = usePluginContext();
+  const [submitErrorMessage, setSubmitErrorMessage] = useState<string | undefined>(undefined);
 
   const step = watch('_step');
   const editMode = watch('_editMode');
@@ -73,26 +73,8 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
   });
 
   useEffect(() => {
-    if (submitError) {
-      const fieldErrors = submitError.data?.field_errors;
-
-      if (fieldErrors) {
-        for (const key of Object.keys(fieldErrors)) {
-          if (key in getValues()) {
-            setError(key as Path<any>, {
-              message: fieldErrors[key],
-            });
-          } else {
-            setError('root', { message: submitError.data?.message || submitError.message });
-
-            return;
-          }
-        }
-      } else {
-        setError('root', { message: submitError.data?.message || submitError.message });
-      }
-    }
-  }, [submitError, getValues, setError]);
+    setSubmitErrorMessage(submitError?.message);
+  }, [submitError]);
 
   const formDisabled = isSubmitting || isTestingConnection;
 
@@ -162,6 +144,12 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
           onGoToPreviousStep={onGoToPreviousStep}
           submitLabel={isLastStep ? undefined : 'Continue'}
         />
+        {submitErrorMessage && (
+          <Alert color="error" severity="error" variant="filled">
+            <AlertTitle>Submission error</AlertTitle>
+            {submitErrorMessage.charAt(0).toUpperCase() + submitErrorMessage.slice(1)}
+          </Alert>
+        )}
       </Stack>
     </form>
   );

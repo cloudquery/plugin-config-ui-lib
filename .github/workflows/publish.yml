@@ -48,6 +48,10 @@ jobs:
         if: steps.check_version.outputs.version_changed == 'true'
         run: npm install
 
+      - name: Run lint
+        if: steps.check_version.outputs.version_changed == 'true'
+        run: npm run lint
+
       - name: Run tests
         if: steps.check_version.outputs.version_changed == 'true'
         run: npm test
