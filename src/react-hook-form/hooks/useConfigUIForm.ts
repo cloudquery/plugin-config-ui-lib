@@ -1,6 +1,8 @@
-import { getYupValidationResolver } from '@cloudquery/cloud-ui';
 import { useMemo } from 'react';
+
+import { getYupValidationResolver } from '@cloudquery/cloud-ui';
 import { useForm } from 'react-hook-form';
+
 import { useFormSchema } from './useFormSchema';
 
 export const useConfigUIForm = () => {

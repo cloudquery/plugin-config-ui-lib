@@ -1,21 +1,26 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
+/* eslint-disable */
+
 import { useMemo } from 'react';
-import { useCoreFormSchema } from '../../hooks';
-import { usePluginContext } from '../../context';
 
 import * as yup from 'yup';
+
+import { usePluginContext } from '../../context';
+import { useCoreFormSchema } from '../../hooks';
+
 import { PluginConfig } from '../../types';
 
 const findComponents = (sections: any[]): any[] => {
   let result: any[] = [];
 
-  sections.forEach((section) => {
+  for (const section of sections) {
     if (section.component) {
       result.push(section);
     }
     if (section.children || section.sections) {
       result = result.concat(findComponents(section.children ?? section.sections));
     }
-  });
+  }
 
   return result;
 };
@@ -50,6 +55,7 @@ export const useFormSchema = (): yup.AnyObjectSchema => {
 
   const formFields = useMemo(() => {
     const componentsArray = findComponents(config.steps);
+
     return getSchema(componentsArray, config);
   }, [config]);
 
@@ -58,6 +64,5 @@ export const useFormSchema = (): yup.AnyObjectSchema => {
     ...formFields,
   });
 
-  console.log({ initialValues, config, formFields, coreSchema });
   return coreSchema;
 };

@@ -1,10 +1,11 @@
 import React, { createContext, useContext } from 'react';
 
+import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+
 import { PluginTable } from '../components';
 import { CloudQueryTables } from '../hooks';
 import { PluginConfig } from '../types';
 import { generateTablesFromJson } from '../utils';
-import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 /**
  * @public

@@ -49,7 +49,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
 
   const getCurrentValues = useCallback(
     () => prepareSubmitValues(form.getValues(), tablesList),
-    [form, tablesList],
+    [form, tablesList, prepareSubmitValues],
   );
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
