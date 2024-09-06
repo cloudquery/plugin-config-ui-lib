@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { getFieldHelperText } from '@cloudquery/cloud-ui';
-import { MenuItem } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { Controller } from 'react-hook-form';
 
