@@ -109,7 +109,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.
 // @public (undocumented)
 export interface ConfigUIFormProps {
     // (undocumented)
-    prepareSubmitValues: any;
+    prepareSubmitValues: (values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
 // @public

@@ -100,10 +100,10 @@ describe('validateConfig', () => {
     expect(runTest).toThrow(errorMessages.config_no_steps);
   });
 
-  test('should throw an error if config `steps` property is an array of misshapen objects', async () => {
+  test('should throw an error if config `steps` children do not have children', async () => {
     const runTest = () => validateConfig({ ...validConfig, steps: [{}] } as any);
 
-    expect(runTest).toThrow(errorMessages.config_no_steps);
+    expect(runTest).toThrow(errorMessages.no_children);
   });
 
   test('should throw an error if section children are empty objects', async () => {

@@ -11,6 +11,7 @@ import {
   FormWrapper,
   GuideComponent,
   Header,
+  PluginTable,
   Sections,
   useFormActions,
   useFormCurrentValues,
@@ -21,12 +22,16 @@ import { usePluginContext } from '../../context/plugin';
 
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { useConfigUIForm } from '../hooks/useConfigUIForm';
+import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 /**
  * @public
  */
 export interface ConfigUIFormProps {
-  prepareSubmitValues: any;
+  prepareSubmitValues: (
+    values: Record<string, any>,
+    tablesList?: PluginTable[],
+  ) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
 /**

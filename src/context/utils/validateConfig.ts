@@ -18,10 +18,10 @@ function validateSections(section: IterableStepComponent): string[] {
   if (section.component.includes('section')) {
     const renderSection = section as RenderSection;
     if (!renderSection.title) {
-      throw new Error(errorMessages.no_title);
+      throw new Error(`${errorMessages.no_title}: ${JSON.stringify(renderSection)}`);
     }
     if (!renderSection.children) {
-      throw new Error(errorMessages.no_children);
+      throw new Error(`${errorMessages.no_children}: ${JSON.stringify(renderSection)}`);
     }
     componentNameCollector.push(
       renderSection.children.flatMap((child) => validateSections(child as RenderSection)),
@@ -30,17 +30,17 @@ function validateSections(section: IterableStepComponent): string[] {
   if (section.component.includes('control') && section.component !== 'control-table-selector') {
     const layoutComponent = section as LayoutComponent;
     if (!layoutComponent.name) {
-      throw new Error(errorMessages.no_name);
+      throw new Error(`${errorMessages.no_name}: ${JSON.stringify(layoutComponent)}`);
     }
     if (reservedNames.includes(layoutComponent.name)) {
       throw new Error(`${errorMessages.reserved_name}: ${layoutComponent.name}`);
     }
     componentNameCollector.push(layoutComponent.name);
     if (layoutComponent.component !== 'control-exclusive-toggle' && !layoutComponent.label) {
-      throw new Error(errorMessages.no_label);
+      throw new Error(`${errorMessages.no_label}: ${JSON.stringify(layoutComponent)}`);
     }
     if (!layoutComponent.schema) {
-      throw new Error(errorMessages.no_schema);
+      throw new Error(`${errorMessages.no_schema}: ${JSON.stringify(layoutComponent)}`);
     }
   }
 
@@ -52,9 +52,9 @@ function validateSteps(steps: PluginConfig['steps']): string[] {
     throw new TypeError(errorMessages.config_no_steps);
   }
 
-  return steps.flatMap((step) => {
+  return steps.flatMap((step, index) => {
     if (!step.children || !Array.isArray(step.children)) {
-      throw new Error(errorMessages.config_no_steps);
+      throw new Error(`${errorMessages.no_children}: Step ${index}`);
     }
 
     return step.children.flatMap((child) => validateSections(child as RenderSection));
