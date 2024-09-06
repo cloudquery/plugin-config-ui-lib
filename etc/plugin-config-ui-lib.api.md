@@ -104,14 +104,12 @@ export interface CollapsibleSubSectionProps {
 }
 
 // @public
-export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps): JSX_2.Element;
+export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ConfigUIFormProps {
     // (undocumented)
-    getCurrentValues: any;
-    // (undocumented)
-    pluginUiMessageHandler: any;
+    prepareSubmitValues: any;
 }
 
 // @public
@@ -484,6 +482,8 @@ export interface PluginConfig {
     // (undocumented)
     name: string;
     // (undocumented)
+    stateSchemaFields: yup.AnySchema[];
+    // (undocumented)
     steps: {
         sections: (RenderSection | React_2.FC<any>)[];
         title: string;
@@ -493,7 +493,7 @@ export interface PluginConfig {
 }
 
 // @public
-export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -504,12 +504,16 @@ export interface PluginContextProviderProps {
     // (undocumented)
     hideStepper: boolean;
     // (undocumented)
+    initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+    // (undocumented)
     plugin: {
         name: string;
         kind: string;
         version: string;
         team: string;
     };
+    // (undocumented)
+    pluginUiMessageHandler: any;
     // (undocumented)
     tablesData?: CloudQueryTables;
     // (undocumented)
@@ -917,7 +921,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:28:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
+// src/types.ts:29:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

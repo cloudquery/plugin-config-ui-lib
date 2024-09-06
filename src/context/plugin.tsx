@@ -4,6 +4,7 @@ import { PluginTable } from '../components';
 import { CloudQueryTables } from '../hooks';
 import { PluginConfig } from '../types';
 import { generateTablesFromJson } from '../utils';
+import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 /**
  * @public
@@ -20,6 +21,8 @@ export interface PluginContextProviderProps {
   tablesData?: CloudQueryTables;
   hideStepper: boolean;
   children: React.ReactNode;
+  pluginUiMessageHandler: any;
+  initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
 }
 
 interface PluginContextProps {
@@ -33,6 +36,8 @@ interface PluginContextProps {
   teamName: string;
   hideStepper: boolean;
   tablesList?: PluginTable[];
+  pluginUiMessageHandler: any;
+  initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
 }
 
 const PluginContext = createContext<PluginContextProps>({
@@ -44,6 +49,7 @@ const PluginContext = createContext<PluginContextProps>({
     iconLink: '',
     steps: [],
     auth: [],
+    stateSchemaFields: [],
     guide: () => <></>,
     errorCodes: {},
   } as PluginConfig,
@@ -56,6 +62,8 @@ const PluginContext = createContext<PluginContextProps>({
   teamName: '',
   hideStepper: false,
   tablesList: undefined,
+  pluginUiMessageHandler: undefined,
+  initialValues: undefined,
 });
 
 /**
@@ -77,13 +85,25 @@ export const PluginContextProvider = ({
   teamName,
   tablesData,
   hideStepper,
+  pluginUiMessageHandler,
+  initialValues,
 }: PluginContextProviderProps) => {
   const tablesList = tablesData
     ? generateTablesFromJson(tablesData as CloudQueryTables)
     : undefined;
 
   return (
-    <PluginContext.Provider value={{ config, plugin, teamName, tablesList, hideStepper }}>
+    <PluginContext.Provider
+      value={{
+        config,
+        plugin,
+        teamName,
+        tablesList,
+        hideStepper,
+        pluginUiMessageHandler,
+        initialValues,
+      }}
+    >
       {children}
     </PluginContext.Provider>
   );

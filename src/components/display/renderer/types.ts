@@ -1,4 +1,5 @@
 import React from 'react';
+import * as yup from 'yup';
 
 import { CollapsibleSectionProps } from './CollapsibleSection';
 import { CollapsibleSubSectionProps } from './CollapsibleSubSection';
@@ -14,7 +15,9 @@ import { ControlNumberFieldProps } from '../../../react-hook-form/fields/Control
 import { ControlSecretFieldProps } from '../../../react-hook-form/fields/ControlSecretField';
 import { ControlTextFieldProps } from '../../../react-hook-form/fields/ControlTextField';
 
-type ComponentAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
+type ComponentAbstract = Pick<ConditionalRenderingProps, 'shouldRender'> & {
+  schema?: yup.AnySchema;
+};
 
 export type RenderSection = ComponentAbstract &
   (

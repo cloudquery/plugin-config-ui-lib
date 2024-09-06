@@ -1,4 +1,5 @@
 import React from 'react';
+import * as yup from 'yup';
 
 import { RenderGuideProps } from './components/display';
 import { RenderSection } from './components/display/renderer/types';
@@ -26,6 +27,7 @@ export interface PluginConfig {
   docsLink: string;
   iconLink: string;
   steps: { sections: (RenderSection | React.FC<any>)[]; title: string }[];
+  stateSchemaFields: yup.AnySchema[];
   auth: AuthType[];
   guide: React.FC | GuideConfig;
   errorCodes?: Record<string, string>;
