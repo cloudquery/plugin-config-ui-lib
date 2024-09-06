@@ -41,7 +41,6 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
   useFormHeightChange(pluginUiMessageHandler);
 
   const form = useConfigUIForm();
-
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
 
   const step = watch('_step');

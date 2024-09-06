@@ -22,7 +22,7 @@ interface ComponentAbstract extends ShouldRenderAbstract {
   schema: yup.AnySchema;
 }
 
-export type IterableStepComponent = RenderSection | LayoutComponent;
+export type IterableStepComponent = RenderSection | LayoutComponent | ReservedLayoutComponent;
 
 export type RenderSection = ShouldRenderAbstract &
   (LayoutSection | LayoutCollapsibleSection | LayoutCollapsibleSubSection | LayoutSubSection);
@@ -36,8 +36,9 @@ export type LayoutComponent =
   | LayoutBooleanField
   | LayoutSelectField
   | LayoutMultiSelectField
-  | LayoutTableSelector
   | LayoutExclusiveToggle;
+
+export type ReservedLayoutComponent = LayoutTableSelector;
 
 export interface LayoutTextField extends ComponentAbstract, ControlTextFieldProps {
   component: 'control-text-field';
@@ -67,10 +68,8 @@ export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiS
   component: 'control-multi-select';
 }
 
-export interface LayoutTableSelector extends ComponentAbstract {
+export interface LayoutTableSelector extends ShouldRenderAbstract {
   component: 'control-table-selector';
-  name: 'tables';
-  label: 'Tables';
 }
 
 export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
