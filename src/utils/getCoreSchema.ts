@@ -36,7 +36,12 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
     ...(tablesList && {
       tables: yup
         .object()
-        .default(getEnabledTablesObject({ tablesList, tables: initialValues?.tables })),
+        .default(getEnabledTablesObject({ tablesList, tables: initialValues?.tables }))
+        .test({
+          name: 'has-tables',
+          message: 'At least one table must be selected',
+          test: (value: Record<string, boolean>) => Object.values(value).some(Boolean),
+        }),
     }),
   };
 
