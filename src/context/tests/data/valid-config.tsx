@@ -1,5 +1,6 @@
-import { AuthType, PluginConfig } from '../../../types';
 import * as yup from 'yup';
+
+import { AuthType, PluginConfig } from '../../../types';
 
 const validConfig: PluginConfig = {
   name: 'fastly',

@@ -489,7 +489,7 @@ export interface PluginConfig {
         title: string;
     }[];
     // (undocumented)
-    type: any;
+    type: 'source' | 'destination';
 }
 
 // @public

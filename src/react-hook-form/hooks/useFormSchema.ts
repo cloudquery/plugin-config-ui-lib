@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 
 import * as yup from 'yup';
 
+import { LayoutComponent, RenderSection } from '../../components/display/renderer/types';
 import { usePluginContext } from '../../context';
 import { useCoreFormSchema } from '../../hooks';
 
 import { PluginConfig } from '../../types';
-import { LayoutComponent, RenderSection } from '../../components/display/renderer/types';
 
 const findComponents = (children: (RenderSection | LayoutComponent)[]): LayoutComponent[] => {
   let result: LayoutComponent[] = [];
@@ -16,9 +16,10 @@ const findComponents = (children: (RenderSection | LayoutComponent)[]): LayoutCo
       result.push(section as LayoutComponent);
     }
     if ((section as RenderSection).children) {
-      result = result.concat(
-        findComponents((section as RenderSection).children as RenderSection[]),
-      );
+      result = [
+        ...result,
+        ...findComponents((section as RenderSection).children as RenderSection[]),
+      ];
     }
   }
 

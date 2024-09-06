@@ -1,11 +1,10 @@
+import { reservedNames, errorMessages } from './constants';
 import {
   IterableStepComponent,
   LayoutComponent,
   RenderSection,
 } from '../../components/display/renderer/types';
 import { PluginConfig } from '../../types';
-import { reservedNames } from './constants';
-import { errorMessages } from './constants';
 
 function checkForDuplicateNames(names: string[]): string[] {
   return names.filter((e, i, a) => a.indexOf(e) !== i);
@@ -25,7 +24,7 @@ function validateSections(section: IterableStepComponent): string[] {
       throw new Error(errorMessages.no_children);
     }
     componentNameCollector.push(
-      renderSection.children.map((child) => validateSections(child as RenderSection)).flat(),
+      renderSection.children.flatMap((child) => validateSections(child as RenderSection)),
     );
   }
   if (section.component.includes('control') && section.component !== 'control-table-selector') {
@@ -44,22 +43,22 @@ function validateSections(section: IterableStepComponent): string[] {
       throw new Error(errorMessages.no_schema);
     }
   }
+
   return componentNameCollector.flat();
 }
 
 function validateSteps(steps: PluginConfig['steps']): string[] {
   if (!Array.isArray(steps)) {
-    throw new Error(errorMessages.config_no_steps);
+    throw new TypeError(errorMessages.config_no_steps);
   }
 
-  return steps
-    .map((step) => {
-      if (!step.children || !Array.isArray(step.children)) {
-        throw new Error(errorMessages.config_no_steps);
-      }
-      return step.children.map((child) => validateSections(child as RenderSection)).flat();
-    })
-    .flat();
+  return steps.flatMap((step) => {
+    if (!step.children || !Array.isArray(step.children)) {
+      throw new Error(errorMessages.config_no_steps);
+    }
+
+    return step.children.flatMap((child) => validateSections(child as RenderSection));
+  });
 }
 
 export function validateConfig(config: PluginConfig) {
@@ -85,10 +84,8 @@ export function validateConfig(config: PluginConfig) {
     throw new Error(errorMessages.config_no_steps);
   }
 
-  if (config.stateSchema) {
-    if (typeof config.stateSchema !== 'object') {
-      throw new Error(errorMessages.config_bad_state_schema);
-    }
+  if (config.stateSchema && typeof config.stateSchema !== 'object') {
+    throw new Error(errorMessages.config_bad_state_schema);
   }
   if (!config.auth) {
     throw new Error(errorMessages.config_no_auth);
@@ -96,10 +93,8 @@ export function validateConfig(config: PluginConfig) {
   if (!config.guide) {
     throw new Error(errorMessages.config_no_guide);
   }
-  if (config.errorCodes) {
-    if (typeof config.errorCodes !== 'object') {
-      throw new Error(errorMessages.config_bad_error_codes);
-    }
+  if (config.errorCodes && typeof config.errorCodes !== 'object') {
+    throw new Error(errorMessages.config_bad_error_codes);
   }
 
   const componentFieldNames = validateSteps(config.steps);
@@ -107,5 +102,6 @@ export function validateConfig(config: PluginConfig) {
   if (duplicateComponentNames.length > 0) {
     throw new Error(`${errorMessages.duplicate_names}: ${duplicateComponentNames}`);
   }
+
   return config;
 }

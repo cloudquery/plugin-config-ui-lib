@@ -2,11 +2,11 @@ import React, { createContext, useContext, useMemo } from 'react';
 
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
+import { validateConfig } from './utils/validateConfig';
 import { PluginTable } from '../components';
 import { CloudQueryTables } from '../hooks';
 import { PluginConfig } from '../types';
 import { generateTablesFromJson } from '../utils';
-import { validateConfig } from './utils/validateConfig';
 
 /**
  * @public
