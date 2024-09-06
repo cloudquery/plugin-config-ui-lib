@@ -16,18 +16,21 @@ import { ControlNumberFieldProps } from '../../../react-hook-form/fields/Control
 import { ControlSecretFieldProps } from '../../../react-hook-form/fields/ControlSecretField';
 import { ControlTextFieldProps } from '../../../react-hook-form/fields/ControlTextField';
 
+// Abstracts
 type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
-
 interface ComponentAbstract extends ShouldRenderAbstract {
   schema: yup.AnySchema;
 }
+interface SectionAbstract extends ShouldRenderAbstract {
+  children: (RenderSection | LayoutComponent | ReservedLayoutComponent | React.FC<any>)[];
+}
 
+// Top-Level
 export type IterableStepComponent = RenderSection | LayoutComponent | ReservedLayoutComponent;
 
 export type RenderSection = ShouldRenderAbstract &
   (LayoutSection | LayoutCollapsibleSection | LayoutCollapsibleSubSection | LayoutSubSection);
 
-// Components
 export type LayoutComponent =
   | LayoutTextField
   | LayoutSecretField
@@ -39,6 +42,8 @@ export type LayoutComponent =
   | LayoutExclusiveToggle;
 
 export type ReservedLayoutComponent = LayoutTableSelector;
+
+// Components
 
 export interface LayoutTextField extends ComponentAbstract, ControlTextFieldProps {
   component: 'control-text-field';
@@ -68,22 +73,19 @@ export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiS
   component: 'control-multi-select';
 }
 
-export interface LayoutTableSelector extends ShouldRenderAbstract {
-  component: 'control-table-selector';
-}
-
 export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
   component: 'control-exclusive-toggle';
 }
 
+// Reserved Components
+
+export interface LayoutTableSelector extends ShouldRenderAbstract {
+  component: 'control-table-selector';
+}
 // TODO: enable after iframe deprecation
 // export export interface LayoutOAuth {
 //   component: 'control-oauth';
 // }
-
-export interface SectionAbstract extends ShouldRenderAbstract {
-  children: (RenderSection | LayoutComponent | React.FC<any>)[];
-}
 
 // Layouts
 export interface LayoutSection extends SectionAbstract, Omit<SectionProps, 'children'> {

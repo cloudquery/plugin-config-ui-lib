@@ -23,7 +23,7 @@ export interface GuideConfig {
  */
 export interface PluginConfig {
   name: string;
-  type: 'source' | 'destination';
+  type: any; // 'source' | 'destination';
   label: string;
   docsLink: string;
   iconLink: string;

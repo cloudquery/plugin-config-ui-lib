@@ -5,7 +5,7 @@ import { errorMessages } from '../utils/constants';
 
 describe('validateConfig', () => {
   test('should validate a valid config', async () => {
-    const config = validateConfig(validConfig as PluginConfig);
+    const config = validateConfig(validConfig);
 
     expect(config).toMatchObject(validConfig);
   });

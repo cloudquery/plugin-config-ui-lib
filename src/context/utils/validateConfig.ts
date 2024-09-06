@@ -1,4 +1,8 @@
-import { LayoutComponent, RenderSection } from '../../components/display/renderer/types';
+import {
+  IterableStepComponent,
+  LayoutComponent,
+  RenderSection,
+} from '../../components/display/renderer/types';
 import { PluginConfig } from '../../types';
 import { reservedNames } from './constants';
 import { errorMessages } from './constants';
@@ -7,7 +11,7 @@ function checkForDuplicateNames(names: string[]): string[] {
   return names.filter((e, i, a) => a.indexOf(e) !== i);
 }
 
-function validateSections(section: RenderSection | LayoutComponent): string[] {
+function validateSections(section: IterableStepComponent): string[] {
   const componentNameCollector = [];
   if (!section.component) {
     throw new Error(errorMessages.no_component);
@@ -24,7 +28,7 @@ function validateSections(section: RenderSection | LayoutComponent): string[] {
       renderSection.children.map((child) => validateSections(child as RenderSection)).flat(),
     );
   }
-  if (section.component.includes('control')) {
+  if (section.component.includes('control') && section.component !== 'control-table-selector') {
     const layoutComponent = section as LayoutComponent;
     if (!layoutComponent.name) {
       throw new Error(errorMessages.no_name);
@@ -36,10 +40,7 @@ function validateSections(section: RenderSection | LayoutComponent): string[] {
     if (layoutComponent.component !== 'control-exclusive-toggle' && !layoutComponent.label) {
       throw new Error(errorMessages.no_label);
     }
-    if (
-      !['control-table-selector'].includes(layoutComponent.component) &&
-      !layoutComponent.schema
-    ) {
+    if (!layoutComponent.schema) {
       throw new Error(errorMessages.no_schema);
     }
   }

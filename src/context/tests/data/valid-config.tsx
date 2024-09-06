@@ -1,7 +1,7 @@
-import { AuthType } from '../../../types';
+import { AuthType, PluginConfig } from '../../../types';
 import * as yup from 'yup';
 
-export default {
+const validConfig: PluginConfig = {
   name: 'fastly',
   type: 'source',
   label: 'Fastly',
@@ -15,6 +15,9 @@ export default {
           title: 'Authentication',
           subtitle: 'Use an API key to authenticate with Fastly',
           children: [
+            {
+              component: 'control-table-selector',
+            },
             {
               component: 'control-secret-field',
               name: 'fastly_api_key',
@@ -42,3 +45,5 @@ export default {
     ],
   },
 };
+
+export default validConfig;
