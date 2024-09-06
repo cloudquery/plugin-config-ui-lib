@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
+import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { Box, Stack } from '@mui/material';
 import FormHelperText from '@mui/material/FormHelperText';
 
@@ -22,7 +23,6 @@ import { usePluginContext } from '../../context/plugin';
 
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { useConfigUIForm } from '../hooks/useConfigUIForm';
-import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 /**
  * @public
