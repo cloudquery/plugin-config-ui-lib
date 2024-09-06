@@ -49,7 +49,7 @@ const PluginContext = createContext<PluginContextProps>({
     iconLink: '',
     steps: [],
     auth: [],
-    stateSchemaFields: [],
+    stateSchema: undefined,
     guide: () => <></>,
     errorCodes: {},
   } as PluginConfig,

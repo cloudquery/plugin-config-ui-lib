@@ -3,6 +3,7 @@ import { useCoreFormSchema } from '../../hooks';
 import { usePluginContext } from '../../context';
 
 import * as yup from 'yup';
+import { PluginConfig } from '../../types';
 
 const findComponents = (sections: any[]): any[] => {
   let result: any[] = [];
@@ -19,7 +20,7 @@ const findComponents = (sections: any[]): any[] => {
   return result;
 };
 
-const getSchema = (componentsArray: any[]) => {
+const getSchema = (componentsArray: any[], config: PluginConfig) => {
   const { fields, secretFields } = componentsArray.reduce(
     (acc, next) => {
       if (!next.schema) {
@@ -31,10 +32,9 @@ const getSchema = (componentsArray: any[]) => {
       }
 
       return acc;
-      // todo: statefields
     },
     {
-      fields: {},
+      fields: config?.stateSchema ?? {},
       secretFields: {},
     },
   );
@@ -50,7 +50,7 @@ export const useFormSchema = (): yup.AnyObjectSchema => {
 
   const formFields = useMemo(() => {
     const componentsArray = findComponents(config.steps);
-    return getSchema(componentsArray);
+    return getSchema(componentsArray, config);
   }, [config]);
 
   const coreSchema = useCoreFormSchema({

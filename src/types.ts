@@ -27,7 +27,7 @@ export interface PluginConfig {
   docsLink: string;
   iconLink: string;
   steps: { sections: (RenderSection | React.FC<any>)[]; title: string }[];
-  stateSchemaFields: yup.AnySchema[];
+  stateSchema?: yup.AnySchema;
   auth: AuthType[];
   guide: React.FC | GuideConfig;
   errorCodes?: Record<string, string>;
