@@ -143,11 +143,11 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
                     />
                   )}
                   <Header />
-                  {config.steps?.map(({ sections }, index) => {
+                  {config.steps?.map(({ children }, index) => {
                     return (
                       step === index && (
                         <Sections key={index}>
-                          {sections.map((section, index) => (
+                          {children.map((section, index) => (
                             <ComponentsRenderer section={section} key={index} />
                           ))}
                         </Sections>

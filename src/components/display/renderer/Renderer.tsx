@@ -5,7 +5,23 @@ import { CollapsibleSubSection } from './CollapsibleSubSection';
 import { ConditionalRenderingWrapper } from './ConditionalRenderingWrapper';
 import { Section } from './Section';
 import { SubSection } from './SubSection';
-import { RenderSection } from './types';
+import {
+  IterableStepComponent,
+  LayoutBooleanField,
+  LayoutCollapsibleSection,
+  LayoutCollapsibleSubSection,
+  LayoutComponent,
+  LayoutDateTimeField,
+  LayoutExclusiveToggle,
+  LayoutMultiSelectField,
+  LayoutNumberField,
+  LayoutSecretField,
+  LayoutSection,
+  LayoutSelectField,
+  LayoutSubSection,
+  LayoutTextField,
+  RenderSection,
+} from './types';
 
 import {
   ControlTextField,
@@ -23,8 +39,8 @@ export function ComponentsRenderer({
   section,
 }: {
   section:
-    | (RenderSection | ReactNode | React.FC<any>)
-    | (RenderSection | ReactNode | React.FC<any>)[];
+    | (IterableStepComponent | ReactNode | React.FC<any>)
+    | (IterableStepComponent | ReactNode | React.FC<any>)[];
 }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
     <>
@@ -43,15 +59,14 @@ function ComponentRenderer({
   component,
 }: {
   component:
-    | (RenderSection | ReactNode | React.FC<any>)
-    | (RenderSection | ReactNode | React.FC<any>)[];
+    | (IterableStepComponent | ReactNode | React.FC<any>)
+    | (IterableStepComponent | ReactNode | React.FC<any>)[];
 }): ReactNode[] | ReactNode {
-  if ((component as RenderSection)?.component) {
-    const switchComponent = component as RenderSection;
-    switch (switchComponent.component) {
+  if ((component as IterableStepComponent)?.component) {
+    switch ((component as IterableStepComponent).component) {
       // Layouts
       case 'section': {
-        const { children, ...props } = switchComponent;
+        const { children, ...props } = component as LayoutSection;
 
         return (
           <Section {...props}>
@@ -60,7 +75,7 @@ function ComponentRenderer({
         );
       }
       case 'collapsible-section': {
-        const { children, ...props } = switchComponent;
+        const { children, ...props } = component as LayoutCollapsibleSection;
 
         return (
           <CollapsibleSection {...props}>
@@ -69,7 +84,7 @@ function ComponentRenderer({
         );
       }
       case 'sub-section': {
-        const { children, ...props } = switchComponent;
+        const { children, ...props } = component as LayoutSubSection;
 
         return (
           <SubSection {...props}>
@@ -78,7 +93,7 @@ function ComponentRenderer({
         );
       }
       case 'collapsible-sub-section': {
-        const { children, ...props } = switchComponent;
+        const { children, ...props } = component as LayoutCollapsibleSubSection;
 
         return (
           <CollapsibleSubSection {...props}>
@@ -88,25 +103,25 @@ function ComponentRenderer({
       }
       // Components
       case 'control-text-field': {
-        return <ControlTextField {...switchComponent} />;
+        return <ControlTextField {...(component as LayoutTextField)} />;
       }
       case 'control-secret-field': {
-        return <ControlSecretField {...switchComponent} />;
+        return <ControlSecretField {...(component as LayoutSecretField)} />;
       }
       case 'control-number-field': {
-        return <ControlNumberField {...switchComponent} />;
+        return <ControlNumberField {...(component as LayoutNumberField)} />;
       }
       case 'control-boolean-field': {
-        return <ControlBooleanField {...switchComponent} />;
+        return <ControlBooleanField {...(component as LayoutBooleanField)} />;
       }
       case 'control-select-field': {
-        return <ControlSelectField {...switchComponent} />;
+        return <ControlSelectField {...(component as LayoutSelectField)} />;
       }
       case 'control-date-time-field': {
-        return <ControlDateTimeField {...switchComponent} />;
+        return <ControlDateTimeField {...(component as LayoutDateTimeField)} />;
       }
       case 'control-multi-select': {
-        return <ControlMultiSelect {...switchComponent} />;
+        return <ControlMultiSelect {...(component as LayoutMultiSelectField)} />;
       }
       case 'control-table-selector': {
         return <ControlTableSelector />;
@@ -116,14 +131,16 @@ function ComponentRenderer({
       //   return <>This will work after the iframe deprecation.</>;
       // }
       case 'control-exclusive-toggle': {
-        return <ControlExclusiveToggle {...switchComponent} />;
+        return <ControlExclusiveToggle {...(component as LayoutExclusiveToggle)} />;
       }
       default: {
-        return <>Component was not added to the Renderer.</>;
+        throw new Error(
+          `${(component as LayoutComponent).component} does not exist in the Renderer.`,
+        );
       }
     }
   } else {
-    const ConcreteComponent = component as any;
+    const ConcreteComponent = component as React.FC<any>;
 
     return <ConcreteComponent />;
   }

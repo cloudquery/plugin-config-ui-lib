@@ -16,21 +16,19 @@ import { ControlNumberFieldProps } from '../../../react-hook-form/fields/Control
 import { ControlSecretFieldProps } from '../../../react-hook-form/fields/ControlSecretField';
 import { ControlTextFieldProps } from '../../../react-hook-form/fields/ControlTextField';
 
-type ComponentAbstract = Pick<ConditionalRenderingProps, 'shouldRender'> & {
-  schema?: yup.AnySchema;
-};
+type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
 
-export type RenderSection = ComponentAbstract &
-  (
-    | LayoutSection
-    | LayoutCollapsibleSection
-    | LayoutCollapsibleSubSection
-    | LayoutSubSection
-    | LayoutComponent
-  );
+interface ComponentAbstract extends ShouldRenderAbstract {
+  schema: yup.AnySchema;
+}
+
+export type IterableStepComponent = RenderSection | LayoutComponent;
+
+export type RenderSection = ShouldRenderAbstract &
+  (LayoutSection | LayoutCollapsibleSection | LayoutCollapsibleSubSection | LayoutSubSection);
 
 // Components
-type LayoutComponent =
+export type LayoutComponent =
   | LayoutTextField
   | LayoutSecretField
   | LayoutNumberField
@@ -41,67 +39,69 @@ type LayoutComponent =
   | LayoutTableSelector
   | LayoutExclusiveToggle;
 
-interface LayoutTextField extends ComponentAbstract, ControlTextFieldProps {
+export interface LayoutTextField extends ComponentAbstract, ControlTextFieldProps {
   component: 'control-text-field';
 }
 
-interface LayoutSecretField extends ComponentAbstract, ControlSecretFieldProps {
+export interface LayoutSecretField extends ComponentAbstract, ControlSecretFieldProps {
   component: 'control-secret-field';
 }
 
-interface LayoutNumberField extends ComponentAbstract, ControlNumberFieldProps {
+export interface LayoutNumberField extends ComponentAbstract, ControlNumberFieldProps {
   component: 'control-number-field';
 }
 
-interface LayoutSelectField extends ComponentAbstract, ControlSelectFieldProps {
+export interface LayoutSelectField extends ComponentAbstract, ControlSelectFieldProps {
   component: 'control-select-field';
 }
 
-interface LayoutBooleanField extends ComponentAbstract, ControlBooleanFieldProps {
+export interface LayoutBooleanField extends ComponentAbstract, ControlBooleanFieldProps {
   component: 'control-boolean-field';
 }
 
-interface LayoutDateTimeField extends ComponentAbstract, ControlDateTimeFieldProps {
+export interface LayoutDateTimeField extends ComponentAbstract, ControlDateTimeFieldProps {
   component: 'control-date-time-field';
 }
 
-interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiSelectProps {
+export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiSelectProps {
   component: 'control-multi-select';
 }
 
-interface LayoutTableSelector extends ComponentAbstract {
+export interface LayoutTableSelector extends ComponentAbstract {
   component: 'control-table-selector';
+  name: 'tables';
+  label: 'Tables';
 }
 
-interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
+export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
   component: 'control-exclusive-toggle';
 }
 
 // TODO: enable after iframe deprecation
-// export interface LayoutOAuth {
+// export export interface LayoutOAuth {
 //   component: 'control-oauth';
 // }
 
-interface SectionAbstract extends ComponentAbstract {
-  children: (RenderSection | React.FC<any>)[];
+export interface SectionAbstract extends ShouldRenderAbstract {
+  children: (RenderSection | LayoutComponent | React.FC<any>)[];
 }
 
 // Layouts
-interface LayoutSection extends SectionAbstract, Omit<SectionProps, 'children'> {
+export interface LayoutSection extends SectionAbstract, Omit<SectionProps, 'children'> {
   component: 'section';
 }
 
-interface LayoutCollapsibleSection
+export interface LayoutCollapsibleSection
   extends SectionAbstract,
     Omit<CollapsibleSectionProps, 'children'> {
   component: 'collapsible-section';
 }
 
-interface LayoutSubSection extends SectionAbstract, Omit<SubSectionProps, 'children'> {
+export interface LayoutSubSection extends SectionAbstract, Omit<SubSectionProps, 'children'> {
   component: 'sub-section';
 }
 
-interface LayoutCollapsibleSubSection
+export interface LayoutCollapsibleSubSection
   extends SectionAbstract,
     Omit<CollapsibleSubSectionProps, 'children'> {
   component: 'collapsible-sub-section';

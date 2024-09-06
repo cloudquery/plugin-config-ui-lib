@@ -1,6 +1,3 @@
-/* eslint-disable unicorn/no-abusive-eslint-disable */
-/* eslint-disable */
-
 import { useMemo } from 'react';
 
 import * as yup from 'yup';
@@ -9,52 +6,52 @@ import { usePluginContext } from '../../context';
 import { useCoreFormSchema } from '../../hooks';
 
 import { PluginConfig } from '../../types';
+import { LayoutComponent, RenderSection } from '../../components/display/renderer/types';
 
-const findComponents = (sections: any[]): any[] => {
-  let result: any[] = [];
+const findComponents = (children: (RenderSection | LayoutComponent)[]): LayoutComponent[] => {
+  let result: LayoutComponent[] = [];
 
-  for (const section of sections) {
+  for (const section of children) {
     if (section.component) {
-      result.push(section);
+      result.push(section as LayoutComponent);
     }
-    if (section.children || section.sections) {
-      result = result.concat(findComponents(section.children ?? section.sections));
+    if ((section as RenderSection).children) {
+      result = result.concat(
+        findComponents((section as RenderSection).children as RenderSection[]),
+      );
     }
   }
 
   return result;
 };
 
-const getSchema = (componentsArray: any[], config: PluginConfig) => {
-  const { fields, secretFields } = componentsArray.reduce(
-    (acc, next) => {
-      if (!next.schema) {
-        return acc;
-      } else if (next.component === 'control-secret-field') {
-        acc.secretFields[next.name] = next.schema;
-      } else {
-        acc.fields[next.name] = next.schema;
-      }
-
-      return acc;
-    },
-    {
-      fields: config?.stateSchema ?? {},
-      secretFields: {},
-    },
-  );
-
-  return {
-    fields,
-    secretFields,
+const getSchema = (componentsArray: LayoutComponent[], config: PluginConfig) => {
+  const schemaFields: {
+    fields: Record<string, yup.AnySchema>;
+    secretFields: Record<string, yup.AnySchema>;
+  } = {
+    fields: config?.stateSchema ?? {},
+    secretFields: {},
   };
+
+  for (const component of componentsArray) {
+    if (component.schema) {
+      if (component.component === 'control-secret-field') {
+        schemaFields.secretFields[component.name] = component.schema;
+      } else {
+        schemaFields.fields[component.name] = component.schema;
+      }
+    }
+  }
+
+  return schemaFields;
 };
 
 export const useFormSchema = (): yup.AnyObjectSchema => {
   const { initialValues, config } = usePluginContext();
 
   const formFields = useMemo(() => {
-    const componentsArray = findComponents(config.steps);
+    const componentsArray = findComponents(config.steps as RenderSection[]);
 
     return getSchema(componentsArray, config);
   }, [config]);

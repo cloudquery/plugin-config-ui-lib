@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
@@ -6,6 +6,7 @@ import { PluginTable } from '../components';
 import { CloudQueryTables } from '../hooks';
 import { PluginConfig } from '../types';
 import { generateTablesFromJson } from '../utils';
+import { validateConfig } from './utils/validateConfig';
 
 /**
  * @public
@@ -93,10 +94,12 @@ export const PluginContextProvider = ({
     ? generateTablesFromJson(tablesData as CloudQueryTables)
     : undefined;
 
+  const validatedConfig = useMemo(() => validateConfig(config), [config]);
+
   return (
     <PluginContext.Provider
       value={{
-        config,
+        config: validatedConfig,
         plugin,
         teamName,
         tablesList,

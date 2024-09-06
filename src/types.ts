@@ -3,7 +3,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { RenderGuideProps } from './components/display';
-import { RenderSection } from './components/display/renderer/types';
+import { IterableStepComponent } from './components/display/renderer/types';
 
 /**
  * @public
@@ -27,8 +27,8 @@ export interface PluginConfig {
   label: string;
   docsLink: string;
   iconLink: string;
-  steps: { sections: (RenderSection | React.FC<any>)[]; title: string }[];
-  stateSchema?: yup.AnySchema;
+  steps: { children: (IterableStepComponent | React.FC<any>)[]; title: string }[];
+  stateSchema?: Record<string, yup.AnySchema>;
   auth: AuthType[];
   guide: React.FC | GuideConfig;
   errorCodes?: Record<string, string>;
