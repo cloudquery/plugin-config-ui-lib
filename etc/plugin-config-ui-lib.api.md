@@ -482,7 +482,7 @@ export interface PluginConfig {
     // (undocumented)
     name: string;
     // (undocumented)
-    stateSchemaFields: yup.AnySchema[];
+    stateSchema?: yup.AnySchema;
     // (undocumented)
     steps: {
         sections: (RenderSection | React_2.FC<any>)[];
@@ -921,7 +921,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:29:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
+// src/types.ts:30:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
