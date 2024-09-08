@@ -33,6 +33,7 @@ import {
   ControlExclusiveToggle,
   ControlDateTimeField,
   ControlSelectField,
+  ControlOAuth,
 } from '../../../react-hook-form';
 
 export function ComponentsRenderer({
@@ -126,10 +127,9 @@ function ComponentRenderer({
       case 'control-table-selector': {
         return <ControlTableSelector />;
       }
-      // case 'control-oauth': {
-      //   // TODO: after iframe deprecation
-      //   return <>This will work after the iframe deprecation.</>;
-      // }
+      case 'control-oauth': {
+        return <ControlOAuth />;
+      }
       case 'control-exclusive-toggle': {
         return <ControlExclusiveToggle {...(component as LayoutExclusiveToggle)} />;
       }

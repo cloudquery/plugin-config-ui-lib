@@ -82,10 +82,9 @@ export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusi
 export interface LayoutTableSelector extends ShouldRenderAbstract {
   component: 'control-table-selector';
 }
-// TODO: enable after iframe deprecation
-// export export interface LayoutOAuth {
-//   component: 'control-oauth';
-// }
+export interface LayoutOAuth extends ShouldRenderAbstract {
+  component: 'control-oauth';
+}
 
 // Layouts
 export interface LayoutSection extends SectionAbstract, Omit<SectionProps, 'children'> {
