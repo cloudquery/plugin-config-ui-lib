@@ -41,7 +41,7 @@ export type LayoutComponent =
   | LayoutMultiSelectField
   | LayoutExclusiveToggle;
 
-export type ReservedLayoutComponent = LayoutTableSelector;
+export type ReservedLayoutComponent = LayoutTableSelector | LayoutOAuth;
 
 // Components
 

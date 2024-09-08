@@ -191,9 +191,7 @@ export interface ControlNumberFieldProps {
 }
 
 // @public
-export function ControlOAuth({ pluginUiMessageHandler, }: {
-    pluginUiMessageHandler: any;
-}): JSX_2.Element;
+export function ControlOAuth(): JSX_2.Element;
 
 // @public
 export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
@@ -602,7 +600,7 @@ export interface SecretFieldProps {
     value: any;
 }
 
-// @public
+// @public @deprecated
 export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
 
 // @public (undocumented)

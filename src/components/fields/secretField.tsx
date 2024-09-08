@@ -4,9 +4,7 @@ import Stack from '@mui/material/Stack';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 import { FormFieldReset } from './formFieldReset';
-import { secretFieldValue } from '../../utils/constants';
-
-const envPlaceholder = '************';
+import { isOrHasSecret, obfuscateSecretDisplay } from '../../utils/secretValueHandling';
 
 const getDefaultValue = (object: any, path: string) =>
   // eslint-disable-next-line unicorn/no-array-reduce
@@ -31,12 +29,6 @@ export interface SecretFieldProps {
   error?: boolean;
   helperText?: ReactNode;
 }
-
-const obfuscate = (value: string): string => {
-  return value.includes(secretFieldValue) && value !== secretFieldValue
-    ? value.replace(new RegExp(secretFieldValue, 'g'), envPlaceholder.slice(0, 6))
-    : envPlaceholder;
-};
 
 /**
  * SecretField component is a TextField wrapper to obfuscate sensitive values, while allowing value override.
@@ -70,10 +62,9 @@ export function SecretField({
     setValue(name as any, getDefaultValue(defaultValues, name));
   };
 
-  const isSecret = editMode && getDefaultValue(defaultValues, name).includes(secretFieldValue);
-  const isObscured =
-    isSecret && !fieldResetted && getValues(name as any).includes(secretFieldValue);
-  const displayValue = isObscured ? obfuscate(value) : value;
+  const isSecret = editMode && isOrHasSecret(getDefaultValue(defaultValues, name));
+  const isObscured = isSecret && !fieldResetted && isOrHasSecret(getValues(name as any));
+  const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
 
   return (
     <Stack direction="row" alignItems="flex-start" spacing={2}>

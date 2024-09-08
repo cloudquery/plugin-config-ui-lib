@@ -1,6 +1,6 @@
-import { secretFieldValue } from './constants';
 import { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';
 import { AuthType } from '../types';
+import { isOrHasSecret } from './secretValueHandling';
 
 /**
  * Prepare secret values for the deployment
@@ -19,7 +19,7 @@ export function prepareSecretValues(values: Record<string, any>): {
       if (value !== undefined) {
         envs.push({
           name,
-          value: value === secretFieldValue ? '' : value,
+          value: isOrHasSecret(value) ? '' : value,
         });
         spec[name] = `\${${escapeSingleQuotesAndBackslashes(name)}}`;
       }
