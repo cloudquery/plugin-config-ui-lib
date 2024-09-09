@@ -13,4 +13,4 @@ export { corePrepareSubmitValues } from './corePrepareSubmitValues';
 export { getEnabledTablesObject } from './getEnabledTablesObject';
 export { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';
 export { getFieldHelperText } from './getFieldHelperText';
-export { getYupValidationResolver } from './getYupValidationResolver';
+export { getYupValidationResolver, resetYupDefaultErrorMessages } from './getYupValidationResolver';
