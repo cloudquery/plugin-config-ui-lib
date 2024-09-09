@@ -569,6 +569,9 @@ export type RenderGuideProps = {
 };
 
 // @public
+export function resetYupDefaultErrorMessages(yup: typeof yup): void;
+
+// @public
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
 
 // @public
