@@ -1,8 +1,9 @@
 import { RefCallback } from 'react';
 
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+
+import { getFieldHelperText } from '../../utils';
 
 /**
  * @public

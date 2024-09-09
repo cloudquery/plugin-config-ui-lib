@@ -12,3 +12,5 @@ export { convertStringToSlug } from './convertStringToSlug';
 export { corePrepareSubmitValues } from './corePrepareSubmitValues';
 export { getEnabledTablesObject } from './getEnabledTablesObject';
 export { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';
+export { getFieldHelperText } from './getFieldHelperText';
+export { getYupValidationResolver } from './getYupValidationResolver';
