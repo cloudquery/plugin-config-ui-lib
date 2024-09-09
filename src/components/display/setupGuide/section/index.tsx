@@ -4,14 +4,19 @@ import Typography from '@mui/material/Typography';
 
 import { CodeSnippet } from './codeSnippet';
 import { LightboxImage } from '../../lightboxImage';
+import { ConditionalRenderingWrapper } from '../../renderer/ConditionalRenderingWrapper';
+
+type SectionBody = {
+  code?: string;
+  image?: string;
+  text?: any;
+  shouldRender?: (values: any) => boolean;
+};
 
 type Section = {
   header?: string;
-  bodies: {
-    code?: string;
-    image?: string;
-    text?: any;
-  }[];
+  bodies: SectionBody[];
+  shouldRender?: (values: any) => boolean;
 };
 
 /**
@@ -31,30 +36,44 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
   return (
     <Stack gap={3}>
       {sections.map((section, index) => (
-        <Stack key={index} gap={2} sx={{ wordBreak: 'break-word' }}>
-          {section.header && <Typography variant="h6">{section.header}</Typography>}
-          {section.bodies.map((body, index) => {
-            if (body.code) {
-              return <CodeSnippet key={index} text={body.code} />;
-            } else if (body.image) {
-              return (
-                <LightboxImage
-                  pluginUiMessageHandler={pluginUiMessageHandler}
-                  key={body.image}
-                  src={body.image}
-                  alt={body.text}
-                />
-              );
-            } else {
-              return (
-                <Typography component="div" key={index} variant="body1" color="textSecondary">
-                  {body.text}
-                </Typography>
-              );
-            }
-          })}
-        </Stack>
+        <ConditionalRenderingWrapper key={index} shouldRender={section.shouldRender}>
+          <Stack gap={2} sx={{ wordBreak: 'break-word' }}>
+            {section.header && <Typography variant="h6">{section.header}</Typography>}
+            {section.bodies.map((body, index) => (
+              <ConditionalRenderingWrapper key={index} shouldRender={section.shouldRender}>
+                <RenderSectionBody body={body} pluginUiMessageHandler={pluginUiMessageHandler} />
+              </ConditionalRenderingWrapper>
+            ))}
+          </Stack>
+        </ConditionalRenderingWrapper>
       ))}
     </Stack>
   );
+}
+
+function RenderSectionBody({
+  body,
+  pluginUiMessageHandler,
+}: {
+  pluginUiMessageHandler: PluginUiMessageHandler;
+  body: SectionBody;
+}) {
+  if (body.code) {
+    return <CodeSnippet text={body.code} />;
+  } else if (body.image) {
+    return (
+      <LightboxImage
+        pluginUiMessageHandler={pluginUiMessageHandler}
+        key={body.image}
+        src={body.image}
+        alt={body.text}
+      />
+    );
+  } else {
+    return (
+      <Typography component="div" variant="body1" color="textSecondary">
+        {body.text}
+      </Typography>
+    );
+  }
 }

@@ -38,7 +38,7 @@ export type ServiceTypes = Record<string, ServiceType>;
  */
 export interface ServiceListProps {
   services: ServiceTypes;
-  topServices: string[];
+  topServices?: string[];
   value?: string[];
   onChange?: (value: string[]) => void;
   fallbackLogoSrc?: string;
@@ -54,8 +54,8 @@ export interface ServiceListProps {
  */
 export function ServiceList({
   services,
-  topServices,
-  fallbackLogoSrc,
+  topServices = [],
+  fallbackLogoSrc = 'favicon.ico',
   value = [],
   onChange,
   maxHeight = '400px',

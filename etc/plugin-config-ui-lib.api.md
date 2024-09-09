@@ -225,6 +225,23 @@ export interface ControlSelectFieldProps {
     options: (string | OptionObject)[];
 }
 
+// @public
+export function ControlServicesSelector({ services, topServices, name, helperText, label, }: ControlServicesSelectorProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlServicesSelectorProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    services: ServiceTypes;
+    // (undocumented)
+    topServices?: string[];
+}
+
 // Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -641,7 +658,7 @@ export interface ServiceListProps {
     // (undocumented)
     services: ServiceTypes;
     // (undocumented)
-    topServices: string[];
+    topServices?: string[];
     // (undocumented)
     value?: string[];
 }
@@ -918,7 +935,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
+// src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
 // src/types.ts:30:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

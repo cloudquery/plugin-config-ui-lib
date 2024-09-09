@@ -7,7 +7,7 @@ import { CollapsibleSubSectionProps } from './CollapsibleSubSection';
 import { ConditionalRenderingProps } from './ConditionalRenderingWrapper';
 import { SectionProps } from './Section';
 import { SubSectionProps } from './SubSection';
-import { ControlSelectFieldProps } from '../../../react-hook-form';
+import { ControlSelectFieldProps, ControlServicesSelectorProps } from '../../../react-hook-form';
 import { ControlBooleanFieldProps } from '../../../react-hook-form/fields/ControlBooleanField';
 import { ControlDateTimeFieldProps } from '../../../react-hook-form/fields/ControlDateTimeField';
 import { ControlExclusiveToggleProps } from '../../../react-hook-form/fields/ControlExclusiveToggle';
@@ -21,6 +21,7 @@ type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
 interface ComponentAbstract extends ShouldRenderAbstract {
   schema: yup.AnySchema;
 }
+interface ComponentAbstract extends ShouldRenderAbstract {}
 interface SectionAbstract extends ShouldRenderAbstract {
   children: (RenderSection | LayoutComponent | ReservedLayoutComponent | React.FC<any>)[];
 }
@@ -39,7 +40,8 @@ export type LayoutComponent =
   | LayoutBooleanField
   | LayoutSelectField
   | LayoutMultiSelectField
-  | LayoutExclusiveToggle;
+  | LayoutExclusiveToggle
+  | LayoutServicesSelector;
 
 export type ReservedLayoutComponent = LayoutTableSelector | LayoutOAuth;
 
@@ -75,6 +77,10 @@ export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiS
 
 export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
   component: 'control-exclusive-toggle';
+}
+
+export interface LayoutServicesSelector extends ComponentAbstract, ControlServicesSelectorProps {
+  component: 'control-services-selector';
 }
 
 // Reserved Components

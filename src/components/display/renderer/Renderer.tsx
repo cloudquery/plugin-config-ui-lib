@@ -18,6 +18,7 @@ import {
   LayoutSecretField,
   LayoutSection,
   LayoutSelectField,
+  LayoutServicesSelector,
   LayoutSubSection,
   LayoutTextField,
   RenderSection,
@@ -34,6 +35,7 @@ import {
   ControlDateTimeField,
   ControlSelectField,
   ControlOAuth,
+  ControlServicesSelector,
 } from '../../../react-hook-form';
 
 export function ComponentsRenderer({
@@ -126,6 +128,9 @@ function ComponentRenderer({
       }
       case 'control-table-selector': {
         return <ControlTableSelector />;
+      }
+      case 'control-services-selector': {
+        return <ControlServicesSelector {...(component as LayoutServicesSelector)} />;
       }
       case 'control-oauth': {
         return <ControlOAuth />;
