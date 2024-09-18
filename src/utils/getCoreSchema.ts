@@ -40,7 +40,8 @@ export const getCoreSchema = ({ initialValues, tablesList, config }: Props) => {
         .test({
           name: 'has-tables',
           message: 'At least one table must be selected',
-          test: (value: Record<string, boolean>) => Object.values(value).some(Boolean),
+          test: (value: Record<string, boolean>, context: any) =>
+            context.parent._step < config.steps.length - 1 || Object.values(value).some(Boolean),
         }),
     }),
   };
