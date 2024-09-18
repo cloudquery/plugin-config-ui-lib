@@ -6,6 +6,12 @@ import {
 } from '../../components/display/renderer/types';
 import { PluginConfig } from '../../types';
 
+const sectionRequiresTitle = (componentName: string) =>
+  ['collapsible-section', 'section'].includes(componentName);
+
+const controlExcludesTable = (componentName: string) =>
+  componentName.includes('control') && componentName !== 'control-table-selector';
+
 function checkForDuplicateNames(names: string[]): string[] {
   return names.filter((e, i, a) => a.indexOf(e) !== i);
 }
@@ -15,7 +21,7 @@ function validateSections(section: IterableStepComponent): string[] {
   if (!section.component) {
     throw new Error(errorMessages.no_component);
   }
-  if (section.component.includes('section')) {
+  if (sectionRequiresTitle(section.component)) {
     const renderSection = section as RenderSection;
     if (!renderSection.title) {
       throw new Error(`${errorMessages.no_title}: ${JSON.stringify(renderSection)}`);
@@ -27,7 +33,7 @@ function validateSections(section: IterableStepComponent): string[] {
       renderSection.children.flatMap((child) => validateSections(child as RenderSection)),
     );
   }
-  if (section.component.includes('control') && section.component !== 'control-table-selector') {
+  if (controlExcludesTable(section.component)) {
     const layoutComponent = section as LayoutComponent;
     if (!layoutComponent.name) {
       throw new Error(`${errorMessages.no_name}: ${JSON.stringify(layoutComponent)}`);
