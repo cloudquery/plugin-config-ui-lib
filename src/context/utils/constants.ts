@@ -30,6 +30,7 @@ export const errorMessages = {
     'These form field names have been defined more than once. Form field names can only be used a single time.',
 };
 
+// These form value names are controlled entirely from within the lib
 export const reservedNames = [
   'tables',
   'displayName',
@@ -37,6 +38,5 @@ export const reservedNames = [
   'connectorId',
   '_secretKeys',
   '_editMode',
-  '_authType',
   '_step',
 ];
