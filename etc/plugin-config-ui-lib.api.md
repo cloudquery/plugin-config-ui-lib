@@ -483,6 +483,8 @@ export interface PluginConfig {
     // (undocumented)
     auth: AuthType[];
     // (undocumented)
+    debug?: boolean;
+    // (undocumented)
     docsLink: string;
     // (undocumented)
     errorCodes?: Record<string, string>;

@@ -32,6 +32,7 @@ export interface PluginConfig {
   auth: AuthType[];
   guide: React.FC | GuideConfig;
   errorCodes?: Record<string, string>;
+  debug?: boolean;
 }
 
 /**
