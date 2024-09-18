@@ -134,7 +134,8 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
 
   useEffect(() => {
     if (config?.debug && form?.formState?.errors) {
-      console.warn('Form errors: ', form.formState.errors);
+      // eslint-disable-next-line no-console
+      console.warn('Form errors:', form.formState.errors);
     }
   }, [form?.formState?.errors, config?.debug]);
 
