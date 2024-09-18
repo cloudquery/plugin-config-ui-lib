@@ -1,6 +1,6 @@
 import { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';
-import { AuthType } from '../types';
 import { isOrHasSecret } from './secretValueHandling';
+import { AuthType } from '../types';
 
 /**
  * Prepare secret values for the deployment

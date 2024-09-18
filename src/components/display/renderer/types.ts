@@ -21,7 +21,7 @@ type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
 interface ComponentAbstract extends ShouldRenderAbstract {
   schema: yup.AnySchema;
 }
-interface ComponentAbstract extends ShouldRenderAbstract {}
+type ComponentAbstract = ShouldRenderAbstract;
 interface SectionAbstract extends ShouldRenderAbstract {
   children: (RenderSection | LayoutComponent | ReservedLayoutComponent | React.FC<any>)[];
 }
