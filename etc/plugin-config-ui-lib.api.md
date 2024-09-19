@@ -128,10 +128,12 @@ export interface ControlBooleanFieldProps {
 }
 
 // @public
-export function ControlDateField({ name, label, helperText, disabled, InputProps, }: ControlDateFieldProps): JSX_2.Element;
+export function ControlDateField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlDateFieldProps {
+    // (undocumented)
+    clearable?: boolean;
     // (undocumented)
     disabled?: boolean;
     // (undocumented)
@@ -145,10 +147,12 @@ export interface ControlDateFieldProps {
 }
 
 // @public
-export function ControlDateTimeField({ name, label, helperText, disabled, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
+export function ControlDateTimeField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlDateTimeFieldProps {
+    // (undocumented)
+    clearable?: boolean;
     // (undocumented)
     disabled?: boolean;
     // (undocumented)

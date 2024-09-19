@@ -5,8 +5,7 @@ import { TextFieldProps } from '@mui/material/TextField';
 import { DateTimeField, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { Controller } from 'react-hook-form';
-
-import { default as dayjs } from '../../utils/date';
+import { getDefaultDate } from '../../utils/date';
 
 /**
  * @public
@@ -16,6 +15,7 @@ export interface ControlDateTimeFieldProps {
   helperText?: ReactNode;
   label: ReactNode;
   disabled?: boolean;
+  clearable?: boolean;
   InputProps?: TextFieldProps['InputProps'];
 }
 
@@ -29,6 +29,7 @@ export function ControlDateTimeField({
   label,
   helperText = '',
   disabled,
+  clearable,
   InputProps,
 }: ControlDateTimeFieldProps) {
   return (
@@ -39,6 +40,7 @@ export function ControlDateTimeField({
           <DateTimeField
             disableFuture={true}
             disabled={disabled}
+            clearable={clearable}
             label={label}
             slotProps={{
               textField: {
@@ -55,13 +57,4 @@ export function ControlDateTimeField({
       )}
     />
   );
-}
-
-function getDefaultDate(date?: string): dayjs.Dayjs | string {
-  if (!date) {
-    return '';
-    // dayjs().subtract(1, 'month');
-  }
-
-  return dayjs(date);
 }
