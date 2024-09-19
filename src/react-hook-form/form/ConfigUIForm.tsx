@@ -1,31 +1,43 @@
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
+import { createThemeOptions } from '@cloudquery/cloud-ui';
+import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
+import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
-import { Path } from 'react-hook-form';
+import { FormProvider, Path } from 'react-hook-form';
 
 import {
   FormFooter,
   FormStepper,
   FormWrapper,
+  GuideComponent,
   Header,
+  PluginTable,
   Sections,
   useFormActions,
-  useFormContext,
   useFormCurrentValues,
+  useFormHeightChange,
 } from '../..';
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
 import { usePluginContext } from '../../context/plugin';
 
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
+import { useConfigUIForm } from '../hooks/useConfigUIForm';
 
 /**
  * @public
  */
 export interface ConfigUIFormProps {
-  getCurrentValues: any;
-  pluginUiMessageHandler: any;
+  prepareSubmitValues: (
+    values: Record<string, any>,
+    tablesList?: PluginTable[],
+  ) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
 /**
@@ -33,19 +45,22 @@ export interface ConfigUIFormProps {
  *
  * @public
  */
-export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps) {
-  const {
-    getValues,
-    handleSubmit: handleFormSubmit,
-    setValue,
-    watch,
-    setError,
-    formState,
-  } = useFormContext();
-  const { plugin, teamName, config, hideStepper } = usePluginContext();
+export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
+  const { plugin, teamName, config, hideStepper, tablesList, pluginUiMessageHandler } =
+    usePluginContext();
+
+  useFormHeightChange(pluginUiMessageHandler);
+
+  const form = useConfigUIForm();
+  const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
 
   const step = watch('_step');
   const editMode = watch('_editMode');
+
+  const getCurrentValues = useCallback(
+    () => prepareSubmitValues(form.getValues(), tablesList),
+    [form, tablesList, prepareSubmitValues],
+  );
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
 
@@ -123,46 +138,70 @@ export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: Confi
     }
   });
 
+  useEffect(() => {
+    if (config?.debug && form?.formState?.errors) {
+      // eslint-disable-next-line no-console
+      console.warn('Form errors:', form.formState.errors);
+    }
+  }, [form?.formState?.errors, config?.debug]);
+
+  const theme = useMemo(() => createTheme(createThemeOptions()), []);
+
   return (
-    <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-      <Stack gap={3}>
-        <FormWrapper formDisabled={formDisabled}>
-          <Sections>
-            {!hideStepper && config.steps?.length > 1 && (
-              <FormStepper steps={config.steps.map(({ title }) => title)} activeIndex={step} />
-            )}
-            <Header />
-            {config.steps?.map(({ sections }, index) => {
-              return (
-                step === index && (
-                  <Sections key={index}>
-                    {sections.map((section, index) => (
-                      <ComponentsRenderer section={section} key={index} />
-                    ))}
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <FormProvider {...form}>
+        <Stack direction="row" gap={3} flexWrap="wrap">
+          <Box flex="1 1 0" minWidth={480}>
+            <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
+              <Stack gap={3}>
+                <FormWrapper formDisabled={formDisabled}>
+                  <Sections>
+                    {!hideStepper && config.steps?.length > 1 && (
+                      <FormStepper
+                        steps={config.steps.map(({ title }) => title)}
+                        activeIndex={step}
+                      />
+                    )}
+                    <Header />
+                    {config.steps?.map(({ children }, index) => {
+                      return (
+                        step === index && (
+                          <Sections key={index}>
+                            {children.map((section, index) => (
+                              <ComponentsRenderer section={section} key={index} />
+                            ))}
+                          </Sections>
+                        )
+                      );
+                    })}
+                    <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+                      {formState.errors.root?.message}
+                    </FormHelperText>
                   </Sections>
-                )
-              );
-            })}
-            <FormHelperText sx={{ textAlign: 'right' }} error={true}>
-              {formState.errors.root?.message}
-            </FormHelperText>
-          </Sections>
-        </FormWrapper>
-        <FormFooter
-          isUpdating={editMode}
-          pluginKind={plugin.kind as any}
-          isTestingConnection={isTestingConnection}
-          isSubmitting={isSubmitting}
-          testConnectionError={parsedTestConnectionError}
-          submitPayload={submitPayload}
-          onCancel={handleCancel}
-          onCancelTestConnection={handleCancelTestConnection}
-          onTestConnectionSuccess={onTestConnectionSuccess}
-          onDelete={handleDelete}
-          onGoToPreviousStep={onGoToPreviousStep}
-          submitLabel={isLastStep ? undefined : 'Continue'}
-        />
-      </Stack>
-    </form>
+                </FormWrapper>
+                <FormFooter
+                  isUpdating={editMode}
+                  pluginKind={plugin.kind as any}
+                  isTestingConnection={isTestingConnection}
+                  isSubmitting={isSubmitting}
+                  testConnectionError={parsedTestConnectionError}
+                  submitPayload={submitPayload}
+                  onCancel={handleCancel}
+                  onCancelTestConnection={handleCancelTestConnection}
+                  onTestConnectionSuccess={onTestConnectionSuccess}
+                  onDelete={handleDelete}
+                  onGoToPreviousStep={onGoToPreviousStep}
+                  submitLabel={isLastStep ? undefined : 'Continue'}
+                />
+              </Stack>
+            </form>
+          </Box>
+          <Box sx={{ width: 360, minWidth: 360 }}>
+            <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
+          </Box>
+        </Stack>
+      </FormProvider>
+    </ThemeProvider>
   );
 }

@@ -103,14 +103,12 @@ export interface CollapsibleSubSectionProps {
 }
 
 // @public
-export function ConfigUIForm({ getCurrentValues, pluginUiMessageHandler }: ConfigUIFormProps): JSX_2.Element;
+export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ConfigUIFormProps {
     // (undocumented)
-    getCurrentValues: any;
-    // (undocumented)
-    pluginUiMessageHandler: any;
+    prepareSubmitValues: (values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
 // @public
@@ -129,10 +127,31 @@ export interface ControlBooleanFieldProps {
 }
 
 // @public
-export function ControlDateTimeField({ name, label, helperText, disabled, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
+export function ControlDateField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlDateFieldProps {
+    // (undocumented)
+    clearable?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    InputProps?: TextFieldProps['InputProps'];
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlDateTimeField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlDateTimeFieldProps {
+    // (undocumented)
+    clearable?: boolean;
     // (undocumented)
     disabled?: boolean;
     // (undocumented)
@@ -192,9 +211,7 @@ export interface ControlNumberFieldProps {
 }
 
 // @public
-export function ControlOAuth({ pluginUiMessageHandler, }: {
-    pluginUiMessageHandler: any;
-}): JSX_2.Element;
+export function ControlOAuth(): JSX_2.Element;
 
 // @public
 export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
@@ -226,6 +243,23 @@ export interface ControlSelectFieldProps {
     //
     // (undocumented)
     options: (string | OptionObject)[];
+}
+
+// @public
+export function ControlServicesSelector({ services, topServices, name, helperText, label, }: ControlServicesSelectorProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlServicesSelectorProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    services: ServiceTypes;
+    // (undocumented)
+    topServices?: string[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
@@ -481,6 +515,8 @@ export interface PluginConfig {
     // (undocumented)
     auth: AuthType[];
     // (undocumented)
+    debug?: boolean;
+    // (undocumented)
     docsLink: string;
     // (undocumented)
     errorCodes?: Record<string, string>;
@@ -495,8 +531,10 @@ export interface PluginConfig {
     // (undocumented)
     name: string;
     // (undocumented)
+    stateSchema?: Record<string, yup.AnySchema>;
+    // (undocumented)
     steps: {
-        sections: (RenderSection | React_2.FC<any>)[];
+        children: (IterableStepComponent | React_2.FC<any>)[];
         title: string;
     }[];
     // (undocumented)
@@ -504,7 +542,7 @@ export interface PluginConfig {
 }
 
 // @public
-export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -515,12 +553,16 @@ export interface PluginContextProviderProps {
     // (undocumented)
     hideStepper: boolean;
     // (undocumented)
+    initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+    // (undocumented)
     plugin: {
         name: string;
         kind: string;
         version: string;
         team: string;
     };
+    // (undocumented)
+    pluginUiMessageHandler: any;
     // (undocumented)
     tablesData?: CloudQueryTables;
     // (undocumented)
@@ -612,7 +654,7 @@ export interface SecretFieldProps {
     value: any;
 }
 
-// @public
+// @public @deprecated
 export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
 
 // @public (undocumented)
@@ -653,7 +695,7 @@ export interface ServiceListProps {
     // (undocumented)
     services: ServiceTypes;
     // (undocumented)
-    topServices: string[];
+    topServices?: string[];
     // (undocumented)
     value?: string[];
 }
@@ -930,8 +972,8 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/components/display/setupGuide/section/index.tsx:21:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:29:12 - (ae-forgotten-export) The symbol "RenderSection" needs to be exported by the entry point index.d.ts
+// src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
+// src/types.ts:31:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -3,7 +3,7 @@ import { RefCallback } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-import { getFieldHelperText } from '../../utils';
+import { getFieldHelperText } from '../../utils/getFieldHelperText';
 
 /**
  * @public

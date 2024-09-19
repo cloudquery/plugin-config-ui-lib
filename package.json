@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -62,7 +62,7 @@
     "@babel/preset-env": "^7.24.7",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
-    "@cloudquery/cloud-ui": "^1.0.0-rc.0",
+    "@cloudquery/cloud-ui": "^1.0.0",
     "@cloudquery/plugin-config-ui-connector": "^0.2.16",
     "@emotion/styled": "^11.13.0",
     "@microsoft/api-extractor": "^7.47.0",

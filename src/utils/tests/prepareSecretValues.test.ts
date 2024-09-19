@@ -1,11 +1,10 @@
 import { AuthType } from '../../types';
-import { secretFieldValue } from '../constants';
 import { prepareSecretValues } from '../prepareSecretValues';
 
 describe('prepareSecretValues', () => {
   const newSecret = 'secret_two';
   const values = {
-    SECRET_ONE: secretFieldValue,
+    SECRET_ONE: '${password}',
     SECRET_TWO: newSecret,
     NOT_A_SECRET: 'abc',
     _secretKeys: ['SECRET_ONE', 'SECRET_TWO'],

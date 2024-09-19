@@ -1,9 +1,8 @@
 import { ReactNode } from 'react';
 
 import { TextFieldProps } from '@mui/material/TextField';
+import { DateField, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimeField } from '@mui/x-date-pickers/DateTimeField';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Controller } from 'react-hook-form';
 
 import { getDefaultDate } from '../../utils/date';
@@ -12,7 +11,7 @@ import { getFieldHelperText } from '../../utils/getFieldHelperText';
 /**
  * @public
  */
-export interface ControlDateTimeFieldProps {
+export interface ControlDateFieldProps {
   name: string;
   helperText?: ReactNode;
   label: ReactNode;
@@ -22,24 +21,24 @@ export interface ControlDateTimeFieldProps {
 }
 
 /**
- * This component is a react-hook-form wrapper around the MUI DateTime component.
+ * This component is a react-hook-form wrapper around the MUI Date component.
  *
  * @public
  */
-export function ControlDateTimeField({
+export function ControlDateField({
   name,
   label,
   helperText = '',
   disabled,
   clearable,
   InputProps,
-}: ControlDateTimeFieldProps) {
+}: ControlDateFieldProps) {
   return (
     <Controller
       name={name}
       render={({ field, fieldState }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimeField
+          <DateField
             disableFuture={true}
             disabled={disabled}
             clearable={clearable}

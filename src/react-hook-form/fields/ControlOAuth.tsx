@@ -17,13 +17,9 @@ import { getOauthSuccessBaseUrl } from '../../utils/getOauthSuccessBaseUrl';
  *
  * @public
  */
-export function ControlOAuth({
-  pluginUiMessageHandler,
-}: {
-  pluginUiMessageHandler: any; // TODO: delete after iframe deprecation
-}) {
+export function ControlOAuth() {
   const form = useFormContext();
-  const { plugin, teamName, config } = usePluginContext();
+  const { plugin, teamName, config, pluginUiMessageHandler } = usePluginContext();
   const { watch, formState, setValue } = form;
 
   const {
