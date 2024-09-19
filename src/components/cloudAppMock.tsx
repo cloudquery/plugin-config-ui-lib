@@ -1,5 +1,6 @@
 import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { createThemeOptions } from '@cloudquery/cloud-ui';
 import {
   MessageHandler,
   FormMessageType,
@@ -19,10 +20,9 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
+import createTheme from '@mui/material/styles/createTheme';
 import Typography from '@mui/material/Typography';
 import toast, { Toaster as HotToaster, ToastBar } from 'react-hot-toast';
-import { createThemeOptions } from '@cloudquery/cloud-ui';
-import createTheme from '@mui/material/styles/createTheme';
 
 /**
  * @public
