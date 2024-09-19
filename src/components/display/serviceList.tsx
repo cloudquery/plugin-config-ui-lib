@@ -142,8 +142,8 @@ export function ServiceList({
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
+                        color: palette.grey[400],
                       }}
-                      color={palette.grey[400]}
                       fontWeight="bold"
                       variant="body1"
                     >

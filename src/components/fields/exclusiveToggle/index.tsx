@@ -65,16 +65,20 @@ export const ExclusiveToggle = forwardRef<HTMLElement, ExclusiveToggleProps>(
                 <Radio checked={isSelected} />
                 <Stack marginLeft={0.5} paddingY={1.25} spacing={0.5}>
                   <Typography
-                    color={isSelected ? palette.text.primary : palette.text.secondary}
-                    sx={{ opacity: isSelected ? 1 : 0.8 }}
+                    sx={{
+                      color: isSelected ? palette.text.primary : palette.text.secondary,
+                      opacity: isSelected ? 1 : 0.8,
+                    }}
                     variant="body1Bold"
                   >
                     {item.label}
                   </Typography>
                   {!!item.description && (
                     <Typography
-                      color={isSelected ? palette.text.primary : palette.text.secondary}
-                      sx={{ opacity: isSelected ? 1 : 0.8 }}
+                      sx={{
+                        color: isSelected ? palette.text.primary : palette.text.secondary,
+                        opacity: isSelected ? 1 : 0.8,
+                      }}
                       variant="body2"
                     >
                       {item.description}
