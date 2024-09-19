@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 
 import { createThemeOptions } from '@cloudquery/cloud-ui';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
@@ -14,7 +14,6 @@ import { FormProvider, Path } from 'react-hook-form';
 
 import {
   FormFooter,
-  FormStepper,
   FormWrapper,
   GuideComponent,
   Header,
@@ -29,6 +28,10 @@ import { usePluginContext } from '../../context/plugin';
 
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { useConfigUIForm } from '../hooks/useConfigUIForm';
+
+const FormStepper = React.lazy(() =>
+  import('../..').then((module) => ({ default: module.FormStepper })),
+);
 
 /**
  * @public

@@ -1,4 +1,6 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, Suspense } from 'react';
+
+import Skeleton from '@mui/material/Skeleton';
 
 import { CollapsibleSection } from './CollapsibleSection';
 import { CollapsibleSubSection } from './CollapsibleSubSection';
@@ -25,20 +27,46 @@ import {
   RenderSection,
 } from './types';
 
-import {
-  ControlTextField,
-  ControlSecretField,
-  ControlNumberField,
-  ControlBooleanField,
-  ControlMultiSelect,
-  ControlTableSelector,
-  ControlExclusiveToggle,
-  ControlDateTimeField,
-  ControlSelectField,
-  ControlOAuth,
-  ControlServicesSelector,
-  ControlDateField,
-} from '../../../react-hook-form';
+const ControlSecretField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlSecretField })),
+);
+const ControlTextField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlTextField })),
+);
+const ControlNumberField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlNumberField })),
+);
+const ControlBooleanField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlBooleanField })),
+);
+const ControlMultiSelect = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlMultiSelect })),
+);
+const ControlTableSelector = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlTableSelector })),
+);
+const ControlExclusiveToggle = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({
+    default: module.ControlExclusiveToggle,
+  })),
+);
+const ControlDateTimeField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlDateTimeField })),
+);
+const ControlSelectField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlSelectField })),
+);
+const ControlOAuth = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlOAuth })),
+);
+const ControlServicesSelector = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({
+    default: module.ControlServicesSelector,
+  })),
+);
+const ControlDateField = React.lazy(() =>
+  import('./../../../react-hook-form').then((module) => ({ default: module.ControlDateField })),
+);
 
 export function ComponentsRenderer({
   section,
@@ -108,40 +136,88 @@ function ComponentRenderer({
       }
       // Components
       case 'control-text-field': {
-        return <ControlTextField {...(component as LayoutTextField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={78} />}>
+            <ControlTextField {...(component as LayoutTextField)} />
+          </Suspense>
+        );
       }
       case 'control-secret-field': {
-        return <ControlSecretField {...(component as LayoutSecretField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={78} />}>
+            <ControlSecretField {...(component as LayoutSecretField)} />
+          </Suspense>
+        );
       }
       case 'control-number-field': {
-        return <ControlNumberField {...(component as LayoutNumberField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={78} />}>
+            <ControlNumberField {...(component as LayoutNumberField)} />
+          </Suspense>
+        );
       }
       case 'control-boolean-field': {
-        return <ControlBooleanField {...(component as LayoutBooleanField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={42} />}>
+            <ControlBooleanField {...(component as LayoutBooleanField)} />
+          </Suspense>
+        );
       }
       case 'control-select-field': {
-        return <ControlSelectField {...(component as LayoutSelectField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={82} />}>
+            <ControlSelectField {...(component as LayoutSelectField)} />
+          </Suspense>
+        );
       }
       case 'control-date-time-field': {
-        return <ControlDateTimeField {...(component as LayoutDateTimeField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={78} />}>
+            <ControlDateTimeField {...(component as LayoutDateTimeField)} />
+          </Suspense>
+        );
       }
       case 'control-date-field': {
-        return <ControlDateField {...(component as LayoutDateField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={78} />}>
+            <ControlDateField {...(component as LayoutDateField)} />
+          </Suspense>
+        );
       }
       case 'control-multi-select': {
-        return <ControlMultiSelect {...(component as LayoutMultiSelectField)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={82} />}>
+            <ControlMultiSelect {...(component as LayoutMultiSelectField)} />
+          </Suspense>
+        );
       }
       case 'control-table-selector': {
-        return <ControlTableSelector />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={580} />}>
+            <ControlTableSelector />
+          </Suspense>
+        );
       }
       case 'control-services-selector': {
-        return <ControlServicesSelector {...(component as LayoutServicesSelector)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={350} />}>
+            <ControlServicesSelector {...(component as LayoutServicesSelector)} />
+          </Suspense>
+        );
       }
       case 'control-oauth': {
-        return <ControlOAuth />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={42} />}>
+            <ControlOAuth />
+          </Suspense>
+        );
       }
       case 'control-exclusive-toggle': {
-        return <ControlExclusiveToggle {...(component as LayoutExclusiveToggle)} />;
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
+            <ControlExclusiveToggle {...(component as LayoutExclusiveToggle)} />
+          </Suspense>
+        );
       }
       default: {
         throw new Error(
