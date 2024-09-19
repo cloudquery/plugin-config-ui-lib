@@ -5,24 +5,36 @@ module.exports = {
   entry: './src/index.ts',
   mode: 'production',
   devtool: 'source-map',
+  experiments: {
+    outputModule: true,
+  },
+  output: {
+    filename: '[name].js',
+    chunkFilename: '[name].[chunkhash].js',
+    path: path.resolve(__dirname, 'dist'),
+    libraryTarget: 'module', // Output as ES modules
+    environment: {
+      module: true,
+    },
+  },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              module: 'esnext', // Preserve dynamic imports
+            },
+          },
+        },
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
-  },
-  output: {
-    filename: '[name].js',
-    chunkFilename: '[name].[chunkhash].js',
-    path: path.resolve(__dirname, 'dist'),
-    libraryTarget: 'umd',
-    globalObject: 'this',
   },
   externals: [
     'react',
