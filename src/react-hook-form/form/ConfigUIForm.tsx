@@ -5,6 +5,9 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import Box from '@mui/material/Box';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
+import CssBaseline from '@mui/material/CssBaseline';
+import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
 import { FormProvider, Path } from 'react-hook-form';
 
@@ -25,6 +28,7 @@ import { usePluginContext } from '../../context/plugin';
 
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { useConfigUIForm } from '../hooks/useConfigUIForm';
+import { createThemeOptions } from '@cloudquery/cloud-ui';
 
 /**
  * @public
@@ -141,58 +145,63 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     }
   }, [form?.formState?.errors, config?.debug]);
 
+  const theme = useMemo(() => createTheme(createThemeOptions()), []);
+
   return (
-    <FormProvider {...form}>
-      <Stack direction="row" gap={3} flexWrap="wrap">
-        <Box flex="1 1 0" minWidth={480}>
-          <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-            <Stack gap={3}>
-              <FormWrapper formDisabled={formDisabled}>
-                <Sections>
-                  {!hideStepper && config.steps?.length > 1 && (
-                    <FormStepper
-                      steps={config.steps.map(({ title }) => title)}
-                      activeIndex={step}
-                    />
-                  )}
-                  <Header />
-                  {config.steps?.map(({ children }, index) => {
-                    return (
-                      step === index && (
-                        <Sections key={index}>
-                          {children.map((section, index) => (
-                            <ComponentsRenderer section={section} key={index} />
-                          ))}
-                        </Sections>
-                      )
-                    );
-                  })}
-                  <FormHelperText sx={{ textAlign: 'right' }} error={true}>
-                    {formState.errors.root?.message}
-                  </FormHelperText>
-                </Sections>
-              </FormWrapper>
-              <FormFooter
-                isUpdating={editMode}
-                pluginKind={plugin.kind as any}
-                isTestingConnection={isTestingConnection}
-                isSubmitting={isSubmitting}
-                testConnectionError={parsedTestConnectionError}
-                submitPayload={submitPayload}
-                onCancel={handleCancel}
-                onCancelTestConnection={handleCancelTestConnection}
-                onTestConnectionSuccess={onTestConnectionSuccess}
-                onDelete={handleDelete}
-                onGoToPreviousStep={onGoToPreviousStep}
-                submitLabel={isLastStep ? undefined : 'Continue'}
-              />
-            </Stack>
-          </form>
-        </Box>
-        <Box sx={{ width: 360, minWidth: 360 }}>
-          <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
-        </Box>
-      </Stack>
-    </FormProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <FormProvider {...form}>
+        <Stack direction="row" gap={3} flexWrap="wrap">
+          <Box flex="1 1 0" minWidth={480}>
+            <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
+              <Stack gap={3}>
+                <FormWrapper formDisabled={formDisabled}>
+                  <Sections>
+                    {!hideStepper && config.steps?.length > 1 && (
+                      <FormStepper
+                        steps={config.steps.map(({ title }) => title)}
+                        activeIndex={step}
+                      />
+                    )}
+                    <Header />
+                    {config.steps?.map(({ children }, index) => {
+                      return (
+                        step === index && (
+                          <Sections key={index}>
+                            {children.map((section, index) => (
+                              <ComponentsRenderer section={section} key={index} />
+                            ))}
+                          </Sections>
+                        )
+                      );
+                    })}
+                    <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+                      {formState.errors.root?.message}
+                    </FormHelperText>
+                  </Sections>
+                </FormWrapper>
+                <FormFooter
+                  isUpdating={editMode}
+                  pluginKind={plugin.kind as any}
+                  isTestingConnection={isTestingConnection}
+                  isSubmitting={isSubmitting}
+                  testConnectionError={parsedTestConnectionError}
+                  submitPayload={submitPayload}
+                  onCancel={handleCancel}
+                  onCancelTestConnection={handleCancelTestConnection}
+                  onTestConnectionSuccess={onTestConnectionSuccess}
+                  onDelete={handleDelete}
+                  onGoToPreviousStep={onGoToPreviousStep}
+                  submitLabel={isLastStep ? undefined : 'Continue'}
+                />
+              </Stack>
+            </form>
+          </Box>
+          <Box sx={{ width: 360, minWidth: 360 }}>
+            <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
+          </Box>
+        </Stack>
+      </FormProvider>
+    </ThemeProvider>
   );
 }
