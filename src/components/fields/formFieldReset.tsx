@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 
-import Button from '@mui/material/Button';
-import { SxProps } from '@mui/system';
+import Button, { ButtonProps } from '@mui/material/Button';
 
 /**
  * @public
@@ -16,7 +15,7 @@ export interface FormFieldResetProps {
   // The selector of the input to focus after the reset
   inputSelectorToFocus?: string;
   // The sx props to apply to the button
-  sx?: SxProps;
+  sx?: ButtonProps['sx'];
 }
 
 /**

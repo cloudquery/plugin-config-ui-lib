@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import Stack from '@mui/system/Stack';
+import Stack from '@mui/material/Stack';
 import { Controller } from 'react-hook-form';
 
 import { ExclusiveToggle } from '../../components';

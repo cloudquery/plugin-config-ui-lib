@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import Stack from '@mui/system/Stack';
+import Stack from '@mui/material/Stack';
 
 import { SetupGuide } from './setupGuide';
 import { RenderGuide } from './setupGuide/section';

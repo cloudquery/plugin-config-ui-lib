@@ -6,6 +6,7 @@
 
 import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
+import { ButtonProps } from '@mui/material/Button';
 import { ChangeEventHandler } from 'react';
 import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
@@ -25,7 +26,6 @@ import { Ref } from 'react';
 import { RefAttributes } from 'react';
 import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
-import { SxProps } from '@mui/system';
 import { TextFieldProps } from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
@@ -40,10 +40,10 @@ export enum AuthType {
     OTHER = 1
 }
 
-// Warning: (ae-forgotten-export) The symbol "CloudAppMockProps" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CloudAppMock_2" needs to be exported by the entry point index.d.ts
 //
-// @public
-export function CloudAppMock({ children, initialValues, authToken, teamName, user, }: CloudAppMockProps): JSX_2.Element;
+// @public (undocumented)
+export const CloudAppMock: React_2.LazyExoticComponent<CloudAppMock_2>;
 
 // @public
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
@@ -190,7 +190,7 @@ export interface FormFieldResetProps {
     // (undocumented)
     onReset: () => void;
     // (undocumented)
-    sx?: SxProps;
+    sx?: ButtonProps['sx'];
 }
 
 // @public

@@ -1,5 +1,11 @@
+import React from 'react';
+
 export * from './controls';
 export * from './display';
 export * from './fields';
 
-export { CloudAppMock } from './cloudAppMock';
+const CloudAppMock = React.lazy(() =>
+  import('./cloudAppMock').then(({ CloudAppMock }) => ({ default: CloudAppMock })),
+);
+
+export { CloudAppMock };

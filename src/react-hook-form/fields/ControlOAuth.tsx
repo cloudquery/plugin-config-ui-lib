@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
+import Box from '@mui/material/Box';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
-import Box from '@mui/system/Box';
 
 import { useFormContext } from 'react-hook-form';
 
