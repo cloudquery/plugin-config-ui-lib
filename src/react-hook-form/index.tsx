@@ -11,6 +11,7 @@ export { ControlBooleanField, ControlBooleanFieldProps } from './fields/ControlB
 export { ControlNumberField, ControlNumberFieldProps } from './fields/ControlNumberField';
 export { ControlSelectField, ControlSelectFieldProps } from './fields/ControlSelectField';
 export { ControlDateTimeField, ControlDateTimeFieldProps } from './fields/ControlDateTimeField';
+export { ControlDateField, ControlDateFieldProps } from './fields/ControlDateField';
 export {
   ControlExclusiveToggle,
   ControlExclusiveToggleProps,

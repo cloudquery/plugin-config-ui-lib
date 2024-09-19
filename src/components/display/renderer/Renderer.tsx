@@ -11,6 +11,7 @@ import {
   LayoutCollapsibleSection,
   LayoutCollapsibleSubSection,
   LayoutComponent,
+  LayoutDateField,
   LayoutDateTimeField,
   LayoutExclusiveToggle,
   LayoutMultiSelectField,
@@ -36,6 +37,7 @@ import {
   ControlSelectField,
   ControlOAuth,
   ControlServicesSelector,
+  ControlDateField,
 } from '../../../react-hook-form';
 
 export function ComponentsRenderer({
@@ -122,6 +124,9 @@ function ComponentRenderer({
       }
       case 'control-date-time-field': {
         return <ControlDateTimeField {...(component as LayoutDateTimeField)} />;
+      }
+      case 'control-date-field': {
+        return <ControlDateField {...(component as LayoutDateField)} />;
       }
       case 'control-multi-select': {
         return <ControlMultiSelect {...(component as LayoutMultiSelectField)} />;

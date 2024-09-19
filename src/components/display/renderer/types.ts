@@ -7,7 +7,11 @@ import { CollapsibleSubSectionProps } from './CollapsibleSubSection';
 import { ConditionalRenderingProps } from './ConditionalRenderingWrapper';
 import { SectionProps } from './Section';
 import { SubSectionProps } from './SubSection';
-import { ControlSelectFieldProps, ControlServicesSelectorProps } from '../../../react-hook-form';
+import {
+  ControlDateFieldProps,
+  ControlSelectFieldProps,
+  ControlServicesSelectorProps,
+} from '../../../react-hook-form';
 import { ControlBooleanFieldProps } from '../../../react-hook-form/fields/ControlBooleanField';
 import { ControlDateTimeFieldProps } from '../../../react-hook-form/fields/ControlDateTimeField';
 import { ControlExclusiveToggleProps } from '../../../react-hook-form/fields/ControlExclusiveToggle';
@@ -37,6 +41,7 @@ export type LayoutComponent =
   | LayoutSecretField
   | LayoutNumberField
   | LayoutDateTimeField
+  | LayoutDateField
   | LayoutBooleanField
   | LayoutSelectField
   | LayoutMultiSelectField
@@ -69,6 +74,10 @@ export interface LayoutBooleanField extends ComponentAbstract, ControlBooleanFie
 
 export interface LayoutDateTimeField extends ComponentAbstract, ControlDateTimeFieldProps {
   component: 'control-date-time-field';
+}
+
+export interface LayoutDateField extends ComponentAbstract, ControlDateFieldProps {
+  component: 'control-date-field';
 }
 
 export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiSelectProps {
