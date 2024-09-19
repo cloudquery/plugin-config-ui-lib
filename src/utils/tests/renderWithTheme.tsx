@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 import { createThemeOptions } from '@cloudquery/cloud-ui';
 import createTheme from '@mui/material/styles/createTheme';

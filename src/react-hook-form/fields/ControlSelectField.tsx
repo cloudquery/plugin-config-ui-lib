@@ -1,9 +1,10 @@
 import { ReactNode } from 'react';
 
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
-import { MenuItem } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import { Controller } from 'react-hook-form';
+
+import { getFieldHelperText } from '../../utils/getFieldHelperText';
 
 type OptionObject = {
   value: any;
@@ -41,13 +42,15 @@ export function ControlSelectField({
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           label={label}
           select={true}
-          SelectProps={{
-            MenuProps: {
-              autoFocus: false,
-              disableAutoFocus: true,
+          {...field}
+          slotProps={{
+            select: {
+              MenuProps: {
+                autoFocus: false,
+                disableAutoFocus: true,
+              },
             },
           }}
-          {...field}
         >
           {options.map((option) => {
             if (typeof option === 'string') {

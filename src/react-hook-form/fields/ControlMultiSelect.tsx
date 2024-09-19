@@ -1,9 +1,9 @@
 import { ReactNode, useMemo } from 'react';
 
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { MultiAutocomplete } from '../../components';
+import { getFieldHelperText } from '../../utils/getFieldHelperText';
 
 /**
  * @public
