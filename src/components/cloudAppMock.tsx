@@ -19,9 +19,10 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
-import useTheme from '@mui/material/styles/useTheme';
 import Typography from '@mui/material/Typography';
 import toast, { Toaster as HotToaster, ToastBar } from 'react-hot-toast';
+import { createThemeOptions } from '@cloudquery/cloud-ui';
+import createTheme from '@mui/material/styles/createTheme';
 
 /**
  * @public
@@ -69,7 +70,8 @@ export function CloudAppMock({
   teamName,
   user,
 }: CloudAppMockProps) {
-  const { palette, typography, shadows } = useTheme();
+  const theme = createTheme(createThemeOptions());
+  const { palette, typography, shadows } = theme;
   const [values, setValues] = useState<string>('');
   const [errors, setErrors] = useState<string>('');
   const [implementsCustomFooter, setImplementsCustomFooter] = useState<boolean>(false);
