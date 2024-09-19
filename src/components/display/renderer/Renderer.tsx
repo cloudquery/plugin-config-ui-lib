@@ -28,44 +28,64 @@ import {
 } from './types';
 
 const ControlSecretField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlSecretField })),
+  import('./../../../react-hook-form/fields/ControlSecretField').then((module) => ({
+    default: module.ControlSecretField,
+  })),
 );
 const ControlTextField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlTextField })),
+  import('./../../../react-hook-form/fields/ControlTextField').then((module) => ({
+    default: module.ControlTextField,
+  })),
 );
 const ControlNumberField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlNumberField })),
+  import('./../../../react-hook-form/fields/ControlNumberField').then((module) => ({
+    default: module.ControlNumberField,
+  })),
 );
 const ControlBooleanField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlBooleanField })),
+  import('./../../../react-hook-form/fields/ControlBooleanField').then((module) => ({
+    default: module.ControlBooleanField,
+  })),
 );
 const ControlMultiSelect = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlMultiSelect })),
+  import('./../../../react-hook-form/fields/ControlMultiSelect').then((module) => ({
+    default: module.ControlMultiSelect,
+  })),
 );
 const ControlTableSelector = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlTableSelector })),
+  import('./../../../react-hook-form/fields/ControlTableSelector').then((module) => ({
+    default: module.ControlTableSelector,
+  })),
 );
 const ControlExclusiveToggle = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({
+  import('./../../../react-hook-form/fields/ControlExclusiveToggle').then((module) => ({
     default: module.ControlExclusiveToggle,
   })),
 );
 const ControlDateTimeField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlDateTimeField })),
+  import('./../../../react-hook-form/fields/ControlDateTimeField').then((module) => ({
+    default: module.ControlDateTimeField,
+  })),
 );
 const ControlSelectField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlSelectField })),
+  import('./../../../react-hook-form/fields/ControlSelectField').then((module) => ({
+    default: module.ControlSelectField,
+  })),
 );
 const ControlOAuth = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlOAuth })),
+  import('./../../../react-hook-form/fields/ControlOAuth').then((module) => ({
+    default: module.ControlOAuth,
+  })),
 );
 const ControlServicesSelector = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({
+  import('./../../../react-hook-form/fields/ControlServicesSelector').then((module) => ({
     default: module.ControlServicesSelector,
   })),
 );
 const ControlDateField = React.lazy(() =>
-  import('./../../../react-hook-form').then((module) => ({ default: module.ControlDateField })),
+  import('./../../../react-hook-form/fields/ControlDateField').then((module) => ({
+    default: module.ControlDateField,
+  })),
 );
 
 export function ComponentsRenderer({
