@@ -1,12 +1,13 @@
 import { ReactNode } from 'react';
 
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Switch from '@mui/material/Switch';
 import { Controller } from 'react-hook-form';
+
+import { getFieldHelperText } from '../../utils/getFieldHelperText';
 
 /**
  * @public

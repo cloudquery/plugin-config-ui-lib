@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo } from 'react';
 
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { Box, Stack } from '@mui/material';
+
 import FormHelperText from '@mui/material/FormHelperText';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
 
 import { FormProvider, Path } from 'react-hook-form';
 

@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import { RenderGuideProps } from './components/display';
 import { IterableStepComponent } from './components/display/renderer/types';
+import '@cloudquery/cloud-ui';
 
 /**
  * @public

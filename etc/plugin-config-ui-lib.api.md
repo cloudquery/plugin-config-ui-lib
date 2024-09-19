@@ -11,7 +11,6 @@ import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { FormProvider } from 'react-hook-form';
 import { ForwardRefExoticComponent } from 'react';
-import { getFieldHelperText } from '@cloudquery/cloud-ui';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { LinkProps as LinkProps_2 } from '@mui/material/Link';
@@ -426,7 +425,19 @@ export const getEnabledTablesObject: ({ tablesList, tables, }: {
 }) => Record<string, boolean>;
 
 // @public
+export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | Iterable<ReactNode> | JSX_2.Element | null | undefined;
+
+// @public
 export function getRandomId(length?: number): string;
+
+// @public
+export function getYupValidationResolver<FieldValues extends yup.AnyObject, Schema extends yup.ObjectSchema<FieldValues>>(validationSchema: Schema): (data: any) => Promise<{
+    errors: {};
+    values: Schema["__outputType"];
+} | {
+    errors: any;
+    values: {};
+}>;
 
 // @public
 export function GuideComponent({ pluginUiMessageHandler, }: {
@@ -598,6 +609,9 @@ export type RenderGuideProps = {
     sections: Section_2[];
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
+
+// @public
+export function resetYupDefaultErrorMessages(yup: typeof yup): void;
 
 // @public
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
@@ -959,7 +973,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:30:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/types.ts:31:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

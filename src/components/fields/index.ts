@@ -4,6 +4,6 @@ export { FormFieldGroup, FormFieldGroupProps } from './formFieldGroup';
 export { FormFieldReset, FormFieldResetProps } from './formFieldReset';
 export { SecretField, SecretFieldProps } from './secretField';
 export { SearchField } from './searchField';
-export { MultiAutocomplete, MultiAutocompleteProps } from '../fields/multiAutocomplete';
+export { MultiAutocomplete, MultiAutocompleteProps } from './multiAutocomplete';
 
 export type { PluginTable, PluginTableListItem } from './tableSelector/types';

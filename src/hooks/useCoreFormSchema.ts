@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 
-import { resetYupDefaultErrorMessages } from '@cloudquery/cloud-ui';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import * as yup from 'yup';
 
 import { usePluginContext } from '../context/plugin';
 import { getCoreSchema } from '../utils/getCoreSchema';
+import { resetYupDefaultErrorMessages } from '../utils/getYupValidationResolver';
 
 /**
  * @public
