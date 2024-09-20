@@ -53,13 +53,13 @@
     "clean": "rimraf ./lib ./dist"
   },
   "dependencies": {
+    "@cloudquery/cloud-ui": "^1.0.0",
     "@rudderstack/analytics-js": "^3.7.13",
     "dayjs": "^1.11.13",
     "humanize-string": "^3.0.0",
     "react-hook-form": "^7.53.0"
   },
   "peerDependencies": {
-    "@cloudquery/cloud-ui": "^1.0.0",
     "@cloudquery/plugin-config-ui-connector": "^0.2.16",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
