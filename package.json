@@ -3,7 +3,8 @@
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
   "version": "1.0.2",
   "private": false,
-  "module": "./dist/main.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
