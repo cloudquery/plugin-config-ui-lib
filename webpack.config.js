@@ -37,16 +37,15 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   externals: [
-    'react',
-    'react-dom',
-    /^@mui\/material.*/,
-    /^@mui\/icons-material.*/,
-    /^@mui\/lab.*/,
-    /^@mui\/system.*/,
     /^@emotion\/react.*/,
     /^@emotion\/styled.*/,
+    /^@mui\/icons-material.*/,
+    /^@mui\/material.*/,
+    /^@mui\/lab.*/,
+    /^@mui\/system.*/,
+    'react',
+    'react-dom',
     'yup',
-    'humanize-string',
   ],
   optimization: {
     splitChunks: {

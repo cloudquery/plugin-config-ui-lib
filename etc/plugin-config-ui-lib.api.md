@@ -42,7 +42,7 @@ export enum AuthType {
 
 // Warning: (ae-forgotten-export) The symbol "CloudAppMock_2" needs to be exported by the entry point index.d.ts
 //
-// @public (undocumented)
+// @public
 export const CloudAppMock: React_2.LazyExoticComponent<CloudAppMock_2>;
 
 // @public

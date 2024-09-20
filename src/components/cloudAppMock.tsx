@@ -57,12 +57,6 @@ const formMessageHandler = new MessageHandler<
   PluginUiMessagePayload
 >(formMessageTypes, pluginUiMessageTypes, window);
 
-/**
- * This component is used in the development mode of the custom plugin config UI
- * and is used to mock the Cloud App.
- *
- * @public
- */
 export function CloudAppMock({
   children,
   initialValues,
