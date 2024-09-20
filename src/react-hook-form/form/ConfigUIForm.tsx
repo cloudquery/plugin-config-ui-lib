@@ -12,25 +12,19 @@ import ThemeProvider from '@mui/material/styles/ThemeProvider';
 
 import { FormProvider, Path } from 'react-hook-form';
 
-import {
-  FormFooter,
-  FormWrapper,
-  GuideComponent,
-  Header,
-  PluginTable,
-  Sections,
-  useFormActions,
-  useFormCurrentValues,
-  useFormHeightChange,
-} from '../..';
+import { Header } from './Header';
+import { FormFooter, FormWrapper, GuideComponent, PluginTable, Sections } from '../../components';
 import { ComponentsRenderer } from '../../components/display/renderer/Renderer';
 import { usePluginContext } from '../../context/plugin';
 
+import { useFormActions, useFormCurrentValues, useFormHeightChange } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { useConfigUIForm } from '../hooks/useConfigUIForm';
 
 const FormStepper = React.lazy(() =>
-  import('../..').then((module) => ({ default: module.FormStepper })),
+  import('../../components/display/formStepper').then((module) => ({
+    default: module.FormStepper,
+  })),
 );
 
 /**
