@@ -8,8 +8,7 @@
   "files": [
     "dist",
     ".eslintrc.js",
-    ".prettierrc",
-    "tsconfig.json"
+    ".prettierrc"
   ],
   "sideEffects": false,
   "keywords": [
