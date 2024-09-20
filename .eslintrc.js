@@ -115,6 +115,17 @@ module.exports = {
       },
     ],
     'prefer-template': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'lf',
+        semi: true,
+        singleQuote: true,
+        tabWidth: 2,
+        trailingComma: 'all',
+        printWidth: 100,
+      },
+    ],
     'react/react-in-jsx-scope': 'off',
     'unicorn/filename-case': 'off',
     'unicorn/no-nested-ternary': 'off',
