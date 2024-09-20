@@ -5,20 +5,11 @@
   "private": false,
   "module": "./dist/main.js",
   "types": "./dist/index.d.ts",
-  "eslintConfig": {
-    "extends": "./.eslintrc.js"
-  },
-  "prettier": {
-    "endOfLine": "lf",
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "printWidth": 100
-  },
   "files": [
     "dist",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    ".prettierrc",
+    "tsconfig.json"
   ],
   "sideEffects": false,
   "keywords": [
