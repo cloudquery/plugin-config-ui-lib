@@ -77,7 +77,6 @@
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
-    "@cloudquery/cloud-ui": "^1.0.0",
     "@cloudquery/plugin-config-ui-connector": "^0.2.16",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
