@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   plugins: ['@typescript-eslint', 'jsx-a11y', 'import', 'prettier', 'unicorn'],
   extends: [
@@ -12,8 +14,8 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
-    tsconfigRootDir: '.',
+    project: path.join(process.cwd(), 'tsconfig.json'),
+    tsconfigRootDir: process.cwd(),
     ecmaVersion: 12,
     sourceType: 'module',
   },
