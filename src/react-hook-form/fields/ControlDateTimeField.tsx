@@ -31,7 +31,7 @@ export function ControlDateTimeField({
   label,
   helperText = '',
   disabled,
-  clearable,
+  clearable = true,
   InputProps,
 }: ControlDateTimeFieldProps) {
   return (
