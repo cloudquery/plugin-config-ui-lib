@@ -4,6 +4,16 @@ import validConfig from './data/valid-config';
 import { errorMessages } from '../utils/constants';
 
 describe('validateConfig', () => {
+  const originalError = console.error;
+  beforeAll(() => {
+    console.error = jest.fn();
+  });
+
+  // Restore console.error after tests
+  afterAll(() => {
+    console.error = originalError;
+  });
+  
   test('should validate a valid config', async () => {
     const config = validateConfig(validConfig);
 
