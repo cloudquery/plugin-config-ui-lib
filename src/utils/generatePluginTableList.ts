@@ -39,7 +39,11 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
     }
   }
 
-  for (const table of tablesMap.values()) {
+  const resultTables: PluginTableListItem[] = [];
+  const values = tablesMap.values();
+  for (let i = 0; i < tablesMap.size; i++) {
+    const table = values[i];
+    tables.push(table);
     if (table.parent) {
       table.parentTable = tablesMap.get(table.parent);
     }
@@ -54,5 +58,5 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
     }
   }
 
-  return [...tablesMap.values()];
+  return resultTables;
 }

@@ -1,1 +1,1 @@
-export { PluginContextProvider, PluginContextProviderProps, usePluginContext } from './plugin';
+export { PluginContextProvider, type PluginContextProviderProps, usePluginContext } from './plugin';

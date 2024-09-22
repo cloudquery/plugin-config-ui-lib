@@ -152,7 +152,7 @@ const getPreviousFocusableElement = (currentElement: HTMLElement): HTMLElement |
   const currentIndex = focusableElements.indexOf(currentElement);
 
   // Traverse backwards to find the first previous focusable element
-  let previousFocusableElement = null;
+  let previousFocusableElement: HTMLElement | null = null;
   for (let i = currentIndex - 1; i >= 0; i--) {
     if (focusableElements[i].offsetParent !== null) {
       // Check if element is visible

@@ -40,7 +40,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
   envs: { name: string; value: string }[];
   spec: Record<string, string>;
 } {
-  const envs = [];
+  const envs: { name: string; value: string }[] = [];
   const spec: Record<string, string> = {};
 
   for (const [name, value] of Object.entries(env || {})) {

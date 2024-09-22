@@ -17,7 +17,7 @@ function checkForDuplicateNames(names: string[]): string[] {
 }
 
 function validateSections(section: IterableStepComponent): string[] {
-  const componentNameCollector = [];
+  const componentNameCollector: string[] = [];
   if (!section.component) {
     throw new Error(errorMessages.no_component);
   }
@@ -30,7 +30,7 @@ function validateSections(section: IterableStepComponent): string[] {
       throw new Error(`${errorMessages.no_children}: ${JSON.stringify(renderSection)}`);
     }
     componentNameCollector.push(
-      renderSection.children.flatMap((child) => validateSections(child as RenderSection)),
+      ...renderSection.children.flatMap((child) => validateSections(child as RenderSection)),
     );
   }
   if (section.component.includes('control') && !isReservedLayoutComponent(section.component)) {
