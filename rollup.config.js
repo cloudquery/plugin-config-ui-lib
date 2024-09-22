@@ -15,12 +15,6 @@ export default {
       exports: "named",
       entryFileNames: '[name].cjs.js',
     },
-    {
-      dir: "dist",
-      format: "esm",
-      sourcemap: true,
-      entryFileNames: '[name].esm.js',
-    },
   ],
   external: [
     // Your external dependencies
