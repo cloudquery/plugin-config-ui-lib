@@ -12,5 +12,5 @@ export { useTestConnection } from './useTestConnection';
 export { useFormCurrentValues } from './useFormCurrentValues';
 export { useOauthConnector } from './useOauthConnector';
 export { useCoreFormSchema, type UseCoreFormSchemaProps } from './useCoreFormSchema';
-
-export type { CloudQueryTables, CloudQueryTable } from '../utils/generateTablesFromJson';
+export { useConfigUIForm } from './useConfigUIForm';
+export { useFormSchema } from './useFormSchema';

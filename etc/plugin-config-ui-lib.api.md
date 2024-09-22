@@ -8,9 +8,7 @@ import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
 import { ButtonProps } from '@mui/material/Button';
 import { ChangeEventHandler } from 'react';
-import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import { FormProvider } from 'react-hook-form';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
@@ -27,9 +25,7 @@ import { RefAttributes } from 'react';
 import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { TextFieldProps } from '@mui/material/TextField';
-import { useForm } from 'react-hook-form';
-import { useFormContext } from 'react-hook-form';
-import { useWatch } from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import * as yup from 'yup';
 
 // @public (undocumented)
@@ -40,67 +36,39 @@ export enum AuthType {
     OTHER = 1
 }
 
-// Warning: (ae-forgotten-export) The symbol "CloudAppMock_2" needs to be exported by the entry point index.d.ts
-//
 // @public
-export const CloudAppMock: React_2.LazyExoticComponent<CloudAppMock_2>;
+export function CloudAppMock({ children, initialValues, authToken, teamName, user, }: CloudAppMockProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface CloudAppMockProps {
+    authToken?: string;
+    // (undocumented)
+    children: ReactNode;
+    initialValues?: {
+        name: string;
+        migrateMode?: 'forced' | 'safe' | undefined;
+        envs: Array<{
+            name: string;
+            value: string;
+        }>;
+        spec: Record<string, any> | undefined;
+        tables?: string[] | undefined;
+        skipTables?: string[] | undefined;
+        writeMode?: 'append' | 'overwrite' | 'overwrite-delete-stale' | undefined;
+    };
+    teamName: string;
+    user: {
+        id: string;
+        name: string;
+        email: string;
+    };
+}
 
 // @public
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 
 // @public
 export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/auth/connector";
-
-// @public (undocumented)
-export interface CloudQueryTable {
-    // (undocumented)
-    columns: unknown[];
-    // (undocumented)
-    description: string;
-    // (undocumented)
-    is_incremental?: boolean;
-    // (undocumented)
-    is_paid?: boolean;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    relations: CloudQueryTable[];
-    // (undocumented)
-    title: string;
-}
-
-// @public
-export type CloudQueryTables = CloudQueryTable[];
-
-// @public (undocumented)
-export function CollapsibleSection({ children, defaultExpanded, title, subtitle, }: CollapsibleSectionProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface CollapsibleSectionProps {
-    // (undocumented)
-    children: React_2.ReactNode;
-    // (undocumented)
-    defaultExpanded?: AccordionProps['defaultExpanded'];
-    // (undocumented)
-    subtitle?: React_2.ReactNode;
-    // (undocumented)
-    title: React_2.ReactNode;
-}
-
-// @public (undocumented)
-export function CollapsibleSubSection({ children, defaultExpanded, title, subtitle, }: CollapsibleSubSectionProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface CollapsibleSubSectionProps {
-    // (undocumented)
-    children: React_2.ReactNode;
-    // (undocumented)
-    defaultExpanded?: AccordionProps['defaultExpanded'];
-    // (undocumented)
-    subtitle?: React_2.ReactNode;
-    // (undocumented)
-    title: React_2.ReactNode;
-}
 
 // @public
 export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
@@ -110,8 +78,6 @@ export interface ConfigUIFormProps {
     // (undocumented)
     prepareSubmitValues: (values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
-
-export { Controller }
 
 // @public
 export function convertStringToSlug(value: string): string;
@@ -218,8 +184,6 @@ export interface FormFooterProps {
     }) | undefined;
 }
 
-export { FormProvider }
-
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -246,6 +210,8 @@ export function generateName(pluginName: string): string;
 // @public
 export function generatePluginTableList(tables?: PluginTable[]): PluginTableListItem[];
 
+// Warning: (ae-forgotten-export) The symbol "CloudQueryTable" needs to be exported by the entry point index.d.ts
+//
 // @public
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
@@ -256,7 +222,7 @@ export const getEnabledTablesObject: ({ tablesList, tables, }: {
 }) => Record<string, boolean>;
 
 // @public
-export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | Iterable<ReactNode> | JSX_2.Element | null | undefined;
+export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | JSX_2.Element | Iterable<ReactNode> | null | undefined;
 
 // @public
 export function getRandomId(length?: number): string;
@@ -275,8 +241,13 @@ export function GuideComponent({ pluginUiMessageHandler, }: {
     pluginUiMessageHandler: any;
 }): ReactElement | null;
 
-// @public
-export function Header(): JSX_2.Element;
+// @public (undocumented)
+export interface GuideConfig {
+    // (undocumented)
+    sections: RenderGuideProps['sections'];
+    // (undocumented)
+    title: string;
+}
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -351,8 +322,6 @@ export interface PluginConfig {
     docsLink: string;
     // (undocumented)
     errorCodes?: Record<string, string>;
-    // Warning: (ae-forgotten-export) The symbol "GuideConfig" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     guide: React_2.FC | GuideConfig;
     // (undocumented)
@@ -394,6 +363,8 @@ export interface PluginContextProviderProps {
     };
     // (undocumented)
     pluginUiMessageHandler: any;
+    // Warning: (ae-forgotten-export) The symbol "CloudQueryTables" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     tablesData?: CloudQueryTables;
     // (undocumented)
@@ -437,7 +408,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
 
 // @public (undocumented)
 export type RenderGuideProps = {
-    sections: Section_2[];
+    sections: Section[];
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
@@ -448,13 +419,16 @@ export function resetYupDefaultErrorMessages(yup: typeof yup): void;
 export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
 
 // @public
-export function SearchField(props: TextFieldProps): JSX_2.Element;
+export function SearchInput(props: TextFieldProps): JSX_2.Element;
+
+// @public @deprecated
+export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
 
 // @public
-export function SecretField({ name, label, disabled, value, onChange, onBlur, editMode, defaultValues, textFieldProps, setValue, getValues, error, helperText, }: SecretFieldProps): JSX_2.Element;
+export function SecretInput({ name, label, disabled, value, onChange, onBlur, editMode, defaultValues, textFieldProps, setValue, getValues, error, helperText, }: SecretInputProps): JSX_2.Element;
 
 // @public (undocumented)
-export interface SecretFieldProps {
+export interface SecretInputProps {
     // (undocumented)
     defaultValues: any;
     // (undocumented)
@@ -483,31 +457,6 @@ export interface SecretFieldProps {
     textFieldProps?: TextFieldProps;
     // (undocumented)
     value: any;
-}
-
-// @public @deprecated
-export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
-
-// @public (undocumented)
-export function Section({ children, title, subtitle }: SectionProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface SectionProps {
-    // (undocumented)
-    children: React_2.ReactNode;
-    // (undocumented)
-    subtitle?: React_2.ReactNode;
-    // (undocumented)
-    title?: React_2.ReactNode;
-}
-
-// @public (undocumented)
-export function Sections({ children }: SectionsProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface SectionsProps {
-    // (undocumented)
-    children: React_2.ReactNode;
 }
 
 // @public
@@ -560,19 +509,6 @@ export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 
 export interface SourceConfig extends PluginConfig {
     // (undocumented)
     type: 'source';
-}
-
-// @public (undocumented)
-export function SubSection({ children, title, subtitle }: SubSectionProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface SubSectionProps {
-    // (undocumented)
-    children: React_2.ReactNode;
-    // (undocumented)
-    subtitle?: React_2.ReactNode;
-    // (undocumented)
-    title?: React_2.ReactNode;
 }
 
 // @public (undocumented)
@@ -644,6 +580,9 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
     };
 };
 
+// @public (undocumented)
+export const useConfigUIForm: () => UseFormReturn<any, any, undefined>;
+
 // @public
 export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFields, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{
     _secretKeys: any[];
@@ -676,8 +615,6 @@ export interface UseCoreFormSchemaProps {
     // (undocumented)
     stateFields?: Record<string, yup.AnySchema>;
 }
-
-export { useForm }
 
 // @public
 export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, apiBaseUrl, }: {
@@ -721,8 +658,6 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     }) | undefined;
 };
 
-export { useFormContext }
-
 // @public
 export function useFormCurrentValues(pluginUiMessageHandler: PluginUiMessageHandler, getCurrentValues: () => PluginUiMessagePayload['current_values']['values']): void;
 
@@ -742,6 +677,9 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
         email: string;
     };
 };
+
+// @public (undocumented)
+export const useFormSchema: () => yup.AnyObjectSchema;
 
 // Warning: (ae-forgotten-export) The symbol "FormSubmitSuccess" needs to be exported by the entry point index.d.ts
 // Warning: (ae-forgotten-export) The symbol "FormSubmitFailure" needs to be exported by the entry point index.d.ts
@@ -790,8 +728,6 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
 };
 
-export { useWatch }
-
 // @public @deprecated
 export function writeSecretsToPrepareValues(env?: Record<string, string>): {
     envs: {
@@ -803,8 +739,8 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section_2" needs to be exported by the entry point index.d.ts
-// src/types.ts:31:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
+// src/types.ts:34:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

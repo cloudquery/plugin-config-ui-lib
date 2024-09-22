@@ -1,4 +1,4 @@
-import { PluginTable, PluginTableListItem } from '../components/fields/tableSelector/types';
+import { PluginTable, PluginTableListItem } from '../components';
 
 /**
  * generatePluginTableList utility takes the output of `useGetTables` and reshapes the data

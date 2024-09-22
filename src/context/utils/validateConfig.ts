@@ -3,7 +3,7 @@ import {
   IterableStepComponent,
   LayoutComponent,
   RenderSection,
-} from '../../components/display/renderer/types';
+} from '../../components/form/renderer/types';
 import { PluginConfig } from '../../types';
 
 const sectionRequiresTitle = (componentName: string) =>
