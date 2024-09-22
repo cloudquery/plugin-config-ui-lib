@@ -39,11 +39,9 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
     }
   }
 
-  const resultTables: PluginTableListItem[] = [];
-  const values = tablesMap.values();
-  for (let i = 0; i < tablesMap.size; i++) {
-    const table = values[i];
-    tables.push(table);
+  // eslint-disable-next-line unicorn/prefer-spread
+  const values = Array.from(tablesMap.values());
+  for (const table of values) {
     if (table.parent) {
       table.parentTable = tablesMap.get(table.parent);
     }
@@ -58,5 +56,5 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
     }
   }
 
-  return resultTables;
+  return values;
 }
