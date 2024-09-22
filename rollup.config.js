@@ -1,4 +1,3 @@
-// rollup.config.js
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
@@ -6,7 +5,7 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
 
 export default {
-  input: "src/index.ts", // Entry point of your library
+  input: "src/index.ts",
   output: [
     {
       dir: "dist",
@@ -15,9 +14,14 @@ export default {
       exports: "named",
       entryFileNames: '[name].cjs.js',
     },
+    {
+      dir: "dist",
+      format: "esm",
+      sourcemap: true,
+      entryFileNames: '[name].esm.js',
+    },
   ],
   external: [
-    // Your external dependencies
     /^@emotion\/react.*/,
     /^@emotion\/styled.*/,
     /^@mui\/icons-material.*/,

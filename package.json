@@ -4,6 +4,7 @@
   "version": "1.0.2",
   "private": false,
   "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
@@ -44,7 +45,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.25.6",
-    "@cloudquery/cloud-ui": "^1.0.0",
+    "@cloudquery/cloud-ui": "^1.0.1-rc.1",
     "@rudderstack/analytics-js": "^3.7.13",
     "dayjs": "^1.11.13",
     "humanize-string": "^3.0.0",
