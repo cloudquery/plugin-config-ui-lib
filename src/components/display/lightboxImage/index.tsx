@@ -35,7 +35,14 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
       pluginUiMessageHandler.sendMessage('show_lightbox', {
         ...props,
         alt: props.alt || '',
-        src: props.src || '',
+        src: props.src
+          ? props.src.startsWith('http')
+            ? props.src
+            : new URL(
+                props.src.startsWith('/') ? props.src : `${window.location.pathname}/${props.src}`,
+                window.location.href,
+              ).href
+          : '',
       });
     },
     [pluginUiMessageHandler, props],
