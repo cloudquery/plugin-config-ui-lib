@@ -40,7 +40,7 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
             ? props.src
             : new URL(
                 props.src.startsWith('/') ? props.src : `${window.location.pathname}/${props.src}`,
-                window.location.href,
+                window.location.origin,
               ).href
           : '',
       });
