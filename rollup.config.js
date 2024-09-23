@@ -43,7 +43,11 @@ export default [
       peerDepsExternal(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.json", outDir: "dist" }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+        outDir: "dist",
+        exclude: ["node_modules", "src/e2e-utils"],
+      }),
       terser({
         format: {
           comments: /webpackIgnore:/,
@@ -112,7 +116,6 @@ export default [
       peerDepsExternal(),
       resolve({
         extensions: [".js", ".jsx", ".ts", ".tsx"],
-        preferBuiltins: false,
       }),
       commonjs(),
       typescript({
