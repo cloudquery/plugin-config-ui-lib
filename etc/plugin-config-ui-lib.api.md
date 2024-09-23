@@ -24,7 +24,6 @@ import { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import { Ref } from 'react';
 import { RefAttributes } from 'react';
-import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { TextFieldProps } from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
@@ -316,7 +315,7 @@ export interface LogoProps {
 }
 
 // @public
-export function MultiAutocomplete({ label, disabled, value, onChange, onBlur, name, ref, helperText, error, }: MultiAutocompleteProps): JSX_2.Element;
+export const MultiAutocomplete: React_2.ForwardRefExoticComponent<MultiAutocompleteProps & React_2.RefAttributes<HTMLDivElement>>;
 
 // @public (undocumented)
 export interface MultiAutocompleteProps {
@@ -334,8 +333,6 @@ export interface MultiAutocompleteProps {
     onBlur: () => void;
     // (undocumented)
     onChange: (value: any) => void;
-    // (undocumented)
-    ref: RefCallback<HTMLInputElement>;
     // (undocumented)
     value: any;
 }
