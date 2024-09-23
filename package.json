@@ -16,7 +16,8 @@
       "import": "./dist/components/cloudAppMock.esm.js",
       "require": "./dist/components/cloudAppMock.cjs.js",
       "types": "./dist/components/cloudAppMock.d.ts"
-    }
+    },
+    "./.eslintrc.js": "./.eslintrc.js"
   },
   "files": [
     "dist",
