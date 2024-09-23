@@ -12,10 +12,10 @@
       "require": "./dist/index.cjs.js",
       "types": "./dist/index.d.ts"
     },
-    "./components/*": {
-      "import": "./dist/components/*.esm.js",
-      "require": "./dist/components/*.cjs.js",
-      "types": "./dist/components/*.d.ts"
+    "./components/cloudAppMock": {
+      "import": "./dist/components/cloudAppMock.esm.js",
+      "require": "./dist/components/cloudAppMock.cjs.js",
+      "types": "./dist/components/cloudAppMock.d.ts"
     }
   },
   "files": [
@@ -91,7 +91,6 @@
     "@mui/material": "^6.0.0",
     "@mui/system": "^6.0.0",
     "@mui/x-date-pickers": "^7.6.2",
-    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
