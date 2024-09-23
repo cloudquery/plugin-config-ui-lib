@@ -1,4 +1,4 @@
-import { nodeResolve } from "@rollup/plugin-node-resolve";
+import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
@@ -41,7 +41,7 @@ export default [
     ],
     plugins: [
       peerDepsExternal(),
-      nodeResolve(),
+      resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json", outDir: "dist" }),
       terser({
@@ -71,7 +71,7 @@ export default [
     ],
     plugins: [
       peerDepsExternal(),
-      nodeResolve({
+      resolve({
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),
       commonjs(),
@@ -110,7 +110,7 @@ export default [
     ],
     plugins: [
       peerDepsExternal(),
-      nodeResolve({
+      resolve({
         extensions: [".js", ".jsx", ".ts", ".tsx"],
         browser: true,
         preferBuiltins: false,
