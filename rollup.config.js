@@ -39,6 +39,7 @@ export default [
         entryFileNames: "[name].esm.js",
       },
     ],
+
     plugins: [
       peerDepsExternal(),
       resolve(),
@@ -112,6 +113,7 @@ export default [
         entryFileNames: "[name].esm.js",
       },
     ],
+    external: ["playwright"],
     plugins: [
       peerDepsExternal(),
       resolve({
