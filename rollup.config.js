@@ -100,14 +100,14 @@ export default [
     input: "src/e2e-utils/index.ts",
     output: [
       {
-        dir: "dist",
+        dir: "dist/e2e-utils",
         format: "cjs",
         sourcemap: true,
         exports: "named",
         entryFileNames: "[name].cjs.js",
       },
       {
-        dir: "dist",
+        dir: "dist/e2e-utils",
         format: "esm",
         sourcemap: true,
         entryFileNames: "[name].esm.js",
