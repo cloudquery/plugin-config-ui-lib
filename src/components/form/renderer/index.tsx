@@ -90,15 +90,19 @@ const ControlDateField = React.lazy(() =>
 
 export function ComponentsRenderer({
   section,
+  parentKey,
 }: {
   section:
     | (IterableStepComponent | ReactNode | React.FC<any>)
     | (IterableStepComponent | ReactNode | React.FC<any>)[];
+  parentKey?: string;
 }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
     <>
       {section.map((component: any, index: number) => {
-        return <ComponentsRenderer key={index} section={component} />;
+        const key = parentKey ? `${parentKey}-${index}` : `${index}`;
+
+        return <ComponentsRenderer key={key} section={component} parentKey={key} />;
       })}
     </>
   ) : (
