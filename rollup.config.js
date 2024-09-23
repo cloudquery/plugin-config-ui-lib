@@ -112,7 +112,7 @@ export default [
       peerDepsExternal(),
       resolve({
         extensions: [".js", ".jsx", ".ts", ".tsx"],
-        browser: true,
+        preferBuiltins: false,
       }),
       commonjs(),
       typescript({
