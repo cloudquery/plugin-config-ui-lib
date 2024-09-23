@@ -1,4 +1,4 @@
-import { PluginTable, PluginTableListItem } from '../components/fields/tableSelector/types';
+import { PluginTable, PluginTableListItem } from '../components';
 
 /**
  * generatePluginTableList utility takes the output of `useGetTables` and reshapes the data
@@ -39,7 +39,9 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
     }
   }
 
-  for (const table of tablesMap.values()) {
+  // eslint-disable-next-line unicorn/prefer-spread
+  const values = Array.from(tablesMap.values());
+  for (const table of values) {
     if (table.parent) {
       table.parentTable = tablesMap.get(table.parent);
     }
@@ -54,5 +56,5 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
     }
   }
 
-  return [...tablesMap.values()];
+  return values;
 }

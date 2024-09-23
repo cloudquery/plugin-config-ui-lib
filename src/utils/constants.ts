@@ -13,7 +13,7 @@ export const cloudQueryApiBaseUrl = 'https://api.cloudquery.io';
 export const cloudQueryOauthConnectorUrl = 'https://cloud.cloudquery.io/auth/connector';
 
 /**
- * Universal placeholder for the SecretField value
+ * Universal placeholder for the SecretInput value
  *
  * @public
  * @deprecated - this should no longer be used and will be removed in a future version.

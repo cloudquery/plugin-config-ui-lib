@@ -10,7 +10,7 @@ export function prepareSecretValues(values: Record<string, any>): {
   envs: { name: string; value: string }[];
   spec: Record<string, string>;
 } {
-  const envs = [];
+  const envs: { name: string; value: string }[] = [];
   const spec: Record<string, string> = {};
 
   if (values._authType === AuthType.OTHER) {

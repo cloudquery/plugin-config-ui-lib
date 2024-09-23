@@ -32,10 +32,19 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
+      let { pathname } = window.location;
+      pathname = pathname.endsWith('/') ? pathname : `${pathname}/`;
       pluginUiMessageHandler.sendMessage('show_lightbox', {
         ...props,
         alt: props.alt || '',
-        src: props.src || '',
+        src: props.src
+          ? props.src.startsWith('http')
+            ? props.src
+            : new URL(
+                props.src.startsWith('/') ? props.src : `${pathname}${props.src}`,
+                window.location.origin,
+              ).href
+          : '',
       });
     },
     [pluginUiMessageHandler, props],

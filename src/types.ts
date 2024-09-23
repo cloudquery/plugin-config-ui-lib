@@ -3,7 +3,7 @@ import React from 'react';
 import * as yup from 'yup';
 
 import { RenderGuideProps } from './components/display';
-import { IterableStepComponent } from './components/display/renderer/types';
+import { IterableStepComponent } from './components/form/renderer/types';
 import '@cloudquery/cloud-ui';
 
 /**
@@ -14,6 +14,9 @@ export enum AuthType {
   OTHER,
 }
 
+/**
+ * @public
+ */
 export interface GuideConfig {
   title: string;
   sections: RenderGuideProps['sections'];

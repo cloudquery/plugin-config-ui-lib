@@ -1,5 +1,3 @@
-export * from './controls';
 export * from './display';
-export * from './fields';
-
-export { CloudAppMock } from './cloudAppMock';
+export * from './form';
+export * from './inputs';

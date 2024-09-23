@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "esnext",
-    "moduleResolution": "node",
-    "declaration": true,
-    "declarationMap": true,
-    "types": ["jest", "node"],
+    "target": "ES5",
+    "module": "ESNext",
     "lib": ["es2015", "dom", "dom.iterable"],
-    "outDir": "lib",
     "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "isolatedModules": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
-    "strict": true
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": false,
+    "types": ["jest", "node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
