@@ -18,6 +18,10 @@ function checkForDuplicateNames(names: string[]): string[] {
 
 function validateSections(section: IterableStepComponent): string[] {
   const componentNameCollector: string[] = [];
+  if (typeof section === 'function') {
+    return [];
+  }
+
   if (!section.component) {
     throw new Error(errorMessages.no_component);
   }

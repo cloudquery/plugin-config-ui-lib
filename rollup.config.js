@@ -12,15 +12,13 @@ const commonConfig = {
     /^@mui\/material.*/,
     /^@mui\/lab.*/,
     /^@mui\/system.*/,
-    'react',
-    'react-dom',
-    'yup',
+    "react",
+    "react-dom",
+    "yup",
   ],
-}
+};
 
-const componentInputs = [
-  'src/components/utils/cloudAppMock.tsx',
-];
+const componentInputs = ["src/components/utils/cloudAppMock.tsx"];
 
 export default [
   {
@@ -32,20 +30,25 @@ export default [
         format: "cjs",
         sourcemap: true,
         exports: "named",
-        entryFileNames: '[name].cjs.js',
+        entryFileNames: "[name].cjs.js",
       },
       {
         dir: "dist",
         format: "esm",
         sourcemap: true,
-        entryFileNames: '[name].esm.js',
+        entryFileNames: "[name].esm.js",
       },
     ],
+
     plugins: [
       peerDepsExternal(),
       resolve(),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.json", outDir: 'dist' }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+        outDir: "dist",
+        exclude: ["node_modules", "src/e2e-utils"],
+      }),
       terser({
         format: {
           comments: /webpackIgnore:/,
@@ -62,25 +65,25 @@ export default [
         format: "cjs",
         sourcemap: true,
         exports: "named",
-        entryFileNames: '[name].cjs.js',
+        entryFileNames: "[name].cjs.js",
       },
       {
         dir: "dist/components",
         format: "esm",
         sourcemap: true,
-        entryFileNames: '[name].esm.js',
+        entryFileNames: "[name].esm.js",
       },
     ],
     plugins: [
       peerDepsExternal(),
       resolve({
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),
       commonjs(),
       typescript({
         tsconfig: "./tsconfig.json",
-        outDir: 'dist/components',
-        declarationDir: 'dist/components',
+        outDir: "dist/components",
+        declarationDir: "dist/components",
         declaration: true,
         declarationMap: true,
         include: componentInputs,
@@ -91,5 +94,45 @@ export default [
         },
       }),
     ],
-  }
-]
+  },
+  {
+    ...commonConfig,
+    input: "src/e2e-utils/index.ts",
+    output: [
+      {
+        dir: "dist/e2e-utils",
+        format: "cjs",
+        sourcemap: true,
+        exports: "named",
+        entryFileNames: "[name].cjs.js",
+      },
+      {
+        dir: "dist/e2e-utils",
+        format: "esm",
+        sourcemap: true,
+        entryFileNames: "[name].esm.js",
+      },
+    ],
+    external: ["playwright"],
+    plugins: [
+      peerDepsExternal(),
+      resolve({
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      }),
+      commonjs(),
+      typescript({
+        tsconfig: "./tsconfig.json",
+        outDir: "dist/e2e-utils",
+        declarationDir: "dist/e2e-utils",
+        declaration: true,
+        declarationMap: true,
+        include: "src/e2e-utils/*",
+      }),
+      terser({
+        format: {
+          comments: /webpackIgnore:/,
+        },
+      }),
+    ],
+  },
+];
