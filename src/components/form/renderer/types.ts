@@ -7,12 +7,12 @@ import { type ConditionalRenderingProps } from '../../controls/conditionalRender
 import { type ControlBooleanFieldProps } from '../controls/controlBooleanField';
 import { type ControlDateFieldProps } from '../controls/controlDateField';
 import { type ControlDateTimeFieldProps } from '../controls/controlDateTimeField';
-import { type ControlExclusiveToggleProps } from '../controls/controlExclusiveToggle';
-import { type ControlMultiSelectProps } from '../controls/controlMultiSelect';
+import { type ControlExclusiveToggleFieldProps } from '../controls/controlExclusiveToggleField';
+import { type ControlMultiSelectFieldProps } from '../controls/controlMultiSelectField';
 import { type ControlNumberFieldProps } from '../controls/controlNumberField';
 import { type ControlSecretFieldProps } from '../controls/controlSecretField';
 import { type ControlSelectFieldProps } from '../controls/controlSelectField';
-import { type ControlServicesSelectorProps } from '../controls/controlServicesSelector';
+import { type ControlServicesSelectorFieldProps } from '../controls/controlServicesSelectorField';
 import { type ControlTextFieldProps } from '../controls/controlTextField';
 import { type CollapsibleSectionProps } from '../sections/collapsibleSection';
 import { type CollapsibleSubSectionProps } from '../sections/collapsibleSubSection';
@@ -79,15 +79,17 @@ export interface LayoutDateField extends ComponentAbstract, ControlDateFieldProp
   component: 'control-date-field';
 }
 
-export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiSelectProps {
+export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiSelectFieldProps {
   component: 'control-multi-select';
 }
 
-export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleProps {
+export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleFieldProps {
   component: 'control-exclusive-toggle';
 }
 
-export interface LayoutServicesSelector extends ComponentAbstract, ControlServicesSelectorProps {
+export interface LayoutServicesSelector
+  extends ComponentAbstract,
+    ControlServicesSelectorFieldProps {
   component: 'control-services-selector';
 }
 

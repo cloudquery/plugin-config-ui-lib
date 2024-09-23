@@ -12,7 +12,7 @@ import { ServiceList, ServiceTypes } from '../../display';
 /**
  * @public
  */
-export interface ControlServicesSelectorProps {
+export interface ControlServicesSelectorFieldProps {
   services: ServiceTypes;
   topServices?: string[];
   name: string;
@@ -26,13 +26,13 @@ export interface ControlServicesSelectorProps {
  *
  * @public
  */
-export function ControlServicesSelector({
+export function ControlServicesSelectorField({
   services,
   topServices,
   name,
   helperText,
   label,
-}: ControlServicesSelectorProps) {
+}: ControlServicesSelectorFieldProps) {
   return (
     <Controller
       name={name}

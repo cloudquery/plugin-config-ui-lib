@@ -8,7 +8,7 @@ import { ExclusiveToggle } from '../../inputs/exclusiveToggle';
 /**
  * @public
  */
-export interface ControlExclusiveToggleProps {
+export interface ControlExclusiveToggleFieldProps {
   name: string;
   options: { label: string; value: string | number }[];
   // Slot for title/subtitle/etc. above the toggle itself
@@ -20,7 +20,11 @@ export interface ControlExclusiveToggleProps {
  *
  * @public
  */
-export function ControlExclusiveToggle({ name, options, children }: ControlExclusiveToggleProps) {
+export function ControlExclusiveToggleField({
+  name,
+  options,
+  children,
+}: ControlExclusiveToggleFieldProps) {
   return (
     <Stack gap={1}>
       {children}

@@ -70,4 +70,4 @@ function _PluginTableSelector() {
  *
  * @public
  */
-export const ControlTableSelector = React.memo(_PluginTableSelector);
+export const ControlTableSelectorField = React.memo(_PluginTableSelector);

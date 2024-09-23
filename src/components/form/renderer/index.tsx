@@ -47,19 +47,19 @@ const ControlBooleanField = React.lazy(() =>
     default: module.ControlBooleanField,
   })),
 );
-const ControlMultiSelect = React.lazy(() =>
-  import('../controls/controlMultiSelect').then((module) => ({
-    default: module.ControlMultiSelect,
+const ControlMultiSelectField = React.lazy(() =>
+  import('../controls/controlMultiSelectField').then((module) => ({
+    default: module.ControlMultiSelectField,
   })),
 );
-const ControlTableSelector = React.lazy(() =>
-  import('../controls/controlTableSelector').then((module) => ({
-    default: module.ControlTableSelector,
+const ControlTableSelectorField = React.lazy(() =>
+  import('../controls/controlTableSelectorField').then((module) => ({
+    default: module.ControlTableSelectorField,
   })),
 );
-const ControlExclusiveToggle = React.lazy(() =>
-  import('../controls/controlExclusiveToggle').then((module) => ({
-    default: module.ControlExclusiveToggle,
+const ControlExclusiveToggleField = React.lazy(() =>
+  import('../controls/controlExclusiveToggleField').then((module) => ({
+    default: module.ControlExclusiveToggleField,
   })),
 );
 const ControlDateTimeField = React.lazy(() =>
@@ -72,14 +72,14 @@ const ControlSelectField = React.lazy(() =>
     default: module.ControlSelectField,
   })),
 );
-const ControlOAuth = React.lazy(() =>
-  import('../controls/controlOAuth').then((module) => ({
-    default: module.ControlOAuth,
+const ControlOAuthField = React.lazy(() =>
+  import('../controls/controlOAuthField').then((module) => ({
+    default: module.ControlOAuthField,
   })),
 );
-const ControlServicesSelector = React.lazy(() =>
-  import('../controls/controlServicesSelector').then((module) => ({
-    default: module.ControlServicesSelector,
+const ControlServicesSelectorField = React.lazy(() =>
+  import('../controls/controlServicesSelectorField').then((module) => ({
+    default: module.ControlServicesSelectorField,
   })),
 );
 const ControlDateField = React.lazy(() =>
@@ -211,35 +211,35 @@ function ComponentRenderer({
       case 'control-multi-select': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={82} />}>
-            <ControlMultiSelect {...(component as LayoutMultiSelectField)} />
+            <ControlMultiSelectField {...(component as LayoutMultiSelectField)} />
           </Suspense>
         );
       }
       case 'control-table-selector': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={580} />}>
-            <ControlTableSelector />
+            <ControlTableSelectorField />
           </Suspense>
         );
       }
       case 'control-services-selector': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={350} />}>
-            <ControlServicesSelector {...(component as LayoutServicesSelector)} />
+            <ControlServicesSelectorField {...(component as LayoutServicesSelector)} />
           </Suspense>
         );
       }
       case 'control-oauth': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={42} />}>
-            <ControlOAuth />
+            <ControlOAuthField />
           </Suspense>
         );
       }
       case 'control-exclusive-toggle': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
-            <ControlExclusiveToggle {...(component as LayoutExclusiveToggle)} />
+            <ControlExclusiveToggleField {...(component as LayoutExclusiveToggle)} />
           </Suspense>
         );
       }

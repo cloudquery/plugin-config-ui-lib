@@ -17,7 +17,7 @@ import { getOauthSuccessBaseUrl } from '../../../utils/getOauthSuccessBaseUrl';
  *
  * @public
  */
-export function ControlOAuth() {
+export function ControlOAuthField() {
   const form = useFormContext();
   const { plugin, teamName, config, pluginUiMessageHandler } = usePluginContext();
   const { watch, formState, setValue } = form;

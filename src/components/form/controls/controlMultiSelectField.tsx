@@ -8,7 +8,7 @@ import { MultiAutocomplete } from '../../inputs/multiAutocomplete';
 /**
  * @public
  */
-export interface ControlMultiSelectProps {
+export interface ControlMultiSelectFieldProps {
   name: string;
   label: string;
   helperText?: ReactNode;
@@ -19,7 +19,11 @@ export interface ControlMultiSelectProps {
  *
  * @public
  */
-export function ControlMultiSelect({ name, helperText = '', label }: ControlMultiSelectProps) {
+export function ControlMultiSelectField({
+  name,
+  helperText = '',
+  label,
+}: ControlMultiSelectFieldProps) {
   const { trigger, formState } = useFormContext();
 
   const errors = useMemo(() => {

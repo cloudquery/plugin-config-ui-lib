@@ -41,34 +41,6 @@ export enum AuthType {
 }
 
 // @public
-export function CloudAppMock({ children, initialValues, authToken, teamName, user, }: CloudAppMockProps): JSX_2.Element;
-
-// @public (undocumented)
-export interface CloudAppMockProps {
-    authToken?: string;
-    // (undocumented)
-    children: ReactNode;
-    initialValues?: {
-        name: string;
-        migrateMode?: 'forced' | 'safe' | undefined;
-        envs: Array<{
-            name: string;
-            value: string;
-        }>;
-        spec: Record<string, any> | undefined;
-        tables?: string[] | undefined;
-        skipTables?: string[] | undefined;
-        writeMode?: 'append' | 'overwrite' | 'overwrite-delete-stale' | undefined;
-    };
-    teamName: string;
-    user: {
-        id: string;
-        name: string;
-        email: string;
-    };
-}
-
-// @public
 export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 
 // @public
