@@ -14,6 +14,6 @@
     "noImplicitAny": false,
     "types": ["jest", "node"]
   },
-  "include": ["src"],
+  "include": ["src", "src/e2e-utils"],
   "exclude": ["node_modules"]
 }

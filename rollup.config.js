@@ -110,9 +110,18 @@ export default [
     ],
     plugins: [
       peerDepsExternal(),
-      resolve(),
+      resolve({
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      }),
       commonjs(),
-      typescript({ tsconfig: "./tsconfig.json", outDir: "dist" }),
+      typescript({
+        tsconfig: "./tsconfig.json",
+        outDir: "dist/e2e-utils",
+        declarationDir: "dist/e2e-utils",
+        declaration: true,
+        declarationMap: true,
+        include: "src/e2e-utils/*",
+      }),
       terser({
         format: {
           comments: /webpackIgnore:/,
