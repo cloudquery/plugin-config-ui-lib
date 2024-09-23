@@ -1,4 +1,4 @@
-import { RefCallback } from 'react';
+import React from 'react';
 
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -14,7 +14,6 @@ export interface MultiAutocompleteProps {
   onBlur: () => void;
   disabled?: boolean | undefined;
   name: string;
-  ref: RefCallback<HTMLInputElement>;
   error?: boolean;
   helperText?: ReturnType<typeof getFieldHelperText>;
   label: string;
@@ -25,55 +24,49 @@ export interface MultiAutocompleteProps {
  *
  * @public
  */
-export function MultiAutocomplete({
-  label,
-  disabled,
-  value,
-  onChange,
-  onBlur,
-  name,
-  ref,
-  helperText,
-  error,
-}: MultiAutocompleteProps) {
-  const fieldProps = { onBlur, name, ref, disabled };
+export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompleteProps>(
+  ({ label, disabled, value, onChange, onBlur, name, helperText, error }, ref) => {
+    const fieldProps = { onBlur, name, ref, disabled };
 
-  return (
-    <Autocomplete
-      id={`autocomplete-${name}`}
-      multiple={true}
-      freeSolo={true}
-      autoSelect={true}
-      clearOnBlur={true}
-      disabled={disabled}
-      options={[]}
-      getOptionLabel={(option) => option}
-      value={value}
-      onChange={(_, newValue) => {
-        onChange(newValue);
-      }}
-      onKeyDown={(event) => {
-        const target = event.target as HTMLInputElement;
-        const shouldSubmit = event.code === 'Space' && target?.value?.trim().length > 0;
+    return (
+      <Autocomplete
+        id={`autocomplete-${name}`}
+        multiple={true}
+        freeSolo={true}
+        autoSelect={true}
+        clearOnBlur={true}
+        disabled={disabled}
+        options={[]}
+        getOptionLabel={(option) => option}
+        value={value}
+        onChange={(_, newValue) => {
+          onChange(newValue);
+        }}
+        onKeyDown={(event) => {
+          const target = event.target as HTMLInputElement;
+          const shouldSubmit = event.code === 'Space' && target?.value?.trim().length > 0;
 
-        if (shouldSubmit) {
-          event.preventDefault();
-          event.stopPropagation();
-          target.blur();
-          target.focus();
-        }
-      }}
-      filterSelectedOptions={true}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          {...fieldProps}
-          error={!!error}
-          fullWidth={true}
-          helperText={helperText}
-          label={label}
-        />
-      )}
-    />
-  );
-}
+          if (shouldSubmit) {
+            event.preventDefault();
+            event.stopPropagation();
+            target.blur();
+            target.focus();
+          }
+        }}
+        filterSelectedOptions={true}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            {...fieldProps}
+            error={!!error}
+            fullWidth={true}
+            helperText={helperText}
+            label={label}
+          />
+        )}
+      />
+    );
+  },
+);
+
+MultiAutocomplete.displayName = 'MultiAutocomplete';
