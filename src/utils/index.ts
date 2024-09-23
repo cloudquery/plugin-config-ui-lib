@@ -6,7 +6,11 @@ export { scrollToFirstFormFieldError } from './scrollToFirstFormFieldError';
 export { showToast } from './showToast';
 export { getRandomId } from './getRandomId';
 export { generatePluginTableList } from './generatePluginTableList';
-export { generateTablesFromJson } from './generateTablesFromJson';
+export {
+  generateTablesFromJson,
+  type CloudQueryTable,
+  type CloudQueryTables,
+} from './generateTablesFromJson';
 export { readSecretsFromInitialValues, writeSecretsToPrepareValues } from './processEnvSecrets';
 export { convertStringToSlug } from './convertStringToSlug';
 export { corePrepareSubmitValues } from './corePrepareSubmitValues';

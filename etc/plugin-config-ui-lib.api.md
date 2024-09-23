@@ -70,6 +70,27 @@ export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
 // @public
 export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/auth/connector";
 
+// @public (undocumented)
+export interface CloudQueryTable {
+    // (undocumented)
+    columns: unknown[];
+    // (undocumented)
+    description: string;
+    // (undocumented)
+    is_incremental?: boolean;
+    // (undocumented)
+    is_paid?: boolean;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    relations: CloudQueryTable[];
+    // (undocumented)
+    title: string;
+}
+
+// @public
+export type CloudQueryTables = CloudQueryTable[];
+
 // @public
 export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
 
@@ -210,8 +231,6 @@ export function generateName(pluginName: string): string;
 // @public
 export function generatePluginTableList(tables?: PluginTable[]): PluginTableListItem[];
 
-// Warning: (ae-forgotten-export) The symbol "CloudQueryTable" needs to be exported by the entry point index.d.ts
-//
 // @public
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
@@ -363,8 +382,6 @@ export interface PluginContextProviderProps {
     };
     // (undocumented)
     pluginUiMessageHandler: any;
-    // Warning: (ae-forgotten-export) The symbol "CloudQueryTables" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     tablesData?: CloudQueryTables;
     // (undocumented)
