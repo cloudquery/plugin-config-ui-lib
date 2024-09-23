@@ -17,6 +17,11 @@
       "require": "./dist/components/cloudAppMock.cjs.js",
       "types": "./dist/components/cloudAppMock.d.ts"
     },
+    "./e2e-utils": {
+      "import": "./dist/e2e-utils/index.esm.js",
+      "require": "./dist/e2e-utils/index.cjs.js",
+      "types": "./dist/e2e-utils/index.d.ts"
+    },
     "./.eslintrc.js": "./.eslintrc.js"
   },
   "files": [
@@ -73,6 +78,7 @@
     "@mui/material": "^6.0.0",
     "@mui/system": "^6.0.0",
     "@mui/x-date-pickers": "^7.6.2",
+    "@playwright/test": "^1.47.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "yup": "^1.4.0"
