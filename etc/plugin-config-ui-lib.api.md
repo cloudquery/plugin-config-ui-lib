@@ -8,7 +8,9 @@ import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
 import { ButtonProps } from '@mui/material/Button';
 import { ChangeEventHandler } from 'react';
+import { Controller } from 'react-hook-form';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { FormProvider } from 'react-hook-form';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
@@ -25,7 +27,10 @@ import { RefAttributes } from 'react';
 import { RefCallback } from 'react';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { TextFieldProps } from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { UseFormReturn } from 'react-hook-form';
+import { useWatch } from 'react-hook-form';
 import * as yup from 'yup';
 
 // @public (undocumented)
@@ -99,6 +104,8 @@ export interface ConfigUIFormProps {
     // (undocumented)
     prepareSubmitValues: (values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
+
+export { Controller }
 
 // @public
 export function convertStringToSlug(value: string): string;
@@ -204,6 +211,8 @@ export interface FormFooterProps {
         code?: string;
     }) | undefined;
 }
+
+export { FormProvider }
 
 // Warning: (ae-forgotten-export) The symbol "Props" needs to be exported by the entry point index.d.ts
 //
@@ -633,6 +642,8 @@ export interface UseCoreFormSchemaProps {
     stateFields?: Record<string, yup.AnySchema>;
 }
 
+export { useForm }
+
 // @public
 export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, apiBaseUrl, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
@@ -674,6 +685,8 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
         connectionId: string;
     }) | undefined;
 };
+
+export { useFormContext }
 
 // @public
 export function useFormCurrentValues(pluginUiMessageHandler: PluginUiMessageHandler, getCurrentValues: () => PluginUiMessagePayload['current_values']['values']): void;
@@ -744,6 +757,8 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         connector_id?: string;
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
 };
+
+export { useWatch }
 
 // @public @deprecated
 export function writeSecretsToPrepareValues(env?: Record<string, string>): {
