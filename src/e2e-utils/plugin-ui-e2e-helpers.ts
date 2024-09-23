@@ -25,11 +25,11 @@ export const login = async (page: Page) => {
 
   const { email, password } = getMainTestUser();
 
-  await fillInput(page, 'Email Address', email);
+  await fillInput(page, page.getByLabel('Email Address'), email);
 
   await clickSubmit(page);
 
-  await fillInput(page, 'Password', password);
+  await fillInput(page, page.getByLabel('Password'), password);
 
   await clickSubmit(page);
 

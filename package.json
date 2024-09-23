@@ -17,7 +17,7 @@
       "require": "./dist/components/cloudAppMock.cjs.js",
       "types": "./dist/components/cloudAppMock.d.ts"
     },
-    "./e2e-utils": {
+    "./dist/e2e-utils": {
       "import": "./dist/e2e-utils/index.esm.js",
       "require": "./dist/e2e-utils/index.cjs.js",
       "types": "./dist/e2e-utils/index.d.ts"
