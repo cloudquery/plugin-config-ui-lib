@@ -1,12 +1,12 @@
-import { expect, Frame, Page, test } from "@playwright/test";
-import { click, fillInput, getMainTestUser } from "./e2e-helpers";
+import { expect, Frame, Page, test } from '@playwright/test';
 
-export const getPersistentName = () =>
-  `name-${Math.random().toString(36).slice(2, 12)}`;
+import { click, fillInput, getMainTestUser } from './e2e-helpers';
+
+export const getPersistentName = () => `name-${Math.random().toString(36).slice(2, 12)}`;
 
 type CreatePluginControlOpts = {
   page: Page;
-  kind: "source" | "destination";
+  kind: 'source' | 'destination';
   pluginName: string;
   pluginLabel: string;
   pluginNewName: string;
@@ -18,21 +18,21 @@ interface EditPluginControlOpts extends CreatePluginControlOpts {
 }
 
 export const login = async (page: Page) => {
-  await page.goto("https://cloud.cloudquery.io/auth/login");
+  await page.goto('https://cloud.cloudquery.io/auth/login');
 
   const { email, password } = getMainTestUser();
 
-  await page.getByLabel("Email Address").click();
-  await page.getByLabel("Email Address").fill(email);
+  await page.getByLabel('Email Address').click();
+  await page.getByLabel('Email Address').fill(email);
 
   await page.locator(String.raw`button[type="submit"]`).click();
 
-  await page.getByLabel("Password").click();
-  await page.getByLabel("Password").fill(password);
+  await page.getByLabel('Password').click();
+  await page.getByLabel('Password').fill(password);
 
   await page.locator(String.raw`button[type="submit"]`).click();
 
-  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible({
+  await expect(page.getByRole('heading', { name: 'Overview' })).toBeVisible({
     timeout: 5000,
   });
 };
@@ -53,32 +53,27 @@ export const createPlugin = async ({
   await page.locator('input[type="text"]').clear();
   await page.locator('input[type="text"]').fill(pluginName);
 
-  await click(page, page.getByRole("button", { name: pluginLabel }));
+  await click(page, page.getByRole('button', { name: pluginLabel }));
 
   await expect(page.getByText(pluginLabel)).toBeTruthy();
   await expect(page.locator('iframe[name="Plugin UI"]')).toBeVisible({
-    timeout: 30000,
+    timeout: 30_000,
   });
-  await expect(page.getByText("Previewing")).toBeVisible();
+  await expect(page.getByText('Previewing')).toBeVisible();
 
-  const iframeElement = page.frame({ name: "Plugin UI" });
+  const iframeElement = page.frame({ name: 'Plugin UI' });
 
   if (!iframeElement) {
-    throw new Error("iframe not found");
+    throw new Error('iframe not found');
   }
 
   await fillInput(iframeElement, '[name="displayName"]', pluginNewName);
   await fillFieldsSteps?.(iframeElement);
 
-  await click(
-    iframeElement,
-    iframeElement.getByRole("button", { name: "Test connection" })
-  );
-  await expect(
-    iframeElement.locator('button:has-text("Cancel test")')
-  ).toBeTruthy();
+  await click(iframeElement, iframeElement.getByRole('button', { name: 'Test connection' }));
+  await expect(iframeElement.locator('button:has-text("Cancel test")')).toBeTruthy();
   await expect(page.getByText(`Edit ${kind}`)).toBeVisible({
-    timeout: 30000,
+    timeout: 30_000,
   });
 
   return page.url();
@@ -101,41 +96,36 @@ export const editPlugin = async ({
   await page.locator('input[type="text"]').clear();
   await page.locator('input[type="text"]').fill(pluginName);
 
-  await click(page, page.getByRole("button", { name: pluginLabel }));
-  await expect(page.getByText("Previewing")).toBeVisible({ timeout: 3000 });
+  await click(page, page.getByRole('button', { name: pluginLabel }));
+  await expect(page.getByText('Previewing')).toBeVisible({ timeout: 3000 });
 
   await page.goto(getPluginUrl(pluginUrl));
 
   await expect(page.getByText(pluginNewName)).toBeTruthy();
-  await page.getByRole("tab", { name: `Edit ${kind}` }).click();
+  await page.getByRole('tab', { name: `Edit ${kind}` }).click();
   await expect(page.locator('iframe[name="Plugin UI"]')).toBeVisible({
-    timeout: 30000,
+    timeout: 30_000,
   });
-  await expect(page.getByText("Previewing")).toBeVisible();
+  await expect(page.getByText('Previewing')).toBeVisible();
 
-  const iframeElement = page.frame({ name: "Plugin UI" });
+  const iframeElement = page.frame({ name: 'Plugin UI' });
 
   if (!iframeElement) {
-    throw new Error("iframe not found");
+    throw new Error('iframe not found');
   }
 
   await expect(
-    iframeElement.getByRole("textbox", {
-      name: `${kind === "destination" ? "Destination" : "Source"} name`,
-    })
+    iframeElement.getByRole('textbox', {
+      name: `${kind === 'destination' ? 'Destination' : 'Source'} name`,
+    }),
   ).toHaveValue(pluginNewName);
 
   await fillFieldsSteps?.(iframeElement);
 
-  await click(
-    iframeElement,
-    iframeElement.getByRole("button", { name: "Test connection" })
-  );
-  await expect(
-    iframeElement.locator('button:has-text("Cancel test")')
-  ).toBeTruthy();
+  await click(iframeElement, iframeElement.getByRole('button', { name: 'Test connection' }));
+  await expect(iframeElement.locator('button:has-text("Cancel test")')).toBeTruthy();
   await expect(page.getByText(`Edit ${kind}`)).toBeVisible({
-    timeout: 30000,
+    timeout: 30_000,
   });
 };
 
@@ -155,33 +145,31 @@ export const deletePlugin = async ({
   await page.locator('input[type="text"]').clear();
   await page.locator('input[type="text"]').fill(pluginName);
 
-  await click(page, page.getByRole("button", { name: pluginLabel }));
-  await expect(page.getByText("Previewing")).toBeVisible({ timeout: 3000 });
+  await click(page, page.getByRole('button', { name: pluginLabel }));
+  await expect(page.getByText('Previewing')).toBeVisible({ timeout: 3000 });
 
   await page.goto(getPluginUrl(pluginUrl));
 
   await expect(page.getByText(pluginNewName)).toBeTruthy();
-  await page.getByRole("tab", { name: `Edit ${kind}` }).click();
+  await page.getByRole('tab', { name: `Edit ${kind}` }).click();
   await expect(page.locator('iframe[name="Plugin UI"]')).toBeVisible({
-    timeout: 30000,
+    timeout: 30_000,
   });
-  await expect(page.getByText("Previewing")).toBeVisible();
+  await expect(page.getByText('Previewing')).toBeVisible();
 
-  const iframeElement = page.frame({ name: "Plugin UI" });
+  const iframeElement = page.frame({ name: 'Plugin UI' });
 
   if (!iframeElement) {
-    throw new Error("iframe not found");
+    throw new Error('iframe not found');
   }
 
   await expect(
-    iframeElement.getByRole("textbox", {
-      name: `${kind === "destination" ? "Destination" : "Source"} name`,
-    })
+    iframeElement.getByRole('textbox', {
+      name: `${kind === 'destination' ? 'Destination' : 'Source'} name`,
+    }),
   ).toHaveValue(pluginNewName);
 
-  await iframeElement
-    .getByRole("button", { name: `Delete this ${kind}` })
-    .click();
+  await iframeElement.getByRole('button', { name: `Delete this ${kind}` }).click();
   await click(page, page.getByText(`Delete ${kind}`));
 
   await expect(page.getByText(pluginNewName)).toHaveCount(0);
@@ -189,17 +177,12 @@ export const deletePlugin = async ({
 
 export function getRootUrl() {
   return process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK
-    ? process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK.replace(
-        "cloudquery-test",
-        "cq-bot-team"
-      )
-    : "https://cloud.cloudquery.io";
+    ? process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK.replace('cloudquery-test', 'cq-bot-team')
+    : 'https://cloud.cloudquery.io';
 }
 
 export function getPluginUrl(url: string) {
-  if (process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK) {
-    return `${url}?${process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK.split("?")[1]}`;
-  } else {
-    return url;
-  }
+  return process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK
+    ? `${url}?${process.env.CQ_CI_PLAYWRIGHT_PREVIEW_LINK.split('?')[1]}`
+    : url;
 }
