@@ -30,7 +30,11 @@ interface SectionAbstract extends ShouldRenderAbstract {
 }
 
 // Top-Level
-export type IterableStepComponent = RenderSection | LayoutComponent | ReservedLayoutComponent;
+export type IterableStepComponent =
+  | RenderSection
+  | LayoutComponent
+  | ReservedLayoutComponent
+  | ReactField;
 
 export type RenderSection = ShouldRenderAbstract &
   (LayoutSection | LayoutCollapsibleSection | LayoutCollapsibleSubSection | LayoutSubSection);

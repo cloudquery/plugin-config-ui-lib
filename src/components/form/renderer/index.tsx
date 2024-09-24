@@ -250,7 +250,8 @@ function ComponentRenderer({
       }
     }
   } else {
-    const ConcreteComponent = component as React.FC<any>;
+    const ConcreteComponent = ((component as IterableStepComponent)?.component ??
+      component) as React.FC<any>;
 
     return <ConcreteComponent />;
   }
