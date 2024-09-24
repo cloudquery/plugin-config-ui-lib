@@ -1,36 +1,36 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from "react";
 
-import { createThemeOptions } from '@cloudquery/cloud-ui';
-import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { createThemeOptions } from "@cloudquery/cloud-ui";
+import { PluginUiMessagePayload } from "@cloudquery/plugin-config-ui-connector";
 
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormHelperText from '@mui/material/FormHelperText';
-import Stack from '@mui/material/Stack';
-import createTheme from '@mui/material/styles/createTheme';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import FormHelperText from "@mui/material/FormHelperText";
+import Stack from "@mui/material/Stack";
+import createTheme from "@mui/material/styles/createTheme";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
 
-import { FormProvider, Path } from 'react-hook-form';
+import { FormProvider, Path } from "react-hook-form";
 
-import { ConfigUIFormHeader } from './header';
-import { ComponentsRenderer } from './renderer';
-import { usePluginContext } from '../../context/plugin';
+import { ConfigUIFormHeader } from "./header";
+import { ComponentsRenderer } from "./renderer";
+import { usePluginContext } from "../../context/plugin";
 
 import {
   useConfigUIForm,
   useFormActions,
   useFormCurrentValues,
   useFormHeightChange,
-} from '../../hooks';
-import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
-import { FormFooter, FormWrapper, GuideComponent } from '../display';
-import { PluginTable } from '../inputs';
-import { Sections } from './sections/sections';
+} from "../../hooks";
+import { parseTestConnectionError } from "../../utils/parseTestConnectionError";
+import { FormFooter, FormWrapper, GuideComponent } from "../display";
+import { PluginTable } from "../inputs";
+import { Sections } from "./sections/sections";
 
 const FormStepper = React.lazy(() =>
-  import('../display/formStepper').then((module) => ({
+  import("../display/formStepper").then((module) => ({
     default: module.FormStepper,
-  })),
+  }))
 );
 
 /**
@@ -39,8 +39,8 @@ const FormStepper = React.lazy(() =>
 export interface ConfigUIFormProps {
   prepareSubmitValues: (
     values: Record<string, any>,
-    tablesList?: PluginTable[],
-  ) => PluginUiMessagePayload['validation_passed']['values'];
+    tablesList?: PluginTable[]
+  ) => PluginUiMessagePayload["validation_passed"]["values"];
 }
 
 /**
@@ -49,20 +49,33 @@ export interface ConfigUIFormProps {
  * @public
  */
 export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
-  const { plugin, teamName, config, hideStepper, tablesList, pluginUiMessageHandler } =
-    usePluginContext();
+  const {
+    plugin,
+    teamName,
+    config,
+    hideStepper,
+    tablesList,
+    pluginUiMessageHandler,
+  } = usePluginContext();
 
   useFormHeightChange(pluginUiMessageHandler);
 
   const form = useConfigUIForm();
-  const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
+  const {
+    getValues,
+    handleSubmit: handleFormSubmit,
+    setValue,
+    watch,
+    setError,
+    formState,
+  } = form;
 
-  const step = watch('_step');
-  const editMode = watch('_editMode');
+  const step = watch("_step");
+  const editMode = watch("_editMode");
 
   const getCurrentValues = useCallback(
     () => prepareSubmitValues(form.getValues(), tablesList),
-    [form, tablesList, prepareSubmitValues],
+    [form, tablesList, prepareSubmitValues]
   );
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
@@ -101,13 +114,17 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
               message: fieldErrors[key],
             });
           } else {
-            setError('root', { message: submitError.data?.message || submitError.message });
+            setError("root", {
+              message: submitError.data?.message || submitError.message,
+            });
 
             return;
           }
         }
       } else {
-        setError('root', { message: submitError.data?.message || submitError.message });
+        setError("root", {
+          message: submitError.data?.message || submitError.message,
+        });
       }
     }
   }, [submitError, getValues, setError]);
@@ -119,32 +136,44 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
   };
 
   const parsedTestConnectionError = useMemo(
-    () => (testConnectionError ? parseTestConnectionError(testConnectionError, config) : undefined),
-    [testConnectionError, config],
+    () =>
+      testConnectionError
+        ? parseTestConnectionError(testConnectionError, config)
+        : undefined,
+    [testConnectionError, config]
   );
 
   const onGoToPreviousStep = () => {
     if (step === 0) {
       handleGoToPreviousStep();
     } else {
-      setValue('_step', getValues('_step') - 1);
+      setValue("_step", getValues("_step") - 1);
     }
   };
 
   const isLastStep = !config.steps || step === config.steps.length - 1;
 
   const onSubmit = handleFormSubmit(async function () {
+    const thisStep = getValues("_step");
+
+    if (config.steps[thisStep]?.submitGuard) {
+      const proceed = await config.steps[thisStep]?.submitGuard();
+      if (!proceed) {
+        return;
+      }
+    }
+
     if (isLastStep) {
       await handleTestConnection();
     } else {
-      setValue('_step', getValues('_step') + 1);
+      setValue("_step", getValues("_step") + 1);
     }
   });
 
   useEffect(() => {
     if (config?.debug && form?.formState?.errors) {
       // eslint-disable-next-line no-console
-      console.warn('Form errors:', form.formState.errors);
+      console.warn("Form errors:", form.formState.errors);
     }
   }, [form?.formState?.errors, config?.debug]);
 
@@ -172,13 +201,16 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
                         step === index && (
                           <Sections key={index}>
                             {children.map((section, index) => (
-                              <ComponentsRenderer section={section} key={index} />
+                              <ComponentsRenderer
+                                section={section}
+                                key={index}
+                              />
                             ))}
                           </Sections>
                         )
                       );
                     })}
-                    <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+                    <FormHelperText sx={{ textAlign: "right" }} error={true}>
                       {formState.errors.root?.message}
                     </FormHelperText>
                   </Sections>
@@ -195,7 +227,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
                   onTestConnectionSuccess={onTestConnectionSuccess}
                   onDelete={handleDelete}
                   onGoToPreviousStep={onGoToPreviousStep}
-                  submitLabel={isLastStep ? undefined : 'Continue'}
+                  submitLabel={isLastStep ? undefined : "Continue"}
                 />
               </Stack>
             </form>

@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import * as yup from 'yup';
+import * as yup from "yup";
 
-import { RenderGuideProps } from './components/display';
-import { IterableStepComponent } from './components/form/renderer/types';
-import '@cloudquery/cloud-ui';
+import { RenderGuideProps } from "./components/display";
+import { IterableStepComponent } from "./components/form/renderer/types";
+import "@cloudquery/cloud-ui";
 
 /**
  * @public
@@ -19,19 +19,25 @@ export enum AuthType {
  */
 export interface GuideConfig {
   title: string;
-  sections: RenderGuideProps['sections'];
+  sections: RenderGuideProps["sections"];
 }
+
+type PluginConfigFormStep = {
+  children: (IterableStepComponent | React.FC<any>)[];
+  title: string;
+  submitGuard?: () => Promise<boolean>;
+};
 
 /**
  * @public
  */
 export interface PluginConfig {
   name: string;
-  type: 'source' | 'destination';
+  type: "source" | "destination";
   label: string;
   docsLink: string;
   iconLink: string;
-  steps: { children: (IterableStepComponent | React.FC<any>)[]; title: string }[];
+  steps: PluginConfigFormStep[];
   stateSchema?: Record<string, yup.AnySchema>;
   auth: AuthType[];
   guide: React.FC | GuideConfig;
@@ -43,12 +49,12 @@ export interface PluginConfig {
  * @public
  */
 export interface SourceConfig extends PluginConfig {
-  type: 'source';
+  type: "source";
 }
 
 /**
  * @public
  */
 export interface DestinationConfig extends PluginConfig {
-  type: 'destination';
+  type: "destination";
 }

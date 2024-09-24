@@ -73,7 +73,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.
 // @public (undocumented)
 export interface ConfigUIFormProps {
     // (undocumented)
-    prepareSubmitValues: (values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
+    prepareSubmitValues: (values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload["validation_passed"]["values"];
 }
 
 export { Controller }
@@ -87,7 +87,7 @@ export function corePrepareSubmitValues(values: any, tablesList?: PluginTable[])
 // @public (undocumented)
 export interface DestinationConfig extends PluginConfig {
     // (undocumented)
-    type: 'destination';
+    type: "destination";
 }
 
 // @public
@@ -243,7 +243,7 @@ export function GuideComponent({ pluginUiMessageHandler, }: {
 // @public (undocumented)
 export interface GuideConfig {
     // (undocumented)
-    sections: RenderGuideProps['sections'];
+    sections: RenderGuideProps["sections"];
     // (undocumented)
     title: string;
 }
@@ -329,13 +329,12 @@ export interface PluginConfig {
     name: string;
     // (undocumented)
     stateSchema?: Record<string, yup.AnySchema>;
+    // Warning: (ae-forgotten-export) The symbol "PluginConfigFormStep" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    steps: {
-        children: (IterableStepComponent | React_2.FC<any>)[];
-        title: string;
-    }[];
+    steps: PluginConfigFormStep[];
     // (undocumented)
-    type: 'source' | 'destination';
+    type: "source" | "destination";
 }
 
 // @public
@@ -503,7 +502,7 @@ export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 
 // @public (undocumented)
 export interface SourceConfig extends PluginConfig {
     // (undocumented)
-    type: 'source';
+    type: "source";
 }
 
 // @public (undocumented)
@@ -741,7 +740,6 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
-// src/types.ts:34:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
