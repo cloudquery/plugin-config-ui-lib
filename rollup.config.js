@@ -4,25 +4,10 @@ import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
 
-const commonConfig = {
-  external: [
-    /^@emotion\/react.*/,
-    /^@emotion\/styled.*/,
-    /^@mui\/icons-material.*/,
-    /^@mui\/material.*/,
-    /^@mui\/lab.*/,
-    /^@mui\/system.*/,
-    "react",
-    "react-dom",
-    "yup",
-  ],
-};
-
 const componentInputs = ["src/components/utils/cloudAppMock.tsx"];
 
 export default [
   {
-    ...commonConfig,
     input: "src/index.ts",
     output: [
       {
@@ -47,7 +32,6 @@ export default [
       typescript({
         tsconfig: "./tsconfig.json",
         outDir: "dist",
-        exclude: ["node_modules", "src/e2e-utils"],
       }),
       terser({
         format: {
@@ -57,7 +41,6 @@ export default [
     ],
   },
   {
-    ...commonConfig,
     input: componentInputs,
     output: [
       {
@@ -96,7 +79,6 @@ export default [
     ],
   },
   {
-    ...commonConfig,
     input: "src/e2e-utils/index.ts",
     output: [
       {
@@ -113,7 +95,6 @@ export default [
         entryFileNames: "[name].esm.js",
       },
     ],
-    external: ["playwright"],
     plugins: [
       peerDepsExternal(),
       resolve({

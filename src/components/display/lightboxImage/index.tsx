@@ -32,19 +32,10 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
       event.stopPropagation();
-      let { pathname } = window.location;
-      pathname = pathname.endsWith('/') ? pathname : `${pathname}/`;
       pluginUiMessageHandler.sendMessage('show_lightbox', {
         ...props,
         alt: props.alt || '',
-        src: props.src
-          ? props.src.startsWith('http')
-            ? props.src
-            : new URL(
-                props.src.startsWith('/') ? props.src : `${pathname}${props.src}`,
-                window.location.origin,
-              ).href
-          : '',
+        src: props.src ? getFullImageUrl(props.src) : '',
       });
     },
     [pluginUiMessageHandler, props],
@@ -59,4 +50,24 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
       <img {...props} style={{ width: 'inherit', display: 'block', ...props.style }} />
     </button>
   );
+}
+
+function getFullImageUrl(imageUrl) {
+  if (!imageUrl) return '';
+
+  // If the imageUrl starts with http, it's already an absolute URL
+  if (imageUrl.startsWith('http')) {
+    return imageUrl;
+  }
+
+  // If the imageUrl starts with /, it is relative to the domain root
+  if (imageUrl.startsWith('/')) {
+    return `${window.location.origin}${imageUrl}`;
+  }
+
+  // Otherwise, it is a relative path, append to the current URL path
+  const currentUrl = window.location.href;
+  const currentPath = currentUrl.slice(0, Math.max(0, currentUrl.lastIndexOf('/') + 1));
+
+  return `${currentPath}${imageUrl}`;
 }
