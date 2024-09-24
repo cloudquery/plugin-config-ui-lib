@@ -25,7 +25,7 @@ export interface GuideConfig {
 type PluginConfigFormStep = {
   children: (IterableStepComponent | React.FC<any>)[];
   title: string;
-  submitGuard?: () => Promise<boolean>;
+  submitGuard?: (formValues: any) => Promise<boolean>;
 };
 
 /**

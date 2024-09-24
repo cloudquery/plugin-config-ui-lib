@@ -141,7 +141,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     const thisStep = getValues('_step');
 
     if (config.steps[thisStep]?.submitGuard) {
-      const proceed = await config.steps[thisStep]?.submitGuard();
+      const proceed = await config.steps[thisStep]?.submitGuard(getValues());
       if (!proceed) {
         return;
       }
