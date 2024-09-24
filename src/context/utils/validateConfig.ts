@@ -25,6 +25,9 @@ function validateSections(section: IterableStepComponent): string[] {
   if (!section.component) {
     throw new Error(errorMessages.no_component);
   }
+  if (typeof section.component === 'function') {
+    return [];
+  }
   if (section.component.includes('section')) {
     const renderSection = section as RenderSection;
     if (sectionRequiresTitle(section.component) && !renderSection.title) {

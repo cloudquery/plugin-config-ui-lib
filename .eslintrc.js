@@ -12,7 +12,7 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: "./tsconfig.json",
+    project: './tsconfig.json',
     tsconfigRootDir: __dirname,
     ecmaVersion: 12,
     sourceType: 'module',
@@ -115,17 +115,7 @@ module.exports = {
       },
     ],
     'prefer-template': 'error',
-    'prettier/prettier': [
-      'error',
-      {
-        endOfLine: 'lf',
-        semi: true,
-        singleQuote: true,
-        tabWidth: 2,
-        trailingComma: 'all',
-        printWidth: 100,
-      },
-    ],
+    'prettier/prettier': ['error', {}],
     'react/react-in-jsx-scope': 'off',
     'unicorn/filename-case': 'off',
     'unicorn/no-nested-ternary': 'off',
