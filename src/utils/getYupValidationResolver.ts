@@ -50,6 +50,7 @@ export function getYupValidationResolver<
       };
     } catch (error: unknown) {
       const err = error as Yup.ValidationError;
+
       return {
         errors: Object.fromEntries(
           err.inner.map((currentError) => {
