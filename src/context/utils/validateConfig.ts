@@ -2,6 +2,7 @@ import { reservedNames, errorMessages } from './constants';
 import {
   IterableStepComponent,
   LayoutComponent,
+  LayoutTextField,
   RenderSection,
 } from '../../components/form/renderer/types';
 import { PluginConfig } from '../../types';
@@ -11,6 +12,9 @@ const sectionRequiresTitle = (componentName: string) =>
 
 const isReservedLayoutComponent = (componentName: string) =>
   ['control-table-selector', 'control-oauth'].includes(componentName);
+
+const componentRequiresLabel = (componentName: string) =>
+  !['control-exclusive-toggle', 'control-services-selector'].includes(componentName);
 
 function checkForDuplicateNames(names: string[]): string[] {
   return names.filter((e, i, a) => a.indexOf(e) !== i);
@@ -49,7 +53,10 @@ function validateSections(section: IterableStepComponent): string[] {
       throw new Error(`${errorMessages.reserved_name}: ${layoutComponent.name}`);
     }
     componentNameCollector.push(layoutComponent.name);
-    if (layoutComponent.component !== 'control-exclusive-toggle' && !layoutComponent.label) {
+    if (
+      componentRequiresLabel(layoutComponent.component) &&
+      !(layoutComponent as LayoutTextField).label
+    ) {
       throw new Error(`${errorMessages.no_label}: ${JSON.stringify(layoutComponent)}`);
     }
     if (!layoutComponent.schema) {
