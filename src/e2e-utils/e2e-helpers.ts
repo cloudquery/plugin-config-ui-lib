@@ -37,7 +37,7 @@ export async function assertUrlParam(page: Page, key: string, value: string | nu
 
 export async function fillInput(page: Page | Frame, selector: string | Locator, value: string) {
   const locator = typeof selector === 'string' ? page.locator(selector) : selector;
-  expect(locator).toBeVisible();
+  await expect(locator).toBeVisible();
   await locator.focus();
   await locator.clear();
   if (value) {
