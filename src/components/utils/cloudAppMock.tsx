@@ -67,7 +67,7 @@ export function CloudAppMock({
   children,
   initialValues,
   authToken,
-  teamName = 'test',
+  teamName,
   user,
 }: CloudAppMockProps) {
   const theme = createTheme(createThemeOptions());
@@ -238,12 +238,12 @@ export function CloudAppMock({
 
         if (isCreateTestConnection || isGetTestConnection) {
           formMessageHandler.sendMessage('api_call_response', {
-            body: JSON.stringify({
+            body: {
               id: 'this-will-be-a-random-uuid',
               status: 'completed',
               failure_reason: '',
               failure_code: '',
-            }),
+            },
             endpoint,
             headers: {},
             id,
@@ -254,7 +254,7 @@ export function CloudAppMock({
           return;
         } else if (isPromoteTestConnection || isUpdateSyncResource) {
           formMessageHandler.sendMessage('api_call_response', {
-            body: JSON.stringify({}),
+            body: {},
             endpoint,
             headers: {},
             id,
