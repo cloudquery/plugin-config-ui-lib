@@ -101,13 +101,17 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
               message: fieldErrors[key],
             });
           } else {
-            setError('root', { message: submitError.data?.message || submitError.message });
+            setError('root', {
+              message: submitError.data?.message || submitError.message,
+            });
 
             return;
           }
         }
       } else {
-        setError('root', { message: submitError.data?.message || submitError.message });
+        setError('root', {
+          message: submitError.data?.message || submitError.message,
+        });
       }
     }
   }, [submitError, getValues, setError]);
@@ -134,6 +138,15 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
   const isLastStep = !config.steps || step === config.steps.length - 1;
 
   const onSubmit = handleFormSubmit(async function () {
+    const thisStep = getValues('_step');
+
+    if (config.steps[thisStep]?.submitGuard) {
+      const proceed = await config.steps[thisStep]?.submitGuard(getValues());
+      if (!proceed) {
+        return;
+      }
+    }
+
     if (isLastStep) {
       await handleTestConnection();
     } else {
