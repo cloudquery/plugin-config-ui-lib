@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -12,10 +12,10 @@
       "require": "./dist/index.cjs.js",
       "types": "./dist/index.d.ts"
     },
-    "./components/cloudAppMock": {
-      "import": "./dist/components/cloudAppMock.esm.js",
-      "require": "./dist/components/cloudAppMock.cjs.js",
-      "types": "./dist/components/cloudAppMock.d.ts"
+    "./components/devWrapper": {
+      "import": "./dist/components/devWrapper.esm.js",
+      "require": "./dist/components/devWrapper.cjs.js",
+      "types": "./dist/components/devWrapper.d.ts"
     },
     "./dist/e2e-utils": {
       "import": "./dist/e2e-utils/index.esm.js",

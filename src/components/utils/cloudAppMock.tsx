@@ -216,7 +216,7 @@ export function CloudAppMock({
         const headers = new Headers();
         headers.set('Content-Type', 'application/json');
         headers.set('Accept', 'application/json');
-        headers.set('Authorization', `Bearer ${authToken}`);
+        headers.set('__session', `${authToken}`);
 
         try {
           const response = await fetch(endpoint, {

@@ -339,7 +339,7 @@ export interface PluginConfig {
 }
 
 // @public
-export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, teamName, getTablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -348,20 +348,15 @@ export interface PluginContextProviderProps {
     // (undocumented)
     config: PluginConfig;
     // (undocumented)
+    getTablesData?: () => Promise<{
+        default: CloudQueryTables;
+    }>;
+    // (undocumented)
     hideStepper: boolean;
     // (undocumented)
     initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
     // (undocumented)
-    plugin: {
-        name: string;
-        kind: string;
-        version: string;
-        team: string;
-    };
-    // (undocumented)
     pluginUiMessageHandler: any;
-    // (undocumented)
-    tablesData?: CloudQueryTables;
     // (undocumented)
     teamName: string;
 }
@@ -420,7 +415,7 @@ export function SearchInput(props: TextFieldProps): JSX_2.Element;
 export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
 
 // @public
-export function SecretInput({ name, label, disabled, value, onChange, onBlur, editMode, defaultValues, textFieldProps, setValue, getValues, error, helperText, }: SecretInputProps): JSX_2.Element;
+export const SecretInput: React_2.ForwardRefExoticComponent<Omit<SecretInputProps, "ref"> & React_2.RefAttributes<HTMLDivElement>>;
 
 // @public (undocumented)
 export interface SecretInputProps {
