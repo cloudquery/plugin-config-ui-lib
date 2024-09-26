@@ -66,7 +66,7 @@ export function ControlOAuthField() {
       >
         <LoadingButton
           size="large"
-          variant={connectorIdValue ? 'outlined' : 'contained'}
+          variant="contained"
           onClick={authenticate}
           loading={isLoading}
           fullWidth={false}
