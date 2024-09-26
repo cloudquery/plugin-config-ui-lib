@@ -53,13 +53,13 @@ export function ControlOAuthField() {
     <Stack
       sx={{
         gap: 1,
+        paddingTop: 2,
       }}
     >
       <Stack
         direction="row"
         sx={{
           gap: 1,
-          justifyContent: 'space-between',
           alignItems: 'center',
         }}
       >
@@ -72,9 +72,13 @@ export function ControlOAuthField() {
         >
           {connectorIdValue ? `${config.label} connected successfully` : 'Authenticate'}
         </LoadingButton>
-        {isLoading && <Button onClick={cancelAuthentication}>Cancel authentication</Button>}
+        {isLoading && (
+          <Button color="inherit" onClick={cancelAuthentication}>
+            Cancel authentication
+          </Button>
+        )}
       </Stack>
-      {!authenticateError && !formState.errors.connectorId && connectorId ? (
+      {!authenticateError && !formState.errors.connectorId && !isLoading && connectorId && (
         <Typography variant="body2" color="textSecondary">
           To reconnect CloudQuery via {config.label}{' '}
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
@@ -82,7 +86,8 @@ export function ControlOAuthField() {
             click here
           </Link>
         </Typography>
-      ) : (
+      )}
+      {!authenticateError && !formState.errors.connectorId && !isLoading && !connectorId && (
         <Typography variant="body2" color="textSecondary">
           This will open a new browser tab.
         </Typography>
