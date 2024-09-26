@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import CheckIcon from '@mui/icons-material/Check';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import Button from '@mui/material/Button';
@@ -70,6 +71,7 @@ export function ControlOAuthField() {
           loading={isLoading}
           fullWidth={false}
           disabled={connectorIdValue}
+          endIcon={connectorId && <CheckIcon />}
         >
           {connectorIdValue && !isLoading
             ? `${config.label} connected successfully`
