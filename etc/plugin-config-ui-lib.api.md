@@ -608,7 +608,7 @@ export interface UseCoreFormSchemaProps {
 export { useForm }
 
 // @public
-export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, apiBaseUrl, }: {
+export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
@@ -684,13 +684,12 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
 };
 
 // @public
-export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
+export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
     pluginName: string;
     pluginKind: 'source' | 'destination';
-    apiBaseUrl: string;
     successBaseUrl: string;
 }): {
     authenticate: () => Promise<void>;
@@ -698,6 +697,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
     connectorId: string | null;
     authConnectorResult: Record<string, string> | null;
     error: Error | null;
+    cancel: () => void;
 };
 
 // Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
@@ -706,7 +706,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
 export const usePluginContext: () => PluginContextProps;
 
 // @public
-export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler, apiBaseUrl?: string): {
+export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler): {
     cancelTestConnection: () => void;
     testConnection: (values: {
         name: string;

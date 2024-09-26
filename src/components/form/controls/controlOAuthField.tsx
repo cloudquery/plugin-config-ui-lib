@@ -13,7 +13,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
 import { useOauthConnector } from '../../../hooks';
-import { cloudQueryApiBaseUrl, cloudQueryOauthConnectorUrl } from '../../../utils';
+import { cloudQueryOauthConnectorUrl } from '../../../utils';
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
