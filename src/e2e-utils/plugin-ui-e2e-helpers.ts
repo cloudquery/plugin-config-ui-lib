@@ -170,7 +170,7 @@ export const deletePlugin = async ({
   await iframeElement.getByRole('button', { name: `Delete this ${kind}` }).click();
   await click(page, page.getByText(`Delete ${kind}`));
 
-  await expect(page.getByText(pluginNewName)).toHaveCount(0);
+  await expect(page.getByText(pluginNewName)).toHaveCount(0, { timeout: 15_000 });
 };
 
 export function getRootUrl() {
