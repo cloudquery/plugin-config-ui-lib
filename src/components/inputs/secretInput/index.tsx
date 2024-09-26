@@ -91,6 +91,7 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
           value={displayValue}
           {...textFieldProps}
           ref={ref}
+          name={name}
         />
         {isSecret && (
           <FormFieldReset

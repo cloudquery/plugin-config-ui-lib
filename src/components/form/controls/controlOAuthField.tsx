@@ -76,7 +76,7 @@ export function ControlOAuthField() {
           onClick={authenticate}
           loading={isLoading}
           fullWidth={false}
-          disabled={connectorIdValue}
+          disabled={!!connectorIdValue}
           endIcon={connectorIdValue && <CheckIcon />}
         >
           {connectorIdValue && !isLoading
