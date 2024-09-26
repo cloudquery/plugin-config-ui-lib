@@ -17,7 +17,7 @@
       "require": "./dist/components/devWrapper.cjs.js",
       "types": "./dist/components/devWrapper.d.ts"
     },
-    "./dist/e2e-utils": {
+    "./e2e-utils": {
       "import": "./dist/e2e-utils/index.esm.js",
       "require": "./dist/e2e-utils/index.cjs.js",
       "types": "./dist/e2e-utils/index.d.ts"
