@@ -72,7 +72,8 @@ export function CloudAppMock({
 }: CloudAppMockProps) {
   const theme = createTheme(createThemeOptions());
   const { palette, typography, shadows } = theme;
-  const [values, setValues] = useState<string>('');
+  const [testConnectionValues, setTestConnectionValues] = useState<Record<string, any>>();
+  const [submitValues, setSubmitValues] = useState<Record<string, any>>();
   const [errors, setErrors] = useState<string>('');
   const [implementsCustomFooter, setImplementsCustomFooter] = useState<boolean>(false);
   const [lightboxProps, setLightboxProps] = useState<
@@ -107,12 +108,12 @@ export function CloudAppMock({
       });
 
       setErrors('');
-      setValues(JSON.stringify(values, null, 2));
+      setSubmitValues(values as Record<string, any>);
     } catch (error) {
       unsubscribeValidationPassed?.();
       unsubscribeValidationFailed?.();
 
-      setValues('');
+      setSubmitValues(undefined);
       setErrors(JSON.stringify(error, null, 2));
     }
 
@@ -212,6 +213,58 @@ export function CloudAppMock({
     const unsubscribeApiRequest = formMessageHandler.subscribeToMessage(
       'api_call_request',
       async ({ body, endpoint, id, method, options }) => {
+        const isCreateTestConnection =
+          new RegExp(`/teams/${teamName}/sync-(?:source|destination)-test-connections$`).test(
+            endpoint,
+          ) && method === 'POST';
+        const isGetTestConnection =
+          new RegExp(
+            `/teams/${teamName}/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid$`,
+          ).test(endpoint) && method === 'GET';
+        const isPromoteTestConnection =
+          new RegExp(
+            `/teams/${teamName}/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid/promote$`,
+          ).test(endpoint) && method === 'POST';
+        const isUpdateSyncResource =
+          new RegExp(`/teams/${teamName}/sync-(?:source|destination)/[a-z](-?[0-9a-z]+)+$`).test(
+            endpoint,
+          ) && method === 'PATCH';
+
+        if (isCreateTestConnection) {
+          setTestConnectionValues(body);
+        } else if (isPromoteTestConnection) {
+          setSubmitValues(body);
+        }
+
+        if (isCreateTestConnection || isGetTestConnection) {
+          formMessageHandler.sendMessage('api_call_response', {
+            body: JSON.stringify({
+              id: 'this-will-be-a-random-uuid',
+              status: 'completed',
+              failure_reason: '',
+              failure_code: '',
+            }),
+            endpoint,
+            headers: {},
+            id,
+            ok: true,
+            status: 200,
+          });
+
+          return;
+        } else if (isPromoteTestConnection || isUpdateSyncResource) {
+          formMessageHandler.sendMessage('api_call_response', {
+            body: JSON.stringify({}),
+            endpoint,
+            headers: {},
+            id,
+            ok: true,
+            status: 200,
+          });
+
+          return;
+        }
+
         apiRequestAbortControllers[id] = new AbortController();
         const headers = new Headers();
         headers.set('Content-Type', 'application/json');
@@ -310,7 +363,13 @@ export function CloudAppMock({
 
   if (searchParams.size > 0) {
     return (
-      <Stack alignItems="center" spacing={4} textAlign="center">
+      <Stack
+        spacing={4}
+        sx={{
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
+      >
         <Typography variant="body1">
           Authenticated successfully.
           <br />
@@ -322,28 +381,57 @@ export function CloudAppMock({
 
   return (
     <>
-      <Stack padding={2}>{children}</Stack>
+      <Stack
+        sx={{
+          padding: 2,
+        }}
+      >
+        {children}
+      </Stack>
       {!implementsCustomFooter && (
-        <Stack direction="row" justifyContent="flex-end" spacing={2} padding={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            justifyContent: 'flex-end',
+            padding: 2,
+          }}
+        >
           <Button onClick={handleSubmit} variant="contained">
             Submit
           </Button>
         </Stack>
       )}
-      <Stack padding={2}>
-        <div>Values:</div>
-        <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>{values || '-'}</pre>
+      <Stack
+        sx={{
+          padding: 2,
+        }}
+      >
+        {testConnectionValues && (
+          <>
+            <div>Test Connection Values:</div>
+            <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>
+              {JSON.stringify(testConnectionValues, null, 2) || '-'}
+            </pre>
+          </>
+        )}
+        <div>Submit Values:</div>
+        <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>
+          {JSON.stringify(submitValues, null, 2) || '-'}
+        </pre>
         <div>Errors:</div>
         <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>{errors || '-'}</pre>
       </Stack>
       <Modal aria-label={lightboxProps?.alt} onClose={handleLightboxClose} open={!!lightboxProps}>
         <Box
-          height="100%"
-          paddingX={2}
-          paddingY={7}
-          sx={{ position: 'relative' }}
-          width="100%"
           onClick={handleLightboxContainerClick}
+          sx={{
+            height: '100%',
+            paddingX: 2,
+            paddingY: 7,
+            width: '100%',
+            position: 'relative',
+          }}
         >
           <IconButton
             autoFocus={true}
@@ -354,11 +442,13 @@ export function CloudAppMock({
             <CloseIcon />
           </IconButton>
           <Stack
-            alignItems="center"
-            height="100%"
-            justifyContent="center"
-            overflow="auto"
-            width="100%"
+            sx={{
+              alignItems: 'center',
+              height: '100%',
+              justifyContent: 'center',
+              overflow: 'auto',
+              width: '100%',
+            }}
           >
             {!lightboxProps?.isLoaded && <CircularProgress />}
             <img

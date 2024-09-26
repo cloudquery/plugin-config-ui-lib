@@ -154,10 +154,25 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <FormProvider {...form}>
-        <Stack direction="row" gap={3} flexWrap="wrap">
-          <Box flex="1 1 0" minWidth={480}>
+        <Stack
+          direction="row"
+          sx={{
+            gap: 3,
+            flexWrap: 'wrap',
+          }}
+        >
+          <Box
+            sx={{
+              flex: '1 1 0',
+              minWidth: 480,
+            }}
+          >
             <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-              <Stack gap={3}>
+              <Stack
+                sx={{
+                  gap: 3,
+                }}
+              >
                 <FormWrapper formDisabled={formDisabled}>
                   <Sections>
                     {!hideStepper && config.steps?.length > 1 && (

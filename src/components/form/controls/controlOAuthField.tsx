@@ -1,9 +1,13 @@
 import { useEffect } from 'react';
 
 import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
+
+import Button from '@mui/material/Button';
+
 import FormHelperText from '@mui/material/FormHelperText';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import { useFormContext } from 'react-hook-form';
 
@@ -27,8 +31,8 @@ export function ControlOAuthField() {
     connectorId,
     error: authenticateError,
     isLoading,
+    cancel: cancelAuthentication,
   } = useOauthConnector({
-    apiBaseUrl: cloudQueryApiBaseUrl,
     pluginKind: plugin.kind as any,
     pluginName: plugin.name,
     pluginTeamName: plugin.team,
@@ -46,8 +50,19 @@ export function ControlOAuthField() {
   const connectorIdValue = watch('connectorId');
 
   return (
-    <Stack gap={1} pt={2}>
-      <Box>
+    <Stack
+      sx={{
+        gap: 1,
+      }}
+    >
+      <Stack
+        direction="row"
+        sx={{
+          gap: 1,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <LoadingButton
           size="large"
           variant={connectorIdValue ? 'outlined' : 'contained'}
@@ -55,10 +70,23 @@ export function ControlOAuthField() {
           loading={isLoading}
           fullWidth={false}
         >
-          {connectorIdValue ? 'Re-authenticate' : 'Authenticate'}
+          {connectorIdValue ? `${config.label} connected successfully` : 'Authenticate'}
         </LoadingButton>
-      </Box>
-
+        {isLoading && <Button onClick={cancelAuthentication}>Cancel authentication</Button>}
+      </Stack>
+      {!authenticateError && !formState.errors.connectorId && connectorId ? (
+        <Typography variant="body2" color="textSecondary">
+          To reconnect CloudQuery via {config.label}{' '}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <Link underline="always" sx={{ cursor: 'pointer' }} onClick={authenticate}>
+            click here
+          </Link>
+        </Typography>
+      ) : (
+        <Typography variant="body2" color="textSecondary">
+          This will open a new browser tab.
+        </Typography>
+      )}
       {!!authenticateError && (
         <FormHelperText error={true} sx={{ marginTop: 2 }}>
           {authenticateError.message ||

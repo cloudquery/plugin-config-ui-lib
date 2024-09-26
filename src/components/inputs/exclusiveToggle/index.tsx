@@ -48,7 +48,13 @@ export const ExclusiveToggle = forwardRef<HTMLElement, ExclusiveToggleProps>(
         value={value}
         ref={ref}
       >
-        <Stack direction="row" spacing={2} width="100%">
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            width: '100%',
+          }}
+        >
           {options.map((item) => {
             const isSelected = value === item.value;
 
@@ -63,7 +69,13 @@ export const ExclusiveToggle = forwardRef<HTMLElement, ExclusiveToggleProps>(
                 }}
               >
                 <Radio checked={isSelected} />
-                <Stack marginLeft={0.5} paddingY={1.25} spacing={0.5}>
+                <Stack
+                  spacing={0.5}
+                  sx={{
+                    marginLeft: 0.5,
+                    paddingY: 1.25,
+                  }}
+                >
                   <Typography
                     sx={{
                       color: isSelected ? palette.text.primary : palette.text.secondary,

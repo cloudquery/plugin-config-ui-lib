@@ -13,5 +13,13 @@ export interface SectionsProps {
  * @public
  */
 export function Sections({ children }: SectionsProps) {
-  return <Stack gap={3}>{children}</Stack>;
+  return (
+    <Stack
+      sx={{
+        gap: 3,
+      }}
+    >
+      {children}
+    </Stack>
+  );
 }

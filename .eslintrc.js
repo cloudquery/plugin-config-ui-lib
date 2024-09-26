@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ['@typescript-eslint', 'jsx-a11y', 'import', 'prettier', 'unicorn'],
+  plugins: ['@typescript-eslint', 'jsx-a11y', 'import', 'prettier', 'unicorn', 'custom-rules'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -36,6 +36,7 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
+    'custom-rules/mui-material-imports': 'error',
     'import/newline-after-import': 'error',
     'import/no-duplicates': ['error', { 'prefer-inline': false }],
     'import/no-unresolved': 'error',

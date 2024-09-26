@@ -71,7 +71,13 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
     const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
 
     return (
-      <Stack direction="row" alignItems="flex-start" spacing={2}>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          alignItems: 'flex-start',
+        }}
+      >
         <TextField
           error={!!error}
           fullWidth={true}
