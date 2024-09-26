@@ -329,11 +329,10 @@ export interface PluginConfig {
     name: string;
     // (undocumented)
     stateSchema?: Record<string, yup.AnySchema>;
+    // Warning: (ae-forgotten-export) The symbol "PluginConfigFormStep" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
-    steps: {
-        children: (IterableStepComponent | React_2.FC<any>)[];
-        title: string;
-    }[];
+    steps: PluginConfigFormStep[];
     // (undocumented)
     type: 'source' | 'destination';
 }
@@ -741,7 +740,6 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
-// src/types.ts:34:12 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

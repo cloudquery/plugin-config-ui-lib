@@ -119,7 +119,7 @@ function ComponentRenderer({
     | (IterableStepComponent | ReactNode | React.FC<any>)
     | (IterableStepComponent | ReactNode | React.FC<any>)[];
 }): ReactNode[] | ReactNode {
-  if ((component as IterableStepComponent)?.component) {
+  if (typeof (component as IterableStepComponent)?.component === 'string') {
     switch ((component as IterableStepComponent).component) {
       // Layouts
       case 'section': {
@@ -250,7 +250,8 @@ function ComponentRenderer({
       }
     }
   } else {
-    const ConcreteComponent = component as React.FC<any>;
+    const ConcreteComponent = ((component as IterableStepComponent)?.component ??
+      component) as React.FC<any>;
 
     return <ConcreteComponent />;
   }

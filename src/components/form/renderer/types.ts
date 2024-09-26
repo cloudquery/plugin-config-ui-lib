@@ -22,6 +22,7 @@ import { type SubSectionProps } from '../sections/subSection';
 // Abstracts
 type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
 interface ComponentAbstract extends ShouldRenderAbstract {
+  name: string;
   schema: yup.AnySchema;
 }
 
@@ -30,7 +31,11 @@ interface SectionAbstract extends ShouldRenderAbstract {
 }
 
 // Top-Level
-export type IterableStepComponent = RenderSection | LayoutComponent | ReservedLayoutComponent;
+export type IterableStepComponent =
+  | RenderSection
+  | LayoutComponent
+  | ReservedLayoutComponent
+  | ReactField;
 
 export type RenderSection = ShouldRenderAbstract &
   (LayoutSection | LayoutCollapsibleSection | LayoutCollapsibleSubSection | LayoutSubSection);
@@ -50,6 +55,10 @@ export type LayoutComponent =
 export type ReservedLayoutComponent = LayoutTableSelector | LayoutOAuth;
 
 // Components
+
+export interface ReactField extends ComponentAbstract {
+  component: React.FC<any>;
+}
 
 export interface LayoutTextField extends ComponentAbstract, ControlTextFieldProps {
   component: 'control-text-field';

@@ -22,6 +22,12 @@ export interface GuideConfig {
   sections: RenderGuideProps['sections'];
 }
 
+type PluginConfigFormStep = {
+  children: (IterableStepComponent | React.FC<any>)[];
+  title: string;
+  submitGuard?: (formValues: any) => Promise<boolean>;
+};
+
 /**
  * @public
  */
@@ -31,7 +37,7 @@ export interface PluginConfig {
   label: string;
   docsLink: string;
   iconLink: string;
-  steps: { children: (IterableStepComponent | React.FC<any>)[]; title: string }[];
+  steps: PluginConfigFormStep[];
   stateSchema?: Record<string, yup.AnySchema>;
   auth: AuthType[];
   guide: React.FC | GuideConfig;
