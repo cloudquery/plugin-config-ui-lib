@@ -48,6 +48,12 @@ export function ControlOAuthField() {
     }
   }, [authConnectorResult, connectorId, setValue]);
 
+  useEffect(() => {
+    if (authenticateError) {
+      setValue('connectorId', undefined);
+    }
+  }, [authenticateError, setValue]);
+
   const connectorIdValue = watch('connectorId');
 
   return (

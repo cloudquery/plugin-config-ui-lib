@@ -97,6 +97,8 @@ export function useOauthConnector({
       });
     } catch (error: any) {
       setIsLoading(false);
+      setConnectorId(null);
+      setAuthConnectorResult(null);
       setError(error?.body || error);
     }
   }, [
