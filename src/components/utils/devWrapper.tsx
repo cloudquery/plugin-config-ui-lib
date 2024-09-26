@@ -22,7 +22,7 @@ const Wrapper = useCloudAppMock ? CloudAppMockWrapper : Fragment;
 export function DevWrapper({
   children,
   ...props
-}: { children: React.ReactNode } & CloudAppMockProps) {
+}: { children: React.ReactNode } & Partial<CloudAppMockProps>) {
   const wrapperProps = useCloudAppMock ? props : {};
 
   return <Wrapper {...wrapperProps}>{children}</Wrapper>;
