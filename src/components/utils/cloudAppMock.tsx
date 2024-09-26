@@ -67,7 +67,7 @@ export function CloudAppMock({
   children,
   initialValues,
   authToken,
-  teamName,
+  teamName = 'test',
   user,
 }: CloudAppMockProps) {
   const theme = createTheme(createThemeOptions());
