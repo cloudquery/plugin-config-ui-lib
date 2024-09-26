@@ -1,6 +1,6 @@
-import { devices } from '@playwright/test';
+import { devices, PlaywrightTestConfig } from '@playwright/test';
 
-export const playwrightConfig = {
+export const playwrightConfig: PlaywrightTestConfig = {
   forbidOnly: true,
   fullyParallel: false,
   projects: [
