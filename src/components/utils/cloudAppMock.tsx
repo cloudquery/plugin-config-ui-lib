@@ -227,7 +227,7 @@ export function CloudAppMock({
           ).test(endpoint) && method === 'POST';
         const isUpdateSyncResource =
           new RegExp(
-            `/teams/(?:${teamName}|)/sync-(?:sources|destinations)/[a-z](-?[0-9a-z]+)+$`,
+            `/teams/(?:${teamName}|)/sync-(?:sources|destinations)/[a-z](?:-?[0-9a-zA-Z]+)+$`,
           ).test(endpoint) && method === 'PATCH';
 
         if (isCreateTestConnection) {
