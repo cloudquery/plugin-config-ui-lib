@@ -9,8 +9,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
 import { useOauthConnector } from '../../../hooks';
-import { cloudQueryApiBaseUrl } from '../../../utils';
-import { getOauthSuccessBaseUrl } from '../../../utils/getOauthSuccessBaseUrl';
+import { cloudQueryApiBaseUrl, cloudQueryOauthConnectorUrl } from '../../../utils';
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
@@ -34,7 +33,7 @@ export function ControlOAuthField() {
     pluginName: plugin.name,
     pluginTeamName: plugin.team,
     pluginUiMessageHandler,
-    successBaseUrl: getOauthSuccessBaseUrl(),
+    successBaseUrl: cloudQueryOauthConnectorUrl,
     teamName,
   });
 

@@ -3,14 +3,17 @@
  *
  * @public
  */
-export const cloudQueryApiBaseUrl = 'https://api.cloudquery.io';
+export const cloudQueryApiBaseUrl =
+  process.env.REACT_APP_CLOUDQUERY_API_BASE_URL || 'https://api.cloudquery.io';
 
 /**
  * CloudQuery OAuth Connector URL
  *
  * @public
  */
-export const cloudQueryOauthConnectorUrl = 'https://cloud.cloudquery.io/auth/connector';
+export const cloudQueryOauthConnectorUrl =
+  process.env.REACT_APP_CLOUDQUERY_OAUTH_CONNECTOR_URL ||
+  'https://cloud.cloudquery.io/auth/connector';
 
 /**
  * Universal placeholder for the SecretInput value
