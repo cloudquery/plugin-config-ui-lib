@@ -1,5 +1,3 @@
-const prettierRc = require('./.prettierrc.js');
-
 module.exports = {
   plugins: ['@typescript-eslint', 'jsx-a11y', 'import', 'prettier', 'unicorn'],
   extends: [
@@ -117,10 +115,7 @@ module.exports = {
       },
     ],
     'prefer-template': 'error',
-    'prettier/prettier': [
-      'error',
-      prettierRc,
-    ],
+    'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     'unicorn/filename-case': 'off',
     'unicorn/no-nested-ternary': 'off',
