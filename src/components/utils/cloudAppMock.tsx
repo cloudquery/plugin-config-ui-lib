@@ -214,21 +214,21 @@ export function CloudAppMock({
       'api_call_request',
       async ({ body, endpoint, id, method, options }) => {
         const isCreateTestConnection =
-          new RegExp(`/teams/${teamName}/sync-(?:source|destination)-test-connections$`).test(
+          new RegExp(`/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections$`).test(
             endpoint,
           ) && method === 'POST';
         const isGetTestConnection =
           new RegExp(
-            `/teams/${teamName}/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid$`,
+            `/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid$`,
           ).test(endpoint) && method === 'GET';
         const isPromoteTestConnection =
           new RegExp(
-            `/teams/${teamName}/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid/promote$`,
+            `/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid/promote$`,
           ).test(endpoint) && method === 'POST';
         const isUpdateSyncResource =
-          new RegExp(`/teams/${teamName}/sync-(?:source|destination)/[a-z](-?[0-9a-z]+)+$`).test(
-            endpoint,
-          ) && method === 'PATCH';
+          new RegExp(
+            `/teams/(?:${teamName}|)/sync-(?:source|destination)/[a-z](-?[0-9a-z]+)+$`,
+          ).test(endpoint) && method === 'PATCH';
 
         if (isCreateTestConnection) {
           setTestConnectionValues(body);
