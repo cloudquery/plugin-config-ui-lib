@@ -28,7 +28,8 @@
   "files": [
     "dist",
     ".eslintrc.js",
-    ".prettierrc.js"
+    ".prettierrc.js",
+    "config/eslint-plugin-custom-rules"
   ],
   "sideEffects": false,
   "keywords": [
