@@ -1,3 +1,5 @@
+const prettierRc = require('./.prettierrc.js');
+
 module.exports = {
   plugins: ['@typescript-eslint', 'jsx-a11y', 'import', 'prettier', 'unicorn'],
   extends: [
@@ -117,14 +119,7 @@ module.exports = {
     'prefer-template': 'error',
     'prettier/prettier': [
       'error',
-      {
-        endOfLine: 'lf',
-        semi: true,
-        singleQuote: true,
-        tabWidth: 2,
-        trailingComma: 'all',
-        printWidth: 100,
-      },
+      prettierRc,
     ],
     'react/react-in-jsx-scope': 'off',
     'unicorn/filename-case': 'off',
