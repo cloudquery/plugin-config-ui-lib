@@ -77,7 +77,7 @@ export function ControlOAuthField() {
           loading={isLoading}
           fullWidth={false}
           disabled={connectorIdValue}
-          endIcon={connectorId && <CheckIcon />}
+          endIcon={connectorIdValue && <CheckIcon />}
         >
           {connectorIdValue && !isLoading
             ? `${config.label} connected successfully`

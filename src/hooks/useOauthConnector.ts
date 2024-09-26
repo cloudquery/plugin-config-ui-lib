@@ -140,7 +140,7 @@ export function useOauthConnector({
 
   useEffect(() => {
     if (isLoading && connectorId) {
-      const unsubscribe = pluginUiMessageHandler.subscribeToMessage(
+      const unsubscribe = pluginUiMessageHandler.subscribeToMessageOnce(
         'auth_connector_result',
         async (payload) => {
           try {
@@ -155,6 +155,8 @@ export function useOauthConnector({
       );
 
       authConnectorResultSubscriptionRef.current = unsubscribe;
+
+      return unsubscribe;
     }
   }, [connectorId, finishConnectorAuthentication, isLoading, pluginUiMessageHandler]);
 
