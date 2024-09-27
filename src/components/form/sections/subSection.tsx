@@ -17,9 +17,17 @@ export interface SubSectionProps {
  */
 export function SubSection({ children, title, subtitle }: SubSectionProps) {
   return (
-    <Stack gap={2}>
+    <Stack
+      sx={{
+        gap: 2,
+      }}
+    >
       {(title || subtitle) && (
-        <Stack gap={1}>
+        <Stack
+          sx={{
+            gap: 1,
+          }}
+        >
           {title && <Typography variant="h6">{title}</Typography>}
           {subtitle && (
             <Typography variant="body2" color="textSecondary">
@@ -28,7 +36,6 @@ export function SubSection({ children, title, subtitle }: SubSectionProps) {
           )}
         </Stack>
       )}
-
       {children}
     </Stack>
   );

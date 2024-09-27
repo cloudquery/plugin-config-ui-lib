@@ -34,10 +34,19 @@ export type RenderGuideProps = {
  */
 export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuideProps) {
   return (
-    <Stack gap={3}>
+    <Stack
+      sx={{
+        gap: 3,
+      }}
+    >
       {sections.map((section, index) => (
         <ConditionalRenderingWrapper key={index} shouldRender={section.shouldRender}>
-          <Stack gap={2} sx={{ wordBreak: 'break-word' }}>
+          <Stack
+            sx={{
+              gap: 2,
+              wordBreak: 'break-word',
+            }}
+          >
             {section.header && <Typography variant="h6">{section.header}</Typography>}
             {section.bodies.map((body, index) => (
               <ConditionalRenderingWrapper key={index} shouldRender={section.shouldRender}>
