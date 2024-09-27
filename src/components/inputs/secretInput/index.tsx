@@ -1,4 +1,4 @@
-import { ChangeEventHandler, ReactNode, Ref, useState } from 'react';
+import React, { ChangeEventHandler, ReactNode, Ref, useState } from 'react';
 
 import Stack from '@mui/material/Stack';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
@@ -35,61 +35,76 @@ export interface SecretInputProps {
  *
  * @public
  */
-export function SecretInput({
-  name,
-  label,
-  disabled,
-  value,
-  onChange,
-  onBlur,
-  editMode,
-  defaultValues,
-  textFieldProps,
-  setValue,
-  getValues,
-  error,
-  helperText,
-}: SecretInputProps) {
-  const [fieldResetted, setFieldResetted] = useState(false);
+export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
+  (
+    {
+      name,
+      label,
+      disabled,
+      value,
+      onChange,
+      onBlur,
+      editMode,
+      defaultValues,
+      textFieldProps,
+      setValue,
+      getValues,
+      error,
+      helperText,
+    },
+    ref,
+  ) => {
+    const [fieldResetted, setFieldResetted] = useState(false);
 
-  const handleReset = () => {
-    setFieldResetted(true);
-    setValue(name as any, '');
-  };
+    const handleReset = () => {
+      setFieldResetted(true);
+      setValue(name as any, '');
+    };
 
-  const handelCancelReset = () => {
-    setFieldResetted(false);
-    setValue(name as any, getDefaultValue(defaultValues, name));
-  };
+    const handelCancelReset = () => {
+      setFieldResetted(false);
+      setValue(name as any, getDefaultValue(defaultValues, name));
+    };
 
-  const isSecret = editMode && isOrHasSecret(getDefaultValue(defaultValues, name));
-  const isObscured = isSecret && !fieldResetted && isOrHasSecret(getValues(name as any));
-  const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
+    const isSecret = editMode && isOrHasSecret(getDefaultValue(defaultValues, name));
+    const isObscured = isSecret && !fieldResetted && isOrHasSecret(getValues(name as any));
+    const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
 
-  return (
-    <Stack direction="row" alignItems="flex-start" spacing={2}>
-      <TextField
-        error={!!error}
-        fullWidth={true}
-        helperText={helperText}
-        label={label}
-        autoComplete="off"
-        required={true}
-        onChange={onChange}
-        onBlur={onBlur}
-        disabled={disabled || isObscured}
-        value={displayValue}
-        {...textFieldProps}
-      />
-      {isSecret && (
-        <FormFieldReset
-          isResetted={fieldResetted || !isObscured}
-          inputSelectorToFocus={`input[name="${name}"]`}
-          onCancel={() => handelCancelReset()}
-          onReset={() => handleReset()}
-          sx={{ minHeight: 55 }}
+    return (
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          alignItems: 'flex-start',
+        }}
+      >
+        <TextField
+          error={!!error}
+          fullWidth={true}
+          helperText={helperText}
+          label={label}
+          autoComplete="off"
+          required={true}
+          onChange={onChange}
+          onBlur={onBlur}
+          disabled={disabled || isObscured}
+          value={displayValue}
+          {...textFieldProps}
+          ref={ref}
+          name={name}
         />
-      )}
-    </Stack>
-  );
-}
+        {isSecret && (
+          <FormFieldReset
+            isResetted={fieldResetted || !isObscured}
+            inputSelectorToFocus={`input[name="${name}"]`}
+            onCancel={() => handelCancelReset()}
+            onReset={() => handleReset()}
+            sx={{ minHeight: 55 }}
+          />
+        )}
+      </Stack>
+    );
+  },
+);
+
+SecretInput.displayName = 'SecretInput';

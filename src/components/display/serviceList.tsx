@@ -76,7 +76,11 @@ export function ServiceList({
   );
 
   return (
-    <Stack gap={2}>
+    <Stack
+      sx={{
+        gap: 2,
+      }}
+    >
       <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
         <Tab
           disabled={disabled}
@@ -92,12 +96,14 @@ export function ServiceList({
         />
       </Tabs>
       <Box
-        display="grid"
-        gap={2}
-        gridTemplateColumns={{ xs: 'minmax(0, 1fr) minmax(0, 1fr)' }}
-        width="100%"
-        maxHeight={maxHeight}
-        sx={{ overflowY: 'auto' }}
+        sx={{
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: { xs: 'minmax(0, 1fr) minmax(0, 1fr)' },
+          width: '100%',
+          maxHeight,
+          overflowY: 'auto',
+        }}
       >
         {filteredServices.map((service) => {
           const isChecked = value?.includes(service.name);
@@ -122,13 +128,23 @@ export function ServiceList({
               }
             >
               <Box
-                display="flex"
-                alignItems="center"
-                gap={1}
-                justifyContent="space-between"
-                width="100%"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
               >
-                <Box display="flex" alignItems="center" gap={1} flexShrink={1} width="70%">
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    flexShrink: 1,
+                    width: '70%',
+                  }}
+                >
                   <Logo
                     src={service.logo}
                     fallbackSrc={fallbackLogoSrc}
@@ -138,14 +154,14 @@ export function ServiceList({
                   />
                   <Tooltip title={service.label}>
                     <Typography
+                      variant="body1"
                       sx={{
+                        fontWeight: 'bold',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap',
                         color: palette.grey[400],
                       }}
-                      fontWeight="bold"
-                      variant="body1"
                     >
                       {service.shortLabel ?? service.label}
                     </Typography>

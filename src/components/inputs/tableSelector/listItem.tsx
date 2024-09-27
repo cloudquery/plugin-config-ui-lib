@@ -44,7 +44,12 @@ const _TableSelectorListItem: FC<Props> = ({
 
   return (
     <TreeNode isExpanded={true} isSelected={value} onSelect={handleSelect} sx={{ paddingLeft: 3 }}>
-      <Stack borderRadius={1} marginBottom={0.25}>
+      <Stack
+        sx={{
+          borderRadius: 1,
+          marginBottom: 0.25,
+        }}
+      >
         <FormControlLabel
           disabled={disabled}
           control={

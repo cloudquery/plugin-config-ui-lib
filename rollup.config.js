@@ -4,7 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
 
-const componentInputs = ["src/components/utils/cloudAppMock.tsx"];
+const componentInputs = ["src/components/utils/devWrapper.tsx"];
 
 export default [
   {
@@ -69,7 +69,7 @@ export default [
         declarationDir: "dist/components",
         declaration: true,
         declarationMap: true,
-        include: componentInputs,
+        include: [...componentInputs, "src/components/utils/cloudAppMock.tsx"],
       }),
       terser({
         format: {
