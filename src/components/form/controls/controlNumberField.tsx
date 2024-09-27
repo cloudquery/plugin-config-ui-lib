@@ -42,11 +42,11 @@ export function ControlNumberField({
           slotProps={{
             input: {
               sx: {
-                MozAppearance: 'textfield',
                 '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
-                  WebkitAppearance: 'none',
+                  '-webkit-appearance': 'none',
                   margin: 0,
                 },
+                '-moz-appearance': 'textfield',
               },
             },
           }}
