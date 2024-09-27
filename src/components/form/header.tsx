@@ -20,9 +20,22 @@ export function ConfigUIFormHeader() {
 
   return (
     <Section>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <Typography variant="h5">{`${editMode ? 'Update' : 'Create'} a ${config.type}`}</Typography>
-        <Box display="flex" justifyContent="space-between" alignItems="center" gap={1.5}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 1.5,
+          }}
+        >
           <Logo src={config.iconLink} fallbackSrc="favicon.ico" alt={config.label} />
           <Typography variant="body1">{config.label}</Typography>
         </Box>

@@ -32,13 +32,22 @@ export function ControlTextField({
   const secretKeys = watch('_secretKeys');
   const isSecret = secretKeys?.includes(name);
 
-  const ConcreteComponent = isSecret ? ControlSecretField : TextField;
+  if (isSecret) {
+    return (
+      <ControlSecretField
+        name={name}
+        label={label}
+        helperText={helperText}
+        textFieldProps={textFieldProps}
+      />
+    );
+  }
 
   return (
     <Controller
       name={name}
       render={({ field, fieldState }) => (
-        <ConcreteComponent
+        <TextField
           error={!!fieldState.error}
           fullWidth={true}
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}

@@ -23,7 +23,12 @@ export function getFieldHelperText(
   const parsedErrorMessage = errorMessage.endsWith('.') ? `${errorMessage} ` : `${errorMessage}. `;
   if (typeof helperText === 'string') {
     return (
-      <Box component="span" whiteSpace="pre-line">
+      <Box
+        component="span"
+        sx={{
+          whiteSpace: 'pre-line',
+        }}
+      >
         {parsedErrorMessage}
         {helperText}
       </Box>
@@ -31,7 +36,12 @@ export function getFieldHelperText(
   }
 
   return (
-    <Box component="span" whiteSpace="pre-line">
+    <Box
+      component="span"
+      sx={{
+        whiteSpace: 'pre-line',
+      }}
+    >
       {parsedErrorMessage}
       {helperText}
     </Box>

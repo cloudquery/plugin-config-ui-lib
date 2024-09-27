@@ -41,10 +41,10 @@ export enum AuthType {
 }
 
 // @public
-export const cloudQueryApiBaseUrl = "https://api.cloudquery.io";
+export const cloudQueryApiBaseUrl: string;
 
 // @public
-export const cloudQueryOauthConnectorUrl = "https://cloud.cloudquery.io/auth/connector";
+export const cloudQueryOauthConnectorUrl: string;
 
 // @public (undocumented)
 export interface CloudQueryTable {
@@ -338,7 +338,7 @@ export interface PluginConfig {
 }
 
 // @public
-export const PluginContextProvider: ({ children, config, plugin, teamName, tablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, teamName, getTablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -347,20 +347,15 @@ export interface PluginContextProviderProps {
     // (undocumented)
     config: PluginConfig;
     // (undocumented)
+    getTablesData?: () => Promise<{
+        default: CloudQueryTables;
+    }>;
+    // (undocumented)
     hideStepper: boolean;
     // (undocumented)
     initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
     // (undocumented)
-    plugin: {
-        name: string;
-        kind: string;
-        version: string;
-        team: string;
-    };
-    // (undocumented)
     pluginUiMessageHandler: any;
-    // (undocumented)
-    tablesData?: CloudQueryTables;
     // (undocumented)
     teamName: string;
 }
@@ -419,7 +414,7 @@ export function SearchInput(props: TextFieldProps): JSX_2.Element;
 export const secretFieldValue = "b25b8efe-63fd-4c32-9f87-059cfd649128";
 
 // @public
-export function SecretInput({ name, label, disabled, value, onChange, onBlur, editMode, defaultValues, textFieldProps, setValue, getValues, error, helperText, }: SecretInputProps): JSX_2.Element;
+export const SecretInput: React_2.ForwardRefExoticComponent<Omit<SecretInputProps, "ref"> & React_2.RefAttributes<HTMLDivElement>>;
 
 // @public (undocumented)
 export interface SecretInputProps {
@@ -613,7 +608,7 @@ export interface UseCoreFormSchemaProps {
 export { useForm }
 
 // @public
-export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, apiBaseUrl, }: {
+export function useFormActions<PluginKind extends 'source' | 'destination'>({ getValues, pluginUiMessageHandler, pluginTeamName, pluginName, pluginKind, teamName, pluginVersion, isUpdating, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
@@ -689,13 +684,12 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
 };
 
 // @public
-export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, apiBaseUrl, successBaseUrl, }: {
+export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
     pluginName: string;
     pluginKind: 'source' | 'destination';
-    apiBaseUrl: string;
     successBaseUrl: string;
 }): {
     authenticate: () => Promise<void>;
@@ -703,6 +697,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
     connectorId: string | null;
     authConnectorResult: Record<string, string> | null;
     error: Error | null;
+    cancel: () => void;
 };
 
 // Warning: (ae-forgotten-export) The symbol "PluginContextProps" needs to be exported by the entry point index.d.ts
@@ -711,7 +706,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
 export const usePluginContext: () => PluginContextProps;
 
 // @public
-export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler, apiBaseUrl?: string): {
+export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler): {
     cancelTestConnection: () => void;
     testConnection: (values: {
         name: string;

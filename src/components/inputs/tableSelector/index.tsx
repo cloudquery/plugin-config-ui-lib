@@ -118,11 +118,19 @@ export function TableSelector({
 
   return (
     <Box
-      border={`1px solid ${errorMessage ? palette.error.main : palette.text.secondary}`}
-      borderRadius={1}
-      padding={2}
+      sx={{
+        border: `1px solid ${errorMessage ? palette.error.main : palette.text.secondary}`,
+        borderRadius: 1,
+        padding: 2,
+      }}
     >
-      <Stack direction="row" marginBottom={2} spacing={1}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{
+          marginBottom: 2,
+        }}
+      >
         <TableSelectorFilters
           onSearchChange={setSearchValue}
           onTableTypeChange={setFilterTablesValue}
@@ -153,7 +161,13 @@ export function TableSelector({
         }
         sx={{ marginLeft: 0, width: '100%' }}
       />
-      <Box height={`min(${maxHeight}px, 90vh)`} maxHeight="90vh" overflow="auto">
+      <Box
+        sx={{
+          height: `min(${maxHeight}px, 90vh)`,
+          maxHeight: '90vh',
+          overflow: 'auto',
+        }}
+      >
         {!noResults && (
           <TreeRoot sx={{ maxWidth: '100%', paddingY: 0 }}>
             {filteredTableList.map((table) => (

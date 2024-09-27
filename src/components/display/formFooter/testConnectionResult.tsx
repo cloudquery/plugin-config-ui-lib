@@ -107,13 +107,15 @@ export function FormFooterTestConnectionResult({
     <Card ref={cardRef}>
       <Card sx={{ paddingY: 4, paddingX: 2, '&:last-child': { paddingBottom: 4 } }}>
         <Stack
-          alignItems="center"
           direction="row"
-          height={36}
-          justifyContent="space-between"
-          marginBottom={4}
           spacing={2}
-          width="100%"
+          sx={{
+            alignItems: 'center',
+            height: 36,
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            width: '100%',
+          }}
         >
           <Typography variant="h6">{`Testing the ${pluginKind} connection`}</Typography>
           {isLoading && (

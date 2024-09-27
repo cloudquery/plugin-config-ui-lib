@@ -11,10 +11,7 @@ import { generateApiAbortError } from '../utils/errors';
  *
  * @public
  */
-export function useTestConnection(
-  pluginUiMessageHandler: PluginUiMessageHandler,
-  apiBaseUrl = cloudQueryApiBaseUrl,
-) {
+export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const abortRef = useRef<{ abort: () => void; shouldAbort: boolean }>();
 
@@ -35,7 +32,7 @@ export function useTestConnection(
       try {
         const nameKey = pluginKind === 'source' ? 'source_name' : 'destination_name';
         const { requestPromise, abortRequest } = callApi<{ id: string }>(
-          `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
           'POST',
           {
             env: values.env,
@@ -70,7 +67,6 @@ export function useTestConnection(
           teamName,
           testConnectionId: connectionId,
           pluginKind,
-          apiBaseUrl,
         });
       } catch (error: any) {
         if (error.name === 'AbortError') {
@@ -80,7 +76,7 @@ export function useTestConnection(
         throw error;
       }
     },
-    [apiBaseUrl, callApi],
+    [callApi],
   );
 
   const cancelTestConnection = useCallback(() => {
@@ -106,14 +102,12 @@ async function monitorSyncTestConnection({
   teamName,
   testConnectionId,
   pluginKind,
-  apiBaseUrl,
 }: {
   teamName: string;
   testConnectionId: string;
   abortObj: { abort: () => void; shouldAbort: boolean };
   callApi: ReturnType<typeof useApiCall>['callApi'];
   pluginKind: 'source' | 'destination';
-  apiBaseUrl: string;
 }): Promise<string> {
   const iterations = 30;
   for (let i = 0; i < iterations; i++) {
@@ -125,7 +119,7 @@ async function monitorSyncTestConnection({
       failure_reason: string;
       failure_code: string;
     }>(
-      `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
+      `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
       'GET',
     );
     abortObj.abort = abortRequest;

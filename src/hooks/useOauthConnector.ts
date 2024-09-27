@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
 import { useApiCall } from './useApiCall';
+import { cloudQueryApiBaseUrl } from '../utils';
 import { getRandomId } from '../utils/getRandomId';
 
 /**
@@ -13,7 +14,6 @@ import { getRandomId } from '../utils/getRandomId';
  * @param pluginTeamName - Plugin team name
  * @param pluginName - Plugin name
  * @param pluginKind - Plugin kind
- * @param apiBaseUrl - CloudQuery API base URL
  * @param successBaseUrl - Base URL that will be used to redirect the user upon successful authentication
  *
  * @public
@@ -24,7 +24,6 @@ export function useOauthConnector({
   pluginKind,
   pluginName,
   pluginTeamName,
-  apiBaseUrl,
   successBaseUrl,
 }: {
   pluginUiMessageHandler: PluginUiMessageHandler;
@@ -32,7 +31,6 @@ export function useOauthConnector({
   pluginTeamName: string;
   pluginName: string;
   pluginKind: 'source' | 'destination';
-  apiBaseUrl: string;
   successBaseUrl: string;
 }) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
@@ -42,6 +40,15 @@ export function useOauthConnector({
   const [authConnectorResult, setAuthConnectorResult] = useState<Record<string, string> | null>(
     null,
   );
+  const authConnectorResultSubscriptionRef = useRef<() => void>();
+
+  const cancel = useCallback(() => {
+    setIsLoading(false);
+    setError(null);
+    setAuthConnectorResult(null);
+    setConnectorId(null);
+    authConnectorResultSubscriptionRef.current?.();
+  }, []);
 
   /**
    * Creates an OAuth connector and authenticates it.
@@ -56,7 +63,7 @@ export function useOauthConnector({
     try {
       const connectorName = getRandomId();
       const { requestPromise: createConnector } = await callApi<{ id: string }>(
-        `${apiBaseUrl}/teams/${teamName}/connectors`,
+        `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors`,
         'POST',
         {
           type: 'oauth',
@@ -69,7 +76,7 @@ export function useOauthConnector({
       } = await createConnector;
 
       const { requestPromise: authenticateConnector } = await callApi<{ redirect_url: string }>(
-        `${apiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
+        `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
         'POST',
         {
           plugin_team: pluginTeamName,
@@ -90,10 +97,11 @@ export function useOauthConnector({
       });
     } catch (error: any) {
       setIsLoading(false);
+      setConnectorId(null);
+      setAuthConnectorResult(null);
       setError(error?.body || error);
     }
   }, [
-    apiBaseUrl,
     callApi,
     pluginKind,
     pluginName,
@@ -113,7 +121,7 @@ export function useOauthConnector({
       try {
         const searchParams = new URLSearchParams(connectorResult);
         const { requestPromise: finishOauth } = await callApi<{ id: string }>(
-          `${apiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
           'PATCH',
           {
             return_url: `${successBaseUrl}?${searchParams.toString()}`,
@@ -127,21 +135,28 @@ export function useOauthConnector({
         setError(error?.body || error);
       }
     },
-    [apiBaseUrl, callApi, successBaseUrl, teamName],
+    [callApi, successBaseUrl, teamName],
   );
 
   useEffect(() => {
     if (isLoading && connectorId) {
-      return pluginUiMessageHandler.subscribeToMessage('auth_connector_result', async (payload) => {
-        try {
-          await finishConnectorAuthentication(connectorId, payload);
-          setAuthConnectorResult(payload);
-        } catch (error: any) {
-          setError(error);
-        } finally {
-          setIsLoading(false);
-        }
-      });
+      const unsubscribe = pluginUiMessageHandler.subscribeToMessageOnce(
+        'auth_connector_result',
+        async (payload) => {
+          try {
+            await finishConnectorAuthentication(connectorId, payload);
+            setAuthConnectorResult(payload);
+          } catch (error: any) {
+            setError(error);
+          } finally {
+            setIsLoading(false);
+          }
+        },
+      );
+
+      authConnectorResultSubscriptionRef.current = unsubscribe;
+
+      return unsubscribe;
     }
   }, [connectorId, finishConnectorAuthentication, isLoading, pluginUiMessageHandler]);
 
@@ -151,5 +166,6 @@ export function useOauthConnector({
     connectorId,
     authConnectorResult,
     error,
+    cancel,
   };
 }

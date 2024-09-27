@@ -1,16 +1,20 @@
 import { useEffect } from 'react';
 
+import CheckIcon from '@mui/icons-material/Check';
 import LoadingButton from '@mui/lab/LoadingButton';
-import Box from '@mui/material/Box';
+
+import Button from '@mui/material/Button';
+
 import FormHelperText from '@mui/material/FormHelperText';
+import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
 import { useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
 import { useOauthConnector } from '../../../hooks';
-import { cloudQueryApiBaseUrl } from '../../../utils';
-import { getOauthSuccessBaseUrl } from '../../../utils/getOauthSuccessBaseUrl';
+import { cloudQueryOauthConnectorUrl } from '../../../utils';
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
@@ -28,13 +32,13 @@ export function ControlOAuthField() {
     connectorId,
     error: authenticateError,
     isLoading,
+    cancel: cancelAuthentication,
   } = useOauthConnector({
-    apiBaseUrl: cloudQueryApiBaseUrl,
     pluginKind: plugin.kind as any,
     pluginName: plugin.name,
     pluginTeamName: plugin.team,
     pluginUiMessageHandler,
-    successBaseUrl: getOauthSuccessBaseUrl(),
+    successBaseUrl: cloudQueryOauthConnectorUrl,
     teamName,
   });
 
@@ -44,22 +48,61 @@ export function ControlOAuthField() {
     }
   }, [authConnectorResult, connectorId, setValue]);
 
+  useEffect(() => {
+    if (authenticateError) {
+      setValue('connectorId', undefined);
+    }
+  }, [authenticateError, setValue]);
+
   const connectorIdValue = watch('connectorId');
 
   return (
-    <Stack gap={1} pt={2}>
-      <Box>
+    <Stack
+      sx={{
+        gap: 1.5,
+        paddingTop: 2,
+      }}
+    >
+      <Stack
+        direction="row"
+        sx={{
+          gap: 1,
+          alignItems: 'center',
+        }}
+      >
         <LoadingButton
           size="large"
-          variant={connectorIdValue ? 'outlined' : 'contained'}
+          variant="contained"
           onClick={authenticate}
           loading={isLoading}
           fullWidth={false}
+          disabled={!!connectorIdValue}
+          endIcon={connectorIdValue && <CheckIcon />}
         >
-          {connectorIdValue ? 'Re-authenticate' : 'Authenticate'}
+          {connectorIdValue && !isLoading
+            ? `${config.label} connected successfully`
+            : 'Authenticate'}
         </LoadingButton>
-      </Box>
-
+        {isLoading && (
+          <Button color="inherit" onClick={cancelAuthentication}>
+            Cancel authentication
+          </Button>
+        )}
+      </Stack>
+      {!authenticateError && !formState.errors.connectorId && !isLoading && connectorIdValue && (
+        <Typography variant="body2" color="textSecondary">
+          To reconnect CloudQuery via {config.label}{' '}
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <Link underline="always" sx={{ cursor: 'pointer' }} onClick={authenticate}>
+            click here
+          </Link>
+        </Typography>
+      )}
+      {!authenticateError && !formState.errors.connectorId && !isLoading && !connectorIdValue && (
+        <Typography variant="body2" color="textSecondary">
+          This will open a new browser tab.
+        </Typography>
+      )}
       {!!authenticateError && (
         <FormHelperText error={true} sx={{ marginTop: 2 }}>
           {authenticateError.message ||

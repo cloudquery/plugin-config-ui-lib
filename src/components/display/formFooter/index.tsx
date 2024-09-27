@@ -65,8 +65,21 @@ export function FormFooter({
 
   return (
     <Stack spacing={4}>
-      <Stack direction="row" justifyContent="space-between" marginTop={4} spacing={2}>
-        <Stack alignItems="center" direction="row" spacing={2}>
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          justifyContent: 'space-between',
+          marginTop: 4,
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           {!!isUpdating && (
             <Button
               disabled={isBusy}
@@ -82,7 +95,13 @@ export function FormFooter({
             Previous step
           </Button>
         </Stack>
-        <Stack alignItems="center" direction="row" spacing={2}>
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{
+            alignItems: 'center',
+          }}
+        >
           <Button disabled={isBusy} onClick={onCancel} size="medium">
             Cancel
           </Button>
