@@ -3,7 +3,6 @@ name: Publish npm package
 on:
   push:
     branches:
-      - main
       - release/v2
 
 jobs:
@@ -69,6 +68,6 @@ jobs:
 
       - name: Publish to npm
         if: steps.check_version.outputs.version_changed == 'true'
-        run: npm publish
+        run: npm publish --tag v2
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
