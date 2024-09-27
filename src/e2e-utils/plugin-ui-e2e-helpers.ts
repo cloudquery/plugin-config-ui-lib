@@ -47,7 +47,7 @@ export const createPlugin = async ({
   test.setTimeout(300_000);
   await page.goto(getRootUrl());
 
-  await expect(page.getByText(`Create a ${kind}`)).toBeVisible();
+  await expect(page.getByRole('heading', { name: `Create a ${kind}` })).toBeVisible();
 
   await fillInput(page, 'input[type="text"]', pluginName);
 
@@ -90,7 +90,7 @@ export const editPlugin = async ({
   test.setTimeout(300_000);
   await page.goto(getRootUrl());
 
-  await expect(page.getByText(`Create a ${kind}`)).toBeVisible();
+  await expect(page.getByRole('heading', { name: `Create a ${kind}` })).toBeVisible();
 
   await fillInput(page, 'input[type="text"]', pluginName);
 
@@ -139,7 +139,7 @@ export const deletePlugin = async ({
   test.setTimeout(300_000);
   await page.goto(getRootUrl());
 
-  await expect(page.getByText(`Create a ${kind}`)).toBeVisible();
+  await expect(page.getByRole('heading', { name: `Create a ${kind}` })).toBeVisible();
 
   await fillInput(page, 'input[type="text"]', pluginName);
 
