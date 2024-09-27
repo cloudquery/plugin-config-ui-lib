@@ -26,7 +26,11 @@ export function ControlExclusiveToggleField({
   children,
 }: ControlExclusiveToggleFieldProps) {
   return (
-    <Stack gap={1}>
+    <Stack
+      sx={{
+        gap: 1,
+      }}
+    >
       {children}
       <Controller
         name={name}

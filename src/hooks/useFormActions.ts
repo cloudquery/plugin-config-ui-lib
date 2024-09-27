@@ -45,7 +45,6 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   teamName,
   pluginVersion,
   isUpdating,
-  apiBaseUrl = cloudQueryApiBaseUrl,
 }: {
   pluginUiMessageHandler: PluginUiMessageHandler;
   teamName: string;
@@ -160,7 +159,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
               overwrite_destination: !!isUpdating,
             };
         const { requestPromise: promoteTestConnectionRequest } = callApi(
-          `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
           'POST',
           {
             name: submitPayload.name,
@@ -171,7 +170,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         await promoteTestConnectionRequest;
 
         const { requestPromise: updateSyncResourceRequest } = callApi(
-          `${apiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
           'PATCH',
           { ...pluginKindPayload, last_update_source: 'ui' },
         );
@@ -194,7 +193,6 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
       pluginUiMessageHandler,
       submitPayload,
       teamName,
-      apiBaseUrl,
     ],
   );
 

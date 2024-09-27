@@ -77,7 +77,12 @@ export function TableSelectorFilters({
             vertical: -60,
           }}
         >
-          <Box paddingLeft={1.5} paddingRight={2.5}>
+          <Box
+            sx={{
+              paddingLeft: 1.5,
+              paddingRight: 2.5,
+            }}
+          >
             <RadioGroup
               onChange={(e) =>
                 onTableTypeChange(e.target.value as 'all' | 'selected' | 'unselected')

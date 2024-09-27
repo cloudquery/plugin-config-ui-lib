@@ -36,8 +36,20 @@ export function SetupGuide({
   return (
     <Card>
       <CardContent>
-        <Stack gap={3} p={3} pt={0}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack
+          sx={{
+            gap: 3,
+            p: 3,
+            pt: 0,
+          }}
+        >
+          <Stack
+            direction="row"
+            sx={{
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Typography variant="h6">Setup guide</Typography>
             {!!docsLink && (
               <Button
@@ -51,8 +63,18 @@ export function SetupGuide({
             )}
           </Stack>
           <Divider />
-          <Box maxHeight={maxHeight} sx={{ overflowY: 'auto' }}>
-            <Typography variant="h5" marginBottom={3}>
+          <Box
+            sx={{
+              maxHeight,
+              overflowY: 'auto',
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                marginBottom: 3,
+              }}
+            >
               {title}
             </Typography>
             {children}

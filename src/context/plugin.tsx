@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
@@ -7,20 +7,15 @@ import { PluginConfig } from '../types';
 import { generateTablesFromJson } from '../utils';
 import { validateConfig } from './utils/validateConfig';
 import { CloudQueryTables } from '../utils/generateTablesFromJson';
+import { getPluginProps } from '../utils/getPluginProps';
 
 /**
  * @public
  */
 export interface PluginContextProviderProps {
   config: PluginConfig;
-  plugin: {
-    name: string;
-    kind: string;
-    version: string;
-    team: string;
-  };
   teamName: string;
-  tablesData?: CloudQueryTables;
+  getTablesData?: () => Promise<{ default: CloudQueryTables }>;
   hideStepper: boolean;
   children: React.ReactNode;
   pluginUiMessageHandler: any;
@@ -83,24 +78,28 @@ export const usePluginContext = () => useContext(PluginContext);
 export const PluginContextProvider = ({
   children,
   config,
-  plugin,
   teamName,
-  tablesData,
+  getTablesData,
   hideStepper,
   pluginUiMessageHandler,
   initialValues,
 }: PluginContextProviderProps) => {
-  const tablesList = tablesData
-    ? generateTablesFromJson(tablesData as CloudQueryTables)
-    : undefined;
+  const [tablesList, setTablesList] = useState<PluginTable[]>();
+  useEffect(() => {
+    getTablesData?.().then(({ default: tablesData }) => {
+      setTablesList(generateTablesFromJson(tablesData));
+    });
+  }, [getTablesData]);
 
   const validatedConfig = useMemo(() => validateConfig(config), [config]);
+
+  const pluginProps = useMemo(() => getPluginProps(), []);
 
   return (
     <PluginContext.Provider
       value={{
         config: validatedConfig,
-        plugin,
+        plugin: pluginProps,
         teamName,
         tablesList,
         hideStepper,
