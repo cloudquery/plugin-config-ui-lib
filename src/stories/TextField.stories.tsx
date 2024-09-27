@@ -1,16 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
 
-import { Button } from './Button';
-import { ComponentsRenderer } from '../components/form/renderer';
-import { yup } from '../utils/getYupValidationResolver';
-import { CloudAppMock } from '../components/utils/cloudAppMock';
-import { ConfigUIForm } from '../components';
+import { ComponentsRenderer } from '../components/form/renderer/index.js';
+import { FormProvider } from '../components/index.js';
+import { ThemeProvider } from '@emotion/react';
+import { CssBaseline } from '@mui/material';
+import { theme } from '../utils/tests/renderWithTheme.js';
+import { useForm } from 'react-hook-form';
+import { LayoutTextField } from '../components/form/renderer/types.js';
+import { ControlTextField } from '../components/form/controls/controlTextField.js';
+import { CodeSnippet } from '../components/display/setupGuide/section/codeSnippet';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Example/TextField',
-  component: Button,
+  component: ControlTextField,
   parameters: {
     // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
@@ -19,58 +22,55 @@ const meta = {
   tags: ['autodocs'],
   // More on argTypes: https://storybook.js.org/docs/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
+    component: {
+      control: 'select',
+      options: ['control-text-field'],
+    },
   },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
-} satisfies Meta<typeof Button>;
+  // // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
+  args: {
+    // onClick: fn()
+    component: 'control-text-field',
+    helperText: 'Name of the DataDog Account.',
+    name: 'account_name',
+    label: 'DataDog Account Name',
+  },
+  // TODO: need this to show schema and shouldrender too
+} satisfies Meta<LayoutTextField>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// TODO: make storywrapper here
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = {
-  render: ({ initialValues: {} }) => {
-    const teamName = 'cq-test';
-    const context = 'wizard';
-
-    const config = useConfig({ initialValues, teamName });
-
+  render: (args) => {
+    const form = useForm();
     return (
-      <PluginContextProvider
-        config={config}
-        plugin={pluginProps}
-        teamName={teamName}
-        hideStepper={context === 'wizard'} // TODO: Delete after iframe deprecation
-        pluginUiMessageHandler={pluginUiMessageHandler}
-        initialValues={initialValues}
-      >
-        <DevWrapper {...devWrapperProps}>
-          {initialized && (
-            <ConfigUIForm prepareSubmitValues={prepareSubmitValues.bind({}, services)} />
-          )}
-        </DevWrapper>
-      </PluginContextProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <FormProvider {...form}>
+          <ComponentsRenderer section={args} />
+          <CodeSnippet text={JSON.stringify(args)} />
+        </FormProvider>
+      </ThemeProvider>
     );
   },
-};
-
-export const Secondary: Story = {
   args: {
-    label: 'Button',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: 'large',
-    label: 'Button',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 'small',
-    label: 'Button',
+    // section: {
+    //   component: 'control-text-field',
+    //   helperText: 'Name of the DataDog Account.',
+    //   name: 'account_name',
+    //   label: 'DataDog Account Name',
+    //   // shouldRender: (values: any) => values._authType === AuthType.OTHER,
+    //   // schema: yup
+    //   //   .string()
+    //   //   .when('_authType', {
+    //   //     is: (authType: AuthType) => authType === AuthType.OTHER,
+    //   //     // eslint-disable-next-line unicorn/no-thenable
+    //   //     then: (schema: any) => schema.trim().required(),
+    //   //   })
+    //   //   .default(initialValues?.spec?.accounts[0]?.name ?? ''),
+    // },
   },
 };
