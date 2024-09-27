@@ -39,6 +39,17 @@ export function ControlNumberField({
           {...textFieldProps}
           type="number"
           onWheel={(e) => e.target instanceof HTMLElement && e.target.blur()}
+          slotProps={{
+            input: {
+              sx: {
+                MozAppearance: 'textfield',
+                '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+                  WebkitAppearance: 'none',
+                  margin: 0,
+                },
+              },
+            },
+          }}
         />
       )}
     />
