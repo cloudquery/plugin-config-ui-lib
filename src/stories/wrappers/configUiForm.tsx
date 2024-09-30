@@ -2,7 +2,7 @@ import { ConfigUIForm } from '../../components';
 import { PluginContextProvider } from '../../context';
 import tablesData from '../mocks/tables.js';
 
-export const ConfigUIFormWrapper = ({ config }) => {
+export const ConfigUIFormWrapper = ({ config }: { config: any }) => {
   const pluginUiMessageHandler = {
     sendMessage: () => {},
     subscribeToMessage: () => {},

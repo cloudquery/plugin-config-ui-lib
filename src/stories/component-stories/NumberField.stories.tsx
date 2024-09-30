@@ -1,11 +1,11 @@
+import { ControlNumberField } from '../../components/form/controls/controlNumberField.js';
+import { LayoutNumberField } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutNumberField } from '../components/form/renderer/types.js';
-import { ControlNumberField } from '../components/form/controls/controlNumberField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/NumberField',
+  title: 'Components/NumberField',
   component: ControlNumberField,
   parameters: {
     layout: 'centered',

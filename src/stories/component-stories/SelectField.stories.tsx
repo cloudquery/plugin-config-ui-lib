@@ -1,11 +1,11 @@
+import { ControlSelectField } from '../../components/form/controls/controlSelectField.js';
+import { LayoutSelectField } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutSelectField } from '../components/form/renderer/types.js';
-import { ControlSelectField } from '../components/form/controls/controlSelectField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/SelectField',
+  title: 'Components/SelectField',
   component: ControlSelectField,
   parameters: {
     layout: 'centered',

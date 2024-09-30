@@ -1,11 +1,11 @@
+import { ControlTextField } from '../../components/form/controls/controlTextField.js';
+import { LayoutTextField } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutTextField } from '../components/form/renderer/types.js';
-import { ControlTextField } from '../components/form/controls/controlTextField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/TextField',
+  title: 'Components/TextField',
   component: ControlTextField,
   parameters: {
     layout: 'centered',

@@ -1,11 +1,11 @@
+import { ControlMultiSelectField } from '../../components/form/controls/controlMultiSelectField.js';
+import { LayoutMultiSelectField } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutMultiSelectField } from '../components/form/renderer/types.js';
-import { ControlMultiSelectField } from '../components/form/controls/controlMultiSelectField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/MultiSelectField',
+  title: 'Components/MultiSelectField',
   component: ControlMultiSelectField,
   parameters: {
     layout: 'centered',

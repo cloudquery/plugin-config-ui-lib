@@ -38,10 +38,13 @@
     "plugin"
   ],
   "license": "MPL-2.0",
-  "author": "cloudquery (https://github.com/cloudquery)",
+  "author": {
+    "name": "cloudquery",
+    "url": "https://github.com/cloudquery"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cloudquery/plugin-config-ui-lib.git"
+    "url": "git+https://github.com/cloudquery/plugin-config-ui-lib.git"
   },
   "publishConfig": {
     "access": "public"
@@ -62,7 +65,8 @@
     "test:watch": "jest --config config/jest.config.js --watchAll",
     "clean": "rimraf ./lib ./dist",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic"
   },
   "dependencies": {
     "@babel/runtime": "^7.25.6",
@@ -121,6 +125,7 @@
     "@types/react": "^18.3.8",
     "@typescript-eslint/eslint-plugin": "^8.6.0",
     "@typescript-eslint/parser": "^8.6.0",
+    "chromatic": "^11.10.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",

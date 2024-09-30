@@ -1,12 +1,14 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
+/* eslint-disable */
+import { AuthType, SourceConfig } from '../../types.js';
+import { yup } from '../../utils/getYupValidationResolver.js';
+
+import { ConfigUIFormWrapper } from '../wrappers/configUiForm.js';
+
 import type { Meta } from '@storybook/react';
 
-import { yup } from '../utils/getYupValidationResolver.js';
-import { AuthType, SourceConfig } from '../types.js';
-import { ConfigUIFormWrapper } from './wrappers/configUiForm.js';
-import { config } from 'process';
-
 const meta = {
-  title: 'Example/FullConfig',
+  title: 'Examples/FullConfig',
   component: (props: SourceConfig) => <></>,
   parameters: {
     layout: 'centered',
@@ -32,8 +34,8 @@ export const Primary = {
           children: [
             {
               component: 'section',
-              title: 'Authentication',
-              subtitle: `This plugin uses OAuth authentication. Click the button below to connect CloudQuery to DataDog.`,
+              title: 'Section 1',
+              subtitle: `This is section 1.`,
               children: [
                 {
                   component: 'control-exclusive-toggle',

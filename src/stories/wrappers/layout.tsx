@@ -6,21 +6,10 @@ import { CodeSnippet } from '../../components/display/setupGuide/section/codeSni
 import { ComponentsRenderer } from '../../components/form/renderer';
 import { theme } from '../../utils/tests/renderWithTheme';
 
-export const ComponentWrapper = ({
-  args,
-  yupBase = 'string()',
-}: {
-  yupBase?: string;
-  args: any;
-}) => {
+export const LayoutWrapper = ({ args }: { args: any }) => {
   const form = useForm();
-  let text = JSON.stringify(
-    { ...args, shouldRender: '{shouldRender}', schema: '{schema}' },
-    undefined,
-    4,
-  );
+  let text = JSON.stringify({ ...args, shouldRender: '{shouldRender}' }, undefined, 4);
   text = text.replace('"{shouldRender}"', '(formValues) => !!formValues.specific_value');
-  text = text.replace('"{schema}"', `yup.${yupBase}.default(initialValues?.specific_value ?? "")`);
 
   return (
     <ThemeProvider theme={theme}>

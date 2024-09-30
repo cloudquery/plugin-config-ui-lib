@@ -1,11 +1,11 @@
+import { ControlSecretField } from '../../components/form/controls/controlSecretField.js';
+import { LayoutSecretInput } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutSecretInput } from '../components/form/renderer/types.js';
-import { ControlSecretField } from '../components/form/controls/controlSecretField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/SecretField',
+  title: 'Components/SecretField',
   component: ControlSecretField,
   parameters: {
     layout: 'centered',

@@ -1,30 +1,30 @@
+import { ControlDateTimeField } from '../../components/form/controls/controlDateTimeField.js';
+import { LayoutDateTimeField } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutDateField } from '../components/form/renderer/types.js';
-import { ControlDateField } from '../components/form/controls/controlDateField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/DateField',
-  component: ControlDateField,
+  title: 'Components/DateTimeField',
+  component: ControlDateTimeField,
   parameters: {
     layout: 'centered',
   },
   argTypes: {
     component: {
       control: 'select',
-      options: ['control-date-field'],
+      options: ['control-date-time-field'],
     },
   },
   args: {
-    component: 'control-date-field',
+    component: 'control-date-time-field',
     helperText: 'Date to start.',
     name: 'start_date',
     label: 'Start Date',
     disabled: false,
     clearable: true,
   },
-} satisfies Meta<LayoutDateField>;
+} satisfies Meta<LayoutDateTimeField>;
 
 export default meta;
 

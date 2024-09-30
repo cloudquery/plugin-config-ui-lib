@@ -1,11 +1,11 @@
+import { ControlBooleanField } from '../../components/form/controls/controlBooleanField.js';
+import { LayoutBooleanField } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutBooleanField } from '../components/form/renderer/types.js';
-import { ControlBooleanField } from '../components/form/controls/controlBooleanField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/BooleanField',
+  title: 'Components/BooleanField',
   component: ControlBooleanField,
   parameters: {
     layout: 'centered',

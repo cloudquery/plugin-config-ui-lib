@@ -1,11 +1,11 @@
+import { ControlExclusiveToggleField } from '../../components/form/controls/controlExclusiveToggleField.js';
+import { LayoutExclusiveToggle } from '../../components/form/renderer/types.js';
+import { ComponentWrapper } from '../wrappers/component.js';
+
 import type { Meta } from '@storybook/react';
 
-import { LayoutExclusiveToggle } from '../components/form/renderer/types.js';
-import { ControlExclusiveToggleField } from '../components/form/controls/controlExclusiveToggleField.js';
-import { ComponentWrapper } from './wrappers/component.js';
-
 const meta = {
-  title: 'StepComponents/ExclusiveField',
+  title: 'Components/ExclusiveField',
   component: ControlExclusiveToggleField,
   parameters: {
     layout: 'centered',
