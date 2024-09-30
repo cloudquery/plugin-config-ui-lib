@@ -16,6 +16,10 @@ const config: StorybookConfig = {
   env: {
     REACT_APP_CLOUDQUERY_API_BASE_URL: '',
     REACT_APP_CLOUDQUERY_OAUTH_CONNECTOR_URL: '',
+    REACT_APP_PLUGIN_TEAM: 'cloudquery',
+    REACT_APP_PLUGIN_KIND: 'source',
+    REACT_APP_PLUGIN_NAME: 'datadog',
+    REACT_APP_PLUGIN_VERSION: 'development',
   },
   async viteFinal(config) {
     // Merge custom configuration into the default config
@@ -24,7 +28,14 @@ const config: StorybookConfig = {
     return mergeConfig(config, {
       // Add dependencies to pre-optimization
       define: {
-        'process.env': process.env,
+        'process.env': {
+          REACT_APP_CLOUDQUERY_API_BASE_URL: '',
+          REACT_APP_CLOUDQUERY_OAUTH_CONNECTOR_URL: '',
+          REACT_APP_PLUGIN_TEAM: 'cloudquery',
+          REACT_APP_PLUGIN_KIND: 'source',
+          REACT_APP_PLUGIN_NAME: 'datadog',
+          REACT_APP_PLUGIN_VERSION: 'development',
+        },
       },
       optimizeDeps: {
         include: ['storybook-dark-mode'],

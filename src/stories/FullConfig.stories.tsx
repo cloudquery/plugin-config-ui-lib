@@ -1,73 +1,27 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { fn } from '@storybook/test';
+import type { Meta } from '@storybook/react';
 
-/* eslint-disable unicorn/no-abusive-eslint-disable */
-/* eslint-disable */
-
-import { Button } from './Button.js';
-import { ComponentsRenderer } from '../components/form/renderer/index.js';
 import { yup } from '../utils/getYupValidationResolver.js';
-import { CloudAppMock } from '../components/utils/cloudAppMock.js';
-import { ConfigUIForm } from '../components/index.js';
-import { DevWrapper } from '../components/utils/devWrapper.js';
-import { PluginContextProvider } from '../context/index.js';
-import tablesData from './mocks/tables.js';
-import { AuthType } from '../types.js';
+import { AuthType, SourceConfig } from '../types.js';
+import { ConfigUIFormWrapper } from './wrappers/configUiForm.js';
+import { config } from 'process';
 
-// TODO WIP!!!!
-
-// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Example/FullConfig',
-  component: Button,
+  component: (props: SourceConfig) => <></>,
   parameters: {
-    // Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/configure/story-layout
     layout: 'centered',
   },
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
-  // More on argTypes: https://storybook.js.org/docs/api/argtypes
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
-  // Use `fn` to spy on the onClick arg, which will appear in the actions panel once invoked: https://storybook.js.org/docs/essentials/actions#action-args
-  args: { onClick: fn() },
-} satisfies Meta<typeof Button>;
+
+  argTypes: {},
+  args: {},
+} satisfies Meta<SourceConfig>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = {
-  render: ({ initialValues, useConfig }) => {
-    const teamName = 'cq-test';
-    const context = 'wizard';
-
-    const config = useConfig({ initialValues });
-
-    return (
-      <DevWrapper
-        {...{
-          teamName,
-          initialValues,
-        }}
-      >
-        <PluginContextProvider
-          config={config}
-          teamName={teamName}
-          getTablesData={() => tablesData}
-          hideStepper={context === 'wizard'} // TODO: Delete after iframe deprecation
-          pluginUiMessageHandler={{} as any}
-          initialValues={initialValues}
-        >
-          <ConfigUIForm prepareSubmitValues={(() => {}) as any} />
-        </PluginContextProvider>
-      </DevWrapper>
-    );
-  },
+  render: ConfigUIFormWrapper,
   args: {
-    initialValues: {},
-    useConfig: ({ initialValues }) => ({
+    config: {
       name: 'datadog',
       type: 'source',
       label: 'DataDog',
@@ -91,10 +45,7 @@ export const Primary = {
                       value: AuthType.OTHER,
                     },
                   ],
-                  schema: yup
-                    .mixed()
-                    .oneOf(Object.values(AuthType))
-                    .default(initialValues?.spec?.auth_token ? AuthType.OTHER : AuthType.OAUTH),
+                  schema: yup.mixed().oneOf(Object.values(AuthType)).default(AuthType.OAUTH),
                 },
                 {
                   component: 'sub-section',
@@ -116,7 +67,7 @@ export const Primary = {
                           // eslint-disable-next-line unicorn/no-thenable
                           then: (schema: any) => schema.trim().required(),
                         })
-                        .default(initialValues?.spec?.accounts[0]?.name ?? ''),
+                        .default(''),
                     },
                     {
                       component: 'control-secret-field',
@@ -131,7 +82,7 @@ export const Primary = {
                           // eslint-disable-next-line unicorn/no-thenable
                           then: (schema: any) => schema.trim().required(),
                         })
-                        .default(initialValues?.spec?.accounts[0]?.api_key ?? ''),
+                        .default(''),
                     },
                     {
                       component: 'control-secret-field',
@@ -146,7 +97,7 @@ export const Primary = {
                           // eslint-disable-next-line unicorn/no-thenable
                           then: (schema: any) => schema.trim().required(),
                         })
-                        .default(initialValues?.spec?.accounts[0]?.app_key ?? ''),
+                        .default(''),
                     },
                   ],
                 },
@@ -172,10 +123,7 @@ export const Primary = {
                   helperText:
                     'The best effort maximum number of Go routines to use. Lower this number to reduce memory usage or to avoid hitting DataDog API rate limits. Defaults to 1000.',
                   label: 'Concurrency',
-                  schema: yup
-                    .number()
-                    .nullable()
-                    .default(initialValues?.spec?.concurrency ?? 1000),
+                  schema: yup.number().nullable().default(1000),
                 },
               ],
             },
@@ -184,113 +132,19 @@ export const Primary = {
         },
       ],
       auth: [AuthType.OTHER],
-      // TODO: docs
       guide: {
         title: 'DataDog configuration',
         sections: [
           {
+            title: 'Step 1',
             bodies: [
               {
                 text: 'CloudQuery reads information from your DataDog accounts and loads it into any supported CloudQuery destination.',
               },
             ],
           },
-          {
-            header: 'How to Create a Read-only API key',
-            bodies: [
-              {
-                text: (
-                  <>
-                    1. Navigate to <strong>API Access Keys</strong> under the{' '}
-                    <strong>Integrations</strong> tab in the web app.
-                  </>
-                ),
-              },
-              {
-                image: `images/01-access-page.png`,
-              },
-              {
-                text: (
-                  <>
-                    2. Click the <strong>Create New API Key</strong> button.
-                  </>
-                ),
-              },
-              {
-                image: `images/02-click-button.png`,
-              },
-              {
-                text: (
-                  <>
-                    3. Give the token a descriptive name, such as <strong>CloudQuery Token</strong>.
-                  </>
-                ),
-              },
-              {
-                text: (
-                  <>
-                    4. Check the <strong>Read-only API Key</strong> checkbox.
-                  </>
-                ),
-              },
-              {
-                image: `images/03-create-key.png`,
-              },
-              {
-                text: (
-                  <>
-                    5. Click <strong>Create Key</strong>.
-                  </>
-                ),
-              },
-              {
-                text: (
-                  <>
-                    6. <strong>Copy and paste</strong> the new key into the Auth Token field in the
-                    form at the top of this page.
-                  </>
-                ),
-              },
-            ],
-          },
-          {
-            header: 'How to Find a Team ID (Optional)',
-            bodies: [
-              {
-                text: (
-                  <>
-                    Navigate to the desired team page(s). In each page, the team ID should be in the
-                    URL in the address bar of the browser. Copy the team ID into the Team IDs field.
-                  </>
-                ),
-              },
-              {
-                image: `images/04-find-team-id.png`,
-              },
-            ],
-          },
         ],
       },
-    }),
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    label: 'Button',
-  },
-};
-
-export const Large: Story = {
-  args: {
-    size: 'large',
-    label: 'Button',
-  },
-};
-
-export const Small: Story = {
-  args: {
-    size: 'small',
-    label: 'Button',
+    },
   },
 };
