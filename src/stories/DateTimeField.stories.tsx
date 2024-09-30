@@ -29,6 +29,11 @@ const meta = {
 export default meta;
 
 export const Primary = {
-  render: (args) => <ComponentWrapper args={args} />,
+  render: (args) => (
+    <ComponentWrapper
+      args={args}
+      yupBase="date().default(initialValues?.spec?.start_time ? new Date(initialValues?.spec?.start_time): null).nullable()"
+    />
+  ),
   args: {},
 };

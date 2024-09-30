@@ -27,6 +27,11 @@ const meta = {
 export default meta;
 
 export const Primary = {
-  render: (args) => <ComponentWrapper args={args} />,
+  render: (args) => (
+    <ComponentWrapper
+      args={args}
+      yupBase="number().integer().default(initialValues?.spec?.batch_size ?? 10_000)"
+    />
+  ),
   args: {},
 };

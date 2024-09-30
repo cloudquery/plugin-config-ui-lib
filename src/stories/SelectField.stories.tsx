@@ -38,6 +38,6 @@ const meta = {
 export default meta;
 
 export const Primary = {
-  render: (args) => <ComponentWrapper args={args} />,
+  render: (args) => <ComponentWrapper yupBase="string().oneOf([0,1])" args={args} />,
   args: {},
 };

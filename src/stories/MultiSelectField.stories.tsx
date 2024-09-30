@@ -28,6 +28,11 @@ const meta = {
 export default meta;
 
 export const Primary = {
-  render: (args) => <ComponentWrapper args={args} />,
+  render: (args) => (
+    <ComponentWrapper
+      args={args}
+      yupBase="array().of(yup.string().required()).default(initialValues?.spec?.services ?? [])"
+    />
+  ),
   args: {},
 };

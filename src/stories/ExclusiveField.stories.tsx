@@ -36,6 +36,11 @@ const meta = {
 export default meta;
 
 export const Primary = {
-  render: (args) => <ComponentWrapper args={args} />,
+  render: (args) => (
+    <ComponentWrapper
+      args={args}
+      yupBase="string().oneOf(['orgs', 'repos']).default(initialValues?.spec?.repos ? 'repos' : 'orgs')"
+    />
+  ),
   args: {},
 };

@@ -30,6 +30,11 @@ const meta = {
 export default meta;
 
 export const Primary = {
-  render: (args) => <ComponentWrapper args={args} />,
+  render: (args) => (
+    <ComponentWrapper
+      args={args}
+      yupBase="bool().default(initialValues?.spec?.allowNativePasswords ?? false)"
+    />
+  ),
   args: {},
 };
