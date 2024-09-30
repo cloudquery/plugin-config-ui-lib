@@ -5,3 +5,4 @@ lib/
 dist/
 temp/
 *storybook.log
+storybook-static
