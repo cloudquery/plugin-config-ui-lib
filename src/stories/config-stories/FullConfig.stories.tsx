@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/no-abusive-eslint-disable */
-/* eslint-disable */
 import { AuthType, SourceConfig } from '../../types.js';
 import { yup } from '../../utils/getYupValidationResolver.js';
 
@@ -9,7 +7,7 @@ import type { Meta } from '@storybook/react';
 
 const meta = {
   title: 'Examples/FullConfig',
-  component: (props: SourceConfig) => <></>,
+  component: () => <></>,
   parameters: {
     layout: 'centered',
   },

@@ -24,7 +24,6 @@ const meta = {
     label: 'Account Boolean',
     type: 'toggle',
   },
-  // TODO: need this to show schema and shouldrender too
 } satisfies Meta<LayoutBooleanField>;
 
 export default meta;
