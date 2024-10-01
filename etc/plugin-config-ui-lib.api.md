@@ -68,6 +68,15 @@ export interface CloudQueryTable {
 export type CloudQueryTables = CloudQueryTable[];
 
 // @public
+export function CodeSnippet({ text }: CodeSnippetProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface CodeSnippetProps {
+    // (undocumented)
+    text: string;
+}
+
+// @public
 export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
