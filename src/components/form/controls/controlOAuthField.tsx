@@ -17,14 +17,25 @@ import { useOauthConnector } from '../../../hooks';
 import { cloudQueryOauthConnectorUrl } from '../../../utils';
 
 /**
+ * @public
+ */
+export type ControlOAuthFieldProps = {
+  getConnectPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+  getFinishPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+};
+
+/**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
  *
  * @public
  */
-export function ControlOAuthField() {
+export function ControlOAuthField({
+  getConnectPayloadSpec,
+  getFinishPayloadSpec,
+}: ControlOAuthFieldProps) {
   const form = useFormContext();
   const { plugin, teamName, config, pluginUiMessageHandler } = usePluginContext();
-  const { watch, formState, setValue } = form;
+  const { watch, formState, setValue, getValues } = form;
 
   const {
     authConnectorResult,
@@ -40,6 +51,8 @@ export function ControlOAuthField() {
     pluginUiMessageHandler,
     successBaseUrl: cloudQueryOauthConnectorUrl,
     teamName,
+    getConnectPayloadSpec: async () => await getConnectPayloadSpec?.(getValues()),
+    getFinishPayloadSpec: async () => await getFinishPayloadSpec?.(getValues()),
   });
 
   useEffect(() => {

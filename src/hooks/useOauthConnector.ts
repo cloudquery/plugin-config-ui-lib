@@ -6,6 +6,17 @@ import { useApiCall } from './useApiCall';
 import { cloudQueryApiBaseUrl } from '../utils';
 import { getRandomId } from '../utils/getRandomId';
 
+interface UseOauthConnectorProps {
+  pluginUiMessageHandler: PluginUiMessageHandler;
+  teamName: string;
+  pluginTeamName: string;
+  pluginName: string;
+  pluginKind: 'source' | 'destination';
+  successBaseUrl: string;
+  getConnectPayloadSpec?: () => Promise<Record<string, any> | undefined>;
+  getFinishPayloadSpec?: () => Promise<Record<string, any> | undefined>;
+}
+
 /**
  * This hook is used to create an OAuth connector and authenticate it.
  *
@@ -15,6 +26,8 @@ import { getRandomId } from '../utils/getRandomId';
  * @param pluginName - Plugin name
  * @param pluginKind - Plugin kind
  * @param successBaseUrl - Base URL that will be used to redirect the user upon successful authentication
+ * @param getConnectPayloadSpec - An async callback which returns a spec object added to the authenticate/oauth POST request payload
+ * @param getFinishPayloadSpec - An async callback which returns a spec object added to the authenticate/oauth PATCH request payload
  *
  * @public
  */
@@ -25,14 +38,9 @@ export function useOauthConnector({
   pluginName,
   pluginTeamName,
   successBaseUrl,
-}: {
-  pluginUiMessageHandler: PluginUiMessageHandler;
-  teamName: string;
-  pluginTeamName: string;
-  pluginName: string;
-  pluginKind: 'source' | 'destination';
-  successBaseUrl: string;
-}) {
+  getConnectPayloadSpec,
+  getFinishPayloadSpec,
+}: UseOauthConnectorProps) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -83,6 +91,7 @@ export function useOauthConnector({
           plugin_kind: pluginKind,
           plugin_name: pluginName,
           base_url: successBaseUrl,
+          spec: await getConnectPayloadSpec?.(),
         },
       );
 
@@ -109,6 +118,7 @@ export function useOauthConnector({
     pluginUiMessageHandler,
     successBaseUrl,
     teamName,
+    getConnectPayloadSpec,
   ]);
 
   /**
@@ -126,6 +136,7 @@ export function useOauthConnector({
           {
             return_url: `${successBaseUrl}?${searchParams.toString()}`,
             base_url: successBaseUrl,
+            spec: await getFinishPayloadSpec?.(),
           },
         );
 
@@ -135,7 +146,7 @@ export function useOauthConnector({
         setError(error?.body || error);
       }
     },
-    [callApi, successBaseUrl, teamName],
+    [callApi, successBaseUrl, teamName, getFinishPayloadSpec],
   );
 
   useEffect(() => {

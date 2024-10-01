@@ -91,7 +91,7 @@ export const PluginContextProvider = ({
     });
   }, [getTablesData]);
 
-  const validatedConfig = useMemo(() => validateConfig(config), [config]);
+  const validatedConfig = useMemo(() => validateConfig(config, tablesList), [config, tablesList]);
 
   const pluginProps = useMemo(() => getPluginProps(), []);
 

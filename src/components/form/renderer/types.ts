@@ -10,6 +10,7 @@ import { type ControlDateTimeFieldProps } from '../controls/controlDateTimeField
 import { type ControlExclusiveToggleFieldProps } from '../controls/controlExclusiveToggleField';
 import { type ControlMultiSelectFieldProps } from '../controls/controlMultiSelectField';
 import { type ControlNumberFieldProps } from '../controls/controlNumberField';
+import { ControlOAuthFieldProps } from '../controls/controlOAuthField';
 import { type ControlSecretFieldProps } from '../controls/controlSecretField';
 import { type ControlSelectFieldProps } from '../controls/controlSelectField';
 import { type ControlServicesSelectorFieldProps } from '../controls/controlServicesSelectorField';
@@ -107,7 +108,7 @@ export interface LayoutServicesSelector
 export interface LayoutTableSelector extends ShouldRenderAbstract {
   component: 'control-table-selector';
 }
-export interface LayoutOAuth extends ShouldRenderAbstract {
+export interface LayoutOAuth extends ShouldRenderAbstract, ControlOAuthFieldProps {
   component: 'control-oauth';
 }
 

@@ -68,6 +68,15 @@ export interface CloudQueryTable {
 export type CloudQueryTables = CloudQueryTable[];
 
 // @public
+export function CodeSnippet({ text }: CodeSnippetProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface CodeSnippetProps {
+    // (undocumented)
+    text: string;
+}
+
+// @public
 export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
@@ -683,15 +692,10 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
     submitError: any | undefined;
 };
 
+// Warning: (ae-forgotten-export) The symbol "UseOauthConnectorProps" needs to be exported by the entry point index.d.ts
+//
 // @public
-export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, }: {
-    pluginUiMessageHandler: PluginUiMessageHandler;
-    teamName: string;
-    pluginTeamName: string;
-    pluginName: string;
-    pluginKind: 'source' | 'destination';
-    successBaseUrl: string;
-}): {
+export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, getConnectPayloadSpec, getFinishPayloadSpec, }: UseOauthConnectorProps): {
     authenticate: () => Promise<void>;
     isLoading: boolean;
     connectorId: string | null;

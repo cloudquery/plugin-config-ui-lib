@@ -2,8 +2,8 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { CodeSnippet } from './codeSnippet';
 import { ConditionalRenderingWrapper } from '../../../controls/conditionalRenderingWrapper';
+import { CodeSnippet } from '../../codeSnippet';
 import { LightboxImage } from '../../lightboxImage';
 
 type SectionBody = {

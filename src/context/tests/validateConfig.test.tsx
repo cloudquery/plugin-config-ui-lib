@@ -13,7 +13,7 @@ describe('validateConfig', () => {
   afterAll(() => {
     console.error = originalError;
   });
-  
+
   test('should validate a valid config', async () => {
     const config = validateConfig(validConfig);
 
@@ -253,5 +253,30 @@ describe('validateConfig', () => {
       } as any);
 
     expect(runTest).toThrow(errorMessages.duplicate_names);
+  });
+
+  test('should throw an error if non-empty table list is provided but no table selector is present', async () => {
+    const runTest = () =>
+      validateConfig(
+        {
+          ...validConfig,
+          steps: [
+            {
+              component: 'section',
+              children: [],
+            },
+          ],
+        } as any,
+        [
+          {
+          name: 'example-table',
+          title: 'Example Table',
+          description: 'Example Table Description',
+          relations: [],
+          is_incremental: false,
+        },
+      ]);
+
+    expect(runTest).toThrow(errorMessages.config_no_table_selector);
   });
 });
