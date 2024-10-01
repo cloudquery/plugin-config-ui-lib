@@ -16,6 +16,12 @@ npm install @cloudquery/plugin-config-ui-lib
 
 ## Documentation
 
+### Config UI Framework
+
+The Config UI Framework provides a way for anyone to build a plugin UI with simply a config object and data transformer.
+
+[Documentation Center](https://66facee74aed74fa3fd566af-tromefybtu.chromatic.com/)
+
 ### Hooks
 
 #### useApiCall
