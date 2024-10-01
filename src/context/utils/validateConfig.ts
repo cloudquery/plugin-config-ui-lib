@@ -1,9 +1,11 @@
 import { reservedNames, errorMessages } from './constants';
+import { PluginTable } from '../../components';
 import {
   IterableStepComponent,
   LayoutComponent,
   LayoutTextField,
   RenderSection,
+  ReservedLayoutComponent,
 } from '../../components/form/renderer/types';
 import { PluginConfig } from '../../types';
 
@@ -81,7 +83,7 @@ function validateSteps(steps: PluginConfig['steps']): string[] {
   });
 }
 
-export function validateConfig(config: PluginConfig) {
+export function validateConfig(config: PluginConfig, tablesList?: PluginTable[]) {
   if (!config) {
     throw new Error(errorMessages.config_no_config);
   }
@@ -121,6 +123,37 @@ export function validateConfig(config: PluginConfig) {
   const duplicateComponentNames = checkForDuplicateNames(componentFieldNames);
   if (duplicateComponentNames.length > 0) {
     throw new Error(`${errorMessages.duplicate_names}: ${duplicateComponentNames}`);
+  }
+
+  if (tablesList && tablesList.length > 0) {
+    const hasTableSelector = (
+      steps: (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
+    ): boolean => {
+      return steps.some((step) => {
+        if (step.component === 'control-table-selector') {
+          return true;
+        }
+        if ((step as RenderSection).children && Array.isArray((step as RenderSection).children)) {
+          return hasTableSelector(
+            (step as RenderSection).children as (
+              | RenderSection
+              | LayoutComponent
+              | ReservedLayoutComponent
+            )[],
+          );
+        }
+
+        return false;
+      });
+    };
+
+    if (
+      !hasTableSelector(
+        config.steps as (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
+      )
+    ) {
+      throw new Error(errorMessages.config_no_table_selector);
+    }
   }
 
   return config;
