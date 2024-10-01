@@ -20,8 +20,8 @@ import { cloudQueryOauthConnectorUrl } from '../../../utils';
  * @public
  */
 export interface ControlOAuthFieldProps {
-  createConnectPayloadProps: (values: any) => Record<string, any>;
-  createFinishPayloadProps: (values: any) => Record<string, any>;
+  createConnectPayloadSpec: (values: any) => Record<string, any>;
+  createFinishPayloadSpec: (values: any) => Record<string, any>;
 }
 
 /**
@@ -30,20 +30,20 @@ export interface ControlOAuthFieldProps {
  * @public
  */
 export function ControlOAuthField({
-  createConnectPayloadProps,
-  createFinishPayloadProps,
+  createConnectPayloadSpec,
+  createFinishPayloadSpec,
 }: ControlOAuthFieldProps) {
   const form = useFormContext();
   const { plugin, teamName, config, pluginUiMessageHandler } = usePluginContext();
   const { watch, formState, setValue } = form;
   const values = watch();
 
-  const { connectPayloadProps, finishPayloadProps } = useMemo(() => {
+  const { connectPayloadSpec, finishPayloadSpec } = useMemo(() => {
     return {
-      connectPayloadProps: createConnectPayloadProps?.(values),
-      finishPayloadProps: createFinishPayloadProps?.(values),
+      connectPayloadSpec: createConnectPayloadSpec?.(values),
+      finishPayloadSpec: createFinishPayloadSpec?.(values),
     };
-  }, [values, createConnectPayloadProps, createFinishPayloadProps]);
+  }, [values, createConnectPayloadSpec, createFinishPayloadSpec]);
 
   const {
     authConnectorResult,
@@ -59,8 +59,8 @@ export function ControlOAuthField({
     pluginUiMessageHandler,
     successBaseUrl: cloudQueryOauthConnectorUrl,
     teamName,
-    connectPayloadProps,
-    finishPayloadProps,
+    connectPayloadSpec,
+    finishPayloadSpec,
   });
 
   useEffect(() => {

@@ -684,15 +684,15 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
 };
 
 // @public
-export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, connectPayloadProps, finishPayloadProps, }: {
+export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, connectPayloadSpec, finishPayloadSpec, }: {
     pluginUiMessageHandler: PluginUiMessageHandler;
     teamName: string;
     pluginTeamName: string;
     pluginName: string;
     pluginKind: 'source' | 'destination';
     successBaseUrl: string;
-    connectPayloadProps: Record<string, any>;
-    finishPayloadProps: Record<string, any>;
+    connectPayloadSpec: Record<string, any>;
+    finishPayloadSpec: Record<string, any>;
 }): {
     authenticate: () => Promise<void>;
     isLoading: boolean;
