@@ -32,7 +32,16 @@ export function CodeSnippet({ text }: CodeSnippetProps) {
   return (
     <Box
       sx={{
-        '& pre': { whiteSpace: 'break-spaces', outline: 'none', margin: 1.5, fontSize: '12px' },
+        display: 'flex',
+        alignItems: 'center',
+        minHeight: '40px',
+        '& pre': {
+          whiteSpace: 'break-spaces',
+          outline: 'none',
+          margin: 1.5,
+          fontSize: '12px',
+          paddingRight: '40px',
+        },
         '& .value': { color: palette.text.secondary },
         '& .key': { color: palette.info.main },
         position: 'relative',
