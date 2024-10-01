@@ -13,6 +13,7 @@ import {
   LayoutExclusiveToggle,
   LayoutMultiSelectField,
   LayoutNumberField,
+  LayoutOAuth,
   LayoutSecretInput,
   LayoutSection,
   LayoutSelectField,
@@ -232,7 +233,7 @@ function ComponentRenderer({
       case 'control-oauth': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={42} />}>
-            <ControlOAuthField />
+            <ControlOAuthField {...(component as LayoutOAuth)} />
           </Suspense>
         );
       }

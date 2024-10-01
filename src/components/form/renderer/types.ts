@@ -18,6 +18,7 @@ import { type CollapsibleSectionProps } from '../sections/collapsibleSection';
 import { type CollapsibleSubSectionProps } from '../sections/collapsibleSubSection';
 import { type SectionProps } from '../sections/section';
 import { type SubSectionProps } from '../sections/subSection';
+import { ControlOAuthFieldProps } from '../controls/controlOAuthField';
 
 // Abstracts
 type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
@@ -107,7 +108,7 @@ export interface LayoutServicesSelector
 export interface LayoutTableSelector extends ShouldRenderAbstract {
   component: 'control-table-selector';
 }
-export interface LayoutOAuth extends ShouldRenderAbstract {
+export interface LayoutOAuth extends ShouldRenderAbstract, ControlOAuthFieldProps {
   component: 'control-oauth';
 }
 

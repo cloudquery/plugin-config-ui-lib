@@ -15,6 +15,8 @@ import { getRandomId } from '../utils/getRandomId';
  * @param pluginName - Plugin name
  * @param pluginKind - Plugin kind
  * @param successBaseUrl - Base URL that will be used to redirect the user upon successful authentication
+ * @param connectPayloadProps - Additional properties added to the authenticate/oauth POST request payload
+ * @param finishPayloadProps - Additional properties added to the authenticate/oauth PATCH request payload
  *
  * @public
  */
@@ -25,6 +27,8 @@ export function useOauthConnector({
   pluginName,
   pluginTeamName,
   successBaseUrl,
+  connectPayloadProps = {},
+  finishPayloadProps = {},
 }: {
   pluginUiMessageHandler: PluginUiMessageHandler;
   teamName: string;
@@ -32,6 +36,8 @@ export function useOauthConnector({
   pluginName: string;
   pluginKind: 'source' | 'destination';
   successBaseUrl: string;
+  connectPayloadProps: Record<string, any>;
+  finishPayloadProps: Record<string, any>;
 }) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,6 +89,7 @@ export function useOauthConnector({
           plugin_kind: pluginKind,
           plugin_name: pluginName,
           base_url: successBaseUrl,
+          ...connectPayloadProps,
         },
       );
 
@@ -109,6 +116,7 @@ export function useOauthConnector({
     pluginUiMessageHandler,
     successBaseUrl,
     teamName,
+    connectPayloadProps,
   ]);
 
   /**
@@ -126,6 +134,7 @@ export function useOauthConnector({
           {
             return_url: `${successBaseUrl}?${searchParams.toString()}`,
             base_url: successBaseUrl,
+            ...finishPayloadProps,
           },
         );
 
@@ -135,7 +144,7 @@ export function useOauthConnector({
         setError(error?.body || error);
       }
     },
-    [callApi, successBaseUrl, teamName],
+    [callApi, successBaseUrl, teamName, finishPayloadProps],
   );
 
   useEffect(() => {

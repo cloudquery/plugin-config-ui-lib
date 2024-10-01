@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import CheckIcon from '@mui/icons-material/Check';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -17,14 +17,33 @@ import { useOauthConnector } from '../../../hooks';
 import { cloudQueryOauthConnectorUrl } from '../../../utils';
 
 /**
+ * @public
+ */
+export interface ControlOAuthFieldProps {
+  createConnectPayloadProps: (values: any) => Record<string, any>;
+  createFinishPayloadProps: (values: any) => Record<string, any>;
+}
+
+/**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
  *
  * @public
  */
-export function ControlOAuthField() {
+export function ControlOAuthField({
+  createConnectPayloadProps,
+  createFinishPayloadProps,
+}: ControlOAuthFieldProps) {
   const form = useFormContext();
   const { plugin, teamName, config, pluginUiMessageHandler } = usePluginContext();
   const { watch, formState, setValue } = form;
+  const values = watch();
+
+  const { connectPayloadProps, finishPayloadProps } = useMemo(() => {
+    return {
+      connectPayloadProps: createConnectPayloadProps?.(values),
+      finishPayloadProps: createFinishPayloadProps?.(values),
+    };
+  }, [values, createConnectPayloadProps, createFinishPayloadProps]);
 
   const {
     authConnectorResult,
@@ -40,6 +59,8 @@ export function ControlOAuthField() {
     pluginUiMessageHandler,
     successBaseUrl: cloudQueryOauthConnectorUrl,
     teamName,
+    connectPayloadProps,
+    finishPayloadProps,
   });
 
   useEffect(() => {
