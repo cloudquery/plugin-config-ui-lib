@@ -36,8 +36,8 @@ export function useOauthConnector({
   pluginName: string;
   pluginKind: 'source' | 'destination';
   successBaseUrl: string;
-  connectPayloadSpec: Record<string, any>;
-  finishPayloadSpec: Record<string, any>;
+  connectPayloadSpec?: Record<string, any>;
+  finishPayloadSpec?: Record<string, any>;
 }) {
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);

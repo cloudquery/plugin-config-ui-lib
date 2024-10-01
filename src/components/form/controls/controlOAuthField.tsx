@@ -20,8 +20,10 @@ import { cloudQueryOauthConnectorUrl } from '../../../utils';
  * @public
  */
 export interface ControlOAuthFieldProps {
-  createConnectPayloadSpec: (values: any) => Record<string, any>;
-  createFinishPayloadSpec: (values: any) => Record<string, any>;
+  // A callback function that provides the current FormValues and outputs a `spec` object for the OAuth API payload
+  createConnectPayloadSpec?: (values: any) => Record<string, any>;
+  // A callback function that provides the current FormValues and outputs a `spec` object for the OAuth API payload
+  createFinishPayloadSpec?: (values: any) => Record<string, any>;
 }
 
 /**

@@ -691,8 +691,8 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
     pluginName: string;
     pluginKind: 'source' | 'destination';
     successBaseUrl: string;
-    connectPayloadSpec: Record<string, any>;
-    finishPayloadSpec: Record<string, any>;
+    connectPayloadSpec?: Record<string, any>;
+    finishPayloadSpec?: Record<string, any>;
 }): {
     authenticate: () => Promise<void>;
     isLoading: boolean;
