@@ -683,17 +683,10 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
     submitError: any | undefined;
 };
 
+// Warning: (ae-forgotten-export) The symbol "UseOauthConnectorProps" needs to be exported by the entry point index.d.ts
+//
 // @public
-export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, connectPayloadSpec, finishPayloadSpec, }: {
-    pluginUiMessageHandler: PluginUiMessageHandler;
-    teamName: string;
-    pluginTeamName: string;
-    pluginName: string;
-    pluginKind: 'source' | 'destination';
-    successBaseUrl: string;
-    connectPayloadSpec?: Record<string, any>;
-    finishPayloadSpec?: Record<string, any>;
-}): {
+export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind, pluginName, pluginTeamName, successBaseUrl, getConnectPayloadSpec, getFinishPayloadSpec, }: UseOauthConnectorProps): {
     authenticate: () => Promise<void>;
     isLoading: boolean;
     connectorId: string | null;

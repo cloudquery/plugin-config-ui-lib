@@ -15,16 +15,15 @@ import { useFormContext } from 'react-hook-form';
 import { usePluginContext } from '../../../context';
 import { useOauthConnector } from '../../../hooks';
 import { cloudQueryOauthConnectorUrl } from '../../../utils';
+import { UseOauthConnectorProps } from '../../../hooks/useOauthConnector';
 
 /**
  * @public
  */
-export interface ControlOAuthFieldProps {
-  // A callback function that provides the current FormValues and outputs a `spec` object for the OAuth API payload
-  createConnectPayloadSpec?: (values: any) => Record<string, any>;
-  // A callback function that provides the current FormValues and outputs a `spec` object for the OAuth API payload
-  createFinishPayloadSpec?: (values: any) => Record<string, any>;
-}
+export type ControlOAuthFieldProps = Pick<
+  UseOauthConnectorProps,
+  'getConnectPayloadSpec' | 'getFinishPayloadSpec'
+>;
 
 /**
  * This component is a renders an OAuth authentication button and handles the data transfer process.
@@ -32,20 +31,12 @@ export interface ControlOAuthFieldProps {
  * @public
  */
 export function ControlOAuthField({
-  createConnectPayloadSpec,
-  createFinishPayloadSpec,
+  getConnectPayloadSpec,
+  getFinishPayloadSpec,
 }: ControlOAuthFieldProps) {
   const form = useFormContext();
   const { plugin, teamName, config, pluginUiMessageHandler } = usePluginContext();
   const { watch, formState, setValue } = form;
-  const values = watch();
-
-  const { connectPayloadSpec, finishPayloadSpec } = useMemo(() => {
-    return {
-      connectPayloadSpec: createConnectPayloadSpec?.(values),
-      finishPayloadSpec: createFinishPayloadSpec?.(values),
-    };
-  }, [values, createConnectPayloadSpec, createFinishPayloadSpec]);
 
   const {
     authConnectorResult,
@@ -61,8 +52,8 @@ export function ControlOAuthField({
     pluginUiMessageHandler,
     successBaseUrl: cloudQueryOauthConnectorUrl,
     teamName,
-    connectPayloadSpec,
-    finishPayloadSpec,
+    getConnectPayloadSpec,
+    getFinishPayloadSpec,
   });
 
   useEffect(() => {

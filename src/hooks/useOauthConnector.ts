@@ -1,23 +1,37 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
 import { useApiCall } from './useApiCall';
 import { cloudQueryApiBaseUrl } from '../utils';
 import { getRandomId } from '../utils/getRandomId';
+import { useFormContext } from 'react-hook-form';
 
 /**
- * This hook is used to create an OAuth connector and authenticate it.
- *
  * @param pluginUiMessageHandler - Plugin UI message handler
  * @param teamName - Team name
  * @param pluginTeamName - Plugin team name
  * @param pluginName - Plugin name
  * @param pluginKind - Plugin kind
  * @param successBaseUrl - Base URL that will be used to redirect the user upon successful authentication
- * @param connectPayloadSpec - Spec object added to the authenticate/oauth POST request payload
- * @param finishPayloadSpec - Spec object added to the authenticate/oauth PATCH request payload
+ * @param getConnectPayloadSpec - A callback, provided the form values, returns a spec object added to the authenticate/oauth POST request payload
+ * @param getFinishPayloadSpec - A callback, provided the form values, returns a spec object added to the authenticate/oauth PATCH request payload
  *
+ * @public
+ */
+export interface UseOauthConnectorProps {
+  pluginUiMessageHandler: PluginUiMessageHandler;
+  teamName: string;
+  pluginTeamName: string;
+  pluginName: string;
+  pluginKind: 'source' | 'destination';
+  successBaseUrl: string;
+  getConnectPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+  getFinishPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+}
+
+/**
+ * This hook is used to create an OAuth connector and authenticate it.
  * @public
  */
 export function useOauthConnector({
@@ -27,18 +41,10 @@ export function useOauthConnector({
   pluginName,
   pluginTeamName,
   successBaseUrl,
-  connectPayloadSpec = {},
-  finishPayloadSpec = {},
-}: {
-  pluginUiMessageHandler: PluginUiMessageHandler;
-  teamName: string;
-  pluginTeamName: string;
-  pluginName: string;
-  pluginKind: 'source' | 'destination';
-  successBaseUrl: string;
-  connectPayloadSpec?: Record<string, any>;
-  finishPayloadSpec?: Record<string, any>;
-}) {
+  getConnectPayloadSpec,
+  getFinishPayloadSpec,
+}: UseOauthConnectorProps) {
+  const form = useFormContext();
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -47,6 +53,13 @@ export function useOauthConnector({
     null,
   );
   const authConnectorResultSubscriptionRef = useRef<() => void>();
+
+  const { connectPayloadSpec, finishPayloadSpec } = useMemo(() => {
+    return {
+      connectPayloadSpec: getConnectPayloadSpec?.(form.getValues()),
+      finishPayloadSpec: getFinishPayloadSpec?.(form.getValues()),
+    };
+  }, [form, getConnectPayloadSpec, getFinishPayloadSpec]);
 
   const cancel = useCallback(() => {
     setIsLoading(false);
