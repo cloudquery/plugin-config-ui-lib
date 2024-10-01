@@ -10,6 +10,7 @@ import { type ControlDateTimeFieldProps } from '../controls/controlDateTimeField
 import { type ControlExclusiveToggleFieldProps } from '../controls/controlExclusiveToggleField';
 import { type ControlMultiSelectFieldProps } from '../controls/controlMultiSelectField';
 import { type ControlNumberFieldProps } from '../controls/controlNumberField';
+import { ControlOAuthFieldProps } from '../controls/controlOAuthField';
 import { type ControlSecretFieldProps } from '../controls/controlSecretField';
 import { type ControlSelectFieldProps } from '../controls/controlSelectField';
 import { type ControlServicesSelectorFieldProps } from '../controls/controlServicesSelectorField';
@@ -18,7 +19,6 @@ import { type CollapsibleSectionProps } from '../sections/collapsibleSection';
 import { type CollapsibleSubSectionProps } from '../sections/collapsibleSubSection';
 import { type SectionProps } from '../sections/section';
 import { type SubSectionProps } from '../sections/subSection';
-import { ControlOAuthFieldProps } from '../controls/controlOAuthField';
 
 // Abstracts
 type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
