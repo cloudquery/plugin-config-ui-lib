@@ -2,7 +2,7 @@ import { ThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { CodeSnippet } from '../../components/display/setupGuide/section/codeSnippet';
+import { CodeSnippet } from '../../components/display/codeSnippet';
 import { ComponentsRenderer } from '../../components/form/renderer';
 import { theme } from '../../utils/tests/renderWithTheme';
 
