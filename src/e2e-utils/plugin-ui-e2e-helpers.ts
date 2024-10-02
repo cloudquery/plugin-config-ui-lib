@@ -7,8 +7,18 @@ export const getPersistentName = () => `name-${Math.random().toString(36).slice(
 type CreatePluginControlOpts = {
   page: Page;
   kind: 'source' | 'destination';
-  pluginName: string;
+  /**
+   * @deprecated - This property is no longer used in the test functions. It is the api identifier
+   * for the plugin (ie. `google-search-console`)
+   */
+  pluginName?: string;
+  /**
+   * User readable label of the plugin (ie. 'Google Search Console' for 'google-search-console')
+   */
   pluginLabel: string;
+  /**
+   * Desired user input for the `Source name` or `Destination name` input field.
+   */
   pluginNewName: string;
   fillFieldsSteps?: (iframeElement: Frame) => Promise<void>;
 };
@@ -39,7 +49,6 @@ export const login = async (page: Page) => {
 export const createPlugin = async ({
   page,
   kind,
-  pluginName,
   pluginNewName,
   pluginLabel,
   fillFieldsSteps,
@@ -82,7 +91,6 @@ export const editPlugin = async ({
   page,
   kind,
   pluginNewName,
-  pluginName,
   pluginLabel,
   fillFieldsSteps,
   pluginUrl,
@@ -132,7 +140,6 @@ export const deletePlugin = async ({
   page,
   kind,
   pluginNewName,
-  pluginName,
   pluginLabel,
   pluginUrl,
 }: EditPluginControlOpts) => {
