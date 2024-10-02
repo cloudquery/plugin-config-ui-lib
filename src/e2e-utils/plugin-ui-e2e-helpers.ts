@@ -49,7 +49,7 @@ export const createPlugin = async ({
 
   await expect(page.getByRole('heading', { name: `Create a ${kind}` })).toBeVisible();
 
-  await fillInput(page, 'input[type="text"]', pluginName);
+  await fillInput(page, 'input[type="text"]', pluginLabel);
 
   await click(page, page.getByRole('button', { name: pluginLabel }));
 
@@ -92,7 +92,7 @@ export const editPlugin = async ({
 
   await expect(page.getByRole('heading', { name: `Create a ${kind}` })).toBeVisible();
 
-  await fillInput(page, 'input[type="text"]', pluginName);
+  await fillInput(page, 'input[type="text"]', pluginLabel);
 
   await click(page, page.getByRole('button', { name: pluginLabel }));
   await expect(page.getByText('Previewing')).toBeVisible();
@@ -141,7 +141,7 @@ export const deletePlugin = async ({
 
   await expect(page.getByRole('heading', { name: `Create a ${kind}` })).toBeVisible();
 
-  await fillInput(page, 'input[type="text"]', pluginName);
+  await fillInput(page, 'input[type="text"]', pluginLabel);
 
   await click(page, page.getByRole('button', { name: pluginLabel }));
   await expect(page.getByText('Previewing')).toBeVisible();
