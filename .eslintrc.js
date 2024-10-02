@@ -1,6 +1,15 @@
 module.exports = {
   plugins: ['@typescript-eslint', 'jsx-a11y', 'import', 'prettier', 'unicorn'],
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:jsx-a11y/recommended', 'plugin:import/typescript', 'plugin:prettier/recommended', 'plugin:unicorn/recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended', 'plugin:storybook/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:jsx-a11y/recommended',
+    'plugin:import/typescript',
+    'plugin:prettier/recommended',
+    'plugin:unicorn/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
