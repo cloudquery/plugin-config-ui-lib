@@ -32,17 +32,31 @@ export function CodeSnippet({ text }: CodeSnippetProps) {
   return (
     <Box
       sx={{
-        '& pre': { whiteSpace: 'break-spaces', outline: 'none', margin: 1.5, fontSize: '12px' },
-        '& .value': { color: palette.text.secondary },
-        '& .key': { color: palette.info.main },
-        position: 'relative',
+        display: 'flex',
+        alignItems: 'start',
       }}
     >
-      <pre
-        dangerouslySetInnerHTML={{
-          __html: highlightSyntax(code),
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          minHeight: '40px',
+          '& pre': {
+            whiteSpace: 'break-spaces',
+            outline: 'none',
+            margin: 1.5,
+            fontSize: '12px',
+          },
+          '& .value': { color: palette.text.secondary },
+          '& .key': { color: palette.info.main },
         }}
-      />
+      >
+        <pre
+          dangerouslySetInnerHTML={{
+            __html: highlightSyntax(code),
+          }}
+        />
+      </Box>
       <CopyToClipboardButton text={code} />
     </Box>
   );
