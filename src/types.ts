@@ -22,7 +22,10 @@ export interface GuideConfig {
   sections: RenderGuideProps['sections'];
 }
 
-type PluginConfigFormStep = {
+/**
+ * @public
+ */
+export type PluginConfigFormStep = {
   children: (IterableStepComponent | React.FC<any>)[];
   title: string;
   submitGuard?: (formValues: any) => Promise<boolean>;
