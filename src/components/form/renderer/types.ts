@@ -22,7 +22,7 @@ import { type SubSectionProps } from '../sections/subSection';
 
 // Abstracts
 type ShouldRenderAbstract = Pick<ConditionalRenderingProps, 'shouldRender'>;
-interface ComponentAbstract extends ShouldRenderAbstract {
+export interface ComponentAbstract extends ShouldRenderAbstract {
   name: string;
   schema: yup.AnySchema;
 }
