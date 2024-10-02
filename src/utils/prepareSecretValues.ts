@@ -11,10 +11,10 @@ export function prepareSecretValues(
   values: Record<string, any>,
 ): {
   envs: { name: string; value: string }[];
-  spec: Record<string, string>;
+  spec: Record<string, string | undefined>;
 } {
   const envs: { name: string; value: string }[] = [];
-  const spec: Record<string, string> = {};
+  const spec: Record<string, string | undefined> = {};
 
   for (const name of values._secretKeys ?? []) {
     const shouldRenderFns = findShouldRenderFunctions(configSteps, name);
@@ -26,6 +26,8 @@ export function prepareSecretValues(
         value: isOrHasSecret(value) ? '' : value,
       });
       spec[name] = `\${${escapeSingleQuotesAndBackslashes(name)}}`;
+    } else {
+      spec[name] = undefined;
     }
   }
 
