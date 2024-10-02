@@ -20,7 +20,7 @@ export function CopyToClipboardButton({ sx, text }: Props) {
   };
 
   return (
-    <Box sx={[...(Array.isArray(sx) ? sx : [sx])]}>
+    <Box sx={sx}>
       <IconButton
         aria-label="copy"
         onClick={handleClick}
