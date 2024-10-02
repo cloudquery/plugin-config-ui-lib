@@ -26,6 +26,7 @@ import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { FormFooter, FormWrapper, GuideComponent } from '../display';
 import { PluginTable } from '../inputs';
 import { Sections } from './sections/sections';
+import { PluginConfig } from '../../types';
 
 const FormStepper = React.lazy(() =>
   import('../display/formStepper').then((module) => ({
@@ -38,6 +39,7 @@ const FormStepper = React.lazy(() =>
  */
 export interface ConfigUIFormProps {
   prepareSubmitValues: (
+    config: PluginConfig,
     values: Record<string, any>,
     tablesList?: PluginTable[],
   ) => PluginUiMessagePayload['validation_passed']['values'];
@@ -61,8 +63,8 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
   const editMode = watch('_editMode');
 
   const getCurrentValues = useCallback(
-    () => prepareSubmitValues(form.getValues(), tablesList),
-    [form, tablesList, prepareSubmitValues],
+    () => prepareSubmitValues(config, form.getValues(), tablesList),
+    [config, form, tablesList, prepareSubmitValues],
   );
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);

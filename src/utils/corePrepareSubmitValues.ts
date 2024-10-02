@@ -3,6 +3,7 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { prepareOAuthValue } from './prepareOAuthValue';
 import { prepareSecretValues } from './prepareSecretValues';
 import { PluginTable } from '../components';
+import { PluginConfig } from '../types';
 
 /**
  * Prepare values for submit
@@ -10,6 +11,7 @@ import { PluginTable } from '../components';
  * @public
  */
 export function corePrepareSubmitValues(
+  config: PluginConfig,
   values: any,
   tablesList?: PluginTable[],
 ): PluginUiMessagePayload['validation_passed']['values'] {
@@ -20,7 +22,7 @@ export function corePrepareSubmitValues(
     spec: {} as Record<string, any>,
   };
 
-  const secrets = prepareSecretValues(values);
+  const secrets = prepareSecretValues(config.steps, values);
   const oauthValue = prepareOAuthValue(values);
 
   return {
