@@ -242,6 +242,37 @@ export const getEnabledTablesObject: ({ tablesList, tables, }: {
 export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | JSX_2.Element | Iterable<ReactNode> | null | undefined;
 
 // @public
+export const getGCPAuthFormula: (initialValues?: FormMessagePayload["init"]["initialValues"] | undefined) => ({
+    component: string;
+    name: string;
+    options: {
+        label: string;
+        value: AuthType;
+    }[];
+    schema: yup.MixedSchema<{} | undefined, yup.AnyObject, AuthType, "d">;
+    shouldRender?: undefined;
+    children?: undefined;
+} | {
+    component: string;
+    shouldRender: (values: any) => boolean;
+    children: (typeof GCPConnect)[];
+    name?: undefined;
+    options?: undefined;
+    schema?: undefined;
+} | {
+    component: string;
+    shouldRender: (values: any) => boolean;
+    children: {
+        name: string;
+        component: typeof UploadJSON;
+        schema: yup.StringSchema<string | undefined, yup.AnyObject, any, "">;
+    }[];
+    name?: undefined;
+    options?: undefined;
+    schema?: undefined;
+})[];
+
+// @public
 export function getRandomId(length?: number): string;
 
 // @public
@@ -576,6 +607,15 @@ export interface TreeRootProps extends ListProps {
 }
 
 // @public
+export function UploadJSON({ name, helperText, }: UploadJSONProps): JSX_2.Element;
+
+// @public (undocumented)
+export type UploadJSONProps = {
+    name?: string;
+    helperText?: string;
+};
+
+// @public
 export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
     callApi: <ResponseData>(endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body?: any, options?: {
         headers?: Record<string, string>;
@@ -758,6 +798,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
+// src/components/form/formulas/gcpAuthFormula.tsx:36:5 - (ae-forgotten-export) The symbol "GCPConnect" needs to be exported by the entry point index.d.ts
 // src/types.ts:29:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
