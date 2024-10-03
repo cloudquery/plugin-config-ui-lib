@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useCallback, useState } from 'react';
+
+import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
+
 import { useApiCall } from '../hooks';
 import { getRandomId, cloudQueryApiBaseUrl } from '../utils';
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
 interface GCPConnectorContextProps {
   createAndAuthenticateConnector: (

@@ -10,19 +10,26 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { useGCPConnector } from './useGCPConnector';
 import { useFormContext } from 'react-hook-form';
+
+import { useGCPConnector } from './useGCPConnector';
 import { usePluginContext } from '../../../../context';
 import { getFieldHelperText } from '../../../../utils';
 import { CodeSnippet } from '../../../display';
 
-export function GCPConnect({
-  variant = 'button',
-  pluginUiMessageHandler,
-}: {
+/**
+ * @public
+ */
+export type GCPConnectProps = {
   variant?: 'link' | 'button';
   pluginUiMessageHandler: PluginUiMessageHandler;
-}) {
+};
+
+/**
+ * @public
+ * Encapsulatees the GCP Connector logic in a Button or Link.
+ */
+export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPConnectProps) {
   const { plugin, teamName } = usePluginContext();
   const form = useFormContext();
   const connectorId = form.watch('connectorId');

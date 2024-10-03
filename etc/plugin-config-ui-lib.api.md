@@ -85,7 +85,182 @@ export interface ConfigUIFormProps {
     prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
+// @public
+export function ControlBooleanField({ name, label, type, helperText, }: ControlBooleanFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlBooleanFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: 'toggle' | 'checkbox';
+}
+
+// @public
+export function ControlDateField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlDateFieldProps {
+    // (undocumented)
+    clearable?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    InputProps?: TextFieldProps['InputProps'];
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlDateTimeField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlDateTimeFieldProps {
+    // (undocumented)
+    clearable?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    InputProps?: TextFieldProps['InputProps'];
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlExclusiveToggleField({ name, options, children, }: ControlExclusiveToggleFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlExclusiveToggleFieldProps {
+    // (undocumented)
+    children?: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    options: {
+        label: string;
+        value: string | number;
+    }[];
+}
+
 export { Controller }
+
+// @public
+export function ControlMultiSelectField({ name, helperText, label, }: ControlMultiSelectFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlMultiSelectFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlNumberField({ name, label, helperText, textFieldProps, }: ControlNumberFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlNumberFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
+// @public
+export function ControlOAuthField({ getConnectPayloadSpec, getFinishPayloadSpec, }: ControlOAuthFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export type ControlOAuthFieldProps = {
+    getConnectPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+    getFinishPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+};
+
+// @public
+export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSecretFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
+// @public
+export function ControlSelectField({ name, helperText, label, options, }: ControlSelectFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSelectFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // Warning: (ae-forgotten-export) The symbol "OptionObject" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    options: (string | OptionObject)[];
+}
+
+// @public
+export function ControlServicesSelectorField({ services, topServices, name, helperText, label, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlServicesSelectorFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    services: ServiceTypes;
+    // (undocumented)
+    topServices?: string[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const ControlTableSelectorField: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
+
+// @public
+export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlTextFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
 
 // @public
 export function convertStringToSlug(value: string): string;
@@ -209,11 +384,20 @@ export type FormWrapperProps = {
 };
 
 // @public
+export function GCPConnect({ variant, pluginUiMessageHandler }: GCPConnectProps): JSX_2.Element;
+
+// @public
 export const GCPConnectorContextProvider: React_2.FC<GCPConnectorContextProviderProps>;
 
 // @public (undocumented)
 export type GCPConnectorContextProviderProps = {
     children: React_2.ReactNode;
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
+// @public (undocumented)
+export type GCPConnectProps = {
+    variant?: 'link' | 'button';
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
@@ -798,7 +982,6 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
-// src/components/form/formulas/gcpAuthFormula.tsx:36:5 - (ae-forgotten-export) The symbol "GCPConnect" needs to be exported by the entry point index.d.ts
 // src/types.ts:29:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

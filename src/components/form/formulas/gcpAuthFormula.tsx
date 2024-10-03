@@ -1,5 +1,6 @@
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import * as yup from 'yup';
+
 import { AuthType } from '../../../types';
 import { GCPConnect } from '../../auth/gcp/GCPConnect';
 import { UploadJSON } from '../../inputs/uploadJSON';
