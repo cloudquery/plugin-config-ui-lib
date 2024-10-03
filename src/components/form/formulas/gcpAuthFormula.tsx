@@ -1,4 +1,4 @@
-import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { FormMessagePayload, PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import * as yup from 'yup';
 
 import { AuthType } from '../../../types';
@@ -7,12 +7,21 @@ import { UploadJSON } from '../../inputs/uploadJSON';
 
 /**
  * @public
+ */
+export type GetGCPAuthFormulaProps = {
+  initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+  pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
+/**
+ * @public
  * Returns the `children` array for a PluginConfig section to render
  * the Authentication options for any GCP-based plugin.
  */
-export const getGCPAuthFormula = (
-  initialValues?: FormMessagePayload['init']['initialValues'] | undefined,
-) => [
+export const getGCPAuthFormula = ({
+  initialValues,
+  pluginUiMessageHandler,
+}: GetGCPAuthFormulaProps) => [
   {
     component: 'control-exclusive-toggle',
     name: '_authType',
@@ -34,7 +43,7 @@ export const getGCPAuthFormula = (
   {
     component: 'sub-section',
     shouldRender: (values: any) => values._authType === AuthType.OAUTH,
-    children: [GCPConnect],
+    children: [GCPConnect.bind({}, { pluginUiMessageHandler })],
   },
   {
     component: 'sub-section',

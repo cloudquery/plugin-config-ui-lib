@@ -1,1 +1,1 @@
-export { getGCPAuthFormula } from './gcpAuthFormula';
+export { getGCPAuthFormula, type GetGCPAuthFormulaProps } from './gcpAuthFormula';

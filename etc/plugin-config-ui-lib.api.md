@@ -426,7 +426,7 @@ export const getEnabledTablesObject: ({ tablesList, tables, }: {
 export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | JSX_2.Element | Iterable<ReactNode> | null | undefined;
 
 // @public
-export const getGCPAuthFormula: (initialValues?: FormMessagePayload["init"]["initialValues"] | undefined) => ({
+export const getGCPAuthFormula: ({ initialValues, pluginUiMessageHandler, }: GetGCPAuthFormulaProps) => ({
     component: string;
     name: string;
     options: {
@@ -439,7 +439,7 @@ export const getGCPAuthFormula: (initialValues?: FormMessagePayload["init"]["ini
 } | {
     component: string;
     shouldRender: (values: any) => boolean;
-    children: (typeof GCPConnect)[];
+    children: (() => JSX_2.Element)[];
     name?: undefined;
     options?: undefined;
     schema?: undefined;
@@ -455,6 +455,12 @@ export const getGCPAuthFormula: (initialValues?: FormMessagePayload["init"]["ini
     options?: undefined;
     schema?: undefined;
 })[];
+
+// @public (undocumented)
+export type GetGCPAuthFormulaProps = {
+    initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
 
 // @public
 export function getRandomId(length?: number): string;
