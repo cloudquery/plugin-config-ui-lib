@@ -209,6 +209,15 @@ export type FormWrapperProps = {
 };
 
 // @public
+export const GCPConnectorContextProvider: React_2.FC<GCPConnectorContextProviderProps>;
+
+// @public (undocumented)
+export type GCPConnectorContextProviderProps = {
+    children: React_2.ReactNode;
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
+// @public
 export function generateApiAbortError(message?: string): Error;
 
 // @public
@@ -696,6 +705,11 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
     formDisabled: boolean;
     submitError: any | undefined;
 };
+
+// Warning: (ae-forgotten-export) The symbol "GCPConnectorContextProps" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const useGCPConnectorContext: () => GCPConnectorContextProps | undefined;
 
 // Warning: (ae-forgotten-export) The symbol "UseOauthConnectorProps" needs to be exported by the entry point index.d.ts
 //
