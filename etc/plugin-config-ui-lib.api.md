@@ -709,7 +709,7 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
 // Warning: (ae-forgotten-export) The symbol "GCPConnectorContextProps" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const useGCPConnectorContext: () => GCPConnectorContextProps | undefined;
+export const useGCPConnectorContext: () => GCPConnectorContextProps;
 
 // Warning: (ae-forgotten-export) The symbol "UseOauthConnectorProps" needs to be exported by the entry point index.d.ts
 //

@@ -15,13 +15,6 @@ interface GCPConnectorContextProps {
 const GCPConnectorContext = createContext<GCPConnectorContextProps | undefined>(undefined);
 
 /**
- * Shared/static plugin context.
- *
- * @public
- */
-export const useGCPConnectorContext = () => useContext(GCPConnectorContext);
-
-/**
  * @public
  */
 export type GCPConnectorContextProviderProps = {
@@ -30,7 +23,7 @@ export type GCPConnectorContextProviderProps = {
 };
 
 /**
- * Provider for shared/stGCPConnector context.
+ * Provider for GCP Connector context.
  *
  * @public
  */
@@ -151,7 +144,12 @@ export const GCPConnectorContextProvider: React.FC<GCPConnectorContextProviderPr
   );
 };
 
-export const useGCPConnector = () => {
+/**
+ * GCP Connector context.
+ *
+ * @public
+ */
+export const useGCPConnectorContext = () => {
   const context = useContext(GCPConnectorContext);
   if (!context) {
     throw new Error('useGCPConnector must be used within a GCPConnectorProvider');
