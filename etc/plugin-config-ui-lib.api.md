@@ -386,15 +386,6 @@ export type FormWrapperProps = {
 // @public
 export function GCPConnect({ variant, pluginUiMessageHandler }: GCPConnectProps): JSX_2.Element;
 
-// @public
-export const GCPConnectorContextProvider: React_2.FC<GCPConnectorContextProviderProps>;
-
-// @public (undocumented)
-export type GCPConnectorContextProviderProps = {
-    children: React_2.ReactNode;
-    pluginUiMessageHandler: PluginUiMessageHandler;
-};
-
 // @public (undocumented)
 export type GCPConnectProps = {
     variant?: 'link' | 'button';
@@ -482,10 +473,25 @@ export function GuideComponent({ pluginUiMessageHandler, }: {
 // @public (undocumented)
 export interface GuideConfig {
     // (undocumented)
-    sections: RenderGuideProps['sections'];
+    sections: GuideSection[];
     // (undocumented)
     title: string;
 }
+
+// @public (undocumented)
+export type GuideSection = {
+    header?: string;
+    bodies: GuideSectionBody[];
+    shouldRender?: (values: any) => boolean;
+};
+
+// @public (undocumented)
+export type GuideSectionBody = {
+    code?: string;
+    image?: string;
+    text?: any;
+    shouldRender?: (values: any) => boolean;
+};
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -641,7 +647,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
 
 // @public (undocumented)
 export type RenderGuideProps = {
-    sections: Section[];
+    sections: GuideSection[];
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
@@ -822,6 +828,17 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
     };
 };
 
+// Warning: (ae-forgotten-export) The symbol "UseAuthConnectorResponse" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const useAuthConnector: ({ kind, pluginUiMessageHandler, }: UseAuthConnectorProps) => UseAuthConnectorResponse;
+
+// @public (undocumented)
+export type UseAuthConnectorProps = {
+    kind: 'gcp' | 'aws';
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
 // @public (undocumented)
 export const useConfigUIForm: () => UseFormReturn<any, any, undefined>;
 
@@ -936,11 +953,6 @@ export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | Form
     submitError: any | undefined;
 };
 
-// Warning: (ae-forgotten-export) The symbol "GCPConnectorContextProps" needs to be exported by the entry point index.d.ts
-//
-// @public
-export const useGCPConnectorContext: () => GCPConnectorContextProps;
-
 // Warning: (ae-forgotten-export) The symbol "UseOauthConnectorProps" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -987,8 +999,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
-// src/types.ts:29:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/types.ts:47:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

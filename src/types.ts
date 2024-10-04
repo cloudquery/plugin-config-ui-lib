@@ -2,7 +2,6 @@ import React from 'react';
 
 import * as yup from 'yup';
 
-import { RenderGuideProps } from './components/display';
 import { IterableStepComponent } from './components/form/renderer/types';
 import '@cloudquery/cloud-ui';
 
@@ -17,9 +16,28 @@ export enum AuthType {
 /**
  * @public
  */
+export type GuideSectionBody = {
+  code?: string;
+  image?: string;
+  text?: any;
+  shouldRender?: (values: any) => boolean;
+};
+
+/**
+ * @public
+ */
+export type GuideSection = {
+  header?: string;
+  bodies: GuideSectionBody[];
+  shouldRender?: (values: any) => boolean;
+};
+
+/**
+ * @public
+ */
 export interface GuideConfig {
   title: string;
-  sections: RenderGuideProps['sections'];
+  sections: GuideSection[];
 }
 
 /**

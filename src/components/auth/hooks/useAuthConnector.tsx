@@ -2,25 +2,32 @@ import { useCallback, useState } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
-import { useApiCall } from '../../../../hooks';
-import { cloudQueryApiBaseUrl, getRandomId } from '../../../../utils';
+import { useApiCall } from '../../../hooks';
+import { cloudQueryApiBaseUrl, getRandomId } from '../../../utils';
 
-interface UseGCPConnectorResponse {
-  createAndAuthenticateConnector: (
-    params: any,
-  ) => Promise<{ connectorId?: string; _serviceAccount?: string }>;
+interface UseAuthConnectorResponse {
+  createAndAuthenticateConnector: <T>(params: any) => Promise<T & { connectorId?: string }>;
   finishConnectorAuthentication: (params: any) => Promise<boolean>;
   authenticationError: Error | null;
   authenticationLoading: boolean;
 }
 
-export type GCPConnectorProps = {
+/**
+ * @public
+ */
+export type UseAuthConnectorProps = {
+  kind: 'gcp' | 'aws';
   pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
-export const useGCPConnector = ({
+/**
+ * @public
+ * Handles the authentication handshake for certain auth handlers, currently: 'aws' & 'gcp'
+ */
+export const useAuthConnector = ({
+  kind,
   pluginUiMessageHandler,
-}: GCPConnectorProps): UseGCPConnectorResponse => {
+}: UseAuthConnectorProps): UseAuthConnectorResponse => {
   const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -35,7 +42,7 @@ export const useGCPConnector = ({
     }): Promise<boolean> => {
       try {
         const { requestPromise: finishAuth } = await callApi<{ id: string }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/gcp/finish`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${kind}/finish`,
           'POST',
           {},
         );
@@ -50,11 +57,11 @@ export const useGCPConnector = ({
         return false;
       }
     },
-    [callApi],
+    [callApi, kind],
   );
 
   const createAndAuthenticateConnector = useCallback(
-    async ({
+    async function <T>({
       connectorId: existingConnectorId,
       teamName,
       pluginTeamName,
@@ -66,10 +73,7 @@ export const useGCPConnector = ({
       pluginTeamName: string;
       pluginName: string;
       pluginKind: 'source' | 'destination';
-    }): Promise<{
-      connectorId?: string;
-      _serviceAccount?: string;
-    }> => {
+    }): Promise<T & { connectorId?: string }> {
       setIsLoading(true);
       setError(null);
 
@@ -81,7 +85,7 @@ export const useGCPConnector = ({
             `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors`,
             'POST',
             {
-              type: 'gcp',
+              type: kind,
               name: connectorName,
             },
           );
@@ -96,7 +100,7 @@ export const useGCPConnector = ({
         const { requestPromise: authenticateConnector } = await callApi<{
           service_account: string;
         }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/gcp`,
+          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${kind}`,
           'POST',
           {
             plugin_team: pluginTeamName,
@@ -105,9 +109,7 @@ export const useGCPConnector = ({
           },
         );
 
-        const {
-          body: { service_account: _serviceAccount },
-        } = await authenticateConnector;
+        const { body } = await authenticateConnector;
 
         if (!existingConnectorId) {
           await finishConnectorAuthentication({
@@ -116,15 +118,15 @@ export const useGCPConnector = ({
           });
         }
 
-        return { connectorId, _serviceAccount };
+        return { connectorId, ...(body as T) };
       } catch (error: any) {
         setIsLoading(false);
         setError(error?.body || error);
 
-        return {};
+        return {} as { connectorId?: string } & T;
       }
     },
-    [callApi, finishConnectorAuthentication],
+    [callApi, finishConnectorAuthentication, kind],
   );
 
   return {

@@ -12,10 +12,10 @@ import Typography from '@mui/material/Typography';
 
 import { useFormContext } from 'react-hook-form';
 
-import { useGCPConnector } from './useGCPConnector';
 import { usePluginContext } from '../../../../context';
 import { getFieldHelperText } from '../../../../utils';
 import { CodeSnippet } from '../../../display';
+import { useAuthConnector } from '../../hooks/useAuthConnector';
 
 /**
  * @public
@@ -47,7 +47,7 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
     });
 
   const { createAndAuthenticateConnector, authenticationLoading, authenticationError } =
-    useGCPConnector({ pluginUiMessageHandler });
+    useAuthConnector({ pluginUiMessageHandler, kind: 'gcp' });
 
   const getCredentials = async () => {
     const authProps = {
@@ -58,14 +58,19 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
       teamName,
     };
     if (connectorId) {
-      const { _serviceAccount } = await createAndAuthenticateConnector(authProps);
-      form.setValue('_serviceAccount', _serviceAccount);
+      const { service_account } = await createAndAuthenticateConnector<{ service_account: string }>(
+        authProps,
+      );
+      form.setValue('_serviceAccount', service_account);
     } else {
-      const { connectorId, _serviceAccount } = await createAndAuthenticateConnector(authProps);
+      const { connectorId, service_account } = await createAndAuthenticateConnector<{
+        service_account: string;
+        connectorId: string;
+      }>(authProps);
 
       form.setValue('connectorId', connectorId);
-      if (_serviceAccount) {
-        form.setValue('_serviceAccount', _serviceAccount);
+      if (service_account) {
+        form.setValue('_serviceAccount', service_account);
       }
     }
   };
