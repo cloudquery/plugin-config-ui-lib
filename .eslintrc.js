@@ -124,7 +124,7 @@ module.exports = {
     'unicorn/prefer-string-replace-all': 'off',
     'unicorn/prevent-abbreviations': 'off',
   },
-  ignorePatterns: ['node_modules/', 'dist/', '*.js', '*.cjs', '*.test.ts*'],
+  ignorePatterns: ['node_modules/', 'dist/', '*.js', '*.cjs', '*.test.ts*', 'src/template/**/*'],
   settings: {
     'import/resolver': {
       typescript: {},

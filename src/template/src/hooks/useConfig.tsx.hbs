@@ -1,0 +1,144 @@
+import { useMemo } from 'react';
+
+import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { AuthType, SourceConfig } from '@cloudquery/plugin-config-ui-lib';
+
+{{#if yup}}
+import * as yup from 'yup';
+{{/if}}
+
+interface Props {
+  initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+}
+
+export const useConfig = ({ initialValues }: Props): SourceConfig => {
+  return useMemo(
+    () => ({
+      name: '{{pluginName}}',
+      type: '{{pluginKind}}',
+      label: '{{pluginLabel}}',
+      docsLink: 'https://hub.cloudquery.io/plugins/{{pluginKind}}/{{pluginTeam}}/{{pluginName}}/latest/docs',
+      iconLink: 'images/logo.png',
+      steps: [
+        {
+          title: 'Connect',
+          children: [
+            {
+              component: 'section',
+              title: 'Authentication',
+              {{#if authenticationOAuth}}
+              subtitle: `This plugin uses OAuth authentication. Click the button below to connect CloudQuery to {{pluginLabel}}.`,
+              {{/if}}
+              children: [
+                {{#if authenticationBoth}}
+                {
+                  component: 'control-exclusive-toggle',
+                  name: '_authType',
+                  options: [
+                    { label: 'OAuth', value: AuthType.OAUTH },
+                    {
+                      label: 'App Token',
+                      value: AuthType.OTHER,
+                    },
+                  ],
+                  schema: yup
+                    .mixed()
+                    .oneOf(Object.values(AuthType))
+                    .default(initialValues?.spec?.app_token ? AuthType.OTHER : AuthType.OAUTH),
+                },
+                {{/if}}
+                {{#if authenticationOAuth}}
+                {
+                  component: 'sub-section',
+                  {{#if authenticationBoth}}
+                  shouldRender: (values: any) => values._authType === AuthType.OAUTH,
+                  {{/if}}
+                  children: [{ component: 'control-oauth' }],
+                },
+                {{/if}}
+                {{#if authenticationToken}}
+                {
+                  component: 'sub-section',
+                  {{#if authenticationBoth}}
+                  shouldRender: (values: any) => values._authType === AuthType.OTHER,
+                  {{/if}}
+                  children: [
+                    {{#each authTokenSpecProperties}}
+                    {
+                      component: 'control-secret-field',
+                      helperText: 'Paste the {{label}} you generated in the {{../pluginLabel}} dashboard.',
+                      name: '{{name}}',
+                      label: '{{../pluginLabel}} {{label}}',
+                      schema: yup
+                        .string()
+                        .when('_authType', {
+                          is: (authType: AuthType) => authType === AuthType.OTHER,
+                          // eslint-disable-next-line unicorn/no-thenable
+                          then: (schema: any) => schema.trim().required(),
+                        })
+                        .default(initialValues?.spec?.{{name}} ?? ''),
+                    },
+                    {{/each}}
+                  ],
+                },
+                {{/if}}
+              ],
+            },
+            {{#if createTablesSelector}}
+            {
+              component: 'section',
+              title: 'Tables',
+              children: [
+                {
+                  component: 'control-table-selector',
+                },
+              ],
+            },
+            {{/if}}
+            {{#each advancedOptions}}
+            {
+              component: 'collapsible-section',
+              title: 'Advanced Options',
+              defaultExpanded: false,
+              children: [
+                {
+                  component: 'control-number-field',
+                  name: '{{name}}',
+                  helperText: '{{helperText}} for {{../pluginLabel}}',
+                  label: '{{label}}',
+                  schema: yup
+                    .number()
+                    .positive()
+                    .integer()
+                    .default(initialValues?.spec?.{{name}} ?? 5),
+                },
+              ],
+            },
+            {{/each}}
+          ],
+        },
+      ],
+      {{#if authenticationBoth}}
+      auth: [AuthType.OAuth, AuthType.OTHER],
+      {{else if authenticationOAuth}}
+      auth: [AuthType.OAUTH],
+      {{else if authenticationToken}}
+      auth: [AuthType.OTHER],
+      {{/if}}
+      guide: {
+        title: '{{pluginLabel}} Configuration',
+        sections: [
+          {
+            header: 'Overview',
+            bodies: [
+              {
+                text: 'The {{pluginLabel}} source plugin extracts information from {{pluginLabel}} and loads it into any supported CloudQuery destination.',
+              },
+            ],
+          },
+        ],
+      },
+    }),
+    [initialValues],
+  );
+};
