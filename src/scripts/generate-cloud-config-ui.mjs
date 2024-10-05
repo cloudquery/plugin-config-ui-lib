@@ -200,13 +200,6 @@ async function main() {
       fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
     }
 
-    // Copy data if plugin is a source
-    if (pluginKind === 'source') {
-      const dataSrcDir = path.join(templateDir, 'src', 'data');
-      const dataDestDir = path.join(outputDir, 'src', 'data');
-      fs.cpSync(dataSrcDir, dataDestDir, { recursive: true });
-    }
-
     // Copy and compile src/hooks/useConfig.tsx
     createAndCompileTemplate(
       path.join(templateDir, 'src', 'hooks', 'useConfig.tsx.hbs'),

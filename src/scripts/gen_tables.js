@@ -1,6 +1,4 @@
 const fs = require('node:fs');
-
-const argv = require('minimist')(process.argv.slice(2));
 const commandExistsSync = require('command-exists').sync;
 
 const generateTables = () => {
@@ -24,13 +22,15 @@ mv data/$dirname/__tables.json cloud-config-ui/src/data/__tables.json`,
   }
 };
 
-// In production, or when forced, re-generate tables every time
-if (process.env.NODE_ENV === 'production' || argv.f) {
-  return generateTables();
-  // In development, only generate tables if they don't exist
-} else if (
-  (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') &&
-  !fs.existsSync('src/data/__tables.json')
-) {
-  return generateTables();
-}
+module.exports = (force = false) => {
+  // In production, or when forced, re-generate tables every time
+  if (process.env.NODE_ENV === 'production' || force) {
+    return generateTables();
+    // In development, only generate tables if they don't exist
+  } else if (
+    (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') &&
+    !fs.existsSync('src/data/__tables.json')
+  ) {
+    return generateTables();
+  }
+};
