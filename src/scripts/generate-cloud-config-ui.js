@@ -1,13 +1,9 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+const fs = require('node:fs');
+const path = require('node:path');
 
-import Handlebars from 'handlebars';
-import humanizeString from 'humanize-string';
-import inquirer from 'inquirer';
+const Handlebars = require('handlebars');
+const { default: inquirer } = require('inquirer');
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 async function main() {
   const outputDir = path.join(process.cwd(), 'cloud-config-ui');
@@ -154,7 +150,7 @@ async function main() {
       createTablesSelector,
       advancedOptions,
       authTokenSpecProperties,
-      yup: authentication === 'both' || advancedOptions.length > 0 || advancedOptions.length > 0,
+      yup: authentication === 'both' || authenticationToken || advancedOptions.length > 0 || advancedOptions.length > 0,
     };
 
     if (fs.existsSync(outputDir)) {
@@ -295,8 +291,7 @@ async function main() {
   }
 }
 
-// eslint-disable-next-line unicorn/prefer-top-level-await
-main();
+main().catch(console.error);
 
 function createAndCompileTemplate(templatePath, outputPath, data) {
   const template = fs.readFileSync(templatePath, 'utf8');
@@ -305,3 +300,12 @@ function createAndCompileTemplate(templatePath, outputPath, data) {
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(outputPath, compiledTemplate(data));
 }
+
+function humanizeString(str) {
+  return str
+    .replace(/^[\s_]+|[\s_]+$/g, '')
+    .replace(/[_\s]+/g, ' ')
+    .replace(/^[a-z]/, function(m) { return m.toUpperCase(); });
+}
+
+module.exports = main;

@@ -7,7 +7,7 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "create-app": "./dist/scripts/generate-cloud-config-ui.mjs"
+    "create-app": "./dist/scripts/generate-cloud-config-ui.js"
   },
   "exports": {
     ".": {
@@ -79,6 +79,7 @@
     "@cloudquery/cloud-ui": "^2.0.0-rc.0",
     "@rudderstack/analytics-js": "^3.7.13",
     "dayjs": "^1.11.13",
+    "decamelize": "^6.0.0",
     "handlebars": "^4.7.8",
     "humanize-string": "^3.0.0",
     "inquirer": "^11.1.0",
