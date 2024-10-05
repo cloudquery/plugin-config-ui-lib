@@ -7,7 +7,7 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "create-app": "./dist/scripts/generate-cloud-config-ui.js"
+    "create-app": "./dist/scripts/generate-cloud-config-ui.mjs"
   },
   "exports": {
     ".": {
