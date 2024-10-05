@@ -68,7 +68,7 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
                       component: 'control-secret-field',
                       helperText: 'Paste the {{label}} you generated in the {{../pluginLabel}} dashboard.',
                       name: '{{name}}',
-                      label: '{{../pluginLabel}} {{label}}',
+                      label: '{{label}}',
                       schema: yup
                         .string()
                         .when('_authType', {
@@ -104,7 +104,6 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
                 {
                   component: 'control-number-field',
                   name: '{{name}}',
-                  helperText: '{{helperText}} for {{../pluginLabel}}',
                   label: '{{label}}',
                   schema: yup
                     .number()
