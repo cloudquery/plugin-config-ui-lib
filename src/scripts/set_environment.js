@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const envFilePath = path.join(__dirname, '../src', '.env.json');
-const exampleEnvFilePath = path.join(__dirname, '../src', '.env.example.json');
+const envFilePath = path.join(process.cwd(), 'src', '.env.json');
+const exampleEnvFilePath = path.join(process.cwd(), 'src', '.env.example.json');
 
 if (!fs.existsSync(envFilePath)) {
     fs.copyFileSync(exampleEnvFilePath, envFilePath);
