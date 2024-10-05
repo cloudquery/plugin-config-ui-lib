@@ -11,14 +11,12 @@ mkdir -p cloud-config-ui/src/data
 mv data/$dirname/__tables.json cloud-config-ui/src/data/__tables.json`,
       (error) => {
         if (error !== null) {
-          console.log(`exec error: ${error}`);
+          throw error;
         }
       },
     );
   } else {
-    console.error(
-      'Warning: cloudquery is not available. Please install it before running this script.',
-    );
+    throw new Error('cloudquery is not available. Please install it before running this script.');
   }
 };
 

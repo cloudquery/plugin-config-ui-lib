@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -48,7 +49,7 @@ async function main() {
         {
           type: 'input',
           name: 'pluginVersion',
-          message: 'What is the current version of the plugin (e.g. "v1.0.0")?',
+          message: 'What is the latest version of the plugin (e.g. "v1.0.0")?',
           required: true,
           validate: (input) =>
             /^v\d+\.\d+\.\d+(-[\dA-Za-z-]+(\.[\dA-Za-z-]+)*)?(\+[\dA-Za-z-]+(\.[\dA-Za-z-]+)*)?$/.test(
@@ -195,9 +196,11 @@ async function main() {
 
     // Copy scripts if plugin is a source
     if (pluginKind === 'source') {
-      const publicSrcDir = path.join(templateDir, 'scripts');
-      const publicDestDir = path.join(outputDir, 'scripts');
-      fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
+      createAndCompileTemplate(
+        path.join(templateDir, 'scripts', 'initialize.js.hbs'),
+        path.join(outputDir, 'scripts', 'initialize.js'),
+        payload,
+      );
     }
 
     // Copy and compile src/hooks/useConfig.tsx
@@ -300,12 +303,30 @@ async function main() {
   }
 }
 
-await main();
-
 function createAndCompileTemplate(templatePath, outputPath, data) {
   const template = fs.readFileSync(templatePath, 'utf8');
   const compiledTemplate = Handlebars.compile(template);
   const outputDir = path.dirname(outputPath);
   fs.mkdirSync(outputDir, { recursive: true });
   fs.writeFileSync(outputPath, compiledTemplate(data));
+}
+
+await main();
+
+// eslint-disable-next-line no-console
+console.log('Generating cloud config UI completed. Installing dependencies...');
+
+try {
+  const cloudConfigUiDir = path.join(process.cwd(), 'cloud-config-ui');
+  process.chdir(cloudConfigUiDir);
+  execSync('npm install', { stdio: 'inherit' });
+  // eslint-disable-next-line no-console
+  console.log('\n\nDependencies installed successfully.');
+  process.chdir('..');
+  // eslint-disable-next-line no-console
+  console.log('You can now navigate into the cloud-config-ui directory and start developing.');
+} catch (error) {
+  // eslint-disable-next-line no-console
+  console.error('Error installing dependencies:', error.message);
+  process.exit(1);
 }

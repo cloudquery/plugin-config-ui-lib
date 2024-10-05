@@ -120,9 +120,11 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
       ],
       {{#if authenticationBoth}}
       auth: [AuthType.OAuth, AuthType.OTHER],
-      {{else if authenticationOAuth}}
+      {{/if}}
+      {{#if authenticationOAuth}}
       auth: [AuthType.OAUTH],
-      {{else if authenticationToken}}
+      {{/if}}
+      {{#if authenticationToken}}
       auth: [AuthType.OTHER],
       {{/if}}
       guide: {
