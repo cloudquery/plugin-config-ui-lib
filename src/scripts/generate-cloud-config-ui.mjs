@@ -184,9 +184,14 @@ async function main() {
     const publicDestDir = path.join(outputDir, 'public');
     fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
 
+    let logoSrcPath = pluginLogoPath;
+    if (!path.isAbsolute(logoSrcPath)) {
+      logoSrcPath = path.resolve(process.cwd(), logoSrcPath);
+    }
+
     // Copy logo
     const logoDestPath = path.join(outputDir, 'public', 'images', 'logo.png');
-    fs.copyFileSync(pluginLogoPath, logoDestPath);
+    fs.copyFileSync(logoSrcPath, logoDestPath);
 
     // Copy scripts if plugin is a source
     if (pluginKind === 'source') {
