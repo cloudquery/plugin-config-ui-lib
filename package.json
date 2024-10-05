@@ -32,7 +32,6 @@
   },
   "files": [
     "dist",
-    "dist/template/.gitignore",
     ".eslintrc.js",
     ".prettierrc.js"
   ],

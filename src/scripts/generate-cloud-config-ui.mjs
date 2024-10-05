@@ -257,7 +257,7 @@ async function main() {
     fs.copyFileSync(eslintSrcPath, eslintDestPath);
 
     // Copy .gitignore
-    const gitignoreSrcPath = path.join(templateDir, '.gitignore');
+    const gitignoreSrcPath = path.join(templateDir, '_gitignore');
     const gitignoreDestPath = path.join(outputDir, '.gitignore');
     fs.copyFileSync(gitignoreSrcPath, gitignoreDestPath);
 
