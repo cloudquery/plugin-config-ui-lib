@@ -91,9 +91,11 @@ export function FormFooter({
               {`Delete this ${pluginKind}`}
             </Button>
           )}
-          <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
-            Previous step
-          </Button>
+          {!isUpdating && (
+            <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
+              Previous step
+            </Button>
+          )}
         </Stack>
         <Stack
           direction="row"
