@@ -64,7 +64,7 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
       teamName,
       callApi,
     };
-    const existingConnectorId = connectorId;
+
     try {
       if (connectorId) {
         const { service_account } = await createAndAuthenticateConnector<{
@@ -77,13 +77,11 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
           connectorId: string;
         }>(authProps);
 
-        form.setValue('connectorId', connectorId);
         if (service_account) {
           form.setValue('_serviceAccount', service_account);
         }
-      }
+        form.setValue('connectorId', connectorId);
 
-      if (!existingConnectorId) {
         await finishAuthConnectorAuthentication({
           connectorId,
           teamName,

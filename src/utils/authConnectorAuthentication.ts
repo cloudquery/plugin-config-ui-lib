@@ -4,6 +4,11 @@ import { getRandomId } from './getRandomId';
 
 type AuthPluginType = 'aws' | 'gcp';
 
+/**
+ * Conditionally creates a connectorId, then begins the authentication process for the new or existing connectorId
+ *
+ * @public
+ */
 export async function createAndAuthenticateConnector<T>({
   connectorId: existingConnectorId,
   teamName,
@@ -58,6 +63,11 @@ export async function createAndAuthenticateConnector<T>({
   return { connectorId, ...(body as T) };
 }
 
+/**
+ * Finishes authentication to a connectorId
+ *
+ * @public
+ */
 export async function finishAuthConnectorAuthentication({
   authPluginType,
   connectorId,
