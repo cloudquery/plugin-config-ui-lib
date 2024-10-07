@@ -269,6 +269,19 @@ export function convertStringToSlug(value: string): string;
 export function corePrepareSubmitValues(config: PluginConfig, values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public (undocumented)
+export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, pluginName, pluginKind, callApi, }: {
+    connectorId?: string;
+    teamName: string;
+    pluginTeamName: string;
+    pluginName: string;
+    pluginKind: 'source' | 'destination';
+    finishImmediately?: boolean;
+    callApi: ReturnType<typeof useApiCall>['callApi'];
+}): Promise<T & {
+    connectorId?: string;
+}>;
+
+// @public (undocumented)
 export interface DestinationConfig extends PluginConfig {
     // (undocumented)
     type: 'destination';
