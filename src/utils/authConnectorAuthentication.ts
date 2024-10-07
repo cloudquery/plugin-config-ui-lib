@@ -8,16 +8,18 @@ export async function getAuthenticateConnector({
   connectorId,
   teamName,
   callApi,
+  authPluginType,
 }: {
   connectorId: string;
   teamName: string;
   callApi: ReturnType<typeof useApiCall>['callApi'];
+  authPluginType: AuthPluginType;
 }) {
   const { requestPromise } = callApi<{
     role_arn: string;
     external_id: string;
   }>(
-    `https://api.cloudquery.io/teams/${teamName}/connectors/${connectorId}/authenticate/aws`,
+    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}`,
     'GET',
   );
 
