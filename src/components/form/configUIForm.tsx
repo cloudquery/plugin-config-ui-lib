@@ -145,11 +145,12 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     const thisStep = getValues('_step');
 
     if (config.steps[thisStep]?.submitGuard) {
-      const result = await config.steps[thisStep]?.submitGuard(getValues(), callApi);
-      const resultError = typeof result === 'object' && 'error' in result && result.error;
-      if (result === false || resultError) {
+      const result = await config.steps[thisStep]?.submitGuard(getValues(), teamName, callApi);
+      const resultErrorMessage =
+        typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
+      if (result === false || resultErrorMessage) {
         setError('root', {
-          message: resultError || 'Validation failed. Please check the form for errors.',
+          message: resultErrorMessage || 'Validation failed. Please check the form for errors.',
         });
 
         return;

@@ -595,8 +595,8 @@ export interface PluginConfig {
 export type PluginConfigFormStep = {
     children: (IterableStepComponent | React_2.FC<any>)[];
     title: string;
-    submitGuard?: (formValues: any, callApi: ReturnType<typeof useApiCall>['callApi']) => Promise<boolean | {
-        error: string;
+    submitGuard?: (formValues: any, teamName: string, callApi: ReturnType<typeof useApiCall>['callApi']) => Promise<boolean | {
+        errorMessage: string;
     }>;
 };
 

@@ -49,8 +49,9 @@ export type PluginConfigFormStep = {
   title: string;
   submitGuard?: (
     formValues: any,
+    teamName: string,
     callApi: ReturnType<typeof useApiCall>['callApi'],
-  ) => Promise<boolean | { error: string }>;
+  ) => Promise<boolean | { errorMessage: string }>;
 };
 
 /**
