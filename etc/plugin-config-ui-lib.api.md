@@ -446,7 +446,10 @@ export function getAuthenticateConnector({ connectorId, teamName, callApi, }: {
     teamName: string;
     callApi: ReturnType<typeof useApiCall>['callApi'];
 }): Promise<{
-    body: unknown;
+    body: {
+        role_arn: string;
+        external_id: string;
+    };
     endpoint: string;
     headers: Record<string, string>;
     status: number;
@@ -1036,7 +1039,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
-// src/utils/authConnectorAuthentication.ts:42:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
+// src/utils/authConnectorAuthentication.ts:45:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
