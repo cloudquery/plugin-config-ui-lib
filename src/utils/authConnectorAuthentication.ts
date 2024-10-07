@@ -2,10 +2,13 @@ import { useApiCall } from '../hooks';
 import { cloudQueryApiBaseUrl } from './constants';
 import { getRandomId } from './getRandomId';
 
+type AuthPluginType = 'aws' | 'gcp';
+
 export async function createAndAuthenticateConnector<T>({
   connectorId: existingConnectorId,
   teamName,
   pluginTeamName,
+  authPluginType,
   pluginName,
   pluginKind,
   callApi,
@@ -13,6 +16,7 @@ export async function createAndAuthenticateConnector<T>({
   connectorId?: string;
   teamName: string;
   pluginTeamName: string;
+  authPluginType: AuthPluginType;
   pluginName: string;
   pluginKind: 'source' | 'destination';
   finishImmediately?: boolean;
@@ -25,7 +29,7 @@ export async function createAndAuthenticateConnector<T>({
       `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors`,
       'POST',
       {
-        type: pluginName,
+        type: authPluginType,
         name: connectorName,
       },
     );
@@ -40,7 +44,7 @@ export async function createAndAuthenticateConnector<T>({
   const { requestPromise: authenticateConnector } = await callApi<{
     service_account: string;
   }>(
-    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${pluginName}`,
+    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}`,
     'POST',
     {
       plugin_team: pluginTeamName,
@@ -55,7 +59,7 @@ export async function createAndAuthenticateConnector<T>({
 }
 
 export async function finishAuthConnectorAuthentication({
-  pluginName,
+  authPluginType,
   connectorId,
   teamName,
   callApi,
@@ -65,14 +69,14 @@ export async function finishAuthConnectorAuthentication({
 }: {
   connectorId: string;
   teamName: string;
-  pluginName: string;
+  authPluginType: AuthPluginType;
   callApi: ReturnType<typeof useApiCall>['callApi'];
   method: 'POST' | 'PATCH';
   payload: Record<string, any>;
   path?: string;
 }) {
   const { requestPromise: finishAuth } = await callApi<{ id: string }>(
-    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${pluginName}${path}`,
+    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}${path}`,
     method,
     payload,
   );

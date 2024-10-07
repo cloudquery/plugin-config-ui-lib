@@ -57,6 +57,7 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
     setIsLoading(true);
     const authProps = {
       connectorId,
+      authPluginType: 'gcp' as const,
       pluginName: plugin.name,
       pluginTeamName: plugin.team,
       pluginKind: plugin.kind as any,
@@ -90,7 +91,7 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
           callApi,
           method: 'POST',
           payload: {},
-          pluginName: plugin.name,
+          authPluginType: 'gcp',
         });
       }
     } catch (error: any) {
