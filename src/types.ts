@@ -51,6 +51,7 @@ export type PluginConfigFormStep = {
     formValues: any,
     teamName: string,
     callApi: ReturnType<typeof useApiCall>['callApi'],
+    setValue: (field: string, value: any) => void,
   ) => Promise<boolean | { errorMessage: string }>;
 };
 
