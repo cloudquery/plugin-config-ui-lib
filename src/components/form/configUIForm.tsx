@@ -145,7 +145,12 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     const thisStep = getValues('_step');
 
     if (config.steps[thisStep]?.submitGuard) {
-      const result = await config.steps[thisStep]?.submitGuard(getValues(), teamName, callApi);
+      const result = await config.steps[thisStep]?.submitGuard(
+        getValues(),
+        teamName,
+        callApi,
+        setValue,
+      );
       const resultErrorMessage =
         typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
       if (result === false || resultErrorMessage) {
