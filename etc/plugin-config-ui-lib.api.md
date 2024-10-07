@@ -440,6 +440,18 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
 // @public
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
+// @public (undocumented)
+export function getAuthenticateConnector({ connectorId, teamName, callApi, }: {
+    connectorId: string;
+    teamName: string;
+    callApi: ReturnType<typeof useApiCall>['callApi'];
+}): Promise<{
+    body: unknown;
+    endpoint: string;
+    headers: Record<string, string>;
+    status: number;
+}>;
+
 // @public
 export const getEnabledTablesObject: ({ tablesList, tables, }: {
     tablesList?: PluginTable[];
@@ -1024,7 +1036,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
-// src/utils/authConnectorAuthentication.ts:25:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
+// src/utils/authConnectorAuthentication.ts:42:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

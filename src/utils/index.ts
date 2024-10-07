@@ -21,4 +21,5 @@ export { getYupValidationResolver, resetYupDefaultErrorMessages } from './getYup
 export {
   finishAuthConnectorAuthentication,
   createAndAuthenticateConnector,
+  getAuthenticateConnector,
 } from './authConnectorAuthentication';

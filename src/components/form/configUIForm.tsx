@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { createThemeOptions } from '@cloudquery/cloud-ui';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
@@ -63,6 +63,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
   const step = watch('_step');
   const editMode = watch('_editMode');
   const { callApi } = useApiCall(pluginUiMessageHandler);
+  const [submitGuardLoading, setSubmitGuardLoading] = useState(false);
 
   const getCurrentValues = useCallback(
     () => prepareSubmitValues(config, form.getValues(), tablesList),
@@ -120,7 +121,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     }
   }, [submitError, getValues, setError]);
 
-  const formDisabled = isSubmitting || isTestingConnection;
+  const formDisabled = isSubmitting || isTestingConnection || submitGuardLoading;
 
   const onTestConnectionSuccess = async () => {
     await handleSubmit(getCurrentValues());
@@ -145,12 +146,18 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     const thisStep = getValues('_step');
 
     if (config.steps[thisStep]?.submitGuard) {
-      const result = await config.steps[thisStep]?.submitGuard(
-        getValues(),
-        teamName,
-        callApi,
-        setValue,
-      );
+      setSubmitGuardLoading(true);
+
+      const result = await config.steps[thisStep]
+        ?.submitGuard(getValues(), teamName, callApi, setValue)
+        .catch((error) => {
+          return {
+            errorMessage: error.message || 'Validation failed. Please check the form for errors.',
+          };
+        });
+
+      setSubmitGuardLoading(false);
+
       const resultErrorMessage =
         typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
       if (result === false || resultErrorMessage) {
@@ -230,7 +237,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
                   isUpdating={editMode}
                   pluginKind={plugin.kind as any}
                   isTestingConnection={isTestingConnection}
-                  isSubmitting={isSubmitting}
+                  isSubmitting={isSubmitting || submitGuardLoading}
                   testConnectionError={parsedTestConnectionError}
                   submitPayload={submitPayload}
                   onCancel={handleCancel}

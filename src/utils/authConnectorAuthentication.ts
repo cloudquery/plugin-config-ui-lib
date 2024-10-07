@@ -4,6 +4,23 @@ import { getRandomId } from './getRandomId';
 
 type AuthPluginType = 'aws' | 'gcp';
 
+export async function getAuthenticateConnector({
+  connectorId,
+  teamName,
+  callApi,
+}: {
+  connectorId: string;
+  teamName: string;
+  callApi: ReturnType<typeof useApiCall>['callApi'];
+}) {
+  const { requestPromise } = callApi(
+    `https://api.cloudquery.io/teams/${teamName}/connectors/${connectorId}/authenticate/aws`,
+    'GET',
+  );
+
+  return requestPromise;
+}
+
 /**
  * Conditionally creates a connectorId, then begins the authentication process for the new or existing connectorId
  *
