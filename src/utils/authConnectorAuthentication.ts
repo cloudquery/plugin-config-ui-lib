@@ -17,6 +17,7 @@ export async function createAndAuthenticateConnector<T>({
   pluginName,
   pluginKind,
   callApi,
+  authenticatePayload,
 }: {
   connectorId?: string;
   teamName: string;
@@ -26,6 +27,14 @@ export async function createAndAuthenticateConnector<T>({
   pluginKind: 'source' | 'destination';
   finishImmediately?: boolean;
   callApi: ReturnType<typeof useApiCall>['callApi'];
+  authenticatePayload?: Partial<{
+    plugin_version: string;
+    spec: Record<string, any>;
+    env: Record<string, any>[];
+    tables: string[];
+    skip_tables: string[];
+    skip_dependent_tables: boolean;
+  }>;
 }): Promise<T & { connectorId?: string }> {
   let connectorId = existingConnectorId;
   if (!connectorId) {
@@ -55,6 +64,7 @@ export async function createAndAuthenticateConnector<T>({
       plugin_team: pluginTeamName,
       plugin_kind: pluginKind,
       plugin_name: pluginName,
+      ...authenticatePayload,
     },
   );
 

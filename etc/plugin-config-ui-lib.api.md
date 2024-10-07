@@ -269,7 +269,7 @@ export function convertStringToSlug(value: string): string;
 export function corePrepareSubmitValues(config: PluginConfig, values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public
-export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, callApi, }: {
+export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, callApi, authenticatePayload, }: {
     connectorId?: string;
     teamName: string;
     pluginTeamName: string;
@@ -278,6 +278,14 @@ export function createAndAuthenticateConnector<T>({ connectorId: existingConnect
     pluginKind: 'source' | 'destination';
     finishImmediately?: boolean;
     callApi: ReturnType<typeof useApiCall>['callApi'];
+    authenticatePayload?: Partial<{
+        plugin_version: string;
+        spec: Record<string, any>;
+        env: Record<string, any>[];
+        tables: string[];
+        skip_tables: string[];
+        skip_dependent_tables: boolean;
+    }>;
 }): Promise<T & {
     connectorId?: string;
 }>;
@@ -1016,7 +1024,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 // Warnings were encountered during analysis:
 //
 // src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
-// src/utils/authConnectorAuthentication.ts:24:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
+// src/utils/authConnectorAuthentication.ts:25:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
