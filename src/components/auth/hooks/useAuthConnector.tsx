@@ -89,10 +89,12 @@ export const useAuthConnector = ({
           await finishAuthConnectorAuthentication({
             connectorId,
             teamName,
-            kind,
+            path: `/${kind}/finish`,
             callApi,
           });
         }
+
+        setIsLoading(false);
 
         return { connectorId, ...(body as T) };
       } catch (error: any) {

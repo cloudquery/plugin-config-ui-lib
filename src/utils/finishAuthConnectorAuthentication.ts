@@ -4,15 +4,13 @@ import { cloudQueryApiBaseUrl } from './constants';
 export async function finishAuthConnectorAuthentication({
   connectorId,
   teamName,
-  kind,
   callApi,
   method = 'POST',
   payload = {},
-  path = '/finish',
+  path = '',
 }: {
   connectorId: string;
   teamName: string;
-  kind: string;
   callApi: ReturnType<typeof useApiCall>['callApi'];
   method?: 'POST' | 'PATCH';
   payload?: Record<string, any>;
@@ -20,7 +18,7 @@ export async function finishAuthConnectorAuthentication({
 }) {
   try {
     const { requestPromise: finishAuth } = await callApi<{ id: string }>(
-      `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${kind}${path}`,
+      `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate${path}`,
       method,
       payload,
     );
