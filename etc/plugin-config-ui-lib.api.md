@@ -294,6 +294,17 @@ export interface ExclusiveToggleProps {
 }
 
 // @public (undocumented)
+export function finishAuthConnectorAuthentication({ connectorId, teamName, kind, callApi, method, payload, path, }: {
+    connectorId: string;
+    teamName: string;
+    kind: string;
+    callApi: ReturnType<typeof useApiCall>['callApi'];
+    method?: 'POST' | 'PATCH';
+    payload?: Record<string, any>;
+    path?: string;
+}): Promise<any>;
+
+// @public (undocumented)
 export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
 
 // @public (undocumented)
