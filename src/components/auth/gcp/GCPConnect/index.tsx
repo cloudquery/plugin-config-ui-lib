@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
@@ -13,9 +13,13 @@ import Typography from '@mui/material/Typography';
 import { useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../../context';
+import { useApiCall } from '../../../../hooks';
 import { getFieldHelperText } from '../../../../utils';
+import {
+  createAndAuthenticateConnector,
+  finishAuthConnectorAuthentication,
+} from '../../../../utils/authConnectorAuthentication';
 import { CodeSnippet } from '../../../display';
-import { useAuthConnector } from '../../hooks/useAuthConnector';
 
 /**
  * @public
@@ -32,6 +36,9 @@ export type GCPConnectProps = {
 export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPConnectProps) {
   const { plugin, teamName } = usePluginContext();
   const form = useFormContext();
+  const { callApi } = useApiCall(pluginUiMessageHandler);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
   const connectorId = form.watch('connectorId');
   const serviceAccount = form.watch('_serviceAccount');
 
@@ -46,32 +53,50 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
       url: 'https://console.cloud.google.com/iam-admin/iam',
     });
 
-  const { createAndAuthenticateConnector, authenticationLoading, authenticationError } =
-    useAuthConnector({ pluginUiMessageHandler, kind: 'gcp' });
-
   const getCredentials = async () => {
+    setIsLoading(true);
     const authProps = {
       connectorId,
       pluginName: plugin.name,
       pluginTeamName: plugin.team,
       pluginKind: plugin.kind as any,
       teamName,
+      callApi,
     };
-    if (connectorId) {
-      const { service_account } = await createAndAuthenticateConnector<{ service_account: string }>(
-        authProps,
-      );
-      form.setValue('_serviceAccount', service_account);
-    } else {
-      const { connectorId, service_account } = await createAndAuthenticateConnector<{
-        service_account: string;
-        connectorId: string;
-      }>(authProps);
-
-      form.setValue('connectorId', connectorId);
-      if (service_account) {
+    const existingConnectorId = connectorId;
+    try {
+      if (connectorId) {
+        const { service_account } = await createAndAuthenticateConnector<{
+          service_account: string;
+        }>(authProps);
         form.setValue('_serviceAccount', service_account);
+      } else {
+        const { connectorId, service_account } = await createAndAuthenticateConnector<{
+          service_account: string;
+          connectorId: string;
+        }>(authProps);
+
+        form.setValue('connectorId', connectorId);
+        if (service_account) {
+          form.setValue('_serviceAccount', service_account);
+        }
       }
+
+      if (!existingConnectorId) {
+        await finishAuthConnectorAuthentication({
+          connectorId,
+          teamName,
+          path: `/finish`,
+          callApi,
+          method: 'POST',
+          payload: {},
+          pluginName: plugin.name,
+        });
+      }
+    } catch (error: any) {
+      setError(error?.body || error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -90,7 +115,7 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
         <Box>
           <FormControl>
             <Button
-              disabled={!!connectorId || authenticationLoading}
+              disabled={!!connectorId || isLoading}
               size="large"
               variant="contained"
               fullWidth={false}
@@ -128,13 +153,9 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
         </Box>
       </Stack>
 
-      {authenticationError && (
+      {error && (
         <FormControl>
-          {
-            <FormHelperText error={true}>
-              Network error: {authenticationError.message}
-            </FormHelperText>
-          }
+          {<FormHelperText error={true}>Network error: {error.message}</FormHelperText>}
         </FormControl>
       )}
     </Stack>

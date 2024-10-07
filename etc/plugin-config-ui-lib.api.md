@@ -294,14 +294,15 @@ export interface ExclusiveToggleProps {
 }
 
 // @public (undocumented)
-export function finishAuthConnectorAuthentication({ connectorId, teamName, callApi, method, payload, path, }: {
+export function finishAuthConnectorAuthentication({ pluginName, connectorId, teamName, callApi, method, payload, path, }: {
     connectorId: string;
     teamName: string;
+    pluginName: string;
     callApi: ReturnType<typeof useApiCall>['callApi'];
-    method?: 'POST' | 'PATCH';
-    payload?: Record<string, any>;
+    method: 'POST' | 'PATCH';
+    payload: Record<string, any>;
     path?: string;
-}): Promise<any>;
+}): Promise<void>;
 
 // @public (undocumented)
 export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
@@ -838,17 +839,6 @@ export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
         abortRequest: () => void;
         requestId: string;
     };
-};
-
-// Warning: (ae-forgotten-export) The symbol "UseAuthConnectorResponse" needs to be exported by the entry point index.d.ts
-//
-// @public
-export const useAuthConnector: ({ kind, pluginUiMessageHandler, }: UseAuthConnectorProps) => UseAuthConnectorResponse;
-
-// @public (undocumented)
-export type UseAuthConnectorProps = {
-    kind: 'gcp' | 'aws';
-    pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 // @public (undocumented)
