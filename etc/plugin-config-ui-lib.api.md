@@ -584,7 +584,9 @@ export interface PluginConfig {
 export type PluginConfigFormStep = {
     children: (IterableStepComponent | React_2.FC<any>)[];
     title: string;
-    submitGuard?: (formValues: any) => Promise<boolean>;
+    submitGuard?: (formValues: any, callApi: ReturnType<typeof useApiCall>['callApi']) => Promise<boolean | {
+        error: string;
+    }>;
 };
 
 // @public
@@ -999,7 +1001,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/types.ts:47:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

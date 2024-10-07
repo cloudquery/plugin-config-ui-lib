@@ -4,6 +4,7 @@ import * as yup from 'yup';
 
 import { IterableStepComponent } from './components/form/renderer/types';
 import '@cloudquery/cloud-ui';
+import { useApiCall } from './hooks';
 
 /**
  * @public
@@ -46,7 +47,10 @@ export interface GuideConfig {
 export type PluginConfigFormStep = {
   children: (IterableStepComponent | React.FC<any>)[];
   title: string;
-  submitGuard?: (formValues: any) => Promise<boolean>;
+  submitGuard?: (
+    formValues: any,
+    callApi: ReturnType<typeof useApiCall>['callApi'],
+  ) => Promise<boolean | { error: string }>;
 };
 
 /**

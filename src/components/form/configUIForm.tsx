@@ -17,6 +17,7 @@ import { ComponentsRenderer } from './renderer';
 import { usePluginContext } from '../../context/plugin';
 
 import {
+  useApiCall,
   useConfigUIForm,
   useFormActions,
   useFormCurrentValues,
@@ -61,6 +62,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
 
   const step = watch('_step');
   const editMode = watch('_editMode');
+  const { callApi } = useApiCall(pluginUiMessageHandler);
 
   const getCurrentValues = useCallback(
     () => prepareSubmitValues(config, form.getValues(), tablesList),
@@ -143,8 +145,13 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     const thisStep = getValues('_step');
 
     if (config.steps[thisStep]?.submitGuard) {
-      const proceed = await config.steps[thisStep]?.submitGuard(getValues());
-      if (!proceed) {
+      const result = await config.steps[thisStep]?.submitGuard(getValues(), callApi);
+      const resultError = typeof result === 'object' && 'error' in result && result.error;
+      if (result === false || resultError) {
+        setError('root', {
+          message: resultError || 'Validation failed. Please check the form for errors.',
+        });
+
         return;
       }
     }

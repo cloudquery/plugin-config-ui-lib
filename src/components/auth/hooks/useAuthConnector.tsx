@@ -4,10 +4,10 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
 import { useApiCall } from '../../../hooks';
 import { cloudQueryApiBaseUrl, getRandomId } from '../../../utils';
+import { finishAuthConnectorAuthentication } from '../../../utils/finishAuthConnectorAuthentication';
 
 interface UseAuthConnectorResponse {
   createAndAuthenticateConnector: <T>(params: any) => Promise<T & { connectorId?: string }>;
-  finishConnectorAuthentication: (params: any) => Promise<boolean>;
   authenticationError: Error | null;
   authenticationLoading: boolean;
 }
@@ -32,34 +32,6 @@ export const useAuthConnector = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const finishConnectorAuthentication = useCallback(
-    async ({
-      connectorId,
-      teamName,
-    }: {
-      connectorId: string;
-      teamName: string;
-    }): Promise<boolean> => {
-      try {
-        const { requestPromise: finishAuth } = await callApi<{ id: string }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${kind}/finish`,
-          'POST',
-          {},
-        );
-
-        await finishAuth;
-
-        return true;
-      } catch (error: any) {
-        setIsLoading(false);
-        setError(error?.body || error);
-
-        return false;
-      }
-    },
-    [callApi, kind],
-  );
-
   const createAndAuthenticateConnector = useCallback(
     async function <T>({
       connectorId: existingConnectorId,
@@ -67,12 +39,14 @@ export const useAuthConnector = ({
       pluginTeamName,
       pluginName,
       pluginKind,
+      finishImmediately = true,
     }: {
       connectorId?: string;
       teamName: string;
       pluginTeamName: string;
       pluginName: string;
       pluginKind: 'source' | 'destination';
+      finishImmediately?: boolean;
     }): Promise<T & { connectorId?: string }> {
       setIsLoading(true);
       setError(null);
@@ -111,10 +85,12 @@ export const useAuthConnector = ({
 
         const { body } = await authenticateConnector;
 
-        if (!existingConnectorId) {
-          await finishConnectorAuthentication({
+        if (!existingConnectorId && finishImmediately) {
+          await finishAuthConnectorAuthentication({
             connectorId,
             teamName,
+            kind,
+            callApi,
           });
         }
 
@@ -126,12 +102,11 @@ export const useAuthConnector = ({
         return {} as { connectorId?: string } & T;
       }
     },
-    [callApi, finishConnectorAuthentication, kind],
+    [callApi, kind],
   );
 
   return {
     createAndAuthenticateConnector,
-    finishConnectorAuthentication,
     authenticationError: error,
     authenticationLoading: isLoading,
   };
