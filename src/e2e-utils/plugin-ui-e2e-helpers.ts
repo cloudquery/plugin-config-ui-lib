@@ -60,7 +60,7 @@ export const createPlugin = async ({
 
   await fillInput(page, 'input[type="text"]', pluginLabel);
 
-  await click(page, page.getByRole('button', { name: pluginLabel }));
+  await click(page, page.getByRole('button', { name: pluginLabel }).first());
 
   await expect(page.getByText(pluginLabel)).toBeTruthy();
   await expect(page.locator('iframe[name="Plugin UI"]')).toBeVisible({
@@ -102,7 +102,7 @@ export const editPlugin = async ({
 
   await fillInput(page, 'input[type="text"]', pluginLabel);
 
-  await click(page, page.getByRole('button', { name: pluginLabel }));
+  await click(page, page.getByRole('button', { name: pluginLabel }).first());
   await expect(page.getByText('Previewing')).toBeVisible();
 
   await page.goto(getPluginUrl(pluginUrl));
@@ -150,7 +150,7 @@ export const deletePlugin = async ({
 
   await fillInput(page, 'input[type="text"]', pluginLabel);
 
-  await click(page, page.getByRole('button', { name: pluginLabel }));
+  await click(page, page.getByRole('button', { name: pluginLabel }).first());
   await expect(page.getByText('Previewing')).toBeVisible();
 
   await page.goto(getPluginUrl(pluginUrl));
