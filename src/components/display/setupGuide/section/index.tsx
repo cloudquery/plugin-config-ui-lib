@@ -2,28 +2,16 @@ import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { GuideSection, GuideSectionBody } from '../../../../types';
 import { ConditionalRenderingWrapper } from '../../../controls/conditionalRenderingWrapper';
 import { CodeSnippet } from '../../codeSnippet';
 import { LightboxImage } from '../../lightboxImage';
-
-type SectionBody = {
-  code?: string;
-  image?: string;
-  text?: any;
-  shouldRender?: (values: any) => boolean;
-};
-
-type Section = {
-  header?: string;
-  bodies: SectionBody[];
-  shouldRender?: (values: any) => boolean;
-};
 
 /**
  * @public
  */
 export type RenderGuideProps = {
-  sections: Section[];
+  sections: GuideSection[];
   pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
@@ -50,7 +38,10 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
             {section.header && <Typography variant="h6">{section.header}</Typography>}
             {section.bodies.map((body, index) => (
               <ConditionalRenderingWrapper key={index} shouldRender={section.shouldRender}>
-                <RenderSectionBody body={body} pluginUiMessageHandler={pluginUiMessageHandler} />
+                <RenderGuideSectionBody
+                  body={body}
+                  pluginUiMessageHandler={pluginUiMessageHandler}
+                />
               </ConditionalRenderingWrapper>
             ))}
           </Stack>
@@ -60,12 +51,12 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
   );
 }
 
-function RenderSectionBody({
+function RenderGuideSectionBody({
   body,
   pluginUiMessageHandler,
 }: {
   pluginUiMessageHandler: PluginUiMessageHandler;
-  body: SectionBody;
+  body: GuideSectionBody;
 }) {
   if (body.code) {
     return <CodeSnippet text={body.code} />;

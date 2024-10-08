@@ -5,5 +5,5 @@ export { FormFieldReset, type FormFieldResetProps } from './formFieldReset';
 export { SecretInput, type SecretInputProps } from './secretInput';
 export { SearchInput } from './searchInput';
 export { MultiAutocomplete, type MultiAutocompleteProps } from './multiAutocomplete';
-
+export { UploadJSON, type UploadJSONProps } from './uploadJSON';
 export type { PluginTable, PluginTableListItem } from './tableSelector/types';

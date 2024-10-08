@@ -85,13 +85,210 @@ export interface ConfigUIFormProps {
     prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
+// @public
+export function ControlBooleanField({ name, label, type, helperText, }: ControlBooleanFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlBooleanFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: 'toggle' | 'checkbox';
+}
+
+// @public
+export function ControlDateField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlDateFieldProps {
+    // (undocumented)
+    clearable?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    InputProps?: TextFieldProps['InputProps'];
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlDateTimeField({ name, label, helperText, disabled, clearable, InputProps, }: ControlDateTimeFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlDateTimeFieldProps {
+    // (undocumented)
+    clearable?: boolean;
+    // (undocumented)
+    disabled?: boolean;
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    InputProps?: TextFieldProps['InputProps'];
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlExclusiveToggleField({ name, options, children, }: ControlExclusiveToggleFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlExclusiveToggleFieldProps {
+    // (undocumented)
+    children?: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    options: {
+        label: string;
+        value: string | number;
+    }[];
+}
+
 export { Controller }
+
+// @public
+export function ControlMultiSelectField({ name, helperText, label, }: ControlMultiSelectFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlMultiSelectFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+}
+
+// @public
+export function ControlNumberField({ name, label, helperText, textFieldProps, }: ControlNumberFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlNumberFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
+// @public
+export function ControlOAuthField({ getConnectPayloadSpec, getFinishPayloadSpec, }: ControlOAuthFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export type ControlOAuthFieldProps = {
+    getConnectPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+    getFinishPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
+};
+
+// @public
+export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSecretFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
+
+// @public
+export function ControlSelectField({ name, helperText, label, options, }: ControlSelectFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlSelectFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: string;
+    // (undocumented)
+    name: string;
+    // Warning: (ae-forgotten-export) The symbol "OptionObject" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    options: (string | OptionObject)[];
+}
+
+// @public
+export function ControlServicesSelectorField({ services, topServices, name, helperText, label, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlServicesSelectorFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label?: string;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    services: ServiceTypes;
+    // (undocumented)
+    topServices?: string[];
+}
+
+// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
+//
+// @public
+export const ControlTableSelectorField: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
+
+// @public
+export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;
+
+// @public (undocumented)
+export interface ControlTextFieldProps {
+    // (undocumented)
+    helperText?: ReactNode;
+    // (undocumented)
+    label: ReactNode;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    textFieldProps?: TextFieldProps;
+}
 
 // @public
 export function convertStringToSlug(value: string): string;
 
 // @public
 export function corePrepareSubmitValues(config: PluginConfig, values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
+
+// @public
+export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, callApi, authenticatePayload, }: {
+    connectorId?: string;
+    teamName: string;
+    pluginTeamName: string;
+    authPluginType: AuthPluginType;
+    pluginName: string;
+    pluginKind: 'source' | 'destination';
+    finishImmediately?: boolean;
+    callApi: ReturnType<typeof useApiCall>['callApi'];
+    authenticatePayload?: Partial<{
+        plugin_version: string;
+        spec: Record<string, any>;
+        env: Record<string, any>[];
+        tables: string[];
+        skip_tables: string[];
+        skip_dependent_tables: boolean;
+    }>;
+}): Promise<T & {
+    connectorId?: string;
+}>;
 
 // @public (undocumented)
 export interface DestinationConfig extends PluginConfig {
@@ -117,6 +314,17 @@ export interface ExclusiveToggleProps {
     title?: string;
     value: string | number | boolean;
 }
+
+// @public
+export function finishAuthConnectorAuthentication({ authPluginType, connectorId, teamName, callApi, method, payload, path, }: {
+    connectorId: string;
+    teamName: string;
+    authPluginType: AuthPluginType;
+    callApi: ReturnType<typeof useApiCall>['callApi'];
+    method: 'POST' | 'PATCH';
+    payload: Record<string, any>;
+    path?: string;
+}): Promise<void>;
 
 // @public (undocumented)
 export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
@@ -168,7 +376,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -181,6 +389,7 @@ export interface FormFooterProps {
     onGoToPreviousStep: () => void;
     onTestConnectionSuccess: () => void;
     pluginKind: 'source' | 'destination';
+    showPreviousStepButton: boolean;
     submitDisabled?: boolean;
     submitLabel?: string;
     // Warning: (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
@@ -209,6 +418,15 @@ export type FormWrapperProps = {
 };
 
 // @public
+export function GCPConnect({ variant, pluginUiMessageHandler }: GCPConnectProps): JSX_2.Element;
+
+// @public (undocumented)
+export type GCPConnectProps = {
+    variant?: 'link' | 'button';
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
+
+// @public
 export function generateApiAbortError(message?: string): Error;
 
 // @public
@@ -224,6 +442,22 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
 // @public
+export function getAuthenticateConnector({ connectorId, teamName, callApi, authPluginType, }: {
+    connectorId: string;
+    teamName: string;
+    callApi: ReturnType<typeof useApiCall>['callApi'];
+    authPluginType: AuthPluginType;
+}): Promise<{
+    body: {
+        role_arn: string;
+        external_id: string;
+    };
+    endpoint: string;
+    headers: Record<string, string>;
+    status: number;
+}>;
+
+// @public
 export const getEnabledTablesObject: ({ tablesList, tables, }: {
     tablesList?: PluginTable[];
     tables?: string[];
@@ -231,6 +465,43 @@ export const getEnabledTablesObject: ({ tablesList, tables, }: {
 
 // @public
 export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | JSX_2.Element | Iterable<ReactNode> | null | undefined;
+
+// @public
+export const getGCPAuthFormula: ({ initialValues, pluginUiMessageHandler, }: GetGCPAuthFormulaProps) => ({
+    component: string;
+    name: string;
+    options: {
+        label: string;
+        value: AuthType;
+    }[];
+    schema: yup.MixedSchema<{} | undefined, yup.AnyObject, AuthType, "d">;
+    shouldRender?: undefined;
+    children?: undefined;
+} | {
+    component: string;
+    shouldRender: (values: any) => boolean;
+    children: (() => JSX_2.Element)[];
+    name?: undefined;
+    options?: undefined;
+    schema?: undefined;
+} | {
+    component: string;
+    shouldRender: (values: any) => boolean;
+    children: {
+        name: string;
+        component: typeof UploadJSON;
+        schema: yup.StringSchema<string | undefined, yup.AnyObject, any, "">;
+    }[];
+    name?: undefined;
+    options?: undefined;
+    schema?: undefined;
+})[];
+
+// @public (undocumented)
+export type GetGCPAuthFormulaProps = {
+    initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+    pluginUiMessageHandler: PluginUiMessageHandler;
+};
 
 // @public
 export function getRandomId(length?: number): string;
@@ -252,10 +523,25 @@ export function GuideComponent({ pluginUiMessageHandler, }: {
 // @public (undocumented)
 export interface GuideConfig {
     // (undocumented)
-    sections: RenderGuideProps['sections'];
+    sections: GuideSection[];
     // (undocumented)
     title: string;
 }
+
+// @public (undocumented)
+export type GuideSection = {
+    header?: string;
+    bodies: GuideSectionBody[];
+    shouldRender?: (values: any) => boolean;
+};
+
+// @public (undocumented)
+export type GuideSectionBody = {
+    code?: string;
+    image?: string;
+    text?: any;
+    shouldRender?: (values: any) => boolean;
+};
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -348,7 +634,9 @@ export interface PluginConfig {
 export type PluginConfigFormStep = {
     children: (IterableStepComponent | React_2.FC<any>)[];
     title: string;
-    submitGuard?: (formValues: any) => Promise<boolean>;
+    submitGuard?: (formValues: any, teamName: string, callApi: ReturnType<typeof useApiCall>['callApi'], setValue: (field: string, value: any) => void) => Promise<boolean | {
+        errorMessage: string;
+    }>;
 };
 
 // @public
@@ -411,7 +699,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
 
 // @public (undocumented)
 export type RenderGuideProps = {
-    sections: Section[];
+    sections: GuideSection[];
     pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
@@ -565,6 +853,15 @@ export interface TreeRootProps extends ListProps {
     // (undocumented)
     children: ReactNode;
 }
+
+// @public
+export function UploadJSON({ name, helperText, }: UploadJSONProps): JSX_2.Element;
+
+// @public (undocumented)
+export type UploadJSONProps = {
+    name?: string;
+    helperText?: string;
+};
 
 // @public
 export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
@@ -743,8 +1040,8 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/components/display/setupGuide/section/index.tsx:26:3 - (ae-forgotten-export) The symbol "Section" needs to be exported by the entry point index.d.ts
-// src/types.ts:29:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/utils/authConnectorAuthentication.ts:51:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

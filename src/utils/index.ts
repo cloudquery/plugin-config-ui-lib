@@ -18,3 +18,8 @@ export { getEnabledTablesObject } from './getEnabledTablesObject';
 export { escapeSingleQuotesAndBackslashes } from './escapeSingleQuotesAndBackslashes';
 export { getFieldHelperText } from './getFieldHelperText';
 export { getYupValidationResolver, resetYupDefaultErrorMessages } from './getYupValidationResolver';
+export {
+  finishAuthConnectorAuthentication,
+  createAndAuthenticateConnector,
+  getAuthenticateConnector,
+} from './authConnectorAuthentication';
