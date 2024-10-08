@@ -4,6 +4,10 @@ import { getRandomId } from './getRandomId';
 
 type AuthPluginType = 'aws' | 'gcp';
 
+/**
+ * Gets the authenticate connector for a given connectorId
+ * @public
+ */
 export async function getAuthenticateConnector({
   connectorId,
   teamName,
