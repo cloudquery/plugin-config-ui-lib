@@ -155,6 +155,10 @@ async function main() {
         })
       : [];
 
+    const packageJson = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '..', '..', 'package.json'), 'utf8'),
+    );
+
     const payload = {
       pluginName,
       pluginKind,
@@ -167,6 +171,7 @@ async function main() {
       createTablesSelector,
       advancedOptions,
       authTokenSpecProperties,
+      cloudQueryPluginConfigUiLibVersion: packageJson.version,
       yup:
         authentication === 'both' ||
         authentication === 'token' ||
