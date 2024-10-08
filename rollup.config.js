@@ -3,6 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import { terser } from "rollup-plugin-terser";
+import copy from 'rollup-plugin-copy'
 
 const componentInputs = ["src/components/utils/devWrapper.tsx"];
 
@@ -76,6 +77,12 @@ export default [
           comments: /webpackIgnore:/,
         },
       }),
+      copy({
+        targets: [
+          { src: 'src/scripts', dest: 'dist' },
+          { src: 'src/template', dest: 'dist' }
+        ]
+      })
     ],
   },
   {

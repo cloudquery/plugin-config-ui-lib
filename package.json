@@ -1,11 +1,14 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "create-app": "./dist/scripts/generate-cloud-config-ui.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -20,6 +23,9 @@
     "./e2e-utils": {
       "import": "./dist/e2e-utils/index.esm.js",
       "require": "./dist/e2e-utils/index.cjs.js"
+    },
+    "./scripts/*": {
+      "require": "./dist/scripts/*"
     },
     "./.eslintrc.js": "./.eslintrc.js",
     "./.prettierrc.js": "./.prettierrc.js"
@@ -73,7 +79,10 @@
     "@cloudquery/cloud-ui": "^2.0.0-rc.0",
     "@rudderstack/analytics-js": "^3.7.13",
     "dayjs": "^1.11.13",
+    "decamelize": "^6.0.0",
+    "handlebars": "^4.7.8",
     "humanize-string": "^3.0.0",
+    "inquirer": "^11.1.0",
     "react-hook-form": "^7.53.0"
   },
   "peerDependencies": {
@@ -146,6 +155,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "rimraf": "^5.0.7",
     "rollup": "^2.79.1",
+    "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-terser": "^7.0.2",
     "source-map-explorer": "^2.5.3",
