@@ -37,6 +37,8 @@ export interface FormFooterProps {
   submitDisabled?: boolean;
   /** Callback to handle test connection success */
   onTestConnectionSuccess: () => void;
+  /** Indicates whether the previous step button should be shown */
+  showPreviousStepButton: boolean;
 }
 
 /**
@@ -60,6 +62,7 @@ export function FormFooter({
   onTestConnectionSuccess,
   submitLabel,
   submitDisabled,
+  showPreviousStepButton,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -91,9 +94,11 @@ export function FormFooter({
               {`Delete this ${pluginKind}`}
             </Button>
           )}
-          <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
-            Previous step
-          </Button>
+          {showPreviousStepButton && (
+            <Button disabled={isBusy} color="secondary" onClick={onGoToPreviousStep} size="medium">
+              Previous step
+            </Button>
+          )}
         </Stack>
         <Stack
           direction="row"
