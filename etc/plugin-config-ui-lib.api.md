@@ -376,7 +376,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -389,6 +389,7 @@ export interface FormFooterProps {
     onGoToPreviousStep: () => void;
     onTestConnectionSuccess: () => void;
     pluginKind: 'source' | 'destination';
+    showPreviousStepButton: boolean;
     submitDisabled?: boolean;
     submitLabel?: string;
     // Warning: (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
