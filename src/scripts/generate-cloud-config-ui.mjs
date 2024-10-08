@@ -13,6 +13,8 @@ import inquirer from 'inquirer';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+let pluginLogoPathNotProvided = false;
+
 async function main() {
   const outputDir = path.join(process.cwd(), 'cloud-config-ui');
 
@@ -59,9 +61,12 @@ async function main() {
         {
           type: 'input',
           name: 'pluginLogoPath',
-          message: 'Provide the path to the plugin logo:',
-          required: true,
+          message: 'Provide the path to the plugin logo (optional):',
           validate: (input) => {
+            if (!input) {
+              return true;
+            }
+
             let logoSrcPath = input;
             if (!path.isAbsolute(logoSrcPath)) {
               logoSrcPath = path.resolve(process.cwd(), logoSrcPath);
@@ -75,6 +80,8 @@ async function main() {
           transformer: (input, { isFinal }) => {
             if (!isFinal) {
               return input;
+            } else if (!input) {
+              return '';
             }
 
             let logoSrcPath = input;
@@ -86,6 +93,8 @@ async function main() {
           },
         },
       ]);
+
+    pluginLogoPathNotProvided = !pluginLogoPath;
 
     let createTablesSelector = false;
     if (pluginKind === 'source') {
@@ -186,13 +195,15 @@ async function main() {
     fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
 
     // Copy logo
-    let logoSrcPath = pluginLogoPath;
-    if (!path.isAbsolute(logoSrcPath)) {
-      logoSrcPath = path.resolve(process.cwd(), logoSrcPath);
+    if (pluginLogoPath) {
+      let logoSrcPath = pluginLogoPath;
+      if (!path.isAbsolute(logoSrcPath)) {
+        logoSrcPath = path.resolve(process.cwd(), logoSrcPath);
+      }
+      const logoDestPath = path.join(outputDir, 'public', 'images', 'logo.png');
+      fs.mkdirSync(path.dirname(logoDestPath), { recursive: true });
+      fs.copyFileSync(logoSrcPath, logoDestPath);
     }
-    const logoDestPath = path.join(outputDir, 'public', 'images', 'logo.png');
-    fs.mkdirSync(path.dirname(logoDestPath), { recursive: true });
-    fs.copyFileSync(logoSrcPath, logoDestPath);
 
     // Copy scripts if plugin is a source
     if (pluginKind === 'source') {
@@ -322,6 +333,14 @@ try {
   execSync('npm install', { stdio: 'inherit' });
   // eslint-disable-next-line no-console
   console.log('\n\nDependencies installed successfully.');
+
+  if (pluginLogoPathNotProvided) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'No logo path provided. Please remember to add a logo to your plugin to the public/images/logo.png file.',
+    );
+  }
+
   process.chdir('..');
   // eslint-disable-next-line no-console
   console.log('You can now navigate into the cloud-config-ui directory and start developing.');
