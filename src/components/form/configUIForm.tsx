@@ -246,6 +246,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
                   onDelete={handleDelete}
                   onGoToPreviousStep={onGoToPreviousStep}
                   submitLabel={isLastStep ? undefined : 'Continue'}
+                  showPreviousStepButton={!editMode || step !== 0}
                 />
               </Stack>
             </form>
