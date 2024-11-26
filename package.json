@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -21,6 +21,7 @@
       "require": "./dist/components/devWrapper.cjs.js"
     },
     "./e2e-utils": {
+      "types": "./dist/e2e-utils/index.d.ts",
       "import": "./dist/e2e-utils/index.esm.js",
       "require": "./dist/e2e-utils/index.cjs.js"
     },

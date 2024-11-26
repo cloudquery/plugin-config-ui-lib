@@ -185,10 +185,11 @@ export interface ControlNumberFieldProps {
 }
 
 // @public
-export function ControlOAuthField({ getConnectPayloadSpec, getFinishPayloadSpec, }: ControlOAuthFieldProps): JSX_2.Element;
+export function ControlOAuthField({ shouldAuthenticate, getConnectPayloadSpec, getFinishPayloadSpec, }: ControlOAuthFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export type ControlOAuthFieldProps = {
+    shouldAuthenticate?: () => Promise<boolean>;
     getConnectPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
     getFinishPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
 };

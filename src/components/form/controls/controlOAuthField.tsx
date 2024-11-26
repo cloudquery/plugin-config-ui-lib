@@ -20,6 +20,7 @@ import { cloudQueryOauthConnectorUrl } from '../../../utils';
  * @public
  */
 export type ControlOAuthFieldProps = {
+  shouldAuthenticate?: () => Promise<boolean>;
   getConnectPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
   getFinishPayloadSpec?: (formValues: any) => Promise<Record<string, any>>;
 };
@@ -30,6 +31,7 @@ export type ControlOAuthFieldProps = {
  * @public
  */
 export function ControlOAuthField({
+  shouldAuthenticate,
   getConnectPayloadSpec,
   getFinishPayloadSpec,
 }: ControlOAuthFieldProps) {
@@ -54,6 +56,16 @@ export function ControlOAuthField({
     getConnectPayloadSpec: async () => await getConnectPayloadSpec?.(getValues()),
     getFinishPayloadSpec: async () => await getFinishPayloadSpec?.(getValues()),
   });
+
+  const handleAuthenticate = async () => {
+    let proceed = true;
+    if (shouldAuthenticate) {
+      proceed = await shouldAuthenticate();
+    }
+    if (proceed) {
+      authenticate();
+    }
+  };
 
   useEffect(() => {
     if (authConnectorResult && connectorId) {
@@ -86,7 +98,7 @@ export function ControlOAuthField({
         <LoadingButton
           size="large"
           variant="contained"
-          onClick={authenticate}
+          onClick={handleAuthenticate}
           loading={isLoading}
           fullWidth={false}
           disabled={!!connectorIdValue}
@@ -106,7 +118,7 @@ export function ControlOAuthField({
         <Typography variant="body2" color="textSecondary">
           To reconnect CloudQuery via {config.label}{' '}
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link underline="always" sx={{ cursor: 'pointer' }} onClick={authenticate}>
+          <Link underline="always" sx={{ cursor: 'pointer' }} onClick={handleAuthenticate}>
             click here
           </Link>
         </Typography>
