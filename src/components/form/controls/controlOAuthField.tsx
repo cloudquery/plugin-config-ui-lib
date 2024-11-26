@@ -118,7 +118,7 @@ export function ControlOAuthField({
         <Typography variant="body2" color="textSecondary">
           To reconnect CloudQuery via {config.label}{' '}
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <Link underline="always" sx={{ cursor: 'pointer' }} onClick={authenticate}>
+          <Link underline="always" sx={{ cursor: 'pointer' }} onClick={handleAuthenticate}>
             click here
           </Link>
         </Typography>
