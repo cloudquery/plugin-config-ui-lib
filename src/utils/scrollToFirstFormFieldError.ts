@@ -6,7 +6,7 @@
  */
 export function scrollToFirstFormFieldError(errorFieldNames: string[]) {
   const elements = errorFieldNames
-    .map((name) => document.getElementsByName(name)[0])
+    .map((name) => document.querySelector(`[name="${name}"]`) as HTMLElement)
     .filter((el) => !!el);
   elements.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
 

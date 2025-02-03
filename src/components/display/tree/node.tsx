@@ -16,7 +16,7 @@ export interface TreeNodeProps extends ListItemProps {
   onSelect: () => void;
 }
 
-const _TreeNode: FC<TreeNodeProps> = ({
+const InternalTreeNode: FC<TreeNodeProps> = ({
   children,
   isExpanded,
   isSelected,
@@ -62,4 +62,4 @@ const _TreeNode: FC<TreeNodeProps> = ({
  *
  * @public
  */
-export const TreeNode = React.memo(_TreeNode);
+export const TreeNode = React.memo(InternalTreeNode);

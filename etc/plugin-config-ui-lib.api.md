@@ -243,10 +243,10 @@ export interface ControlServicesSelectorFieldProps {
     topServices?: string[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "InternalPluginTableSelector" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const ControlTableSelectorField: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
+export const ControlTableSelectorField: React_2.MemoExoticComponent<typeof InternalPluginTableSelector>;
 
 // @public
 export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;

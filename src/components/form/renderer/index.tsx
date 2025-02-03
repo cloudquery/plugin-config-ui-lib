@@ -253,7 +253,12 @@ function ComponentRenderer({
   } else {
     const ConcreteComponent = ((component as IterableStepComponent)?.component ??
       component) as React.FC<any>;
+    const { children, ...props } = component as LayoutSection;
 
-    return <ConcreteComponent {...(component as any)} />;
+    return (
+      <ConcreteComponent {...(props as any)}>
+        <ComponentsRenderer section={children} />
+      </ConcreteComponent>
+    );
   }
 }
