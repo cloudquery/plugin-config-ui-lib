@@ -588,6 +588,8 @@ export const MultiAutocomplete: React_2.ForwardRefExoticComponent<MultiAutocompl
 // @public (undocumented)
 export interface MultiAutocompleteProps {
     // (undocumented)
+    codeSeparator?: string;
+    // (undocumented)
     disabled?: boolean | undefined;
     // (undocumented)
     error?: boolean;
