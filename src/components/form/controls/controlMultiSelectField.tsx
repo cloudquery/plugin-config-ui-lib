@@ -12,6 +12,7 @@ export interface ControlMultiSelectFieldProps {
   name: string;
   label: string;
   helperText?: ReactNode;
+  codeSeparators?: string[];
 }
 
 /**
@@ -23,6 +24,7 @@ export function ControlMultiSelectField({
   name,
   helperText = '',
   label,
+  codeSeparators,
 }: ControlMultiSelectFieldProps) {
   const { trigger, formState } = useFormContext();
 
@@ -57,6 +59,7 @@ export function ControlMultiSelectField({
             error={!!errors}
             helperText={getFieldHelperText(errors as string, helperText)}
             label={label}
+            codeSeparators={codeSeparators}
           />
         );
       }}

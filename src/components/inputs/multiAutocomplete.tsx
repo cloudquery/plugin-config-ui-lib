@@ -17,7 +17,7 @@ export interface MultiAutocompleteProps {
   error?: boolean;
   helperText?: ReturnType<typeof getFieldHelperText>;
   label: string;
-  codeSeparator?: string;
+  codeSeparators?: string[];
 }
 
 /**
@@ -27,7 +27,17 @@ export interface MultiAutocompleteProps {
  */
 export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompleteProps>(
   (
-    { label, disabled, value, onChange, onBlur, name, helperText, error, codeSeparator = 'Space' },
+    {
+      label,
+      disabled,
+      value,
+      onChange,
+      onBlur,
+      name,
+      helperText,
+      error,
+      codeSeparators = ['Space'],
+    },
     ref,
   ) => {
     const fieldProps = { onBlur, name, ref, disabled };
@@ -48,7 +58,8 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
         }}
         onKeyDown={(event) => {
           const target = event.target as HTMLInputElement;
-          const shouldSubmit = event.code === codeSeparator && target?.value?.trim().length > 0;
+          const shouldSubmit =
+            codeSeparators.includes(event.code) && target?.value?.trim().length > 0;
 
           if (shouldSubmit) {
             event.preventDefault();

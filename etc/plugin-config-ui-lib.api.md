@@ -157,10 +157,12 @@ export interface ControlExclusiveToggleFieldProps {
 export { Controller }
 
 // @public
-export function ControlMultiSelectField({ name, helperText, label, }: ControlMultiSelectFieldProps): JSX_2.Element;
+export function ControlMultiSelectField({ name, helperText, label, codeSeparators, }: ControlMultiSelectFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlMultiSelectFieldProps {
+    // (undocumented)
+    codeSeparators?: string[];
     // (undocumented)
     helperText?: ReactNode;
     // (undocumented)
@@ -588,7 +590,7 @@ export const MultiAutocomplete: React_2.ForwardRefExoticComponent<MultiAutocompl
 // @public (undocumented)
 export interface MultiAutocompleteProps {
     // (undocumented)
-    codeSeparator?: string;
+    codeSeparators?: string[];
     // (undocumented)
     disabled?: boolean | undefined;
     // (undocumented)
