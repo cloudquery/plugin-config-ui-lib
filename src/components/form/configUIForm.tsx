@@ -28,6 +28,7 @@ import { FormFooter, FormWrapper, GuideComponent } from '../display';
 import { PluginTable } from '../inputs';
 import { Sections } from './sections/sections';
 import { PluginConfig } from '../../types';
+import { CollapsibleResizableContainer } from '../controls/collapsibleResizableContainer';
 
 const FormStepper = React.lazy(() =>
   import('../display/formStepper').then((module) => ({
@@ -189,13 +190,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <FormProvider {...form}>
-        <Stack
-          direction="row"
-          sx={{
-            gap: 3,
-            flexWrap: 'wrap',
-          }}
-        >
+        <Stack direction="row" spacing={3}>
           <Box
             sx={{
               flex: '1 1 0',
@@ -251,9 +246,9 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
               </Stack>
             </form>
           </Box>
-          <Box sx={{ width: 500, minWidth: 360 }}>
+          <CollapsibleResizableContainer collapsible={true} minWidth={360} width={500}>
             <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
-          </Box>
+          </CollapsibleResizableContainer>
         </Stack>
       </FormProvider>
     </ThemeProvider>
