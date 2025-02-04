@@ -2,6 +2,8 @@ import React, { ReactElement } from 'react';
 
 import Stack from '@mui/material/Stack';
 
+import { useFormContext } from 'react-hook-form';
+
 import { SetupGuide } from './setupGuide';
 import { RenderGuide } from './setupGuide/section';
 import { usePluginContext } from '../../context/plugin';
@@ -17,6 +19,8 @@ export function GuideComponent({
 }: {
   pluginUiMessageHandler: any; // TODO: remove after iframe deprecation
 }): ReactElement | null {
+  const { watch } = useFormContext();
+  const values = watch();
   const { config } = usePluginContext();
 
   if (!config.guide) {
@@ -26,7 +30,7 @@ export function GuideComponent({
 
     return (
       <SetupGuide
-        title={guide.title}
+        title={typeof guide.title === 'function' ? guide.title(values) : guide.title}
         docsLink={config.docsLink}
         pluginUiMessageHandler={pluginUiMessageHandler}
       >

@@ -251,7 +251,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
               </Stack>
             </form>
           </Box>
-          <Box sx={{ width: 360, minWidth: 360 }}>
+          <Box sx={{ width: 500, minWidth: 360 }}>
             <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
           </Box>
         </Stack>

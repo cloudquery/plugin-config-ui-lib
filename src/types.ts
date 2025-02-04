@@ -37,7 +37,7 @@ export type GuideSection = {
  * @public
  */
 export interface GuideConfig {
-  title: string;
+  title: string | ((values: any) => string);
   sections: GuideSection[];
 }
 
