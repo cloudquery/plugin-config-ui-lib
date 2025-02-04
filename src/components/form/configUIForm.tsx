@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createThemeOptions } from '@cloudquery/cloud-ui';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -45,6 +47,7 @@ export interface ConfigUIFormProps {
     values: Record<string, any>,
     tablesList?: PluginTable[],
   ) => PluginUiMessagePayload['validation_passed']['values'];
+  container?: HTMLElement;
 }
 
 /**
@@ -52,13 +55,14 @@ export interface ConfigUIFormProps {
  *
  * @public
  */
-export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
+export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormProps) {
   const { plugin, teamName, config, hideStepper, tablesList, pluginUiMessageHandler } =
     usePluginContext();
 
   useFormHeightChange(pluginUiMessageHandler);
 
   const form = useConfigUIForm();
+  const emotionCache = useMemo(() => createCache({ key: 'css', container }), [container]);
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
 
   const step = watch('_step');
@@ -187,76 +191,77 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
   const theme = useMemo(() => createTheme(createThemeOptions()), []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <FormProvider {...form}>
-        <Stack direction="row" spacing={3}>
-          <Box
-            sx={{
-              flex: '1 1 0',
-              minWidth: 0,
-            }}
-          >
-            <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-              <Stack
-                sx={{
-                  gap: 3,
-                }}
-              >
-                <FormWrapper formDisabled={formDisabled}>
-                  <Sections>
-                    {!hideStepper && config.steps?.length > 1 && (
-                      <FormStepper
-                        steps={config.steps.map(({ title }) => title)}
-                        activeIndex={step}
-                      />
-                    )}
-                    <ConfigUIFormHeader />
-                    {config.steps?.map(({ children }, index) => {
-                      return (
-                        step === index && (
-                          <Sections key={index}>
-                            {children.map((section, index) => (
-                              <ComponentsRenderer section={section} key={index} />
-                            ))}
-                          </Sections>
-                        )
-                      );
-                    })}
-                    <FormHelperText sx={{ textAlign: 'right' }} error={true}>
-                      {formState.errors.root?.message}
-                    </FormHelperText>
-                  </Sections>
-                </FormWrapper>
-                <FormFooter
-                  isUpdating={editMode}
-                  pluginKind={plugin.kind as any}
-                  isTestingConnection={isTestingConnection}
-                  isSubmitting={isSubmitting || submitGuardLoading}
-                  testConnectionError={parsedTestConnectionError}
-                  submitPayload={submitPayload}
-                  onCancel={handleCancel}
-                  onCancelTestConnection={handleCancelTestConnection}
-                  onTestConnectionSuccess={onTestConnectionSuccess}
-                  onDelete={handleDelete}
-                  onGoToPreviousStep={onGoToPreviousStep}
-                  submitLabel={isLastStep ? undefined : 'Continue'}
-                  showPreviousStepButton={!editMode || step !== 0}
-                />
-              </Stack>
-            </form>
-          </Box>
-          <CollapsibleResizableContainer
-            collapsible={true}
-            minWidth={360}
-            width={500}
-            maxWidth={500}
-            togglePosition="left"
-          >
-            <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
-          </CollapsibleResizableContainer>
-        </Stack>
-      </FormProvider>
-    </ThemeProvider>
+    <CacheProvider value={emotionCache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <FormProvider {...form}>
+          {!hideStepper && config.steps?.length > 1 && (
+            <Box marginBottom={3}>
+              <FormStepper steps={config.steps.map(({ title }) => title)} activeIndex={step} />
+            </Box>
+          )}
+          <Stack direction="row" spacing={3}>
+            <Box
+              sx={{
+                flex: '1 1 0',
+                minWidth: 0,
+              }}
+            >
+              <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
+                <Stack
+                  sx={{
+                    gap: 3,
+                  }}
+                >
+                  <FormWrapper formDisabled={formDisabled}>
+                    <Sections>
+                      <ConfigUIFormHeader />
+                      {config.steps?.map(({ children }, index) => {
+                        return (
+                          step === index && (
+                            <Sections key={index}>
+                              {children.map((section, index) => (
+                                <ComponentsRenderer section={section} key={index} />
+                              ))}
+                            </Sections>
+                          )
+                        );
+                      })}
+                      <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+                        {formState.errors.root?.message}
+                      </FormHelperText>
+                    </Sections>
+                  </FormWrapper>
+                  <FormFooter
+                    isUpdating={editMode}
+                    pluginKind={plugin.kind as any}
+                    isTestingConnection={isTestingConnection}
+                    isSubmitting={isSubmitting || submitGuardLoading}
+                    testConnectionError={parsedTestConnectionError}
+                    submitPayload={submitPayload}
+                    onCancel={handleCancel}
+                    onCancelTestConnection={handleCancelTestConnection}
+                    onTestConnectionSuccess={onTestConnectionSuccess}
+                    onDelete={handleDelete}
+                    onGoToPreviousStep={onGoToPreviousStep}
+                    submitLabel={isLastStep ? undefined : 'Continue'}
+                    showPreviousStepButton={!editMode || step !== 0}
+                  />
+                </Stack>
+              </form>
+            </Box>
+            <CollapsibleResizableContainer
+              collapsible={true}
+              minWidth={360}
+              width={500}
+              maxWidth={500}
+              togglePosition="left"
+            >
+              <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
+            </CollapsibleResizableContainer>
+          </Stack>
+        </FormProvider>
+      </ThemeProvider>
+    </CacheProvider>
   );
 }

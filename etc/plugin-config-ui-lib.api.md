@@ -77,10 +77,12 @@ export interface CodeSnippetProps {
 }
 
 // @public
-export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
+export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ConfigUIFormProps {
+    // (undocumented)
+    container?: HTMLElement;
     // (undocumented)
     prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
