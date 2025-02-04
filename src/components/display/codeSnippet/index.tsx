@@ -36,6 +36,7 @@ export function CodeSnippet({ text }: CodeSnippetProps) {
         alignItems: 'start',
         bgcolor: 'background.paperTertiary',
         borderRadius: 1,
+        justifyContent: 'space-between',
       }}
     >
       <Box
