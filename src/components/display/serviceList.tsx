@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
+import { FormControlLabel } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -75,26 +76,48 @@ export function ServiceList({
     [services, showServices, topServices],
   );
 
+  const allServicesSelected = useMemo(() => {
+    return Object.values(services).every((service) => value.includes(service.name));
+  }, [services, value]);
+
+  const handleAllServicesSelected = useCallback(() => {
+    onChange?.(allServicesSelected ? [] : Object.values(services).map((service) => service.name));
+  }, [allServicesSelected, onChange, services]);
+
   return (
     <Stack
       sx={{
         gap: 2,
       }}
     >
-      <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
-        <Tab
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
+          <Tab
+            disabled={disabled}
+            sx={{ py: '9px' }}
+            label={<Typography variant="subtitle1">Popular services</Typography>}
+            value={ServiceListMode.Popular}
+          />
+          <Tab
+            disabled={disabled}
+            sx={{ py: '9px' }}
+            label={<Typography variant="subtitle1">All services</Typography>}
+            value={ServiceListMode.All}
+          />
+        </Tabs>
+        <FormControlLabel
           disabled={disabled}
-          sx={{ py: '9px' }}
-          label={<Typography variant="subtitle1">Popular services</Typography>}
-          value={ServiceListMode.Popular}
+          control={
+            <Checkbox
+              disabled={disabled}
+              checked={allServicesSelected}
+              onChange={handleAllServicesSelected}
+              size="small"
+            />
+          }
+          label={allServicesSelected ? 'Deselect all services' : 'Select all services'}
         />
-        <Tab
-          disabled={disabled}
-          sx={{ py: '9px' }}
-          label={<Typography variant="subtitle1">All services</Typography>}
-          value={ServiceListMode.All}
-        />
-      </Tabs>
+      </Stack>
       <Box
         sx={{
           display: 'grid',

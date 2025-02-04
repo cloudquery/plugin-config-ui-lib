@@ -66,6 +66,8 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
             event.stopPropagation();
             target.blur();
             target.focus();
+
+            return false;
           }
         }}
         filterSelectedOptions={true}
