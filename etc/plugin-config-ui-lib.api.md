@@ -528,7 +528,7 @@ export interface GuideConfig {
     // (undocumented)
     sections: GuideSection[];
     // (undocumented)
-    title: string;
+    title: string | ((values: any) => string);
 }
 
 // @public (undocumented)
