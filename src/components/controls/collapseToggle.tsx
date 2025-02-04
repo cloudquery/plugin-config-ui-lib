@@ -28,12 +28,14 @@ export function CollapseToggle({ collapsed, onClick, togglePosition = 'left' }: 
         left: togglePosition === 'left' ? 0 : undefined,
         right: togglePosition === 'right' ? 0 : undefined,
         top: '50%',
-        transform: collapsed ? 'translate(50%, -50%) rotate(180deg)' : 'translate(50%, -50%)',
+        transform: collapsed
+          ? `translate(${togglePosition === 'left' ? '-' : ''}50%, -50%) rotate(180deg)`
+          : `translate(${togglePosition === 'left' ? '-' : ''}50%, -50%)`,
         transition: `opacity 150ms ${transitions.easing.easeInOut}, transform 150ms ${transitions.easing.easeInOut}`,
         zIndex: 999,
       }}
     >
-      {togglePosition === 'left' ? <ChevronLeft /> : <ChevronRight />}
+      {togglePosition === 'left' ? <ChevronRight /> : <ChevronLeft />}
     </IconButton>
   );
 }
