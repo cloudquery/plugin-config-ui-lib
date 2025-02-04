@@ -53,7 +53,7 @@ export function ControlMultiSelectField({
             value={value}
             onChange={(newValue) => {
               onChange(newValue);
-              trigger();
+              trigger(name);
             }}
             {...fieldProps}
             error={!!errors}
