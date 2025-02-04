@@ -34,7 +34,7 @@ export function SetupGuide({
   pluginUiMessageHandler,
 }: SetupGuideProps) {
   return (
-    <Card>
+    <Card sx={{ borderRadius: 0 }}>
       <CardContent>
         <Stack
           sx={{

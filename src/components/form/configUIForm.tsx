@@ -194,7 +194,7 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
           <Box
             sx={{
               flex: '1 1 0',
-              minWidth: 480,
+              minWidth: 0,
             }}
           >
             <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
@@ -246,7 +246,13 @@ export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps) {
               </Stack>
             </form>
           </Box>
-          <CollapsibleResizableContainer collapsible={true} minWidth={360} width={500}>
+          <CollapsibleResizableContainer
+            collapsible={true}
+            minWidth={360}
+            width={500}
+            maxWidth={500}
+            togglePosition="left"
+          >
             <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
           </CollapsibleResizableContainer>
         </Stack>

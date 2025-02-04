@@ -16,12 +16,14 @@ interface Props extends Omit<BoxProps, 'width' | 'minWidth'> {
   minWidth?: number;
   resizable?: boolean;
   width?: number;
+  togglePosition?: 'left' | 'right';
 }
 
 export function CollapsibleResizableContainer({
   children,
   collapsible,
   resizable,
+  togglePosition = 'left',
   ...props
 }: Props) {
   const { transitions } = useTheme();
@@ -95,7 +97,7 @@ export function CollapsibleResizableContainer({
       }}
       width={isCollapsed ? 24 : parsedWidth}
     >
-      <Stack flex="1 1 auto" minHeight={0} overflow="hidden">
+      <Stack flex="1 1 auto" minHeight={0} overflow="hidden" borderRadius={2.5}>
         <Stack flex="1 1 auto" minHeight={0} overflow="visible" width={parsedWidth}>
           {children}
         </Stack>
@@ -106,7 +108,8 @@ export function CollapsibleResizableContainer({
           height="100%"
           onMouseDown={handleMouseDown}
           position="absolute"
-          right={-5}
+          left={togglePosition === 'left' ? -5 : undefined}
+          right={togglePosition === 'right' ? -5 : undefined}
           sx={{ cursor: 'ew-resize' }}
           title="Resize"
           top={0}
@@ -115,7 +118,11 @@ export function CollapsibleResizableContainer({
         />
       )}
       {collapsible && (
-        <CollapseToggle collapsed={isCollapsed} onClick={() => setIsCollapsed(!isCollapsed)} />
+        <CollapseToggle
+          togglePosition={togglePosition}
+          collapsed={isCollapsed}
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        />
       )}
     </Box>
   );
