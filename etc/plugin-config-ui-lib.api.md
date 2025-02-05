@@ -82,7 +82,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 // @public (undocumented)
 export interface ConfigUIFormProps {
     // (undocumented)
-    container?: HTMLElement;
+    container?: HTMLElement | ShadowRoot;
     // (undocumented)
     prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
