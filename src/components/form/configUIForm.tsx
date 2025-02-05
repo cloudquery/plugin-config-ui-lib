@@ -30,7 +30,6 @@ import { FormFooter, FormWrapper, GuideComponent } from '../display';
 import { PluginTable } from '../inputs';
 import { Sections } from './sections/sections';
 import { PluginConfig } from '../../types';
-import { CollapsibleResizableContainer } from '../controls/collapsibleResizableContainer';
 
 const FormStepper = React.lazy(() =>
   import('../display/formStepper').then((module) => ({
@@ -47,7 +46,7 @@ export interface ConfigUIFormProps {
     values: Record<string, any>,
     tablesList?: PluginTable[],
   ) => PluginUiMessagePayload['validation_passed']['values'];
-  container?: HTMLElement;
+  container?: HTMLElement | ShadowRoot;
 }
 
 /**
@@ -200,7 +199,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
               <FormStepper steps={config.steps.map(({ title }) => title)} activeIndex={step} />
             </Box>
           )}
-          <Stack direction="row" spacing={3}>
+          <Stack direction="row" spacing={5} alignItems="flex-start">
             <Box
               sx={{
                 flex: '1 1 0',
@@ -250,15 +249,9 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 </Stack>
               </form>
             </Box>
-            <CollapsibleResizableContainer
-              collapsible={true}
-              minWidth={360}
-              width={500}
-              maxWidth={500}
-              togglePosition="left"
-            >
+            <Box sx={{ width: 500, minWidth: 360, position: 'sticky', top: 10 }}>
               <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
-            </CollapsibleResizableContainer>
+            </Box>
           </Stack>
         </FormProvider>
       </ThemeProvider>
