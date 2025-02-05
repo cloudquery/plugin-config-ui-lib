@@ -446,6 +446,15 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
 // @public
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
+// @public (undocumented)
+export function getAppRootElements({ rootSelector, shadowRootWindowKey, }: {
+    rootSelector?: string;
+    shadowRootWindowKey?: string;
+}): {
+    rootElement: HTMLElement;
+    shadowRootContainer: HTMLElement | undefined;
+};
+
 // @public
 export function getAuthenticateConnector({ connectorId, teamName, callApi, authPluginType, }: {
     connectorId: string;
