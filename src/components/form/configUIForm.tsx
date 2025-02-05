@@ -187,7 +187,23 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     }
   }, [form?.formState?.errors, config?.debug]);
 
-  const theme = useMemo(() => createTheme(createThemeOptions()), []);
+  const theme = useMemo(() => {
+    const themeOptions = createThemeOptions();
+    if (container) {
+      themeOptions.components = {
+        ...themeOptions.components,
+        MuiMenu: {
+          ...themeOptions.components?.MuiMenu,
+          defaultProps: {
+            ...themeOptions.components?.MuiMenu?.defaultProps,
+            container: container as any,
+          },
+        },
+      };
+    }
+
+    return createTheme(themeOptions);
+  }, [container]);
 
   return (
     <CacheProvider value={emotionCache}>
