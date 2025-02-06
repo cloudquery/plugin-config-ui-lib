@@ -16,7 +16,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const _TableSelectorListItem: FC<Props> = ({
+const InternalTableSelectorListItem: FC<Props> = ({
   valuesRef,
   subscribeToTablesValueChange,
   onSelect,
@@ -95,4 +95,4 @@ const _TableSelectorListItem: FC<Props> = ({
   );
 };
 
-export const TableSelectorListItem = React.memo(_TableSelectorListItem);
+export const TableSelectorListItem = React.memo(InternalTableSelectorListItem);

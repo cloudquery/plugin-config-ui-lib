@@ -174,9 +174,14 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
           'PATCH',
           { ...pluginKindPayload, last_update_source: 'ui' },
         );
-        await updateSyncResourceRequest;
+        const updateSyncResourceResponse = await updateSyncResourceRequest;
 
-        pluginUiMessageHandler.sendMessage('submitted', submitPayload);
+        const resource = (await updateSyncResourceResponse.body) as any;
+
+        pluginUiMessageHandler.sendMessage('submitted', {
+          submitPayload,
+          resource,
+        });
       } catch (error: any) {
         setSubmitError(error?.body || error);
         pluginUiMessageHandler.sendMessage('submit_failed', error?.body || error);

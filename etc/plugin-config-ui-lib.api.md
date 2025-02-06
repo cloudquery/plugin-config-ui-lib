@@ -77,10 +77,12 @@ export interface CodeSnippetProps {
 }
 
 // @public
-export function ConfigUIForm({ prepareSubmitValues }: ConfigUIFormProps): JSX_2.Element;
+export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ConfigUIFormProps {
+    // (undocumented)
+    container?: HTMLElement | ShadowRoot;
     // (undocumented)
     prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
 }
@@ -157,10 +159,12 @@ export interface ControlExclusiveToggleFieldProps {
 export { Controller }
 
 // @public
-export function ControlMultiSelectField({ name, helperText, label, }: ControlMultiSelectFieldProps): JSX_2.Element;
+export function ControlMultiSelectField({ name, helperText, label, codeSeparators, }: ControlMultiSelectFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlMultiSelectFieldProps {
+    // (undocumented)
+    codeSeparators?: string[];
     // (undocumented)
     helperText?: ReactNode;
     // (undocumented)
@@ -243,10 +247,10 @@ export interface ControlServicesSelectorFieldProps {
     topServices?: string[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "_PluginTableSelector" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "InternalPluginTableSelector" needs to be exported by the entry point index.d.ts
 //
 // @public
-export const ControlTableSelectorField: React_2.MemoExoticComponent<typeof _PluginTableSelector>;
+export const ControlTableSelectorField: React_2.MemoExoticComponent<typeof InternalPluginTableSelector>;
 
 // @public
 export function ControlTextField({ name, label, helperText, textFieldProps, }: ControlTextFieldProps): JSX_2.Element;
@@ -443,6 +447,15 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
 // @public
+export function getAppRootElements({ rootSelector, shadowRootWindowKey, }?: {
+    rootSelector?: string;
+    shadowRootWindowKey?: string;
+}): {
+    rootElement: HTMLElement;
+    shadowRootContainer: HTMLElement | undefined;
+};
+
+// @public
 export function getAuthenticateConnector({ connectorId, teamName, callApi, authPluginType, }: {
     connectorId: string;
     teamName: string;
@@ -526,7 +539,7 @@ export interface GuideConfig {
     // (undocumented)
     sections: GuideSection[];
     // (undocumented)
-    title: string;
+    title: string | ((values: any) => string);
 }
 
 // @public (undocumented)
@@ -587,6 +600,8 @@ export const MultiAutocomplete: React_2.ForwardRefExoticComponent<MultiAutocompl
 
 // @public (undocumented)
 export interface MultiAutocompleteProps {
+    // (undocumented)
+    codeSeparators?: string[];
     // (undocumented)
     disabled?: boolean | undefined;
     // (undocumented)

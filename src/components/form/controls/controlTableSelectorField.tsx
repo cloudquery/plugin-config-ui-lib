@@ -9,7 +9,7 @@ import { usePluginContext } from '../../../context';
 import { generatePluginTableList } from '../../../utils';
 import { TableSelector } from '../../inputs';
 
-function _PluginTableSelector() {
+function InternalPluginTableSelector() {
   const {
     control,
     formState: { errors, submitCount },
@@ -70,4 +70,4 @@ function _PluginTableSelector() {
  *
  * @public
  */
-export const ControlTableSelectorField = React.memo(_PluginTableSelector);
+export const ControlTableSelectorField = React.memo(InternalPluginTableSelector);

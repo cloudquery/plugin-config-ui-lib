@@ -23,3 +23,4 @@ export {
   createAndAuthenticateConnector,
   getAuthenticateConnector,
 } from './authConnectorAuthentication';
+export { getAppRootElements } from './getAppRootElements';
