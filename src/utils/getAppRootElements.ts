@@ -14,7 +14,7 @@ export function getAppRootElements({
 }: {
   rootSelector?: string;
   shadowRootWindowKey?: string;
-}) {
+} = {}) {
   let rootElement = document.querySelector(rootSelector) as HTMLElement;
   let shadowRootContainer: HTMLElement | undefined;
 

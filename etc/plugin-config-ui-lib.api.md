@@ -447,7 +447,7 @@ export function generatePluginTableList(tables?: PluginTable[]): PluginTableList
 export const generateTablesFromJson: (tablesJson: CloudQueryTable[]) => PluginTable[];
 
 // @public
-export function getAppRootElements({ rootSelector, shadowRootWindowKey, }: {
+export function getAppRootElements({ rootSelector, shadowRootWindowKey, }?: {
     rootSelector?: string;
     shadowRootWindowKey?: string;
 }): {
