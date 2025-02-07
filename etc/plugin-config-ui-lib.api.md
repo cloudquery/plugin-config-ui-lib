@@ -41,10 +41,10 @@ export enum AuthType {
 }
 
 // @public
-export const cloudQueryApiBaseUrl: any;
+export const cloudQueryApiBaseUrl: string;
 
 // @public
-export const cloudQueryOauthConnectorUrl: any;
+export const cloudQueryOauthConnectorUrl: string;
 
 // @public (undocumented)
 export interface CloudQueryTable {
