@@ -4,7 +4,9 @@
  * @public
  */
 export const cloudQueryApiBaseUrl =
-  process.env.REACT_APP_CLOUDQUERY_API_BASE_URL || 'https://api.cloudquery.io';
+  (typeof window !== 'undefined' && (window as any).REACT_APP_CLOUDQUERY_API_BASE_URL) ||
+  process.env.REACT_APP_CLOUDQUERY_API_BASE_URL ||
+  'https://api.cloudquery.io';
 
 /**
  * CloudQuery OAuth Connector URL
@@ -12,6 +14,7 @@ export const cloudQueryApiBaseUrl =
  * @public
  */
 export const cloudQueryOauthConnectorUrl =
+  (typeof window !== 'undefined' && (window as any).REACT_APP_CLOUDQUERY_OAUTH_CONNECTOR_URL) ||
   process.env.REACT_APP_CLOUDQUERY_OAUTH_CONNECTOR_URL ||
   'https://cloud.cloudquery.io/auth/connector';
 
