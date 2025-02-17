@@ -2,6 +2,8 @@ import React, { ImgHTMLAttributes, useCallback } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
+import { parseSrc } from '../../../utils/parseSrc';
+
 /**
  * @public
  */
@@ -47,7 +49,11 @@ export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImag
       onClick={handleOpen}
       onKeyDown={handleKeyDown}
     >
-      <img {...props} style={{ width: 'inherit', display: 'block', ...props.style }} />
+      <img
+        {...props}
+        src={props.src ? parseSrc(props.src) : undefined}
+        style={{ width: 'inherit', display: 'block', ...props.style }}
+      />
     </button>
   );
 }

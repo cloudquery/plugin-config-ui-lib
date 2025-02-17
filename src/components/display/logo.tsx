@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import useTheme from '@mui/material/styles/useTheme';
 
+import { parseSrc } from '../../utils/parseSrc';
+
 /**
  * @public
  */
@@ -54,7 +56,7 @@ export function Logo({ width = 24, height = 24, src, alt, fallbackSrc }: LogoPro
         />
       )}
       <img
-        src={currentSrc}
+        src={parseSrc(currentSrc)}
         alt={alt ?? src}
         height={height - PADDING}
         width={width - PADDING}
