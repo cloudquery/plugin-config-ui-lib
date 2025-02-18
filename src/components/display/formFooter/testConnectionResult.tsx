@@ -31,13 +31,11 @@ export function FormFooterTestConnectionResult({
   const intervalId = useRef<number>();
   const timeoutId = useRef<number>();
   const [progress, setProgress] = useState(0);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>();
-  const [success, setSuccess] = useState(false);
+  const [progressRunning, setProgressRunning] = useState(false);
 
   useEffect(() => {
     if (isLoading) {
-      setErrorMessage(undefined);
-      setSuccess(false);
+      setProgressRunning(true);
 
       const updateProgress = (currentProgress: number) => {
         const difference = 100 - currentProgress;
@@ -64,17 +62,13 @@ export function FormFooterTestConnectionResult({
       let hasTransitionEnded = false;
 
       const handleTransitionEnd = () => {
+        setProgressRunning(false);
+
         clearTimeout(timeoutId.current);
         timeoutId.current = window.setTimeout(() => {
           if (!hasTransitionEnded) {
             hasTransitionEnded = true;
-            if (failureError) {
-              setErrorMessage(
-                failureError.message ||
-                  'Connection failed, please check your configuration and try again',
-              );
-            } else {
-              setSuccess(true);
+            if (!failureError) {
               onSuccess();
             }
           }
@@ -99,9 +93,9 @@ export function FormFooterTestConnectionResult({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isSubmitting]);
 
-  if (success) {
-    return null;
-  }
+  const errorMessage = failureError
+    ? failureError.message || 'Connection failed, please check your configuration and try again'
+    : undefined;
 
   return (
     <Card ref={cardRef}>
@@ -124,13 +118,14 @@ export function FormFooterTestConnectionResult({
             </Button>
           )}
         </Stack>
-        {errorMessage ? (
+        {progressRunning && (
+          <LinearProgress ref={progressElemRef} value={progress} variant="determinate" />
+        )}
+        {errorMessage && !progressRunning && (
           <Alert color="error" severity="error" variant="filled">
             <AlertTitle>Connection test failed</AlertTitle>
             {errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1)}
           </Alert>
-        ) : (
-          <LinearProgress ref={progressElemRef} value={progress} variant="determinate" />
         )}
       </Card>
     </Card>
