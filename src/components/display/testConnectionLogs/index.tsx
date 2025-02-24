@@ -65,12 +65,18 @@ export function TestConnectionLogs({ id, logs }: Props) {
     const content = filteredLogs.map((log) => log.logText).join('\n');
     const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${id}-logs.txt`;
-    document.body.append(a);
-    a.click();
-    a.remove();
+    const filename = `${id}-logs.txt`;
+
+    // Try to use the download attribute first (works in most modern browsers)
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+
+    // Use the top-most window to handle the download
+    const targetDocument = window.top?.document || document;
+    targetDocument.body.append(link);
+    link.click();
+    link.remove();
     URL.revokeObjectURL(url);
   };
 
