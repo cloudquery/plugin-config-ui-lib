@@ -74,7 +74,7 @@ export function useGetTestConnectionLogs(
         const logDataResponse = await fetch(
           data.location.startsWith('http')
             ? data.location
-            : `${cloudQueryApiBaseUrl}${data.location}`,
+            : `${window.location.origin}${data.location}`,
         );
         if (!logDataResponse.ok) {
           throw new Error(logDataResponse.statusText);
