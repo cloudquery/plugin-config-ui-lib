@@ -28,7 +28,7 @@ export function ConfigUIFormHeader() {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h5">{`${editMode ? 'Update' : 'Create'} a ${label}`}</Typography>
+        <Typography variant="h5">{`${editMode ? 'Update' : 'Create'} ${config.type === 'source' ? 'an integration' : 'a destination'}`}</Typography>
         <Box
           sx={{
             display: 'flex',
