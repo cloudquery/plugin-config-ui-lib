@@ -3,6 +3,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 
 import { SyncLogLevel } from '../types';
+import { cloudQueryApiBaseUrl } from '../utils';
 import customFetch from '../utils/customFetch';
 import { parseSyncLogsByLevel } from '../utils/logs';
 
@@ -70,7 +71,11 @@ export function useGetTestConnectionLogs(
 
       if (response.headers.get('content-type') === 'application/json') {
         const data = (await response.json()) as { location: string };
-        const logDataResponse = await fetch(data.location);
+        const logDataResponse = await fetch(
+          data.location.startsWith('http')
+            ? data.location
+            : `${cloudQueryApiBaseUrl}${data.location}`,
+        );
         if (!logDataResponse.ok) {
           throw new Error(logDataResponse.statusText);
         }
