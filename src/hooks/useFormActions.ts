@@ -55,7 +55,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   isUpdating: boolean;
   apiBaseUrl?: string;
 }) {
-  const { cancelTestConnection, testConnection } = useTestConnection();
+  const { cancelTestConnection, testConnection, testConnectionId } = useTestConnection();
   const [testConnectionError, setTestConnectionError] = useState<Error & { code?: string }>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -217,5 +217,6 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
     isTestingConnection,
     testConnectionError,
     submitPayload,
+    testConnectionId,
   };
 }

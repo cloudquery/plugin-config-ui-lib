@@ -15,14 +15,13 @@ export type LinkProps = Omit<MuiLinkProps, 'onClick' | 'children' | 'href'> & {
  *
  * @public
  */
-export function Link({ children, href, ...linkProps }: LinkProps) {
+export function Link({ children, ...linkProps }: LinkProps) {
   return (
     <MuiLink
       {...linkProps}
       sx={{ cursor: 'pointer', ...linkProps.sx }}
-      onClick={() => {
-        window.open(href, '_blank');
-      }}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       {children}
     </MuiLink>

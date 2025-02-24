@@ -378,7 +378,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, pluginName, teamName, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, pluginName, teamName, testConnectionId, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -403,6 +403,7 @@ export interface FormFooterProps {
     testConnectionError: (Error & {
         code?: string;
     }) | undefined;
+    testConnectionId?: string;
 }
 
 export { FormProvider }
@@ -554,7 +555,7 @@ export function isApiAbortError(error: Error): boolean;
 export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageElement>): JSX_2.Element;
 
 // @public
-export function Link({ children, href, ...linkProps }: LinkProps): JSX_2.Element;
+export function Link({ children, ...linkProps }: LinkProps): JSX_2.Element;
 
 // @public (undocumented)
 export type LinkProps = Omit<LinkProps_2, 'onClick' | 'children' | 'href'> & {
@@ -949,6 +950,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     } & {
         connectionId: string;
     }) | undefined;
+    testConnectionId: string | undefined;
 };
 
 export { useFormContext }

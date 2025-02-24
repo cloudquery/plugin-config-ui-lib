@@ -43,6 +43,8 @@ export interface FormFooterProps {
   pluginName: string;
   /** The name of the current team */
   teamName: string;
+  /** The ID of the test connection */
+  testConnectionId?: string;
 }
 
 /**
@@ -69,6 +71,7 @@ export function FormFooter({
   showPreviousStepButton,
   pluginName,
   teamName,
+  testConnectionId,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -136,6 +139,7 @@ export function FormFooter({
           pluginKind={pluginKind}
           pluginName={pluginName}
           teamName={teamName}
+          testConnectionId={testConnectionId}
         />
       )}
     </Stack>

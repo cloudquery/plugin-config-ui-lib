@@ -79,6 +79,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     testConnectionError,
     submitPayload,
     submitError,
+    testConnectionId,
   } = useFormActions({
     getValues: getCurrentValues,
     teamName,
@@ -254,6 +255,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     showPreviousStepButton={!editMode || step !== 0}
                     pluginName={plugin.name}
                     teamName={teamName}
+                    testConnectionId={testConnectionId}
                   />
                 </Stack>
               </form>
