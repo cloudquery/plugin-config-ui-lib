@@ -52,7 +52,6 @@ export function SetupGuide({ docsLink, title, children, maxHeight }: SetupGuideP
                 color="secondary"
                 endIcon={<LinkIcon />}
                 href={docsLink}
-                target="_blank"
               >
                 Open docs
               </Button>
