@@ -136,7 +136,7 @@ export function FormFooterTestConnectionResult({
     errorLogs && (errorLogs.message || errorLogs.data.message) === 'Logs not available';
 
   return (
-    <Stack spacing={3}>
+    <Stack gap={3}>
       <Card ref={resultCardRef}>
         <CardContent sx={{ paddingY: 4, paddingX: 2, '&:last-child': { paddingBottom: 4 } }}>
           <Stack

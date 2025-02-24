@@ -97,13 +97,16 @@ export function TestConnectionLogs({ id, logs }: Props) {
         alignItems="center"
         direction="row"
         justifyContent="space-between"
-        spacing={2}
+        gap={2}
+        flexWrap="wrap"
         width="100%"
       >
-        <Box
-          display="inline-grid"
+        <Stack
+          alignItems="center"
+          direction="row"
+          justifyContent="flex-start"
           gap={0.5}
-          gridTemplateColumns={{ md: 'auto auto auto auto', xs: 'auto auto' }}
+          flexWrap="wrap"
         >
           <MenuItem
             color="secondary"
@@ -149,7 +152,7 @@ export function TestConnectionLogs({ id, logs }: Props) {
           >
             Error
           </MenuItem>
-        </Box>
+        </Stack>
         {filteredLogs.length > 0 && (
           <Button
             color="inherit"

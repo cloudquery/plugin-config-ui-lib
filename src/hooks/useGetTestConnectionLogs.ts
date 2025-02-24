@@ -3,7 +3,6 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 
 import { SyncLogLevel } from '../types';
-import { cloudQueryApiBaseUrl } from '../utils';
 import customFetch from '../utils/customFetch';
 import { parseSyncLogsByLevel } from '../utils/logs';
 
