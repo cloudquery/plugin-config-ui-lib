@@ -18,10 +18,7 @@ export type GetGCPAuthFormulaProps = {
  * Returns the `children` array for a PluginConfig section to render
  * the Authentication options for any GCP-based plugin.
  */
-export const getGCPAuthFormula = ({
-  initialValues,
-  pluginUiMessageHandler,
-}: GetGCPAuthFormulaProps) => [
+export const getGCPAuthFormula = ({ initialValues }: GetGCPAuthFormulaProps) => [
   {
     component: 'control-exclusive-toggle',
     name: '_authType',
@@ -43,7 +40,7 @@ export const getGCPAuthFormula = ({
   {
     component: 'sub-section',
     shouldRender: (values: any) => values._authType === AuthType.OAUTH,
-    children: [GCPConnect.bind({}, { pluginUiMessageHandler })],
+    children: [GCPConnect.bind({})],
   },
   {
     component: 'sub-section',

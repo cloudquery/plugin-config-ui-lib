@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
+import { useEffect, useState } from 'react';
 
 import CheckIcon from '@mui/icons-material/Check';
 import { FormControl, FormHelperText } from '@mui/material';
@@ -13,7 +11,6 @@ import Typography from '@mui/material/Typography';
 import { useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../../context';
-import { useApiCall } from '../../../../hooks';
 import { getFieldHelperText } from '../../../../utils';
 import {
   createAndAuthenticateConnector,
@@ -26,17 +23,15 @@ import { CodeSnippet } from '../../../display';
  */
 export type GCPConnectProps = {
   variant?: 'link' | 'button';
-  pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 /**
  * @public
  * Encapsulatees the GCP Connector logic in a Button or Link.
  */
-export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPConnectProps) {
+export function GCPConnect({ variant = 'button' }: GCPConnectProps) {
   const { plugin, teamName } = usePluginContext();
   const form = useFormContext();
-  const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const connectorId = form.watch('connectorId');
@@ -48,10 +43,8 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
     }
   }, [serviceAccount, form]);
 
-  const redirect = () =>
-    pluginUiMessageHandler.sendMessage('open_url', {
-      url: 'https://console.cloud.google.com/iam-admin/iam',
-    });
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const redirect = () => window.open('https://console.cloud.google.com/iam-admin/iam', '_blank');
 
   const getCredentials = async () => {
     setIsLoading(true);
@@ -62,7 +55,6 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
       pluginTeamName: plugin.team,
       pluginKind: plugin.kind as any,
       teamName,
-      callApi,
     };
 
     try {
@@ -86,7 +78,6 @@ export function GCPConnect({ variant = 'button', pluginUiMessageHandler }: GCPCo
           connectorId,
           teamName,
           path: `/finish`,
-          callApi,
           method: 'POST',
           payload: {},
           authPluginType: 'gcp',

@@ -1,9 +1,6 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
-
-import { useApiCall } from './useApiCall';
-import { cloudQueryApiBaseUrl } from '../utils/constants';
+import customFetch from '../utils/customFetch';
 import { generateApiAbortError } from '../utils/errors';
 
 /**
@@ -11,9 +8,9 @@ import { generateApiAbortError } from '../utils/errors';
  *
  * @public
  */
-export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler) {
-  const { callApi } = useApiCall(pluginUiMessageHandler);
-  const abortRef = useRef<{ abort: () => void; shouldAbort: boolean }>();
+export function useTestConnection() {
+  const [testConnectionId, setTestConnectionId] = useState<string>();
+  const abortRef = useRef<{ abortController: AbortController; shouldAbort: boolean }>();
 
   const testConnection = useCallback(
     async (
@@ -29,12 +26,20 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
       pluginKind: 'source' | 'destination',
       isUpdating: boolean,
     ): Promise<string> => {
+      abortRef.current = {
+        abortController: new AbortController(),
+        shouldAbort: false,
+      };
+      setTestConnectionId(undefined);
+
       try {
         const nameKey = pluginKind === 'source' ? 'source_name' : 'destination_name';
-        const { requestPromise, abortRequest } = callApi<{ id: string }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections`,
-          'POST',
-          {
+        const {
+          data: { id },
+        } = await customFetch<{ id: string }>({
+          method: 'POST',
+          url: `/teams/${teamName}/sync-${pluginKind}-test-connections`,
+          data: {
             env: values.env,
             path: values.path,
             spec: values.spec,
@@ -42,30 +47,18 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
             [nameKey]: isUpdating ? values.name : undefined,
             connector_id: values.connector_id,
           },
-        );
-
-        abortRef.current = {
-          abort: abortRequest,
-          shouldAbort: false,
-        };
-
-        const {
-          body: { id: connectionId },
-        } = await requestPromise.catch((error) => {
-          throw error.body;
         });
-
-        abortRef.current.abort = () => undefined;
 
         if (abortRef.current?.shouldAbort) {
           throw generateApiAbortError();
         }
 
+        setTestConnectionId(id);
+
         return monitorSyncTestConnection({
           abortObj: abortRef.current,
-          callApi,
           teamName,
-          testConnectionId: connectionId,
+          testConnectionId: id,
           pluginKind,
         });
       } catch (error: any) {
@@ -76,12 +69,12 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         throw error;
       }
     },
-    [callApi],
+    [],
   );
 
   const cancelTestConnection = useCallback(() => {
     if (abortRef.current) {
-      abortRef.current.abort();
+      abortRef.current.abortController.abort();
       abortRef.current.shouldAbort = true;
     }
   }, []);
@@ -93,20 +86,19 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
   return {
     cancelTestConnection,
     testConnection,
+    testConnectionId,
   };
 }
 
 async function monitorSyncTestConnection({
   abortObj,
-  callApi,
   teamName,
   testConnectionId,
   pluginKind,
 }: {
   teamName: string;
   testConnectionId: string;
-  abortObj: { abort: () => void; shouldAbort: boolean };
-  callApi: ReturnType<typeof useApiCall>['callApi'];
+  abortObj: { abortController: AbortController; shouldAbort: boolean };
   pluginKind: 'source' | 'destination';
 }): Promise<string> {
   const iterations = 30;
@@ -114,34 +106,30 @@ async function monitorSyncTestConnection({
     if (abortObj.shouldAbort) {
       throw generateApiAbortError();
     }
-    const { requestPromise, abortRequest } = callApi<{
+    const { data: testConnection } = await customFetch<{
       status: string;
       failure_reason: string;
       failure_code: string;
-    }>(
-      `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
-      'GET',
-    );
-    abortObj.abort = abortRequest;
-
-    const { body } = await requestPromise.catch((error) => {
-      throw error.body;
+    }>({
+      method: 'GET',
+      url: `/teams/${teamName}/sync-${pluginKind}-test-connections/${testConnectionId}`,
     });
-    abortObj.abort = () => undefined;
 
-    if (body.status === 'failed') {
-      const error: Error & { code?: string } = new Error(body.failure_reason || 'Unknown error');
-      error.code = body.failure_code;
+    if (testConnection.status === 'failed') {
+      const error: Error & { code?: string } = new Error(
+        testConnection.failure_reason || 'Unknown error',
+      );
+      error.code = testConnection.failure_code;
       throw error;
     }
 
-    if (body.status === 'completed' && body.failure_reason?.trim()) {
-      const error: Error & { code?: string } = new Error(body.failure_reason.trim());
-      error.code = body.failure_code;
+    if (testConnection.status === 'completed' && testConnection.failure_reason?.trim()) {
+      const error: Error & { code?: string } = new Error(testConnection.failure_reason.trim());
+      error.code = testConnection.failure_code;
       throw error;
     }
 
-    if (body.status === 'completed') {
+    if (testConnection.status === 'completed') {
       return testConnectionId;
     }
 

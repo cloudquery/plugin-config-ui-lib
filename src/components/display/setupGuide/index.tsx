@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import LinkIcon from '@mui/icons-material/Link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -18,7 +17,6 @@ export interface SetupGuideProps {
   title: string;
   maxHeight?: number;
   children: ReactNode;
-  pluginUiMessageHandler: PluginUiMessageHandler;
 }
 
 /**
@@ -26,13 +24,7 @@ export interface SetupGuideProps {
  *
  * @public
  */
-export function SetupGuide({
-  docsLink,
-  title,
-  children,
-  maxHeight,
-  pluginUiMessageHandler,
-}: SetupGuideProps) {
+export function SetupGuide({ docsLink, title, children, maxHeight }: SetupGuideProps) {
   return (
     <Card>
       <CardContent>
@@ -53,7 +45,7 @@ export function SetupGuide({
             <Typography variant="h6">Setup guide</Typography>
             {!!docsLink && (
               <Button
-                onClick={() => pluginUiMessageHandler.sendMessage('open_url', { url: docsLink })}
+                onClick={() => window.open(docsLink, '_blank')}
                 variant="outlined"
                 color="secondary"
                 endIcon={<LinkIcon />}

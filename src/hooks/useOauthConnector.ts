@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 
-import { useApiCall } from './useApiCall';
-import { cloudQueryApiBaseUrl } from '../utils';
+import customFetch from '../utils/customFetch';
 import { getRandomId } from '../utils/getRandomId';
 
 interface UseOauthConnectorProps {
@@ -41,7 +40,6 @@ export function useOauthConnector({
   getConnectPayloadSpec,
   getFinishPayloadSpec,
 }: UseOauthConnectorProps) {
-  const { callApi } = useApiCall(pluginUiMessageHandler);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [connectorId, setConnectorId] = useState<string | null>(null);
@@ -70,34 +68,30 @@ export function useOauthConnector({
 
     try {
       const connectorName = getRandomId();
-      const { requestPromise: createConnector } = await callApi<{ id: string }>(
-        `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors`,
-        'POST',
-        {
+      const { data: createConnector } = await customFetch<{ id: string }>({
+        method: 'POST',
+        url: `/teams/${teamName}/connectors`,
+        data: {
           type: 'oauth',
           name: connectorName,
         },
-      );
+      });
 
-      const {
-        body: { id: connectorId },
-      } = await createConnector;
+      const { id: connectorId } = createConnector;
 
-      const { requestPromise: authenticateConnector } = await callApi<{ redirect_url: string }>(
-        `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
-        'POST',
-        {
+      const { data: authenticateConnector } = await customFetch<{ redirect_url: string }>({
+        method: 'POST',
+        url: `/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
+        data: {
           plugin_team: pluginTeamName,
           plugin_kind: pluginKind,
           plugin_name: pluginName,
           base_url: successBaseUrl,
           spec: await getConnectPayloadSpec?.(),
         },
-      );
+      });
 
-      const {
-        body: { redirect_url: redirectUrl },
-      } = await authenticateConnector;
+      const { redirect_url: redirectUrl } = authenticateConnector;
 
       setConnectorId(connectorId);
 
@@ -111,7 +105,6 @@ export function useOauthConnector({
       setError(error?.body || error);
     }
   }, [
-    callApi,
     pluginKind,
     pluginName,
     pluginTeamName,
@@ -130,23 +123,21 @@ export function useOauthConnector({
     async (connectorId: string, connectorResult: Record<string, string>) => {
       try {
         const searchParams = new URLSearchParams(connectorResult);
-        const { requestPromise: finishOauth } = await callApi<{ id: string }>(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
-          'PATCH',
-          {
+        await customFetch<{ id: string }>({
+          method: 'PATCH',
+          url: `/teams/${teamName}/connectors/${connectorId}/authenticate/oauth`,
+          data: {
             return_url: `${successBaseUrl}?${searchParams.toString()}`,
             base_url: successBaseUrl,
             spec: await getFinishPayloadSpec?.(),
           },
-        );
-
-        await finishOauth;
+        });
       } catch (error: any) {
         setIsLoading(false);
         setError(error?.body || error);
       }
     },
-    [callApi, successBaseUrl, teamName, getFinishPayloadSpec],
+    [successBaseUrl, teamName, getFinishPayloadSpec],
   );
 
   useEffect(() => {

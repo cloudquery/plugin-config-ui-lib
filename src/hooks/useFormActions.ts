@@ -5,9 +5,8 @@ import {
   PluginUiMessagePayload,
 } from '@cloudquery/plugin-config-ui-connector';
 
-import { useApiCall } from './useApiCall';
 import { useTestConnection } from './useTestConnection';
-import { cloudQueryApiBaseUrl } from '../utils/constants';
+import customFetch from '../utils/customFetch';
 import { isApiAbortError } from '../utils/errors';
 
 /**
@@ -56,9 +55,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
   isUpdating: boolean;
   apiBaseUrl?: string;
 }) {
-  const { callApi } = useApiCall(pluginUiMessageHandler);
-
-  const { cancelTestConnection, testConnection } = useTestConnection(pluginUiMessageHandler);
+  const { cancelTestConnection, testConnection } = useTestConnection();
   const [testConnectionError, setTestConnectionError] = useState<Error & { code?: string }>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -158,29 +155,25 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
               write_mode: submitData ? submitData.writeMode : submitPayload.writeMode,
               overwrite_destination: !!isUpdating,
             };
-        const { requestPromise: promoteTestConnectionRequest } = callApi(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
-          'POST',
-          {
+        await customFetch<any>({
+          method: 'POST',
+          url: `/teams/${teamName}/sync-${pluginKind}-test-connections/${submitPayload.connectionId}/promote`,
+          data: {
             name: submitPayload.name,
             display_name: submitPayload.displayName,
             ...pluginKindPayload,
           },
-        );
-        await promoteTestConnectionRequest;
+        });
 
-        const { requestPromise: updateSyncResourceRequest } = callApi(
-          `${cloudQueryApiBaseUrl}/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
-          'PATCH',
-          { ...pluginKindPayload, last_update_source: 'ui' },
-        );
-        const updateSyncResourceResponse = await updateSyncResourceRequest;
-
-        const resource = (await updateSyncResourceResponse.body) as any;
+        const { data: updatedSyncResource } = await customFetch<any>({
+          method: 'PATCH',
+          url: `/teams/${teamName}/sync-${pluginKind === 'source' ? 'sources' : 'destinations'}/${submitPayload.name}`,
+          data: { ...pluginKindPayload, last_update_source: 'ui' },
+        });
 
         pluginUiMessageHandler.sendMessage('submitted', {
           submitPayload,
-          resource,
+          resource: updatedSyncResource,
         });
       } catch (error: any) {
         setSubmitError(error?.body || error);
@@ -190,15 +183,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         setSubmitPayload(undefined);
       }
     },
-    [
-      isUpdating,
-      callApi,
-      isDataSource,
-      pluginKind,
-      pluginUiMessageHandler,
-      submitPayload,
-      teamName,
-    ],
+    [isUpdating, isDataSource, pluginKind, pluginUiMessageHandler, submitPayload, teamName],
   );
 
   const handleCancelTestConnection = () => {
