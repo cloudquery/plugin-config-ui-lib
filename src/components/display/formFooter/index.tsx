@@ -100,7 +100,7 @@ export function FormFooter({
               size="medium"
               variant="contained"
             >
-              {`Delete this ${pluginKind}`}
+              Delete this {pluginKind === 'source' ? 'integration' : 'destination'}
             </Button>
           )}
           {showPreviousStepButton && (

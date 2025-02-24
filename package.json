@@ -77,7 +77,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.26.7",
-    "@cloudquery/cloud-ui": "^3.1.0-rc.4",
+    "@cloudquery/cloud-ui": "^3.1.0",
     "@rudderstack/analytics-js": "^3.14.0",
     "dayjs": "^1.11.13",
     "decamelize": "^6.0.0",

@@ -150,7 +150,9 @@ export function FormFooterTestConnectionResult({
               width: '100%',
             }}
           >
-            <Typography variant="h6">{`Testing the ${pluginKind} connection`}</Typography>
+            <Typography variant="h6">
+              Testing the {pluginKind === 'source' ? 'integration' : 'destination'} connection
+            </Typography>
             {isLoading && (
               <Button
                 color="secondary"
