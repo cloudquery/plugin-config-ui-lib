@@ -9,6 +9,8 @@ import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
+import { Link } from '../link';
+
 /**
  * @public
  */
@@ -45,10 +47,12 @@ export function SetupGuide({ docsLink, title, children, maxHeight }: SetupGuideP
             <Typography variant="h6">Setup guide</Typography>
             {!!docsLink && (
               <Button
-                onClick={() => window.open(docsLink, '_blank')}
+                LinkComponent={Link}
                 variant="outlined"
                 color="secondary"
                 endIcon={<LinkIcon />}
+                href={docsLink}
+                target="_blank"
               >
                 Open docs
               </Button>

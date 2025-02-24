@@ -44,7 +44,8 @@ export function GCPConnect({ variant = 'button' }: GCPConnectProps) {
   }, [serviceAccount, form]);
 
   // eslint-disable-next-line unicorn/consistent-function-scoping
-  const redirect = () => window.open('https://console.cloud.google.com/iam-admin/iam', '_blank');
+  const redirect = () =>
+    window.top?.open('https://console.cloud.google.com/iam-admin/iam', '_blank');
 
   const getCredentials = async () => {
     setIsLoading(true);
