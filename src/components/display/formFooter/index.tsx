@@ -76,7 +76,7 @@ export function FormFooter({
   const isBusy = isTestingConnection || isSubmitting;
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} whiteSpace="nowrap">
       <Stack
         direction="row"
         spacing={2}

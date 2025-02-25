@@ -89,9 +89,22 @@ export function ServiceList({
       sx={{
         gap: 2,
       }}
+      alignItems="center"
     >
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
+      <Stack
+        gap={2}
+        flexWrap="wrap"
+        direction="row"
+        justifyContent="space-between"
+        alignItems="flex-start"
+        flexDirection={{ xs: 'column', lg: 'row' }}
+        width="100%"
+      >
+        <Tabs
+          sx={{ order: { xs: 1, lg: undefined } }}
+          value={showServices}
+          onChange={(_, newValue) => setShowServices(newValue)}
+        >
           <Tab
             disabled={disabled}
             sx={{ py: '9px' }}
@@ -115,6 +128,7 @@ export function ServiceList({
               size="small"
             />
           }
+          sx={{ width: 'auto' }}
           label={allServicesSelected ? 'Deselect all services' : 'Select all services'}
         />
       </Stack>
