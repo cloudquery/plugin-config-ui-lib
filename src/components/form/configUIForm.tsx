@@ -18,13 +18,7 @@ import { ConfigUIFormHeader } from './header';
 import { ComponentsRenderer } from './renderer';
 import { usePluginContext } from '../../context/plugin';
 
-import {
-  useApiCall,
-  useConfigUIForm,
-  useFormActions,
-  useFormCurrentValues,
-  useFormHeightChange,
-} from '../../hooks';
+import { useConfigUIForm, useFormActions, useFormCurrentValues } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { FormFooter, FormWrapper, GuideComponent } from '../display';
 import { PluginTable } from '../inputs';
@@ -58,15 +52,12 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
   const { plugin, teamName, config, hideStepper, tablesList, pluginUiMessageHandler } =
     usePluginContext();
 
-  useFormHeightChange(pluginUiMessageHandler);
-
   const form = useConfigUIForm();
   const emotionCache = useMemo(() => createCache({ key: 'css', container }), [container]);
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
 
   const step = watch('_step');
   const editMode = watch('_editMode');
-  const { callApi } = useApiCall(pluginUiMessageHandler);
   const [submitGuardLoading, setSubmitGuardLoading] = useState(false);
 
   const getCurrentValues = useCallback(
@@ -88,6 +79,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     testConnectionError,
     submitPayload,
     submitError,
+    testConnectionId,
   } = useFormActions({
     getValues: getCurrentValues,
     teamName,
@@ -153,7 +145,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
       setSubmitGuardLoading(true);
 
       const result = await config.steps[thisStep]
-        ?.submitGuard(getValues(), teamName, callApi, setValue)
+        ?.submitGuard(getValues(), teamName, setValue)
         .catch((error) => {
           return {
             errorMessage: error.message || 'Validation failed. Please check the form for errors.',
@@ -261,12 +253,15 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     onGoToPreviousStep={onGoToPreviousStep}
                     submitLabel={isLastStep ? undefined : 'Continue'}
                     showPreviousStepButton={!editMode || step !== 0}
+                    pluginName={plugin.name}
+                    teamName={teamName}
+                    testConnectionId={testConnectionId}
                   />
                 </Stack>
               </form>
             </Box>
-            <Box sx={{ width: 500, minWidth: 360, position: 'sticky', top: 10 }}>
-              <GuideComponent pluginUiMessageHandler={pluginUiMessageHandler} />
+            <Box sx={{ width: { xs: 360, xl: 500 }, minWidth: 360, position: 'sticky', top: 10 }}>
+              <GuideComponent />
             </Box>
           </Stack>
         </FormProvider>

@@ -24,16 +24,6 @@ The Config UI Framework provides a way for anyone to build a plugin UI with simp
 
 ### Hooks
 
-#### useApiCall
-
-This hook is used to make API calls that require Authentication header from CloudQuery Cloud App.
-
-```tsx
-const { callApi } = useApiCall(pluginUiMessageHandler);
-
-callApi('https://api.cloudquery.io', 'POST', { name: 'my-source' });
-```
-
 #### useFormActions
 
 This hook is used export data and functions that can be used in the footer for plugin UI.
@@ -62,15 +52,6 @@ useFormCurrentValues({
   pluginUiMessageHandler,
   getCurrentValues,
 });
-```
-
-#### useFormHeightChange
-
-This hook is used to automatically detect the changes of the height of the form container and notify CloudQuery Cloud App about those.
-The hooks returns the React Ref object that should reference the HTML element that represents the form container.
-
-```tsx
-useFormHeightChange(pluginUiMessageHandler);
 ```
 
 #### useFormInit

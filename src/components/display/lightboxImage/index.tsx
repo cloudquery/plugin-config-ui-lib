@@ -1,79 +1,126 @@
-import React, { ImgHTMLAttributes, useCallback } from 'react';
+'use client';
 
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
+import React, { ImgHTMLAttributes, useCallback, useState } from 'react';
 
-import { parseSrc } from '../../../utils/parseSrc';
+import CloseIcon from '@mui/icons-material/Close';
+import { backdropClasses } from '@mui/material/Backdrop';
 
-/**
- * @public
- */
-export type LightboxImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-  pluginUiMessageHandler: PluginUiMessageHandler;
-};
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import IconButton from '@mui/material/IconButton';
+import Modal from '@mui/material/Modal';
+import Stack from '@mui/material/Stack';
 
 /**
  * This component displays an image that can be opened in a lightbox.
  *
  * @public
  */
-export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImageProps) {
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (event.code === 'Enter' || event.code === 'Space') {
-        event.preventDefault();
-        pluginUiMessageHandler.sendMessage('show_lightbox', {
-          alt: props.alt || '',
-          src: props.src || '',
-        });
-      }
-    },
-    [pluginUiMessageHandler, props.alt, props.src],
-  );
-
-  const handleOpen = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
+export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageElement>) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [open, setOpen] = useState(false);
+  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+    if (event.code === 'Enter' || event.code === 'Space') {
       event.preventDefault();
-      event.stopPropagation();
-      pluginUiMessageHandler.sendMessage('show_lightbox', {
-        ...props,
-        alt: props.alt || '',
-        src: props.src ? getFullImageUrl(props.src) : '',
-      });
+      setOpen(true);
+    }
+  }, []);
+
+  const handleOpen = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setOpen(true);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setOpen(false);
+    setIsLoaded(false);
+  }, []);
+
+  const handleContainerClick = useCallback(
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      const closestImage = (event.target as HTMLDivElement).closest('img');
+      if (closestImage) {
+        return;
+      }
+
+      handleClose();
     },
-    [pluginUiMessageHandler, props],
+    [handleClose],
   );
 
   return (
-    <button
-      style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', width: '100%' }}
-      onClick={handleOpen}
-      onKeyDown={handleKeyDown}
-    >
-      <img
-        {...props}
-        src={props.src ? parseSrc(props.src) : undefined}
-        style={{ width: 'inherit', display: 'block', ...props.style }}
-      />
-    </button>
+    <>
+      <button
+        onClick={handleOpen}
+        onKeyDown={handleKeyDown}
+        style={{
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          padding: 0,
+          position: 'relative',
+          width: '100%',
+        }}
+      >
+        <img
+          {...props}
+          sizes={sizes}
+          style={{ display: 'block', height: 'auto', maxWidth: '100%', ...props.style }}
+        />
+      </button>
+      <Modal
+        aria-label={props.alt}
+        onClose={handleClose}
+        open={open}
+        slotProps={{
+          backdrop: {
+            sx: {
+              [`&:not(.${backdropClasses.invisible})`]: { backgroundColor: 'rgba(0, 0, 0, 0.85)' },
+            },
+          },
+        }}
+      >
+        <Box
+          height="100%"
+          onClick={handleContainerClick}
+          paddingX={2}
+          paddingY={7}
+          sx={{ position: 'relative' }}
+          width="100%"
+        >
+          <IconButton
+            autoFocus={true}
+            onClick={handleClose}
+            sx={{ position: 'absolute', right: 8, top: 8 }}
+            title="Close"
+          >
+            <CloseIcon />
+          </IconButton>
+          <Stack
+            alignItems="center"
+            height="100%"
+            justifyContent="center"
+            overflow="auto"
+            position="relative"
+            width="100%"
+          >
+            {!isLoaded && <CircularProgress />}
+            <img
+              {...props}
+              height={typeof window === 'undefined' ? 0 : window.innerHeight}
+              onLoad={() => setIsLoaded(true)}
+              sizes="100vw"
+              style={{
+                height: 'auto',
+                maxHeight: isLoaded ? undefined : 0,
+                maxWidth: '100%',
+              }}
+              width={typeof window === 'undefined' ? 0 : window.innerWidth}
+            />
+          </Stack>
+        </Box>
+      </Modal>
+    </>
   );
-}
-
-function getFullImageUrl(imageUrl) {
-  if (!imageUrl) return '';
-
-  // If the imageUrl starts with http, it's already an absolute URL
-  if (imageUrl.startsWith('http')) {
-    return imageUrl;
-  }
-
-  // If the imageUrl starts with /, it is relative to the domain root
-  if (imageUrl.startsWith('/')) {
-    return `${window.location.origin}${imageUrl}`;
-  }
-
-  // Otherwise, it is a relative path, append to the current URL path
-  const currentUrl = window.location.href;
-  const currentPath = currentUrl.slice(0, Math.max(0, currentUrl.lastIndexOf('/') + 1));
-
-  return `${currentPath}${imageUrl}`;
 }

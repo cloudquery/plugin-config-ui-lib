@@ -1,6 +1,6 @@
 export { FormFooter, type FormFooterProps } from './formFooter';
 export { FormWrapper, type FormWrapperProps } from './formWrapper';
-export { LightboxImage, type LightboxImageProps } from './lightboxImage';
+export { LightboxImage } from './lightboxImage';
 export { SetupGuide, type SetupGuideProps } from './setupGuide';
 export { CodeSnippet, type CodeSnippetProps } from './codeSnippet';
 export { GuideComponent } from './guide';

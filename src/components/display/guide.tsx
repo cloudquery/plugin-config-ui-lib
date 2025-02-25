@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React from 'react';
 
 import Stack from '@mui/material/Stack';
 
@@ -14,11 +14,7 @@ import { GuideConfig } from '../../types';
  *
  * @public
  */
-export function GuideComponent({
-  pluginUiMessageHandler,
-}: {
-  pluginUiMessageHandler: any; // TODO: remove after iframe deprecation
-}): ReactElement | null {
+export function GuideComponent() {
   const { watch } = useFormContext();
   const values = watch();
   const { config } = usePluginContext();
@@ -32,10 +28,9 @@ export function GuideComponent({
       <SetupGuide
         title={typeof guide.title === 'function' ? guide.title(values) : guide.title}
         docsLink={config.docsLink}
-        pluginUiMessageHandler={pluginUiMessageHandler}
       >
         <Stack spacing={3}>
-          <RenderGuide pluginUiMessageHandler={pluginUiMessageHandler} sections={guide.sections} />
+          <RenderGuide sections={guide.sections} />
         </Stack>
       </SetupGuide>
     );
@@ -43,11 +38,7 @@ export function GuideComponent({
     const ConcreteComponent = config.guide as React.FC;
 
     return (
-      <SetupGuide
-        title={`${config.label} configuration`}
-        docsLink={config.docsLink}
-        pluginUiMessageHandler={pluginUiMessageHandler}
-      >
+      <SetupGuide title={`${config.label} configuration`} docsLink={config.docsLink}>
         <Stack spacing={3}>
           <ConcreteComponent />
         </Stack>

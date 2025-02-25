@@ -39,6 +39,12 @@ export interface FormFooterProps {
   onTestConnectionSuccess: () => void;
   /** Indicates whether the previous step button should be shown */
   showPreviousStepButton: boolean;
+  /** The name of the plugin */
+  pluginName: string;
+  /** The name of the current team */
+  teamName: string;
+  /** The ID of the test connection */
+  testConnectionId?: string;
 }
 
 /**
@@ -63,11 +69,14 @@ export function FormFooter({
   submitLabel,
   submitDisabled,
   showPreviousStepButton,
+  pluginName,
+  teamName,
+  testConnectionId,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} whiteSpace="nowrap">
       <Stack
         direction="row"
         spacing={2}
@@ -91,7 +100,7 @@ export function FormFooter({
               size="medium"
               variant="contained"
             >
-              {`Delete this ${pluginKind}`}
+              Delete this {pluginKind === 'source' ? 'integration' : 'destination'}
             </Button>
           )}
           {showPreviousStepButton && (
@@ -117,7 +126,7 @@ export function FormFooter({
             type="submit"
             disabled={submitDisabled}
           >
-            {submitLabel || 'Test connection'}
+            {submitLabel || 'Test connection and save'}
           </LoadingButton>
         </Stack>
       </Stack>
@@ -128,6 +137,9 @@ export function FormFooter({
           onCancel={onCancelTestConnection}
           onSuccess={onTestConnectionSuccess}
           pluginKind={pluginKind}
+          pluginName={pluginName}
+          teamName={teamName}
+          testConnectionId={testConnectionId}
         />
       )}
     </Stack>

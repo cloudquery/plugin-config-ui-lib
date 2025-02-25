@@ -1,5 +1,4 @@
-import { useApiCall } from '../hooks';
-import { cloudQueryApiBaseUrl } from './constants';
+import customFetch from './customFetch';
 import { getRandomId } from './getRandomId';
 
 type AuthPluginType = 'aws' | 'gcp';
@@ -11,23 +10,21 @@ type AuthPluginType = 'aws' | 'gcp';
 export async function getAuthenticateConnector({
   connectorId,
   teamName,
-  callApi,
   authPluginType,
 }: {
   connectorId: string;
   teamName: string;
-  callApi: ReturnType<typeof useApiCall>['callApi'];
   authPluginType: AuthPluginType;
 }) {
-  const { requestPromise } = callApi<{
+  const { data: authenticateConnector } = await customFetch<{
     role_arn: string;
     external_id: string;
-  }>(
-    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}`,
-    'GET',
-  );
+  }>({
+    method: 'GET',
+    url: `/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}`,
+  });
 
-  return requestPromise;
+  return authenticateConnector;
 }
 
 /**
@@ -42,7 +39,6 @@ export async function createAndAuthenticateConnector<T>({
   authPluginType,
   pluginName,
   pluginKind,
-  callApi,
   authenticatePayload,
 }: {
   connectorId?: string;
@@ -52,7 +48,6 @@ export async function createAndAuthenticateConnector<T>({
   pluginName: string;
   pluginKind: 'source' | 'destination';
   finishImmediately?: boolean;
-  callApi: ReturnType<typeof useApiCall>['callApi'];
   authenticatePayload?: Partial<{
     plugin_version: string;
     spec: Record<string, any>;
@@ -65,38 +60,32 @@ export async function createAndAuthenticateConnector<T>({
   let connectorId = existingConnectorId;
   if (!connectorId) {
     const connectorName = getRandomId();
-    const { requestPromise: createConnector } = await callApi<{ id: string }>(
-      `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors`,
-      'POST',
-      {
+    const { data: connector } = await customFetch<{ id: string }>({
+      method: 'POST',
+      url: `/teams/${teamName}/connectors`,
+      data: {
         type: authPluginType,
         name: connectorName,
       },
-    );
+    });
 
-    const {
-      body: { id: newConnectorId },
-    } = await createConnector;
-
-    connectorId = newConnectorId;
+    connectorId = connector.id;
   }
 
-  const { requestPromise: authenticateConnector } = await callApi<{
+  const { data: authenticateConnector } = await customFetch<{
     service_account: string;
-  }>(
-    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}`,
-    'POST',
-    {
+  }>({
+    method: 'POST',
+    url: `/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}`,
+    data: {
       plugin_team: pluginTeamName,
       plugin_kind: pluginKind,
       plugin_name: pluginName,
       ...authenticatePayload,
     },
-  );
+  });
 
-  const { body } = await authenticateConnector;
-
-  return { connectorId, ...(body as T) };
+  return { connectorId, ...(authenticateConnector as T) };
 }
 
 /**
@@ -108,7 +97,6 @@ export async function finishAuthConnectorAuthentication({
   authPluginType,
   connectorId,
   teamName,
-  callApi,
   method,
   payload,
   path = '',
@@ -116,16 +104,13 @@ export async function finishAuthConnectorAuthentication({
   connectorId: string;
   teamName: string;
   authPluginType: AuthPluginType;
-  callApi: ReturnType<typeof useApiCall>['callApi'];
   method: 'POST' | 'PATCH';
   payload: Record<string, any>;
   path?: string;
 }) {
-  const { requestPromise: finishAuth } = await callApi<{ id: string }>(
-    `${cloudQueryApiBaseUrl}/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}${path}`,
+  await customFetch<{ id: string }>({
     method,
-    payload,
-  );
-
-  await finishAuth;
+    url: `/teams/${teamName}/connectors/${connectorId}/authenticate/${authPluginType}${path}`,
+    data: payload,
+  });
 }

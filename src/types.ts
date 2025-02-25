@@ -4,7 +4,6 @@ import * as yup from 'yup';
 
 import { IterableStepComponent } from './components/form/renderer/types';
 import '@cloudquery/cloud-ui';
-import { useApiCall } from './hooks';
 
 /**
  * @public
@@ -50,7 +49,6 @@ export type PluginConfigFormStep = {
   submitGuard?: (
     formValues: any,
     teamName: string,
-    callApi: ReturnType<typeof useApiCall>['callApi'],
     setValue: (field: string, value: any) => void,
   ) => Promise<boolean | { errorMessage: string }>;
 };
@@ -84,4 +82,14 @@ export interface SourceConfig extends PluginConfig {
  */
 export interface DestinationConfig extends PluginConfig {
   type: 'destination';
+}
+
+/**
+ * @internal
+ */
+export enum SyncLogLevel {
+  DEBUG = 'debug',
+  ERROR = 'error',
+  INFO = 'info',
+  WARNING = 'warning',
 }

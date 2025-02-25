@@ -1,4 +1,3 @@
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -12,7 +11,6 @@ import { LightboxImage } from '../../lightboxImage';
  */
 export type RenderGuideProps = {
   sections: GuideSection[];
-  pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 /**
@@ -20,7 +18,7 @@ export type RenderGuideProps = {
  *
  * @public
  */
-export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuideProps) {
+export function RenderGuide({ sections }: RenderGuideProps) {
   return (
     <Stack
       sx={{
@@ -38,10 +36,7 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
             {section.header && <Typography variant="h6">{section.header}</Typography>}
             {section.bodies.map((body, index) => (
               <ConditionalRenderingWrapper key={index} shouldRender={section.shouldRender}>
-                <RenderGuideSectionBody
-                  body={body}
-                  pluginUiMessageHandler={pluginUiMessageHandler}
-                />
+                <RenderGuideSectionBody body={body} />
               </ConditionalRenderingWrapper>
             ))}
           </Stack>
@@ -51,24 +46,11 @@ export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuidePro
   );
 }
 
-function RenderGuideSectionBody({
-  body,
-  pluginUiMessageHandler,
-}: {
-  pluginUiMessageHandler: PluginUiMessageHandler;
-  body: GuideSectionBody;
-}) {
+function RenderGuideSectionBody({ body }: { body: GuideSectionBody }) {
   if (body.code) {
     return <CodeSnippet text={body.code} />;
   } else if (body.image) {
-    return (
-      <LightboxImage
-        pluginUiMessageHandler={pluginUiMessageHandler}
-        key={body.image}
-        src={body.image}
-        alt={body.text}
-      />
-    );
+    return <LightboxImage key={body.image} src={body.image} alt={body.text} />;
   } else {
     return (
       <Typography component="div" variant="body1" color="textSecondary">

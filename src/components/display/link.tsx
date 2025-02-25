@@ -1,6 +1,5 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
-import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 
 /**
@@ -9,7 +8,6 @@ import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 export type LinkProps = Omit<MuiLinkProps, 'onClick' | 'children' | 'href'> & {
   children: ReactNode;
   href: string;
-  pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 /**
@@ -17,18 +15,20 @@ export type LinkProps = Omit<MuiLinkProps, 'onClick' | 'children' | 'href'> & {
  *
  * @public
  */
-export function Link({ children, href, pluginUiMessageHandler, ...linkProps }: LinkProps) {
-  return (
-    <MuiLink
-      {...linkProps}
-      sx={{ cursor: 'pointer', ...linkProps.sx }}
-      onClick={() => {
-        pluginUiMessageHandler.sendMessage('open_url', {
-          url: href,
-        });
-      }}
-    >
-      {children}
-    </MuiLink>
-  );
-}
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  ({ children, ...linkProps }, ref) => {
+    return (
+      <MuiLink
+        ref={ref}
+        {...linkProps}
+        sx={{ cursor: 'pointer', ...linkProps.sx }}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </MuiLink>
+    );
+  },
+);
+
+Link.displayName = 'Link';

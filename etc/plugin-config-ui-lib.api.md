@@ -20,7 +20,6 @@ import { ListProps } from '@mui/material/List';
 import { PluginUiMessageHandler } from '@cloudquery/plugin-config-ui-connector';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { default as React_2 } from 'react';
-import { ReactElement } from 'react';
 import { ReactNode } from 'react';
 import { Ref } from 'react';
 import { RefAttributes } from 'react';
@@ -274,7 +273,7 @@ export function convertStringToSlug(value: string): string;
 export function corePrepareSubmitValues(config: PluginConfig, values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public
-export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, callApi, authenticatePayload, }: {
+export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, authenticatePayload, }: {
     connectorId?: string;
     teamName: string;
     pluginTeamName: string;
@@ -282,7 +281,6 @@ export function createAndAuthenticateConnector<T>({ connectorId: existingConnect
     pluginName: string;
     pluginKind: 'source' | 'destination';
     finishImmediately?: boolean;
-    callApi: ReturnType<typeof useApiCall>['callApi'];
     authenticatePayload?: Partial<{
         plugin_version: string;
         spec: Record<string, any>;
@@ -321,11 +319,10 @@ export interface ExclusiveToggleProps {
 }
 
 // @public
-export function finishAuthConnectorAuthentication({ authPluginType, connectorId, teamName, callApi, method, payload, path, }: {
+export function finishAuthConnectorAuthentication({ authPluginType, connectorId, teamName, method, payload, path, }: {
     connectorId: string;
     teamName: string;
     authPluginType: AuthPluginType;
-    callApi: ReturnType<typeof useApiCall>['callApi'];
     method: 'POST' | 'PATCH';
     payload: Record<string, any>;
     path?: string;
@@ -381,7 +378,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, pluginName, teamName, testConnectionId, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -394,6 +391,7 @@ export interface FormFooterProps {
     onGoToPreviousStep: () => void;
     onTestConnectionSuccess: () => void;
     pluginKind: 'source' | 'destination';
+    pluginName: string;
     showPreviousStepButton: boolean;
     submitDisabled?: boolean;
     submitLabel?: string;
@@ -401,9 +399,11 @@ export interface FormFooterProps {
     submitPayload: (FormValues & {
         connectionId: string;
     }) | undefined;
+    teamName: string;
     testConnectionError: (Error & {
         code?: string;
     }) | undefined;
+    testConnectionId?: string;
 }
 
 export { FormProvider }
@@ -423,12 +423,11 @@ export type FormWrapperProps = {
 };
 
 // @public
-export function GCPConnect({ variant, pluginUiMessageHandler }: GCPConnectProps): JSX_2.Element;
+export function GCPConnect({ variant }: GCPConnectProps): JSX_2.Element;
 
 // @public (undocumented)
 export type GCPConnectProps = {
     variant?: 'link' | 'button';
-    pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 // @public
@@ -456,19 +455,13 @@ export function getAppRootElements({ rootSelector, shadowRootWindowKey, }?: {
 };
 
 // @public
-export function getAuthenticateConnector({ connectorId, teamName, callApi, authPluginType, }: {
+export function getAuthenticateConnector({ connectorId, teamName, authPluginType, }: {
     connectorId: string;
     teamName: string;
-    callApi: ReturnType<typeof useApiCall>['callApi'];
     authPluginType: AuthPluginType;
 }): Promise<{
-    body: {
-        role_arn: string;
-        external_id: string;
-    };
-    endpoint: string;
-    headers: Record<string, string>;
-    status: number;
+    role_arn: string;
+    external_id: string;
 }>;
 
 // @public
@@ -478,10 +471,10 @@ export const getEnabledTablesObject: ({ tablesList, tables, }: {
 }) => Record<string, boolean>;
 
 // @public
-export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | JSX_2.Element | Iterable<ReactNode> | null | undefined;
+export function getFieldHelperText(errorMessage: string | undefined, helperText: string | ReactNode): string | number | boolean | Iterable<ReactNode> | JSX_2.Element | null | undefined;
 
 // @public
-export const getGCPAuthFormula: ({ initialValues, pluginUiMessageHandler, }: GetGCPAuthFormulaProps) => ({
+export const getGCPAuthFormula: ({ initialValues }: GetGCPAuthFormulaProps) => ({
     component: string;
     name: string;
     options: {
@@ -494,7 +487,7 @@ export const getGCPAuthFormula: ({ initialValues, pluginUiMessageHandler, }: Get
 } | {
     component: string;
     shouldRender: (values: any) => boolean;
-    children: (() => JSX_2.Element)[];
+    children: (typeof GCPConnect)[];
     name?: undefined;
     options?: undefined;
     schema?: undefined;
@@ -530,9 +523,7 @@ export function getYupValidationResolver<FieldValues extends yup.AnyObject, Sche
 }>;
 
 // @public
-export function GuideComponent({ pluginUiMessageHandler, }: {
-    pluginUiMessageHandler: any;
-}): ReactElement | null;
+export function GuideComponent(): JSX_2.Element | null;
 
 // @public (undocumented)
 export interface GuideConfig {
@@ -561,21 +552,15 @@ export type GuideSectionBody = {
 export function isApiAbortError(error: Error): boolean;
 
 // @public
-export function LightboxImage({ pluginUiMessageHandler, ...props }: LightboxImageProps): JSX_2.Element;
-
-// @public (undocumented)
-export type LightboxImageProps = ImgHTMLAttributes<HTMLImageElement> & {
-    pluginUiMessageHandler: PluginUiMessageHandler;
-};
+export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageElement>): JSX_2.Element;
 
 // @public
-export function Link({ children, href, pluginUiMessageHandler, ...linkProps }: LinkProps): JSX_2.Element;
+export const Link: React_2.ForwardRefExoticComponent<Omit<LinkProps, "ref"> & React_2.RefAttributes<HTMLAnchorElement>>;
 
 // @public (undocumented)
 export type LinkProps = Omit<LinkProps_2, 'onClick' | 'children' | 'href'> & {
     children: ReactNode;
     href: string;
-    pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 // @public
@@ -650,7 +635,7 @@ export interface PluginConfig {
 export type PluginConfigFormStep = {
     children: (IterableStepComponent | React_2.FC<any>)[];
     title: string;
-    submitGuard?: (formValues: any, teamName: string, callApi: ReturnType<typeof useApiCall>['callApi'], setValue: (field: string, value: any) => void) => Promise<boolean | {
+    submitGuard?: (formValues: any, teamName: string, setValue: (field: string, value: any) => void) => Promise<boolean | {
         errorMessage: string;
     }>;
 };
@@ -711,12 +696,11 @@ export function readSecretsFromInitialValues<T extends object>(defaultEnv: T, ap
 }[]): T;
 
 // @public
-export function RenderGuide({ sections, pluginUiMessageHandler }: RenderGuideProps): JSX_2.Element;
+export function RenderGuide({ sections }: RenderGuideProps): JSX_2.Element;
 
 // @public (undocumented)
 export type RenderGuideProps = {
     sections: GuideSection[];
-    pluginUiMessageHandler: PluginUiMessageHandler;
 };
 
 // @public
@@ -793,7 +777,7 @@ export interface ServiceListProps {
 export type ServiceTypes = Record<string, ServiceType>;
 
 // @public
-export function SetupGuide({ docsLink, title, children, maxHeight, pluginUiMessageHandler, }: SetupGuideProps): JSX_2.Element;
+export function SetupGuide({ docsLink, title, children, maxHeight }: SetupGuideProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface SetupGuideProps {
@@ -804,13 +788,8 @@ export interface SetupGuideProps {
     // (undocumented)
     maxHeight?: number;
     // (undocumented)
-    pluginUiMessageHandler: PluginUiMessageHandler;
-    // (undocumented)
     title: string;
 }
-
-// @public
-export function showToast(pluginUiMessageHandler: PluginUiMessageHandler, type: 'error' | 'success' | 'blank', message: string): void;
 
 // @public (undocumented)
 export interface SourceConfig extends PluginConfig {
@@ -822,6 +801,20 @@ export interface SourceConfig extends PluginConfig {
 export type SyncFormStepIconProps = StepIconProps & {
     label: string;
 };
+
+// Warning: (ae-internal-missing-underscore) The name "SyncLogLevel" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal (undocumented)
+export enum SyncLogLevel {
+    // (undocumented)
+    DEBUG = "debug",
+    // (undocumented)
+    ERROR = "error",
+    // (undocumented)
+    INFO = "info",
+    // (undocumented)
+    WARNING = "warning"
+}
 
 // @public
 export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, disabled, }: TableSelectorProps): JSX_2.Element;
@@ -877,23 +870,6 @@ export function UploadJSON({ name, helperText, }: UploadJSONProps): JSX_2.Elemen
 export type UploadJSONProps = {
     name?: string;
     helperText?: string;
-};
-
-// @public
-export function useApiCall(pluginUiMessageHandler: PluginUiMessageHandler): {
-    callApi: <ResponseData>(endpoint: string, method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE", body?: any, options?: {
-        headers?: Record<string, string>;
-        mode?: "cors" | "navigate" | "no-cors" | "same-origin";
-    }) => {
-        requestPromise: Promise<{
-            body: ResponseData;
-            endpoint: string;
-            headers: Record<string, string>;
-            status: number;
-        }>;
-        abortRequest: () => void;
-        requestId: string;
-    };
 };
 
 // @public (undocumented)
@@ -974,15 +950,13 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     } & {
         connectionId: string;
     }) | undefined;
+    testConnectionId: string | undefined;
 };
 
 export { useFormContext }
 
 // @public
 export function useFormCurrentValues(pluginUiMessageHandler: PluginUiMessageHandler, getCurrentValues: () => PluginUiMessagePayload['current_values']['values']): void;
-
-// @public
-export function useFormHeightChange(pluginUiMessageHandler: PluginUiMessageHandler): void;
 
 // @public
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {
@@ -1028,7 +1002,7 @@ export function useOauthConnector({ pluginUiMessageHandler, teamName, pluginKind
 export const usePluginContext: () => PluginContextProps;
 
 // @public
-export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler): {
+export function useTestConnection(): {
     cancelTestConnection: () => void;
     testConnection: (values: {
         name: string;
@@ -1041,6 +1015,7 @@ export function useTestConnection(pluginUiMessageHandler: PluginUiMessageHandler
         }>;
         connector_id?: string;
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
+    testConnectionId: string | undefined;
 };
 
 export { useWatch }
@@ -1056,8 +1031,8 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
-// src/utils/authConnectorAuthentication.ts:51:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
+// src/types.ts:47:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/utils/authConnectorAuthentication.ts:47:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

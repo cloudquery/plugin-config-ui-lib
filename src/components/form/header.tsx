@@ -17,6 +17,7 @@ export function ConfigUIFormHeader() {
   const { watch } = useFormContext();
   const editMode = watch('_editMode');
   const step = watch('_step');
+  const label = config.type === 'source' ? 'integration' : 'destination';
 
   return (
     <Section>
@@ -27,7 +28,7 @@ export function ConfigUIFormHeader() {
           alignItems: 'center',
         }}
       >
-        <Typography variant="h5">{`${editMode ? 'Update' : 'Create'} a ${config.type}`}</Typography>
+        <Typography variant="h5">{`${editMode ? 'Update' : 'Create'} ${config.type === 'source' ? 'an integration' : 'a destination'}`}</Typography>
         <Box
           sx={{
             display: 'flex',
@@ -43,8 +44,8 @@ export function ConfigUIFormHeader() {
       {step === 0 && (
         <ControlTextField
           name="displayName"
-          helperText={`Unique ${config.type} name that helps identify the ${config.type} within your workspace.`}
-          label={`${config.type.charAt(0).toUpperCase() + config.type.slice(1)} name`}
+          helperText={`Unique ${label} name that helps identify the ${label} within your workspace.`}
+          label={`${label.charAt(0).toUpperCase() + label.slice(1)} name`}
         />
       )}
     </Section>

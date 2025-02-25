@@ -1,6 +1,5 @@
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
-import { createThemeOptions } from '@cloudquery/cloud-ui';
 import {
   MessageHandler,
   FormMessageType,
@@ -10,19 +9,9 @@ import {
   formMessageTypes,
   pluginUiMessageTypes,
 } from '@cloudquery/plugin-config-ui-connector';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import ErrorIcon from '@mui/icons-material/Error';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import CircularProgress from '@mui/material/CircularProgress';
-import IconButton from '@mui/material/IconButton';
-import Modal from '@mui/material/Modal';
 import Stack from '@mui/material/Stack';
-import { alpha } from '@mui/material/styles';
-import createTheme from '@mui/material/styles/createTheme';
 import Typography from '@mui/material/Typography';
-import toast, { Toaster as HotToaster, ToastBar } from 'react-hot-toast';
 
 /**
  * @public
@@ -70,15 +59,9 @@ export function CloudAppMock({
   teamName,
   user,
 }: CloudAppMockProps) {
-  const theme = createTheme(createThemeOptions());
-  const { palette, typography, shadows } = theme;
   const [testConnectionValues, setTestConnectionValues] = useState<Record<string, any>>();
   const [submitValues, setSubmitValues] = useState<Record<string, any>>();
   const [errors, setErrors] = useState<string>('');
-  const [implementsCustomFooter, setImplementsCustomFooter] = useState<boolean>(false);
-  const [lightboxProps, setLightboxProps] = useState<
-    PluginUiMessagePayload['show_lightbox'] & { isLoaded: boolean }
-  >();
   const searchParams = useMemo(() => new URLSearchParams(window.location.search), []);
 
   const handleSubmit = async () => {
@@ -122,22 +105,6 @@ export function CloudAppMock({
     });
   };
 
-  const handleLightboxClose = useCallback(() => {
-    setLightboxProps(undefined);
-  }, []);
-
-  const handleLightboxContainerClick = useCallback(
-    (event: React.MouseEvent<HTMLDivElement>) => {
-      const closestImage = (event.target as HTMLDivElement).closest('img');
-      if (closestImage) {
-        return;
-      }
-
-      handleLightboxClose();
-    },
-    [handleLightboxClose],
-  );
-
   useEffect(() => {
     formMessageHandler.sendMessage('init', {
       initialValues: initialValues
@@ -153,13 +120,6 @@ export function CloudAppMock({
       context: 'wizard',
       user,
     });
-
-    const unsubscribeReady = formMessageHandler.subscribeToMessageOnce(
-      'ready',
-      ({ implementsCustomFooter }) => {
-        setImplementsCustomFooter(!!implementsCustomFooter);
-      },
-    );
 
     const unsubscribeOnPreviousStep = formMessageHandler.subscribeToMessage(
       'go_to_previous_step',
@@ -180,150 +140,11 @@ export function CloudAppMock({
       alert('Submitted');
     });
 
-    let unsubscribeClose: (() => void) | undefined;
-    const unsubscribeOpenUrl = formMessageHandler.subscribeToMessage('open_url', ({ url }) => {
-      const linkWindow = window.open(url, '_blank');
-      unsubscribeClose = formMessageHandler.subscribeToMessageOnce('close', () => {
-        linkWindow?.close();
-      });
-    });
-
-    const unsubscribeShowLightbox = formMessageHandler.subscribeToMessage(
-      'show_lightbox',
-      (payload) => setLightboxProps({ ...payload, isLoaded: false }),
-    );
-
-    const unsubscribeShowToast = formMessageHandler.subscribeToMessage('show_toast', (payload) => {
-      switch (payload.type) {
-        case 'success': {
-          toast.success(payload.message, { duration: payload.duration });
-          break;
-        }
-        case 'error': {
-          toast.error(payload.message, { duration: payload.duration });
-          break;
-        }
-        default: {
-          toast(payload.message, { duration: payload.duration });
-        }
-      }
-    });
-
-    const apiRequestAbortControllers: Record<string, AbortController> = {};
-    const unsubscribeApiRequest = formMessageHandler.subscribeToMessage(
-      'api_call_request',
-      async ({ body, endpoint, id, method, options }) => {
-        const isCreateTestConnection =
-          new RegExp(`/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections$`).test(
-            endpoint,
-          ) && method === 'POST';
-        const isGetTestConnection =
-          new RegExp(
-            `/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid$`,
-          ).test(endpoint) && method === 'GET';
-        const isPromoteTestConnection =
-          new RegExp(
-            `/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid/promote$`,
-          ).test(endpoint) && method === 'POST';
-        const isUpdateSyncResource =
-          new RegExp(
-            `/teams/(?:${teamName}|)/sync-(?:sources|destinations)/[a-z](?:-?[0-9a-zA-Z]+)+$`,
-          ).test(endpoint) && method === 'PATCH';
-
-        if (isCreateTestConnection) {
-          setTestConnectionValues(body);
-        } else if (isPromoteTestConnection) {
-          setSubmitValues(body);
-        }
-
-        if (isCreateTestConnection || isGetTestConnection) {
-          formMessageHandler.sendMessage('api_call_response', {
-            body: {
-              id: 'this-will-be-a-random-uuid',
-              status: 'completed',
-              failure_reason: '',
-              failure_code: '',
-            },
-            endpoint,
-            headers: {},
-            id,
-            ok: true,
-            status: 200,
-          });
-
-          return;
-        } else if (isPromoteTestConnection || isUpdateSyncResource) {
-          formMessageHandler.sendMessage('api_call_response', {
-            body: {},
-            endpoint,
-            headers: {},
-            id,
-            ok: true,
-            status: 200,
-          });
-
-          return;
-        }
-
-        apiRequestAbortControllers[id] = new AbortController();
-        const headers = new Headers();
-        headers.set('Content-Type', 'application/json');
-        headers.set('Accept', 'application/json');
-        headers.set('__session', `${authToken}`);
-
-        try {
-          const response = await fetch(endpoint, {
-            body: JSON.stringify(body),
-            headers,
-            method,
-            mode: options?.mode,
-            signal: apiRequestAbortControllers[id].signal,
-          });
-
-          const responseBody = await response.json().catch(() => null);
-
-          formMessageHandler.sendMessage('api_call_response', {
-            body: responseBody,
-            endpoint,
-            headers: Object.fromEntries(response.headers.entries()),
-            id,
-            ok: response.ok,
-            status: response.status,
-          });
-        } catch (error: any) {
-          formMessageHandler.sendMessage('api_call_response', {
-            body: error,
-            endpoint,
-            headers: {},
-            id,
-            ok: false,
-            status: error.status,
-          });
-        } finally {
-          delete apiRequestAbortControllers[id];
-        }
-      },
-    );
-
-    const unsubscribeAbortRequest = formMessageHandler.subscribeToMessage(
-      'api_call_abort_request',
-      ({ id }) => {
-        apiRequestAbortControllers[id]?.abort();
-      },
-    );
-
     return () => {
-      unsubscribeReady();
       unsubscribeOnPreviousStep();
       unsubscribeOnDeleted();
       unsubscribeOnCancel();
       unsubscribeOnSubmitted();
-      unsubscribeApiRequest();
-      unsubscribeAbortRequest();
-      unsubscribeOpenUrl();
-      unsubscribeShowLightbox();
-      unsubscribeShowToast();
-      unsubscribeClose?.();
     };
   }, [authToken, initialValues, teamName, user]);
 
@@ -361,6 +182,41 @@ export function CloudAppMock({
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    // Store the original fetch function
+    const originalFetch = window.fetch;
+
+    // Override fetch with our interceptor
+    window.fetch = async (input: RequestInfo | URL, init?: RequestInit) => {
+      const endpoint =
+        typeof input === 'string' ? input : input instanceof URL ? input.toString() : '';
+      const method = init?.method || 'GET';
+      const body = init?.body;
+
+      const isCreateTestConnection =
+        new RegExp(`/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections$`).test(
+          endpoint,
+        ) && method === 'POST';
+      const isPromoteTestConnection =
+        new RegExp(
+          `/teams/(?:${teamName}|)/sync-(?:source|destination)-test-connections/this-will-be-a-random-uuid/promote$`,
+        ).test(endpoint) && method === 'POST';
+
+      if (isCreateTestConnection && body) {
+        setTestConnectionValues(JSON.parse(body.toString()));
+      } else if (isPromoteTestConnection && body) {
+        setSubmitValues(JSON.parse(body.toString()));
+      }
+
+      return originalFetch(input, init);
+    };
+
+    // Cleanup: restore original fetch
+    return () => {
+      window.fetch = originalFetch;
+    };
+  }, [teamName]);
+
   if (searchParams.size > 0) {
     return (
       <Stack
@@ -388,20 +244,18 @@ export function CloudAppMock({
       >
         {children}
       </Stack>
-      {!implementsCustomFooter && (
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{
-            justifyContent: 'flex-end',
-            padding: 2,
-          }}
-        >
-          <Button onClick={handleSubmit} variant="contained">
-            Submit
-          </Button>
-        </Stack>
-      )}
+      <Stack
+        direction="row"
+        spacing={2}
+        sx={{
+          justifyContent: 'flex-end',
+          padding: 2,
+        }}
+      >
+        <Button onClick={handleSubmit} variant="contained">
+          Submit
+        </Button>
+      </Stack>
       <Stack
         sx={{
           padding: 2,
@@ -422,106 +276,6 @@ export function CloudAppMock({
         <div>Errors:</div>
         <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>{errors || '-'}</pre>
       </Stack>
-      <Modal aria-label={lightboxProps?.alt} onClose={handleLightboxClose} open={!!lightboxProps}>
-        <Box
-          onClick={handleLightboxContainerClick}
-          sx={{
-            height: '100%',
-            paddingX: 2,
-            paddingY: 7,
-            width: '100%',
-            position: 'relative',
-          }}
-        >
-          <IconButton
-            autoFocus={true}
-            onClick={handleLightboxClose}
-            sx={{ position: 'absolute', right: 8, top: 8 }}
-            title="Close"
-          >
-            <CloseIcon />
-          </IconButton>
-          <Stack
-            sx={{
-              alignItems: 'center',
-              height: '100%',
-              justifyContent: 'center',
-              overflow: 'auto',
-              width: '100%',
-            }}
-          >
-            {!lightboxProps?.isLoaded && <CircularProgress />}
-            <img
-              {...lightboxProps}
-              data-testid="fullbox-image"
-              onLoad={() =>
-                setLightboxProps({
-                  ...lightboxProps,
-                  isLoaded: true,
-                } as typeof lightboxProps)
-              }
-              style={{
-                height: 'auto',
-                maxHeight: lightboxProps?.isLoaded ? undefined : 0,
-                maxWidth: '100%',
-              }}
-            />
-          </Stack>
-        </Box>
-      </Modal>
-      <HotToaster
-        containerStyle={{
-          bottom: 40,
-          left: 40,
-          right: 40,
-          top: 40,
-        }}
-        position="bottom-right"
-        toastOptions={{
-          duration: 6000,
-          error: {
-            icon: <ErrorIcon />,
-            style: {
-              background: palette.error.main,
-              color: palette.common.white,
-            },
-          },
-          style: {
-            backdropFilter: 'blur(6px)',
-            background: alpha(palette.neutral[900], 0.8),
-            boxShadow: shadows[16],
-            color: palette.common.white,
-            ...typography.body1,
-            maxWidth: 500,
-          } as any,
-          success: {
-            icon: <CheckIcon />,
-            style: {
-              background: palette.success.main,
-              color: palette.common.white,
-            },
-          },
-        }}
-      >
-        {(t) => (
-          <ToastBar toast={t}>
-            {({ icon, message }) => (
-              <>
-                {icon}
-                {message}
-                {t.type !== 'loading' && (
-                  <IconButton
-                    onClick={() => toast.dismiss(t.id)}
-                    sx={{ color: palette.text.primary }}
-                  >
-                    <CloseIcon color="inherit" />
-                  </IconButton>
-                )}
-              </>
-            )}
-          </ToastBar>
-        )}
-      </HotToaster>
     </>
   );
 }
