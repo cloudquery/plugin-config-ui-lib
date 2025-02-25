@@ -260,7 +260,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 </Stack>
               </form>
             </Box>
-            <Box sx={{ width: { xs: 360, lg: 500 }, minWidth: 360, position: 'sticky', top: 10 }}>
+            <Box sx={{ width: { xs: 360, xl: 500 }, minWidth: 360, position: 'sticky', top: 10 }}>
               <GuideComponent />
             </Box>
           </Stack>
