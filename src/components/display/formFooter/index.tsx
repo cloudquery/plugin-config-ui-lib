@@ -76,13 +76,14 @@ export function FormFooter({
   const isBusy = isTestingConnection || isSubmitting;
 
   return (
-    <Stack spacing={4} whiteSpace="nowrap">
+    <Stack spacing={4}>
       <Stack
         direction="row"
         spacing={2}
         sx={{
           justifyContent: 'space-between',
           marginTop: 4,
+          whiteSpace: 'nowrap',
         }}
       >
         <Stack
