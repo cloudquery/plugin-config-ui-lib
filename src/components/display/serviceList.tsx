@@ -97,14 +97,9 @@ export function ServiceList({
         direction="row"
         justifyContent="space-between"
         alignItems="flex-start"
-        flexDirection={{ xs: 'column', lg: 'row' }}
         width="100%"
       >
-        <Tabs
-          sx={{ order: { xs: 1, lg: undefined } }}
-          value={showServices}
-          onChange={(_, newValue) => setShowServices(newValue)}
-        >
+        <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
           <Tab
             disabled={disabled}
             sx={{ py: '9px' }}
@@ -128,7 +123,7 @@ export function ServiceList({
               size="small"
             />
           }
-          sx={{ width: 'auto' }}
+          sx={{ alignSelf: 'center' }}
           label={allServicesSelected ? 'Deselect all services' : 'Select all services'}
         />
       </Stack>
@@ -220,6 +215,7 @@ export function ServiceList({
               : ServiceListMode.Popular,
           )
         }
+        sx={{ width: 'auto' }}
       >
         {showServices === ServiceListMode.Popular
           ? 'Show all services'
