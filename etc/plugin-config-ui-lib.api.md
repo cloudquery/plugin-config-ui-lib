@@ -555,7 +555,7 @@ export function isApiAbortError(error: Error): boolean;
 export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageElement>): JSX_2.Element;
 
 // @public
-export function Link({ children, ...linkProps }: LinkProps): JSX_2.Element;
+export const Link: React_2.ForwardRefExoticComponent<Omit<LinkProps, "ref"> & React_2.RefAttributes<HTMLAnchorElement>>;
 
 // @public (undocumented)
 export type LinkProps = Omit<LinkProps_2, 'onClick' | 'children' | 'href'> & {
