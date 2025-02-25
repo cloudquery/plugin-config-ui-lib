@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 
@@ -15,15 +15,20 @@ export type LinkProps = Omit<MuiLinkProps, 'onClick' | 'children' | 'href'> & {
  *
  * @public
  */
-export function Link({ children, ...linkProps }: LinkProps) {
-  return (
-    <MuiLink
-      {...linkProps}
-      sx={{ cursor: 'pointer', ...linkProps.sx }}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children}
-    </MuiLink>
-  );
-}
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  ({ children, ...linkProps }, ref) => {
+    return (
+      <MuiLink
+        ref={ref}
+        {...linkProps}
+        sx={{ cursor: 'pointer', ...linkProps.sx }}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </MuiLink>
+    );
+  },
+);
+
+Link.displayName = 'Link';
