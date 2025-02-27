@@ -6,6 +6,7 @@ import FormLabel from '@mui/material/FormLabel';
 
 import { Controller } from 'react-hook-form';
 
+import { usePluginContext } from '../../../context';
 import { getFieldHelperText } from '../../../utils';
 import { ServiceList, ServiceTypes } from '../../display';
 
@@ -33,6 +34,8 @@ export function ControlServicesSelectorField({
   helperText,
   label,
 }: ControlServicesSelectorFieldProps) {
+  const { config } = usePluginContext();
+
   return (
     <Controller
       name={name}
@@ -45,6 +48,7 @@ export function ControlServicesSelectorField({
             value={field.value}
             onChange={field.onChange}
             maxHeight="none"
+            fallbackLogoSrc={config.iconLink}
           />
           <FormHelperText error={!!fieldState.error?.message}>
             {getFieldHelperText(fieldState.error?.message, helperText)}

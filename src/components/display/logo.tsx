@@ -61,7 +61,7 @@ export function Logo({ width = 24, height = 24, src, alt, fallbackSrc }: LogoPro
         height={height - PADDING}
         width={width - PADDING}
         onLoad={() => setIsLoaded(true)}
-        onError={parseSrc(currentSrc) === src ? handleError : undefined}
+        onError={handleError}
       />
     </Box>
   );

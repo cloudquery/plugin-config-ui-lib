@@ -5,6 +5,7 @@ import { useFormContext } from 'react-hook-form';
 import { ControlTextField } from './controls/controlTextField';
 import { Section } from './sections/section';
 import { usePluginContext } from '../../context/plugin';
+import { parseSrc } from '../../utils/parseSrc';
 import { Logo } from '../display';
 
 /**
@@ -37,7 +38,7 @@ export function ConfigUIFormHeader() {
             gap: 1.5,
           }}
         >
-          <Logo src={config.iconLink} fallbackSrc="favicon.ico" alt={config.label} />
+          <Logo src={config.iconLink} fallbackSrc={parseSrc('favicon.ico')} alt={config.label} />
           <Typography variant="body1">{config.label}</Typography>
         </Box>
       </Box>
