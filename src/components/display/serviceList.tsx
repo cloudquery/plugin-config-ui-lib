@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { Logo } from './logo';
+import { parseSrc } from '../../utils/parseSrc';
 
 enum ServiceListMode {
   All = 'all',
@@ -56,7 +57,7 @@ export interface ServiceListProps {
 export function ServiceList({
   services,
   topServices = [],
-  fallbackLogoSrc = 'favicon.ico',
+  fallbackLogoSrc = parseSrc('favicon.ico'),
   value = [],
   onChange,
   maxHeight = '400px',
