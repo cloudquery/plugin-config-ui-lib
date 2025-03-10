@@ -1,11 +1,13 @@
 'use client';
 import React, { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
 
-import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
+import { Editor, EditorProps, OnMount, loader } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import useTheme from '@mui/material/styles/useTheme';
 
+import monaco from 'monaco-editor';
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
 import { configureMonacoYaml } from 'monaco-yaml';
 
 import { Controller } from 'react-hook-form';
@@ -25,36 +27,27 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
     monaco: MonacoType,
     configureYaml: typeof configureMonacoYaml,
   ) => Promise<void> | void;
+  handleAdditionalWorkers?: (workerId: string) => Worker | Promise<Worker> | null;
 }
 
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
-  ({ onMount, options = {}, name, label, helperText, ...props }, ref) => {
+  ({ onMount, options = {}, handleAdditionalWorkers, name, label, helperText, ...props }, ref) => {
     const { palette } = useTheme();
     const [isLoading, setIsLoading] = useState(true);
     const [monacoInstance, setMonacoInstance] = useState<MonacoType | null>(null);
 
     const initMonaco = useCallback(async () => {
       try {
-        const [monaco, { loader }, editorWorker] = await Promise.all([
-          import('monaco-editor'),
-          import('@monaco-editor/react'),
-          import('monaco-editor/esm/vs/editor/editor.worker'),
-        ]);
-
         loader.config({ monaco });
-        loader.init();
 
         window.MonacoEnvironment = {
-          getWorker(_, label) {
-            if (label === 'yaml') {
-              return import('monaco-yaml/yaml.worker').then((res: any) => {
-                const yamlWorker = res.default;
-
-                return new yamlWorker();
-              });
+          getWorker: async (_, label) => {
+            if (label !== 'editorWorkerService' && handleAdditionalWorkers) {
+              const worker = await handleAdditionalWorkers(label);
+              if (worker) return worker;
             }
 
-            return new editorWorker.default();
+            return new editorWorker();
           },
         };
 
@@ -63,7 +56,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         // eslint-disable-next-line no-console
         console.error('Failed to initialize Monaco:', error);
       }
-    }, []);
+    }, [handleAdditionalWorkers]);
 
     useEffect(() => {
       initMonaco();
