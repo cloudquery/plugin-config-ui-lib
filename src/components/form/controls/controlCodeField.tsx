@@ -6,8 +6,6 @@ import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@
 import Stack from '@mui/material/Stack';
 import useTheme from '@mui/material/styles/useTheme';
 
-import * as monaco from 'monaco-editor';
-
 import { Controller } from 'react-hook-form';
 
 import type * as Monaco from 'monaco-editor';
@@ -24,24 +22,32 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   handleAdditionalWorkers: (workerId: string) => Worker | Promise<Worker>;
 }
 
+// eslint-disable-next-line no-console
+console.log('ControlCodeField');
+
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
   ({ onMount, options = {}, handleAdditionalWorkers, name, label, helperText, ...props }, ref) => {
     const { palette } = useTheme();
     const [isLoading, setIsLoading] = useState(true);
-    const [monacoInstance, setMonacoInstance] = useState<MonacoType | null>(null);
 
     const initMonaco = useCallback(async () => {
+      // eslint-disable-next-line no-console
+      console.log('here1');
       try {
-        loader.config({ monaco });
-        loader.init();
+        loader.config({
+          monaco: undefined,
+        });
+        // eslint-disable-next-line no-console
+        console.log('here2');
 
         window.MonacoEnvironment = {
           getWorker: async (_, label) => {
+            // eslint-disable-next-line no-console
+            console.log('here3');
+
             return handleAdditionalWorkers(label);
           },
         };
-
-        setMonacoInstance(monaco);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Failed to initialize Monaco:', error);
@@ -62,18 +68,16 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
           }
         }
 
-        if (monacoInstance?.editor) {
-          monacoInstance.editor.defineTheme('custom-theme', {
-            base: 'vs-dark',
-            colors: {
-              'editor.background': palette.background.paper,
-              'editor.foreground': palette.text.primary,
-            },
-            inherit: true,
-            rules: [],
-          });
-          monacoInstance.editor.setTheme('custom-theme');
-        }
+        monaco.editor.defineTheme('custom-theme', {
+          base: 'vs-dark',
+          colors: {
+            'editor.background': palette.background.paper,
+            'editor.foreground': palette.text.primary,
+          },
+          inherit: true,
+          rules: [],
+        });
+        monaco.editor.setTheme('custom-theme');
 
         if (onMount) {
           await onMount(editor, monaco);
@@ -81,12 +85,8 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
 
         setIsLoading(false);
       },
-      [monacoInstance, onMount, palette.background.paper, palette.text.primary, ref],
+      [onMount, palette.background.paper, palette.text.primary, ref],
     );
-
-    if (!monacoInstance) {
-      return <CircularProgress />;
-    }
 
     return (
       <FormControl>
