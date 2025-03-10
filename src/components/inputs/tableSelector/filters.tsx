@@ -40,6 +40,7 @@ export function TableSelectorFilters({
         placeholder="Search tables"
         value={searchValue}
         disabled={disabled}
+        size="small"
       />
       <Box>
         <Button

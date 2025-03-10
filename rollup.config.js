@@ -4,6 +4,18 @@ import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
 import copy from 'rollup-plugin-copy'
+import postcss from 'rollup-plugin-postcss';
+import monaco from 'rollup-plugin-monaco-editor';
+
+const filterMonacoCss = {
+  name: 'filter-monaco-css',
+  resolveId(id) {
+    if (id.includes('monaco-editor') && id.endsWith('.css')) {
+      return { id, external: true };
+    }
+    return null;
+  }
+};
 
 const componentInputs = ["src/components/utils/devWrapper.tsx"];
 
@@ -27,6 +39,11 @@ export default [
     ],
 
     plugins: [
+      postcss({
+        extensions: ['.css'],
+        inject: true,
+        extract: false
+      }),
       peerDepsExternal(),
       resolve(),
       commonjs(),
@@ -59,6 +76,11 @@ export default [
       },
     ],
     plugins: [
+      postcss({
+        extensions: ['.css'],
+        inject: true,
+        extract: false
+      }),
       peerDepsExternal(),
       resolve({
         extensions: [".js", ".jsx", ".ts", ".tsx"],
@@ -103,7 +125,13 @@ export default [
       },
     ],
     plugins: [
+      postcss({
+        extensions: ['.css'],
+        inject: true,
+        extract: false
+      }),
       peerDepsExternal(),
+      monaco(),
       resolve({
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),

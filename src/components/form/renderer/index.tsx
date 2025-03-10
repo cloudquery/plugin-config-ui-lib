@@ -5,6 +5,7 @@ import Skeleton from '@mui/material/Skeleton';
 import {
   IterableStepComponent,
   LayoutBooleanField,
+  LayoutCodeField,
   LayoutCollapsibleSection,
   LayoutCollapsibleSubSection,
   LayoutComponent,
@@ -86,6 +87,11 @@ const ControlServicesSelectorField = React.lazy(() =>
 const ControlDateField = React.lazy(() =>
   import('../controls/controlDateField').then((module) => ({
     default: module.ControlDateField,
+  })),
+);
+const ControlCodeField = React.lazy(() =>
+  import('../controls/controlCodeField').then((module) => ({
+    default: module.ControlCodeField,
   })),
 );
 
@@ -241,6 +247,13 @@ function ComponentRenderer({
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
             <ControlExclusiveToggleField {...(component as LayoutExclusiveToggle)} />
+          </Suspense>
+        );
+      }
+      case 'control-code-field': {
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
+            <ControlCodeField {...(component as LayoutCodeField)} />
           </Suspense>
         );
       }

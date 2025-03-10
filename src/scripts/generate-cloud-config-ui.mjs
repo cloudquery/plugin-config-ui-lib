@@ -303,7 +303,7 @@ async function main() {
     );
 
     // Copy tsconfig.json
-    const tsconfigSrcPath = path.join(templateDir, 'tsconfig.json');
+    const tsconfigSrcPath = path.join(templateDir, 'tsconfig.json.hbs');
     const tsconfigDestPath = path.join(outputDir, 'tsconfig.json');
     fs.copyFileSync(tsconfigSrcPath, tsconfigDestPath);
   } catch (error) {

@@ -73,6 +73,7 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
           <TextField
             {...params}
             {...fieldProps}
+            size="small"
             error={!!error}
             fullWidth={true}
             helperText={helperText}

@@ -33,6 +33,7 @@ export function ControlNumberField({
         <TextField
           error={!!fieldState.error}
           fullWidth={true}
+          size="small"
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           label={label}
           {...field}

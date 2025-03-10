@@ -43,6 +43,7 @@ export function ControlDateTimeField({
             disableFuture={true}
             disabled={disabled}
             clearable={clearable}
+            size="small"
             label={label}
             slotProps={{
               textField: {
