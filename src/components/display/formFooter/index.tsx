@@ -1,5 +1,4 @@
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
-import LoadingButton from '@mui/lab/LoadingButton';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
@@ -120,7 +119,7 @@ export function FormFooter({
           <Button disabled={isBusy} onClick={onCancel} size="medium">
             Cancel
           </Button>
-          <LoadingButton
+          <Button
             loading={isBusy}
             size="medium"
             variant="contained"
@@ -128,7 +127,7 @@ export function FormFooter({
             disabled={submitDisabled}
           >
             {submitLabel || 'Test connection and save'}
-          </LoadingButton>
+          </Button>
         </Stack>
       </Stack>
       {(isTestingConnection || testConnectionError || submitPayload) && (

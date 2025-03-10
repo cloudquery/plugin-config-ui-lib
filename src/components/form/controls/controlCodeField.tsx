@@ -33,6 +33,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
     const initMonaco = useCallback(async () => {
       try {
         loader.config({ monaco });
+        loader.init();
 
         window.MonacoEnvironment = {
           getWorker: async (_, label) => {
