@@ -6,8 +6,7 @@ import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@
 import Stack from '@mui/material/Stack';
 import useTheme from '@mui/material/styles/useTheme';
 
-import monaco from 'monaco-editor';
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
+import * as monaco from 'monaco-editor';
 
 import { Controller } from 'react-hook-form';
 
@@ -22,7 +21,7 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   helperText?: ReactNode;
   editorRef?: React.MutableRefObject<MonacoEditor | null>;
   onMount?: (editor: MonacoEditor, monaco: MonacoType) => Promise<void> | void;
-  handleAdditionalWorkers?: (workerId: string) => Worker | Promise<Worker> | null;
+  handleAdditionalWorkers: (workerId: string) => Worker | Promise<Worker>;
 }
 
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
@@ -37,12 +36,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
 
         window.MonacoEnvironment = {
           getWorker: async (_, label) => {
-            if (label !== 'editorWorkerService' && handleAdditionalWorkers) {
-              const worker = await handleAdditionalWorkers(label);
-              if (worker) return worker;
-            }
-
-            return new editorWorker();
+            return handleAdditionalWorkers(label);
           },
         };
 
