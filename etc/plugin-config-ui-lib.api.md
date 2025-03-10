@@ -8,7 +8,6 @@ import { AccordionProps } from '@mui/material/Accordion';
 import { BoxProps } from '@mui/material/Box';
 import { ButtonProps } from '@mui/material/Button';
 import { ChangeEventHandler } from 'react';
-import { configureMonacoYaml } from 'monaco-yaml';
 import { Controller } from 'react-hook-form';
 import { EditorProps } from '@monaco-editor/react';
 import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';

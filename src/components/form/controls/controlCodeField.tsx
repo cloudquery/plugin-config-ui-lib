@@ -8,7 +8,6 @@ import useTheme from '@mui/material/styles/useTheme';
 
 import monaco from 'monaco-editor';
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker';
-import { configureMonacoYaml } from 'monaco-yaml';
 
 import { Controller } from 'react-hook-form';
 
@@ -22,11 +21,7 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   label?: string;
   helperText?: ReactNode;
   editorRef?: React.MutableRefObject<MonacoEditor | null>;
-  onMount?: (
-    editor: MonacoEditor,
-    monaco: MonacoType,
-    configureYaml: typeof configureMonacoYaml,
-  ) => Promise<void> | void;
+  onMount?: (editor: MonacoEditor, monaco: MonacoType) => Promise<void> | void;
   handleAdditionalWorkers?: (workerId: string) => Worker | Promise<Worker> | null;
 }
 
@@ -86,7 +81,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         }
 
         if (onMount) {
-          await onMount(editor, monaco, configureMonacoYaml);
+          await onMount(editor, monaco);
         }
 
         setIsLoading(false);
