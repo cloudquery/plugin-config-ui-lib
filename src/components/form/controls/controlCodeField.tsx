@@ -52,7 +52,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         monaco.editor.defineTheme('custom-theme', {
           base: 'vs-dark',
           colors: {
-            'editor.background': 'transparent',
+            'editor.background': '#15202E',
             'editor.foreground': '#FFFFFF',
           },
           inherit: true,
