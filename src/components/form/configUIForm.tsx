@@ -181,30 +181,28 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 
   const theme = useMemo(() => {
     const themeOptions = createThemeOptions();
-    if (container) {
-      themeOptions.components = {
-        ...themeOptions.components,
-        MuiMenu: {
-          ...themeOptions.components?.MuiMenu,
-          defaultProps: {
-            ...themeOptions.components?.MuiMenu?.defaultProps,
-            container: container as any,
+    themeOptions.components = {
+      ...themeOptions.components,
+      MuiMenu: {
+        ...themeOptions.components?.MuiMenu,
+        defaultProps: {
+          ...themeOptions.components?.MuiMenu?.defaultProps,
+          ...(container ? { container: container as any } : {}),
+        },
+      },
+      MuiInputLabel: {
+        ...themeOptions.components?.MuiInputLabel,
+        styleOverrides: {
+          ...themeOptions.components?.MuiInputLabel?.styleOverrides,
+          root: {
+            ...(typeof themeOptions.components?.MuiInputLabel?.styleOverrides?.root === 'object'
+              ? themeOptions.components?.MuiInputLabel?.styleOverrides?.root
+              : {}),
+            top: '-4px',
           },
         },
-        MuiInputLabel: {
-          ...themeOptions.components?.MuiInputLabel,
-          styleOverrides: {
-            ...themeOptions.components?.MuiInputLabel?.styleOverrides,
-            root: {
-              ...(typeof themeOptions.components?.MuiInputLabel?.styleOverrides?.root === 'object'
-                ? themeOptions.components?.MuiInputLabel?.styleOverrides?.root
-                : {}),
-              top: '-4px',
-            },
-          },
-        },
-      };
-    }
+      },
+    };
 
     return createTheme(themeOptions);
   }, [container]);

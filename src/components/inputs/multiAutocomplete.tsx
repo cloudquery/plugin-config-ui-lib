@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Autocomplete from '@mui/material/Autocomplete';
+import { inputBaseClasses } from '@mui/material/InputBase';
 import TextField from '@mui/material/TextField';
 
 import { getFieldHelperText } from '../../utils/getFieldHelperText';
@@ -74,7 +75,9 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
             {...params}
             {...fieldProps}
             sx={{
-              minHeight: '52px',
+              [`& .${inputBaseClasses.root}`]: {
+                minHeight: '52px',
+              },
             }}
             size="small"
             error={!!error}
