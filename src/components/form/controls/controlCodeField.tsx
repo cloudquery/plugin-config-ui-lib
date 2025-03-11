@@ -2,7 +2,7 @@
 
 import React, { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
 
-import { Editor, EditorProps, OnMount, loader } from '@monaco-editor/react';
+import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
@@ -19,16 +19,18 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   helperText?: ReactNode;
   editorRef?: React.MutableRefObject<MonacoEditor | null>;
   onMount?: (editor: MonacoEditor, monaco: MonacoType) => Promise<void> | void;
-  handleInitMonaco: (reactLoader: typeof loader) => void;
+  handleInitMonaco: () => Promise<void>;
 }
 
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
   ({ onMount, options = {}, handleInitMonaco, name, label, helperText, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [initialized, setInitialized] = useState(false);
 
     const initMonaco = useCallback(async () => {
       try {
-        handleInitMonaco(loader);
+        await handleInitMonaco();
+        setInitialized(true);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Failed to initialize Monaco:', error);
@@ -68,6 +70,10 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
       },
       [onMount, ref],
     );
+
+    if (!initialized) {
+      return <CircularProgress />;
+    }
 
     return (
       <FormControl
