@@ -19,33 +19,21 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   helperText?: ReactNode;
   editorRef?: React.MutableRefObject<MonacoEditor | null>;
   onMount?: (editor: MonacoEditor, monaco: MonacoType) => Promise<void> | void;
-  handleAdditionalWorkers: (workerId: string) => Worker | Promise<Worker>;
+  handleInitMonaco: (reactLoader: typeof loader) => void;
 }
 
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
-  ({ onMount, options = {}, handleAdditionalWorkers, name, label, helperText, ...props }, ref) => {
+  ({ onMount, options = {}, handleInitMonaco, name, label, helperText, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
 
     const initMonaco = useCallback(async () => {
       try {
-        loader.config({
-          monaco: undefined,
-          paths: {
-            // This tells the loader to use the Monaco instance from your node_modules
-            vs: 'monaco-editor/min/vs',
-          },
-        });
-
-        window.MonacoEnvironment = {
-          getWorker: async (_, label) => {
-            return handleAdditionalWorkers(label);
-          },
-        };
+        handleInitMonaco(loader);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Failed to initialize Monaco:', error);
       }
-    }, [handleAdditionalWorkers]);
+    }, [handleInitMonaco]);
 
     useEffect(() => {
       initMonaco();
