@@ -1,11 +1,12 @@
 'use client';
 
-import React, { forwardRef, ReactNode, useCallback, useState } from 'react';
+import React, { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
 
-import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
+import { Editor, EditorProps, loader, OnMount } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
+import * as monaco from 'monaco-editor';
 import { configureMonacoYaml, JSONSchema } from 'monaco-yaml';
 import { Controller } from 'react-hook-form';
 
@@ -26,6 +27,13 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
   ({ onMount, options = {}, yamlSchema, name, label, helperText, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [initialized, setInitialized] = useState(false);
+
+    useEffect(() => {
+      loader.config({ monaco });
+
+      setInitialized(true);
+    }, []);
 
     const handleEditorMount: OnMount = useCallback(
       async (editor, monaco) => {
@@ -69,6 +77,10 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
       },
       [onMount, props.language, yamlSchema, ref],
     );
+
+    if (!initialized) {
+      return <CircularProgress />;
+    }
 
     return (
       <FormControl
