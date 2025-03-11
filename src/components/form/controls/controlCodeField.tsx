@@ -1,11 +1,12 @@
 'use client';
 
-import React, { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, ReactNode, useCallback, useState } from 'react';
 
 import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
+import { JSONSchema } from 'monaco-yaml';
 import { Controller } from 'react-hook-form';
 
 import type * as Monaco from 'monaco-editor';
@@ -19,27 +20,12 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   helperText?: ReactNode;
   editorRef?: React.MutableRefObject<MonacoEditor | null>;
   onMount?: (editor: MonacoEditor, monaco: MonacoType) => Promise<void> | void;
-  handleInitMonaco: () => Promise<void>;
+  yamlSchema?: JSONSchema;
 }
 
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
-  ({ onMount, options = {}, handleInitMonaco, name, label, helperText, ...props }, ref) => {
+  ({ onMount, options = {}, yamlSchema, name, label, helperText, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [initialized, setInitialized] = useState(false);
-
-    const initMonaco = useCallback(async () => {
-      try {
-        await handleInitMonaco();
-        setInitialized(true);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Failed to initialize Monaco:', error);
-      }
-    }, [handleInitMonaco]);
-
-    useEffect(() => {
-      initMonaco();
-    }, [initMonaco]);
 
     const handleEditorMount: OnMount = useCallback(
       async (editor, monaco) => {
@@ -62,23 +48,34 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         });
         monaco.editor.setTheme('custom-theme');
 
+        if (options.language === 'yaml' && yamlSchema) {
+          await import('monaco-yaml').then((yaml) => {
+            yaml.configureMonacoYaml(monaco, {
+              schemas: [
+                {
+                  fileMatch: ['*'],
+                  schema: yamlSchema,
+                  uri: 'inmemory://my-schema.json',
+                },
+              ],
+              validate: false,
+            });
+          });
+        }
+
         if (onMount) {
           await onMount(editor, monaco);
         }
 
         setIsLoading(false);
       },
-      [onMount, ref],
+      [onMount, options.language, yamlSchema, ref],
     );
-
-    if (!initialized) {
-      return <CircularProgress />;
-    }
 
     return (
       <FormControl
         sx={{
-          height: '130px',
+          height: '150px',
           minHeight: 0,
           border: '1px solid',
           borderColor: 'neutral.300',

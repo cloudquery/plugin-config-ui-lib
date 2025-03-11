@@ -11,7 +11,7 @@ import { prepareSubmitValues } from './utils/prepareSubmitValues';
 const getTablesData = () => import('./data/__tables.json');
 {{/if}}
 
-function App() {
+function App({ container }: { container?: HTMLElement }) {
   const { initialValues, initialized, teamName, context } = useFormInit(
     pluginUiMessageHandler,
     true,
@@ -31,7 +31,7 @@ function App() {
         pluginUiMessageHandler={pluginUiMessageHandler}
         initialValues={initialValues}
       >
-        {initialized && <ConfigUIForm prepareSubmitValues={prepareSubmitValues} />}
+        {initialized && <ConfigUIForm container={container} prepareSubmitValues={prepareSubmitValues} />}
       </PluginContextProvider>
     </DevWrapper>
   );

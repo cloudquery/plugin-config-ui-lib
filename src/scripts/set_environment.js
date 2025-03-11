@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-module.exports = () => {
+export default () => {
   const envFilePath = path.join(process.cwd(), 'src', '.env.json');
   const exampleEnvFilePath = path.join(process.cwd(), 'src', '.env.example.json');
 

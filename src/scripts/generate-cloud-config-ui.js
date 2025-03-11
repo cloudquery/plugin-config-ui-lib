@@ -199,6 +199,20 @@ async function main() {
     const publicDestDir = path.join(outputDir, 'public');
     fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
 
+    // Copy and compile public/index.html
+    createAndCompileTemplate(
+      path.join(templateDir, 'public', 'index.html.hbs'),
+      path.join(outputDir, 'public', 'index.html'),
+      payload,
+    );
+
+    // Copy and compile public/manifest.json
+    createAndCompileTemplate(
+      path.join(templateDir, 'public', 'manifest.json.hbs'),
+      path.join(outputDir, 'public', 'manifest.json'),
+      payload,
+    );
+
     // Copy logo
     if (pluginLogoPath) {
       let logoSrcPath = pluginLogoPath;
@@ -223,6 +237,13 @@ async function main() {
     createAndCompileTemplate(
       path.join(templateDir, 'src', 'hooks', 'useConfig.tsx.hbs'),
       path.join(outputDir, 'src', 'hooks', 'useConfig.tsx'),
+      payload,
+    );
+
+    // Copy and compile src/typings/index.d.ts
+    createAndCompileTemplate(
+      path.join(templateDir, 'src', 'typings', 'index.d.ts.hbs'),
+      path.join(outputDir, 'src', 'typings', 'index.d.ts'),
       payload,
     );
 
@@ -264,8 +285,8 @@ async function main() {
     fs.copyFileSync(path.join(outputDir, '.env.example'), path.join(outputDir, '.env'));
 
     // Copy .eslintrc.js
-    const eslintSrcPath = path.join(templateDir, '.eslintrc.js');
-    const eslintDestPath = path.join(outputDir, '.eslintrc.js');
+    const eslintSrcPath = path.join(templateDir, '.eslintrc.cjs');
+    const eslintDestPath = path.join(outputDir, '.eslintrc.cjs');
     fs.copyFileSync(eslintSrcPath, eslintDestPath);
 
     // Copy .gitignore
@@ -279,8 +300,8 @@ async function main() {
     fs.copyFileSync(nvmrcSrcPath, nvmrcDestPath);
 
     // Copy .prettierrc.js
-    const prettierrcSrcPath = path.join(templateDir, '.prettierrc.js');
-    const prettierrcDestPath = path.join(outputDir, '.prettierrc.js');
+    const prettierrcSrcPath = path.join(templateDir, '.prettierrc.cjs');
+    const prettierrcDestPath = path.join(outputDir, '.prettierrc.cjs');
     fs.copyFileSync(prettierrcSrcPath, prettierrcDestPath);
 
     // Copy and compile package.json

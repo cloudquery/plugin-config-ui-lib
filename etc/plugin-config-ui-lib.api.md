@@ -14,6 +14,7 @@ import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import { FormProvider } from 'react-hook-form';
 import { ForwardRefExoticComponent } from 'react';
 import { ImgHTMLAttributes } from 'react';
+import { JSONSchema } from 'monaco-yaml';
 import { JSX as JSX_2 } from 'react/jsx-runtime';
 import { LinkProps as LinkProps_2 } from '@mui/material/Link';
 import { ListItemProps } from '@mui/material/ListItem';

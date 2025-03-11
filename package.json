@@ -100,6 +100,7 @@
     "@mui/x-date-pickers": "^7.6.2",
     "@playwright/test": "^1.47.2",
     "monaco-editor": "^0.52.2",
+    "monaco-yaml": "^5.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "yup": "^1.4.0"
@@ -159,6 +160,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "magic-string": "^0.30.17",
     "monaco-editor": "^0.52.2",
+    "monaco-yaml": "^5.3.1",
     "prettier": "^3.4.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
