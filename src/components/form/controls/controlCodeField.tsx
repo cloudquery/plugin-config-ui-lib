@@ -6,7 +6,7 @@ import { Editor, EditorProps, OnMount } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
-import { JSONSchema } from 'monaco-yaml';
+import { configureMonacoYaml, JSONSchema } from 'monaco-yaml';
 import { Controller } from 'react-hook-form';
 
 import type * as Monaco from 'monaco-editor';
@@ -49,17 +49,15 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         monaco.editor.setTheme('custom-theme');
 
         if (props.language === 'yaml' && yamlSchema) {
-          await import('monaco-yaml').then((yaml) => {
-            yaml.configureMonacoYaml(monaco, {
-              schemas: [
-                {
-                  fileMatch: ['*'],
-                  schema: yamlSchema,
-                  uri: 'inmemory://my-schema.json',
-                },
-              ],
-              validate: false,
-            });
+          configureMonacoYaml(monaco, {
+            schemas: [
+              {
+                fileMatch: ['*'],
+                schema: yamlSchema,
+                uri: 'inmemory://my-schema.json',
+              },
+            ],
+            validate: false,
           });
         }
 

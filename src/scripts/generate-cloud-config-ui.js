@@ -320,6 +320,11 @@ async function main() {
     const tsconfigSrcPath = path.join(templateDir, 'tsconfig.json.hbs');
     const tsconfigDestPath = path.join(outputDir, 'tsconfig.json');
     fs.copyFileSync(tsconfigSrcPath, tsconfigDestPath);
+
+    // Copy vite.config.js
+    const viteConfigSrcPath = path.join(templateDir, 'vite.config.js');
+    const viteConfigDestPath = path.join(outputDir, 'vite.config.js');
+    fs.copyFileSync(viteConfigSrcPath, viteConfigDestPath);
   } catch (error) {
     if (fs.existsSync(outputDir)) {
       fs.rmdirSync(outputDir, { recursive: true });
