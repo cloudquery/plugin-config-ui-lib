@@ -48,7 +48,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         });
         monaco.editor.setTheme('custom-theme');
 
-        if (options.language === 'yaml' && yamlSchema) {
+        if (props.language === 'yaml' && yamlSchema) {
           await import('monaco-yaml').then((yaml) => {
             yaml.configureMonacoYaml(monaco, {
               schemas: [
@@ -69,7 +69,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
 
         setIsLoading(false);
       },
-      [onMount, options.language, yamlSchema, ref],
+      [onMount, props.language, yamlSchema, ref],
     );
 
     return (
