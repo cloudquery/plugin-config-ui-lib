@@ -194,17 +194,17 @@ async function main() {
       payload,
     );
 
+    // Copy and compile index.html
+    createAndCompileTemplate(
+      path.join(templateDir, 'index.html.hbs'),
+      path.join(outputDir, 'index.html'),
+      payload,
+    );
+
     // Copy template/public folder
     const publicSrcDir = path.join(templateDir, 'public');
     const publicDestDir = path.join(outputDir, 'public');
     fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
-
-    // Copy and compile public/index.html
-    createAndCompileTemplate(
-      path.join(templateDir, 'public', 'index.html.hbs'),
-      path.join(outputDir, 'public', 'index.html'),
-      payload,
-    );
 
     // Copy and compile public/manifest.json
     createAndCompileTemplate(
