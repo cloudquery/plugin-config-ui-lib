@@ -240,13 +240,6 @@ async function main() {
       payload,
     );
 
-    // Copy and compile src/typings/index.d.ts
-    createAndCompileTemplate(
-      path.join(templateDir, 'src', 'typings', 'index.d.ts.hbs'),
-      path.join(outputDir, 'src', 'typings', 'index.d.ts'),
-      payload,
-    );
-
     // Copy and compile src/utils
     const utilsSrcDir = path.join(templateDir, 'src', 'utils');
     const utilsDestDir = path.join(outputDir, 'src', 'utils');

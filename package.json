@@ -28,6 +28,9 @@
     "./scripts/*": {
       "import": "./dist/scripts/*"
     },
+    "./configs/*": {
+      "import": "./dist/configs/*"
+    },
     "./.eslintrc.js": "./.eslintrc.js",
     "./.prettierrc.js": "./.prettierrc.js"
   },
@@ -176,6 +179,7 @@
     "source-map-explorer": "^2.5.3",
     "storybook": "^8.5.3",
     "typescript": "^5.7.3",
+    "vite-plugin-monaco-editor": "^1.1.0",
     "yup": "^1.6.1"
   }
 }

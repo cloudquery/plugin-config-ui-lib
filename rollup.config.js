@@ -43,6 +43,7 @@ export default [
         targets: [
           { src: 'src/scripts', dest: 'dist' },
           { src: 'src/template', dest: 'dist' },
+          { src: 'src/configs', dest: 'dist' },
         ]
       })
     ],
