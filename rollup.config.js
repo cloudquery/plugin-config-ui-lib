@@ -9,8 +9,6 @@ import monaco from './config/monaco.config.js';
 
 const componentInputs = ["src/components/utils/devWrapper.tsx"];
 
-
-
 export default [
   {
     input: "src/index.ts",
