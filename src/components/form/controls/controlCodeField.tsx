@@ -1,6 +1,6 @@
 'use client';
 
-import React, { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Editor, EditorProps, loader, OnMount } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
@@ -28,6 +28,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
   ({ onMount, options = {}, yamlSchema, name, label, helperText, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
     const [initialized, setInitialized] = useState(false);
+    const disposeRef = useRef<() => void>();
 
     useEffect(() => {
       loader.config({ monaco });
@@ -57,7 +58,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         monaco.editor.setTheme('custom-theme');
 
         if (props.language === 'yaml' && yamlSchema) {
-          configureMonacoYaml(monaco, {
+          const { dispose } = configureMonacoYaml(monaco, {
             schemas: [
               {
                 fileMatch: ['*'],
@@ -67,6 +68,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
             ],
             validate: false,
           });
+          disposeRef.current = dispose;
         }
 
         if (onMount) {
@@ -78,14 +80,26 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
       [onMount, props.language, yamlSchema, ref],
     );
 
+    useEffect(() => {
+      return () => {
+        disposeRef.current?.();
+      };
+    }, []);
+
+    const Loader = () => (
+      <Stack width="100%" alignItems="center" justifyContent="center" padding={2}>
+        <CircularProgress />
+      </Stack>
+    );
+
     if (!initialized) {
-      return <CircularProgress />;
+      return <Loader />;
     }
 
     return (
       <FormControl
         sx={{
-          height: '150px',
+          height: '300px',
           minHeight: 0,
           border: '1px solid',
           borderColor: 'neutral.300',
@@ -116,33 +130,28 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
                   visibility: isLoading ? 'hidden' : 'visible',
                 }}
               >
-                {isLoading && (
-                  <Stack
-                    alignItems="center"
-                    justifyContent="center"
-                    sx={{
-                      bottom: 0,
-                      left: 0,
-                      position: 'absolute',
-                      right: 0,
-                      top: 0,
-                    }}
-                  >
-                    <CircularProgress />
-                  </Stack>
-                )}
+                {isLoading && <Loader />}
                 <Editor
                   {...props}
-                  loading={<CircularProgress />}
+                  loading={<Loader />}
                   onChange={(value) => field.onChange(value ?? '')}
                   onMount={handleEditorMount}
                   options={{
-                    ...options,
                     automaticLayout: true,
+                    minimap: {
+                      enabled: false,
+                    },
+                    quickSuggestions: true,
+                    suggestOnTriggerCharacters: true,
+                    lineNumbers: 'off',
+                    folding: false,
+                    lineDecorationsWidth: 0,
+                    lineNumbersMinChars: 0,
+                    glyphMargin: false,
                     scrollbar: {
-                      ...options.scrollbar,
                       alwaysConsumeMouseWheel: false,
                     },
+                    ...options,
                   }}
                   value={field.value}
                 />

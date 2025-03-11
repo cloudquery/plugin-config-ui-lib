@@ -151,7 +151,7 @@ function ComponentRenderer({
         const { children, ...props } = component as LayoutSubSection;
 
         return (
-          <SubSection {...props}>
+          <SubSection {...props} isSubSection={true}>
             <ComponentsRenderer section={children} />
           </SubSection>
         );

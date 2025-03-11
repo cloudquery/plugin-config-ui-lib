@@ -7,6 +7,14 @@ import monacoEditorVitePlugin from 'vite-plugin-monaco-editor';
 
 const monacoEditorPlugin = monacoEditorVitePlugin.default;
 
+const envVariables = {};
+
+for (const key of Object.keys(process.env)) {
+  if (key.startsWith('REACT_APP') && process.env[key] !== undefined) {
+    envVariables[key] = process.env[key];
+  }
+}
+
 export default {
   build: {
     commonjsOptions: {
@@ -24,7 +32,7 @@ export default {
     sourcemap: true,
   },
   define: {
-    'process.env': JSON.stringify(process.env),
+    'process.env': JSON.stringify(envVariables),
   },
   optimizeDeps: {
     include: ['monaco-editor', 'monaco-yaml'],

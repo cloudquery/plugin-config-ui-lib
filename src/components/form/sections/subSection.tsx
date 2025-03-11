@@ -10,12 +10,13 @@ export interface SubSectionProps {
   children: React.ReactNode;
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
+  isSubSection?: boolean;
 }
 
 /**
  * @public
  */
-export function SubSection({ children, title, subtitle }: SubSectionProps) {
+export function SubSection({ children, title, subtitle, isSubSection }: SubSectionProps) {
   return (
     <Stack
       sx={{
@@ -28,7 +29,7 @@ export function SubSection({ children, title, subtitle }: SubSectionProps) {
             gap: 1,
           }}
         >
-          {title && <Typography variant="h6">{title}</Typography>}
+          {title && <Typography variant={isSubSection ? 'h6' : 'h5'}>{title}</Typography>}
           {subtitle && (
             <Typography variant="body2" color="textSecondary">
               {subtitle}

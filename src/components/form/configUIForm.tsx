@@ -191,6 +191,18 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
             container: container as any,
           },
         },
+        MuiInputLabel: {
+          ...themeOptions.components?.MuiInputLabel,
+          styleOverrides: {
+            ...themeOptions.components?.MuiInputLabel?.styleOverrides,
+            root: {
+              ...(typeof themeOptions.components?.MuiInputLabel?.styleOverrides?.root === 'object'
+                ? themeOptions.components?.MuiInputLabel?.styleOverrides?.root
+                : {}),
+              top: '-4px',
+            },
+          },
+        },
       };
     }
 
@@ -260,7 +272,14 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 </Stack>
               </form>
             </Box>
-            <Box sx={{ width: { xs: 360, xl: 500 }, minWidth: 360, position: 'sticky', top: 10 }}>
+            <Box
+              sx={{
+                width: { xs: 360, lg: 500, xl: '40%' },
+                minWidth: 360,
+                position: 'sticky',
+                top: 10,
+              }}
+            >
               <GuideComponent />
             </Box>
           </Stack>
