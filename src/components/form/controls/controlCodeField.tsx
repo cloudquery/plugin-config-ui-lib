@@ -6,7 +6,6 @@ import { Editor, EditorProps, OnMount, loader } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
-import * as monaco from 'monaco-editor';
 import { Controller } from 'react-hook-form';
 
 import type * as Monaco from 'monaco-editor';
@@ -30,7 +29,11 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
     const initMonaco = useCallback(async () => {
       try {
         loader.config({
-          monaco,
+          monaco: undefined,
+          paths: {
+            // This tells the loader to use the Monaco instance from your node_modules
+            vs: 'monaco-editor/min/vs',
+          },
         });
 
         window.MonacoEnvironment = {
@@ -61,7 +64,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         monaco.editor.defineTheme('custom-theme', {
           base: 'vs-dark',
           colors: {
-            'editor.background': '#15202E',
+            'editor.background': 'transparent',
             'editor.foreground': '#FFFFFF',
           },
           inherit: true,
@@ -85,8 +88,10 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
           minHeight: 0,
           border: '1px solid',
           borderColor: 'neutral.300',
+          borderRadius: 1,
           paddingY: 1,
           paddingX: 1.5,
+          bgcolor: '#15202E',
         }}
       >
         {!!label && <FormLabel sx={{ mb: 1 }}>{label}</FormLabel>}
