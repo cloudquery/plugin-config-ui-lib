@@ -1,11 +1,12 @@
 'use client';
+
 import React, { forwardRef, ReactNode, useCallback, useEffect, useState } from 'react';
 
 import { Editor, EditorProps, OnMount, loader } from '@monaco-editor/react';
 import { Box, CircularProgress, FormControl, FormHelperText, FormLabel } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import useTheme from '@mui/material/styles/useTheme';
 
+import * as monaco from 'monaco-editor';
 import { Controller } from 'react-hook-form';
 
 import type * as Monaco from 'monaco-editor';
@@ -22,29 +23,18 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   handleAdditionalWorkers: (workerId: string) => Worker | Promise<Worker>;
 }
 
-// eslint-disable-next-line no-console
-console.log('ControlCodeField');
-
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
   ({ onMount, options = {}, handleAdditionalWorkers, name, label, helperText, ...props }, ref) => {
-    const { palette } = useTheme();
     const [isLoading, setIsLoading] = useState(true);
 
     const initMonaco = useCallback(async () => {
-      // eslint-disable-next-line no-console
-      console.log('here1');
       try {
         loader.config({
-          monaco: undefined,
+          monaco,
         });
-        // eslint-disable-next-line no-console
-        console.log('here2');
 
         window.MonacoEnvironment = {
           getWorker: async (_, label) => {
-            // eslint-disable-next-line no-console
-            console.log('here3');
-
             return handleAdditionalWorkers(label);
           },
         };
@@ -71,8 +61,8 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         monaco.editor.defineTheme('custom-theme', {
           base: 'vs-dark',
           colors: {
-            'editor.background': palette.background.paper,
-            'editor.foreground': palette.text.primary,
+            'editor.background': '#15202E',
+            'editor.foreground': '#FFFFFF',
           },
           inherit: true,
           rules: [],
@@ -85,11 +75,20 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
 
         setIsLoading(false);
       },
-      [onMount, palette.background.paper, palette.text.primary, ref],
+      [onMount, ref],
     );
 
     return (
-      <FormControl>
+      <FormControl
+        sx={{
+          height: '130px',
+          minHeight: 0,
+          border: '1px solid',
+          borderColor: 'neutral.300',
+          paddingY: 1,
+          paddingX: 1.5,
+        }}
+      >
         {!!label && <FormLabel sx={{ mb: 1 }}>{label}</FormLabel>}
         <Controller
           name={name}
