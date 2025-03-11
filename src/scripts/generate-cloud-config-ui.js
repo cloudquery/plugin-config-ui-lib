@@ -264,11 +264,6 @@ async function main() {
     const indexDestPath = path.join(outputDir, 'src', 'index.tsx');
     fs.copyFileSync(indexSrcPath, indexDestPath);
 
-    // Copy src/react-app-env.d.ts
-    const reactAppEnvSrcPath = path.join(templateDir, 'src', 'react-app-env.d.ts');
-    const reactAppEnvDestPath = path.join(outputDir, 'src', 'react-app-env.d.ts');
-    fs.copyFileSync(reactAppEnvSrcPath, reactAppEnvDestPath);
-
     // Copy and compile .env
     createAndCompileTemplate(
       path.join(templateDir, '.env.example.hbs'),
@@ -277,7 +272,7 @@ async function main() {
     );
     fs.copyFileSync(path.join(outputDir, '.env.example'), path.join(outputDir, '.env'));
 
-    // Copy .eslintrc.js
+    // Copy .eslintrc.cjs
     const eslintSrcPath = path.join(templateDir, '.eslintrc.cjs');
     const eslintDestPath = path.join(outputDir, '.eslintrc.cjs');
     fs.copyFileSync(eslintSrcPath, eslintDestPath);
@@ -292,7 +287,7 @@ async function main() {
     const nvmrcDestPath = path.join(outputDir, '.nvmrc');
     fs.copyFileSync(nvmrcSrcPath, nvmrcDestPath);
 
-    // Copy .prettierrc.js
+    // Copy .prettierrc.cjs
     const prettierrcSrcPath = path.join(templateDir, '.prettierrc.cjs');
     const prettierrcDestPath = path.join(outputDir, '.prettierrc.cjs');
     fs.copyFileSync(prettierrcSrcPath, prettierrcDestPath);
