@@ -26,7 +26,7 @@
       "require": "./dist/e2e-utils/index.cjs.js"
     },
     "./scripts/*": {
-      "require": "./dist/scripts/*"
+      "import": "./dist/scripts/*"
     },
     "./.eslintrc.js": "./.eslintrc.js",
     "./.prettierrc.js": "./.prettierrc.js"
