@@ -92,6 +92,7 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
           {...textFieldProps}
           ref={ref}
           name={name}
+          size="small"
         />
         {isSecret && (
           <FormFieldReset
@@ -99,7 +100,7 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
             inputSelectorToFocus={`input[name="${name}"]`}
             onCancel={() => handelCancelReset()}
             onReset={() => handleReset()}
-            sx={{ minHeight: 55 }}
+            sx={{ minHeight: 48 }}
           />
         )}
       </Stack>

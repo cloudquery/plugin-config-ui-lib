@@ -39,6 +39,13 @@ export default [
           comments: /webpackIgnore:/,
         },
       }),
+      copy({
+        targets: [
+          { src: 'src/scripts', dest: 'dist' },
+          { src: 'src/template', dest: 'dist' },
+          { src: 'src/configs', dest: 'dist' },
+        ]
+      })
     ],
   },
   {
@@ -77,12 +84,6 @@ export default [
           comments: /webpackIgnore:/,
         },
       }),
-      copy({
-        targets: [
-          { src: 'src/scripts', dest: 'dist' },
-          { src: 'src/template', dest: 'dist' }
-        ]
-      })
     ],
   },
   {

@@ -42,6 +42,7 @@ export function ControlSelectField({
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           label={label}
           select={true}
+          size="small"
           {...field}
           slotProps={{
             select: {

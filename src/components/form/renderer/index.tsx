@@ -5,6 +5,7 @@ import Skeleton from '@mui/material/Skeleton';
 import {
   IterableStepComponent,
   LayoutBooleanField,
+  LayoutCodeField,
   LayoutCollapsibleSection,
   LayoutCollapsibleSubSection,
   LayoutComponent,
@@ -88,37 +89,48 @@ const ControlDateField = React.lazy(() =>
     default: module.ControlDateField,
   })),
 );
+const ControlCodeField = React.lazy(() =>
+  import('../controls/controlCodeField').then((module) => ({
+    default: module.ControlCodeField,
+  })),
+);
 
 export function ComponentsRenderer({
   section,
   parentKey,
+  container,
 }: {
   section:
     | (IterableStepComponent | ReactNode | React.FC<any>)
     | (IterableStepComponent | ReactNode | React.FC<any>)[];
   parentKey?: string;
+  container?: HTMLElement | ShadowRoot;
 }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
     <>
       {section.map((component: any, index: number) => {
         const key = parentKey ? `${parentKey}-${index}` : `${index}`;
 
-        return <ComponentsRenderer key={key} section={component} parentKey={key} />;
+        return (
+          <ComponentsRenderer key={key} section={component} container={container} parentKey={key} />
+        );
       })}
     </>
   ) : (
     <ConditionalRenderingWrapper shouldRender={(section as RenderSection).shouldRender}>
-      <ComponentRenderer component={section} />
+      <ComponentRenderer component={section} container={container} />
     </ConditionalRenderingWrapper>
   );
 }
 
 function ComponentRenderer({
   component,
+  container,
 }: {
   component:
     | (IterableStepComponent | ReactNode | React.FC<any>)
     | (IterableStepComponent | ReactNode | React.FC<any>)[];
+  container?: HTMLElement | ShadowRoot;
 }): ReactNode[] | ReactNode {
   if (typeof (component as IterableStepComponent)?.component === 'string') {
     switch ((component as IterableStepComponent).component) {
@@ -145,7 +157,7 @@ function ComponentRenderer({
         const { children, ...props } = component as LayoutSubSection;
 
         return (
-          <SubSection {...props}>
+          <SubSection {...props} isSubSection={true}>
             <ComponentsRenderer section={children} />
           </SubSection>
         );
@@ -241,6 +253,13 @@ function ComponentRenderer({
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
             <ControlExclusiveToggleField {...(component as LayoutExclusiveToggle)} />
+          </Suspense>
+        );
+      }
+      case 'control-code-field': {
+        return (
+          <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
+            <ControlCodeField {...(component as LayoutCodeField)} container={container} />
           </Suspense>
         );
       }

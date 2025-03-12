@@ -43,14 +43,14 @@ export function FormFieldReset({
 
   if (isResetted) {
     return (
-      <Button onClick={onCancel} sx={{ width: 80, ...sx }} variant="outlined">
+      <Button size="small" onClick={onCancel} sx={{ width: 80, ...sx }} variant="outlined">
         Cancel
       </Button>
     );
   }
 
   return (
-    <Button onClick={handleReset} sx={{ width: 80, ...sx }} variant="outlined">
+    <Button size="small" onClick={handleReset} sx={{ width: 80, ...sx }} variant="outlined">
       Reset
     </Button>
   );

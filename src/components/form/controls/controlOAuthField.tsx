@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 import CheckIcon from '@mui/icons-material/Check';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 import Button from '@mui/material/Button';
 
@@ -95,7 +94,7 @@ export function ControlOAuthField({
           alignItems: 'center',
         }}
       >
-        <LoadingButton
+        <Button
           size="large"
           variant="contained"
           onClick={handleAuthenticate}
@@ -107,7 +106,7 @@ export function ControlOAuthField({
           {connectorIdValue && !isLoading
             ? `${config.label} connected successfully`
             : 'Authenticate'}
-        </LoadingButton>
+        </Button>
         {isLoading && (
           <Button color="inherit" onClick={cancelAuthentication}>
             Cancel authentication

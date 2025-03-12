@@ -40,6 +40,7 @@ export function ControlDateField({
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateField
             disableFuture={true}
+            size="small"
             disabled={disabled}
             clearable={clearable}
             label={label}

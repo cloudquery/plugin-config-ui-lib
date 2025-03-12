@@ -194,10 +194,24 @@ async function main() {
       payload,
     );
 
+    // Copy and compile index.html
+    createAndCompileTemplate(
+      path.join(templateDir, 'index.html.hbs'),
+      path.join(outputDir, 'index.html'),
+      payload,
+    );
+
     // Copy template/public folder
     const publicSrcDir = path.join(templateDir, 'public');
     const publicDestDir = path.join(outputDir, 'public');
     fs.cpSync(publicSrcDir, publicDestDir, { recursive: true });
+
+    // Copy and compile public/manifest.json
+    createAndCompileTemplate(
+      path.join(templateDir, 'public', 'manifest.json.hbs'),
+      path.join(outputDir, 'public', 'manifest.json'),
+      payload,
+    );
 
     // Copy logo
     if (pluginLogoPath) {
@@ -250,11 +264,6 @@ async function main() {
     const indexDestPath = path.join(outputDir, 'src', 'index.tsx');
     fs.copyFileSync(indexSrcPath, indexDestPath);
 
-    // Copy src/react-app-env.d.ts
-    const reactAppEnvSrcPath = path.join(templateDir, 'src', 'react-app-env.d.ts');
-    const reactAppEnvDestPath = path.join(outputDir, 'src', 'react-app-env.d.ts');
-    fs.copyFileSync(reactAppEnvSrcPath, reactAppEnvDestPath);
-
     // Copy and compile .env
     createAndCompileTemplate(
       path.join(templateDir, '.env.example.hbs'),
@@ -263,9 +272,9 @@ async function main() {
     );
     fs.copyFileSync(path.join(outputDir, '.env.example'), path.join(outputDir, '.env'));
 
-    // Copy .eslintrc.js
-    const eslintSrcPath = path.join(templateDir, '.eslintrc.js');
-    const eslintDestPath = path.join(outputDir, '.eslintrc.js');
+    // Copy .eslintrc.cjs
+    const eslintSrcPath = path.join(templateDir, '.eslintrc.cjs');
+    const eslintDestPath = path.join(outputDir, '.eslintrc.cjs');
     fs.copyFileSync(eslintSrcPath, eslintDestPath);
 
     // Copy .gitignore
@@ -278,9 +287,9 @@ async function main() {
     const nvmrcDestPath = path.join(outputDir, '.nvmrc');
     fs.copyFileSync(nvmrcSrcPath, nvmrcDestPath);
 
-    // Copy .prettierrc.js
-    const prettierrcSrcPath = path.join(templateDir, '.prettierrc.js');
-    const prettierrcDestPath = path.join(outputDir, '.prettierrc.js');
+    // Copy .prettierrc.cjs
+    const prettierrcSrcPath = path.join(templateDir, '.prettierrc.cjs');
+    const prettierrcDestPath = path.join(outputDir, '.prettierrc.cjs');
     fs.copyFileSync(prettierrcSrcPath, prettierrcDestPath);
 
     // Copy and compile package.json
@@ -303,9 +312,14 @@ async function main() {
     );
 
     // Copy tsconfig.json
-    const tsconfigSrcPath = path.join(templateDir, 'tsconfig.json');
+    const tsconfigSrcPath = path.join(templateDir, 'tsconfig.json.hbs');
     const tsconfigDestPath = path.join(outputDir, 'tsconfig.json');
     fs.copyFileSync(tsconfigSrcPath, tsconfigDestPath);
+
+    // Copy vite.config.js
+    const viteConfigSrcPath = path.join(templateDir, 'vite.config.js');
+    const viteConfigDestPath = path.join(outputDir, 'vite.config.js');
+    fs.copyFileSync(viteConfigSrcPath, viteConfigDestPath);
   } catch (error) {
     if (fs.existsSync(outputDir)) {
       fs.rmdirSync(outputDir, { recursive: true });

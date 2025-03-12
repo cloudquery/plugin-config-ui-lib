@@ -1,9 +1,10 @@
-const fs = require('node:fs');
-const commandExistsSync = require('command-exists').sync;
+import fs from 'fs';
+import commandExistsSync from 'command-exists';
+import { execSync } from 'child_process';
 
 const generateTables = () => {
   if (commandExistsSync('cloudquery')) {
-    require('node:child_process').execSync(
+    execSync(
       `cd ..
 dirname="$(basename $(pwd))"
 cloudquery tables --output-dir data test/config.yml
@@ -20,7 +21,7 @@ mv data/$dirname/__tables.json cloud-config-ui/src/data/__tables.json`,
   }
 };
 
-module.exports = (force = false) => {
+export default (force = false) => {
   // In production, or when forced, re-generate tables every time
   if (process.env.NODE_ENV === 'production' || force) {
     return generateTables();

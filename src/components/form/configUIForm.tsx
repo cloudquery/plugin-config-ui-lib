@@ -181,18 +181,28 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 
   const theme = useMemo(() => {
     const themeOptions = createThemeOptions();
-    if (container) {
-      themeOptions.components = {
-        ...themeOptions.components,
-        MuiMenu: {
-          ...themeOptions.components?.MuiMenu,
-          defaultProps: {
-            ...themeOptions.components?.MuiMenu?.defaultProps,
-            container: container as any,
+    themeOptions.components = {
+      ...themeOptions.components,
+      MuiMenu: {
+        ...themeOptions.components?.MuiMenu,
+        defaultProps: {
+          ...themeOptions.components?.MuiMenu?.defaultProps,
+          ...(container ? { container: container as any } : {}),
+        },
+      },
+      MuiInputLabel: {
+        ...themeOptions.components?.MuiInputLabel,
+        styleOverrides: {
+          ...themeOptions.components?.MuiInputLabel?.styleOverrides,
+          root: {
+            ...(typeof themeOptions.components?.MuiInputLabel?.styleOverrides?.root === 'object'
+              ? themeOptions.components?.MuiInputLabel?.styleOverrides?.root
+              : {}),
+            top: '-4px',
           },
         },
-      };
-    }
+      },
+    };
 
     return createTheme(themeOptions);
   }, [container]);
@@ -212,6 +222,8 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
               sx={{
                 flex: '1 1 0',
                 minWidth: 0,
+                position: 'relative',
+                zIndex: 2,
               }}
             >
               <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
@@ -228,7 +240,11 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                           step === index && (
                             <Sections key={index}>
                               {children.map((section, index) => (
-                                <ComponentsRenderer section={section} key={index} />
+                                <ComponentsRenderer
+                                  section={section}
+                                  key={index}
+                                  container={container}
+                                />
                               ))}
                             </Sections>
                           )
@@ -260,7 +276,14 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 </Stack>
               </form>
             </Box>
-            <Box sx={{ width: { xs: 360, xl: 500 }, minWidth: 360, position: 'sticky', top: 10 }}>
+            <Box
+              sx={{
+                width: { xs: 360, lg: 500, xl: '40%' },
+                minWidth: 360,
+                position: 'sticky',
+                top: 10,
+              }}
+            >
               <GuideComponent />
             </Box>
           </Stack>

@@ -39,6 +39,7 @@ export function ControlSecretField({
           label={label}
           defaultValues={formState.defaultValues}
           setValue={setValue}
+          size="small"
           getValues={getValues}
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           error={!!fieldState.error}

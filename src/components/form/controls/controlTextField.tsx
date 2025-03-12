@@ -52,6 +52,7 @@ export function ControlTextField({
           fullWidth={true}
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           label={label}
+          size="small"
           {...field}
           {...textFieldProps}
         />

@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { type ConditionalRenderingProps } from '../../controls/conditionalRenderingWrapper';
 
 import { type ControlBooleanFieldProps } from '../controls/controlBooleanField';
+import { type ControlCodeFieldProps } from '../controls/controlCodeField';
 import { type ControlDateFieldProps } from '../controls/controlDateField';
 import { type ControlDateTimeFieldProps } from '../controls/controlDateTimeField';
 import { type ControlExclusiveToggleFieldProps } from '../controls/controlExclusiveToggleField';
@@ -51,7 +52,8 @@ export type LayoutComponent =
   | LayoutSelectField
   | LayoutMultiSelectField
   | LayoutExclusiveToggle
-  | LayoutServicesSelector;
+  | LayoutServicesSelector
+  | LayoutCodeField;
 
 export type ReservedLayoutComponent = LayoutTableSelector | LayoutOAuth;
 
@@ -95,6 +97,10 @@ export interface LayoutMultiSelectField extends ComponentAbstract, ControlMultiS
 
 export interface LayoutExclusiveToggle extends ComponentAbstract, ControlExclusiveToggleFieldProps {
   component: 'control-exclusive-toggle';
+}
+
+export interface LayoutCodeField extends ComponentAbstract, ControlCodeFieldProps {
+  component: 'control-code-field';
 }
 
 export interface LayoutServicesSelector

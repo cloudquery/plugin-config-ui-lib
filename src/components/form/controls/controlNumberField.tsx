@@ -33,6 +33,7 @@ export function ControlNumberField({
         <TextField
           error={!!fieldState.error}
           fullWidth={true}
+          size="small"
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           label={label}
           {...field}
@@ -41,11 +42,11 @@ export function ControlNumberField({
           onWheel={(e) => e.target instanceof HTMLElement && e.target.blur()}
           sx={{
             'input::-webkit-inner-spin-button': {
-              '-webkit-appearance': 'none',
+              WebkitAppearance: 'none',
               margin: 0,
             },
             input: {
-              '-moz-appearance': 'textfield',
+              MozAppearance: 'textfield',
             },
           }}
         />
