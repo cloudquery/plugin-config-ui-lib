@@ -15,8 +15,6 @@ for (const key of Object.keys(process.env)) {
   }
 }
 
-console.log('envVariables1', envVariables);
-
 export default {
   base: './',
   build: {
