@@ -100,7 +100,7 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
             inputSelectorToFocus={`input[name="${name}"]`}
             onCancel={() => handelCancelReset()}
             onReset={() => handleReset()}
-            sx={{ minHeight: 55 }}
+            sx={{ minHeight: 48 }}
           />
         )}
       </Stack>
