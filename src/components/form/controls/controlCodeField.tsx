@@ -76,16 +76,6 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
           await onMount(editor, monaco);
         }
 
-        // Force editor layout recalculation after mounting
-        // This fixes the suggestions container width issue
-        // when the editor is inside a shadow root
-        setTimeout(() => {
-          editor.layout();
-          if (window.top) {
-            (window.top as any).test = editor;
-          }
-        }, 0);
-
         setIsLoading(false);
       },
       [onMount, props.language, yamlSchema, ref],
