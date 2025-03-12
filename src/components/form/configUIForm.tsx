@@ -238,7 +238,11 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                           step === index && (
                             <Sections key={index}>
                               {children.map((section, index) => (
-                                <ComponentsRenderer section={section} key={index} />
+                                <ComponentsRenderer
+                                  section={section}
+                                  key={index}
+                                  container={container}
+                                />
                               ))}
                             </Sections>
                           )

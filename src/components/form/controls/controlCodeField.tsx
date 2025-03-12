@@ -22,10 +22,11 @@ export interface ControlCodeFieldProps extends Omit<EditorProps, 'value' | 'onCh
   editorRef?: React.MutableRefObject<MonacoEditor | null>;
   onMount?: (editor: MonacoEditor, monaco: MonacoType) => Promise<void> | void;
   yamlSchema?: JSONSchema;
+  container?: HTMLElement | ShadowRoot;
 }
 
 export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
-  ({ onMount, options = {}, yamlSchema, name, label, helperText, ...props }, ref) => {
+  ({ onMount, options = {}, yamlSchema, container, name, label, helperText, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
     const [initialized, setInitialized] = useState(false);
     const disposeRef = useRef<() => void>();
@@ -151,6 +152,7 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
                     scrollbar: {
                       alwaysConsumeMouseWheel: false,
                     },
+                    overflowWidgetsDomNode: container as HTMLElement,
                     ...options,
                   }}
                   value={field.value}

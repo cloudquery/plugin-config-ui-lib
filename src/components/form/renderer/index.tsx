@@ -98,33 +98,39 @@ const ControlCodeField = React.lazy(() =>
 export function ComponentsRenderer({
   section,
   parentKey,
+  container,
 }: {
   section:
     | (IterableStepComponent | ReactNode | React.FC<any>)
     | (IterableStepComponent | ReactNode | React.FC<any>)[];
   parentKey?: string;
+  container?: HTMLElement | ShadowRoot;
 }): ReactNode[] | ReactNode {
   return Array.isArray(section) ? (
     <>
       {section.map((component: any, index: number) => {
         const key = parentKey ? `${parentKey}-${index}` : `${index}`;
 
-        return <ComponentsRenderer key={key} section={component} parentKey={key} />;
+        return (
+          <ComponentsRenderer key={key} section={component} container={container} parentKey={key} />
+        );
       })}
     </>
   ) : (
     <ConditionalRenderingWrapper shouldRender={(section as RenderSection).shouldRender}>
-      <ComponentRenderer component={section} />
+      <ComponentRenderer component={section} container={container} />
     </ConditionalRenderingWrapper>
   );
 }
 
 function ComponentRenderer({
   component,
+  container,
 }: {
   component:
     | (IterableStepComponent | ReactNode | React.FC<any>)
     | (IterableStepComponent | ReactNode | React.FC<any>)[];
+  container?: HTMLElement | ShadowRoot;
 }): ReactNode[] | ReactNode {
   if (typeof (component as IterableStepComponent)?.component === 'string') {
     switch ((component as IterableStepComponent).component) {
@@ -253,7 +259,7 @@ function ComponentRenderer({
       case 'control-code-field': {
         return (
           <Suspense fallback={<Skeleton variant="rounded" width="100%" height={50} />}>
-            <ControlCodeField {...(component as LayoutCodeField)} />
+            <ControlCodeField {...(component as LayoutCodeField)} container={container} />
           </Suspense>
         );
       }
