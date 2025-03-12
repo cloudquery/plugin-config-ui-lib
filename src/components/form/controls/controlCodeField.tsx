@@ -81,6 +81,9 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
         // when the editor is inside a shadow root
         setTimeout(() => {
           editor.layout();
+          if (window.top) {
+            (window.top as any).test = editor;
+          }
         }, 0);
 
         setIsLoading(false);
