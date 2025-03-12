@@ -22,6 +22,9 @@ mv data/$dirname/__tables.json cloud-config-ui/src/data/__tables.json`,
 };
 
 export default (force = false) => {
+  if (process.env.VERCEL_ENV) {
+    return;
+  }
   // In production, or when forced, re-generate tables every time
   if (process.env.NODE_ENV === 'production' || force) {
     return generateTables();
