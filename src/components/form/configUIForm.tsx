@@ -222,6 +222,8 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
               sx={{
                 flex: '1 1 0',
                 minWidth: 0,
+                position: 'relative',
+                zIndex: 2,
               }}
             >
               <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
