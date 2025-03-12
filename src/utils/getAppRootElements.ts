@@ -32,6 +32,26 @@ export function getAppRootElements({
     for (const styleElement of styleElements) {
       shadowRoot.prepend(styleElement);
     }
+
+    // Observe head for new style elements and copy them to shadow root
+    const headObserver = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        // eslint-disable-next-line unicorn/prefer-spread
+        for (const node of Array.from(mutation.addedNodes)) {
+          if (
+            node instanceof HTMLElement &&
+            (node.tagName === 'STYLE' ||
+              (node.tagName === 'LINK' && node.getAttribute('rel') === 'stylesheet'))
+          ) {
+            shadowRoot.prepend(node.cloneNode(true));
+          }
+        }
+      }
+    });
+
+    headObserver.observe(document.head, {
+      childList: true,
+    });
   }
 
   return {
