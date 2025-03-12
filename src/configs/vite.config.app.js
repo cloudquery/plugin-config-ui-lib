@@ -16,6 +16,7 @@ for (const key of Object.keys(process.env)) {
 }
 
 export default {
+  base: './',
   build: {
     commonjsOptions: {
       sourceMap: true,

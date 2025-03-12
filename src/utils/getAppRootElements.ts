@@ -25,6 +25,13 @@ export function getAppRootElements({
 
     shadowRootContainer = document.createElement('div');
     shadowRoot.append(shadowRootContainer);
+
+    // eslint-disable-next-line unicorn/prefer-spread
+    const styleElements = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]'));
+
+    for (const styleElement of styleElements) {
+      shadowRoot.append(styleElement);
+    }
   }
 
   return {
