@@ -34,24 +34,24 @@ export function getAppRootElements({
     }
 
     // Observe head for new style elements and copy them to shadow root
-    const headObserver = new MutationObserver((mutations) => {
-      for (const mutation of mutations) {
-        // eslint-disable-next-line unicorn/prefer-spread
-        for (const node of Array.from(mutation.addedNodes)) {
-          if (
-            node instanceof HTMLElement &&
-            (node.tagName === 'STYLE' ||
-              (node.tagName === 'LINK' && node.getAttribute('rel') === 'stylesheet'))
-          ) {
-            shadowRoot.prepend(node.cloneNode(true));
-          }
-        }
-      }
-    });
+    // const headObserver = new MutationObserver((mutations) => {
+    //   for (const mutation of mutations) {
+    //     // eslint-disable-next-line unicorn/prefer-spread
+    //     for (const node of Array.from(mutation.addedNodes)) {
+    //       if (
+    //         node instanceof HTMLElement &&
+    //         (node.tagName === 'STYLE' ||
+    //           (node.tagName === 'LINK' && node.getAttribute('rel') === 'stylesheet'))
+    //       ) {
+    //         shadowRoot.prepend(node);
+    //       }
+    //     }
+    //   }
+    // });
 
-    headObserver.observe(document.head, {
-      childList: true,
-    });
+    // headObserver.observe(document.head, {
+    //   childList: true,
+    // });
   }
 
   return {
