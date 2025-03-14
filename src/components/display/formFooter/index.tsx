@@ -22,8 +22,6 @@ export interface FormFooterProps {
   pluginKind: 'source' | 'destination';
   /** Payload to be submitted, containing form values and connection ID */
   submitPayload: (FormValues & { connectionId: string }) | undefined;
-  /** Callback to cancel the current action */
-  onCancel: () => void;
   /** Callback to cancel the connection test */
   onCancelTestConnection: () => void;
   /** Callback to handle delete action */
@@ -60,7 +58,6 @@ export function FormFooter({
   testConnectionError,
   pluginKind,
   submitPayload,
-  onCancel,
   onCancelTestConnection,
   onDelete,
   onGoToPreviousStep,
@@ -100,7 +97,7 @@ export function FormFooter({
               size="medium"
               variant="contained"
             >
-              Delete this {pluginKind === 'source' ? 'integration' : 'destination'}
+              Delete {pluginKind === 'source' ? 'integration' : 'destination'}
             </Button>
           )}
           {showPreviousStepButton && (
@@ -109,26 +106,15 @@ export function FormFooter({
             </Button>
           )}
         </Stack>
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{
-            alignItems: 'center',
-          }}
+        <Button
+          loading={isBusy}
+          size="medium"
+          variant="contained"
+          type="submit"
+          disabled={submitDisabled}
         >
-          <Button disabled={isBusy} onClick={onCancel} size="medium">
-            Cancel
-          </Button>
-          <Button
-            loading={isBusy}
-            size="medium"
-            variant="contained"
-            type="submit"
-            disabled={submitDisabled}
-          >
-            {submitLabel || 'Test connection and save'}
-          </Button>
-        </Stack>
+          {submitLabel || 'Test and save'}
+        </Button>
       </Stack>
       {(isTestingConnection || testConnectionError || submitPayload) && (
         <FormFooterTestConnectionResult

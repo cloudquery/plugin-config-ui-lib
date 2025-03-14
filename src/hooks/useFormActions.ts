@@ -197,17 +197,12 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
     pluginUiMessageHandler.sendMessage('go_to_previous_step');
   };
 
-  const handleCancel = () => {
-    pluginUiMessageHandler.sendMessage('cancel');
-  };
-
   const handleDelete = async () => {
     pluginUiMessageHandler.sendMessage('delete');
   };
 
   return {
     submitError,
-    handleCancel,
     handleCancelTestConnection,
     handleDelete,
     handleGoToPreviousStep,

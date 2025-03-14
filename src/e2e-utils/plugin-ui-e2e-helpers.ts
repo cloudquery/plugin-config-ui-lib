@@ -174,7 +174,7 @@ export const deletePlugin = async ({
     }),
   ).toHaveValue(pluginNewName);
 
-  await iframeElement.getByRole('button', { name: `Delete this ${kind}` }).click();
+  await iframeElement.getByRole('button', { name: `Delete ${kind}` }).click();
   await click(page, page.getByText(`Delete ${kind}`));
 
   await expect(page.getByText(pluginNewName)).toHaveCount(0, { timeout: 15_000 });
