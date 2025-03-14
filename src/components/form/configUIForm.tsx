@@ -220,7 +220,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
             <Box
               sx={{
                 flex: '1 1 0',
-                minWidth: 0,
+                minWidth: 435,
                 position: 'relative',
                 zIndex: 2,
               }}
