@@ -381,14 +381,13 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancel, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, pluginName, teamName, testConnectionId, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, pluginName, teamName, testConnectionId, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
     isSubmitting: boolean;
     isTestingConnection: boolean;
     isUpdating: boolean;
-    onCancel: () => void;
     onCancelTestConnection: () => void;
     onDelete: () => Promise<void>;
     onGoToPreviousStep: () => void;
@@ -926,7 +925,6 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
     apiBaseUrl?: string;
 }): {
     submitError: any;
-    handleCancel: () => void;
     handleCancelTestConnection: () => void;
     handleDelete: () => Promise<void>;
     handleGoToPreviousStep: () => void;

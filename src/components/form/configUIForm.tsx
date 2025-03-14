@@ -68,7 +68,6 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
 
   const {
-    handleCancel,
     handleCancelTestConnection,
     handleDelete,
     handleGoToPreviousStep,
@@ -262,7 +261,6 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     isSubmitting={isSubmitting || submitGuardLoading}
                     testConnectionError={parsedTestConnectionError}
                     submitPayload={submitPayload}
-                    onCancel={handleCancel}
                     onCancelTestConnection={handleCancelTestConnection}
                     onTestConnectionSuccess={onTestConnectionSuccess}
                     onDelete={handleDelete}
@@ -278,7 +276,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
             </Box>
             <Box
               sx={{
-                width: { xs: 360, lg: 500, xl: '40%' },
+                width: { xs: 360, md: `calc(50% - (${theme.spacing(5)} / 2))`, lg: 500, xl: '40%' },
                 minWidth: 360,
                 position: 'sticky',
                 top: 10,
