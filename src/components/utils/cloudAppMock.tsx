@@ -9,7 +9,6 @@ import {
   formMessageTypes,
   pluginUiMessageTypes,
 } from '@cloudquery/plugin-config-ui-connector';
-import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
@@ -61,49 +60,7 @@ export function CloudAppMock({
 }: CloudAppMockProps) {
   const [testConnectionValues, setTestConnectionValues] = useState<Record<string, any>>();
   const [submitValues, setSubmitValues] = useState<Record<string, any>>();
-  const [errors, setErrors] = useState<string>('');
   const searchParams = useMemo(() => new URLSearchParams(window.location.search), []);
-
-  const handleSubmit = async () => {
-    formMessageHandler.sendMessage('validate');
-    let unsubscribeValidationPassed: (() => void) | undefined;
-    let unsubscribeValidationFailed: (() => void) | undefined;
-
-    formMessageHandler.sendMessage('is_busy', {
-      status: true,
-    });
-
-    try {
-      const values = await new Promise((resolve, reject) => {
-        unsubscribeValidationPassed = formMessageHandler.subscribeToMessageOnce(
-          'validation_passed',
-          ({ values }) => {
-            resolve(values);
-          },
-        );
-        unsubscribeValidationFailed = formMessageHandler.subscribeToMessageOnce(
-          'validation_failed',
-          ({ errors }) => reject(errors),
-        );
-      }).finally(() => {
-        unsubscribeValidationPassed?.();
-        unsubscribeValidationFailed?.();
-      });
-
-      setErrors('');
-      setSubmitValues(values as Record<string, any>);
-    } catch (error) {
-      unsubscribeValidationPassed?.();
-      unsubscribeValidationFailed?.();
-
-      setSubmitValues(undefined);
-      setErrors(JSON.stringify(error, null, 2));
-    }
-
-    formMessageHandler.sendMessage('is_busy', {
-      status: false,
-    });
-  };
 
   useEffect(() => {
     formMessageHandler.sendMessage('init', {
@@ -261,8 +218,6 @@ export function CloudAppMock({
         <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>
           {JSON.stringify(submitValues, null, 2) || '-'}
         </pre>
-        <div>Errors:</div>
-        <pre style={{ wordBreak: 'break-all', whiteSpace: 'break-spaces' }}>{errors || '-'}</pre>
       </Stack>
     </>
   );
