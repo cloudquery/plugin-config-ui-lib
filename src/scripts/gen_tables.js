@@ -1,9 +1,8 @@
 import fs from 'fs';
-import commandExistsSync from 'command-exists';
 import { execSync } from 'child_process';
 
 const generateTables = () => {
-  if (commandExistsSync('cloudquery')) {
+  try {
     execSync(
       `cd ..
 dirname="$(basename $(pwd))"
@@ -16,8 +15,8 @@ mv data/$dirname/__tables.json cloud-config-ui/src/data/__tables.json`,
         }
       },
     );
-  } else {
-    throw new Error('cloudquery is not available. Please install it before running this script.');
+  } catch (error) {
+    console.error(error);
   }
 };
 
