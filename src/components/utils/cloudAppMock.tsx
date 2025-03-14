@@ -245,18 +245,6 @@ export function CloudAppMock({
         {children}
       </Stack>
       <Stack
-        direction="row"
-        spacing={2}
-        sx={{
-          justifyContent: 'flex-end',
-          padding: 2,
-        }}
-      >
-        <Button onClick={handleSubmit} variant="contained">
-          Submit
-        </Button>
-      </Stack>
-      <Stack
         sx={{
           padding: 2,
         }}

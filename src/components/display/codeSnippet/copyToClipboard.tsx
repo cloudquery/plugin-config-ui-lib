@@ -15,7 +15,7 @@ export function CopyToClipboardButton({ sx, text }: Props) {
   const [wasCopied, setWasCopied] = useState(false);
 
   const handleClick = () => {
-    navigator.clipboard.writeText(text);
+    window.top?.navigator.clipboard.writeText(text);
     setWasCopied(true);
   };
 
