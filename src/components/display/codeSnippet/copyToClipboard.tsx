@@ -15,15 +15,17 @@ export function CopyToClipboardButton({ sx, text }: Props) {
   const [wasCopied, setWasCopied] = useState(false);
 
   const handleClick = () => {
+    // Because the code is running in an iframe but elements
+    // are rendered in the parent window, we need to create a button
+    // to focus and click it to establish user activation
     const button = document.createElement('button');
     button.style.position = 'fixed';
     button.style.opacity = '0';
     button.style.pointerEvents = 'none';
     document.body.append(button);
     button.focus();
-    button.click(); // This establishes user activation
+    button.click();
 
-    // Now clipboard API should work
     navigator.clipboard.writeText(text);
 
     button.remove();
