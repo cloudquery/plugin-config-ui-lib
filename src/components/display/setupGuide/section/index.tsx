@@ -2,6 +2,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 import { GuideSection, GuideSectionBody } from '../../../../types';
+import { parseSrc } from '../../../../utils/parseSrc';
 import { ConditionalRenderingWrapper } from '../../../controls/conditionalRenderingWrapper';
 import { CodeSnippet } from '../../codeSnippet';
 import { LightboxImage } from '../../lightboxImage';
@@ -50,7 +51,7 @@ function RenderGuideSectionBody({ body }: { body: GuideSectionBody }) {
   if (body.code) {
     return <CodeSnippet text={body.code} />;
   } else if (body.image) {
-    return <LightboxImage key={body.image} src={body.image} alt={body.text} />;
+    return <LightboxImage key={body.image} src={parseSrc(body.image)} alt={body.text} />;
   } else {
     return (
       <Typography component="div" variant="body1" color="textSecondary">
