@@ -135,7 +135,7 @@ async function main() {
       });
     }
 
-    const { advancedOptionsInput } = await inquirer.prompt([
+    const { advancedOptions: advancedOptionsInput } = await inquirer.prompt([
       {
         type: 'input',
         name: 'advancedOptions',
@@ -165,11 +165,18 @@ async function main() {
       pluginTeam,
       pluginLabel,
       pluginVersion,
+      pluginKindLabel: pluginKind === 'source' ? 'integrations' : 'destinations',
       authenticationOAuth: authentication === 'oauth' || authentication === 'both',
       authenticationToken: authentication === 'token' || authentication === 'both',
       authenticationBoth: authentication === 'both',
+      authentication:
+        authentication === 'both'
+          ? '[AuthType.OAUTH, AuthType.OTHER]'
+          : authentication === 'oauth'
+          ? '[AuthType.OAUTH]'
+          : '[AuthType.OTHER]',
       createTablesSelector,
-      advancedOptions,
+      advancedOptions: advancedOptions.length > 0 ? advancedOptions : undefined,
       authTokenSpecProperties,
       cloudQueryPluginConfigUiLibVersion: packageJson.version,
       yup:

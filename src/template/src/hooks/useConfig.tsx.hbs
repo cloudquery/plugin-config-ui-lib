@@ -95,12 +95,13 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
               ],
             },
             {{/if}}
-            {{#each advancedOptions}}
+            {{#if advancedOptions}}
             {
               component: 'collapsible-section',
               title: 'Advanced Options',
               defaultExpanded: false,
               children: [
+                {{#each advancedOptions}}
                 {
                   component: 'control-number-field',
                   name: '{{name}}',
@@ -111,21 +112,14 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
                     .integer()
                     .default(initialValues?.spec?.{{name}} ?? 5),
                 },
+                {{/each}}
               ],
             },
-            {{/each}}
+            {{/if}}
           ],
         },
       ],
-      {{#if authenticationBoth}}
-      auth: [AuthType.OAuth, AuthType.OTHER],
-      {{/if}}
-      {{#if authenticationOAuth}}
-      auth: [AuthType.OAUTH],
-      {{/if}}
-      {{#if authenticationToken}}
-      auth: [AuthType.OTHER],
-      {{/if}}
+      auth: {{authentication}},
       guide: {
         title: '{{pluginLabel}} Configuration',
         sections: [
