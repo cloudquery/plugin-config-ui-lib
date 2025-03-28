@@ -47,6 +47,7 @@ export function ControlSelectField({
           slotProps={{
             select: {
               MenuProps: {
+                disableScrollLock: true,
                 autoFocus: false,
                 disableAutoFocus: true,
               },
