@@ -10,7 +10,10 @@ const monacoEditorPlugin = monacoEditorVitePlugin.default;
 const envVariables = {};
 
 for (const key of Object.keys(process.env)) {
-  if (key.startsWith('REACT_APP') && process.env[key] !== undefined) {
+  if (
+    (key.startsWith('REACT_APP_') || key.startsWith('VERCEL_')) &&
+    process.env[key] !== undefined
+  ) {
     envVariables[key] = process.env[key];
   }
 }
