@@ -9,8 +9,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
-import createTheme from '@mui/material/styles/createTheme';
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { FormProvider, Path } from 'react-hook-form';
 
