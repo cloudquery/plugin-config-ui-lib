@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import styled from '@mui/material/styles/styled';
+import { styled } from '@mui/material/styles';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
 const StyledTextField = styled(TextField)(({ theme }) => ({

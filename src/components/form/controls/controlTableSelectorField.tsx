@@ -35,9 +35,11 @@ function InternalPluginTableSelector() {
 
   const subscribeToTablesValueChange = useCallback(
     (callback: (value: Record<string, boolean>) => void) => {
-      const { unsubscribe } = control._subjects.values.subscribe({
+      const { unsubscribe } = control._subjects.state.subscribe({
         next(payload) {
-          callback(payload.values.tables);
+          if (payload.name === 'tables' && payload.values?.tables) {
+            callback(payload.values?.tables);
+          }
         },
       });
 
