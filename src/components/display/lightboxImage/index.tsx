@@ -113,8 +113,9 @@ export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageEl
               sizes="100vw"
               style={{
                 height: 'auto',
-                maxHeight: isLoaded ? undefined : 0,
+                maxHeight: isLoaded ? '100%' : 0,
                 maxWidth: '100%',
+                width: 'auto',
               }}
               width={typeof window === 'undefined' ? 0 : window.innerWidth}
             />
