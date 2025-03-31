@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import Box from '@mui/material/Box';
-import useTheme from '@mui/material/styles/useTheme';
+import { useTheme } from '@mui/material/styles';
 
 import { CopyToClipboardButton } from './copyToClipboard';
 import { highlightSyntax } from './highlightSyntax';

@@ -875,7 +875,7 @@ export type UploadJSONProps = {
 };
 
 // @public (undocumented)
-export const useConfigUIForm: () => UseFormReturn<any, any, undefined>;
+export const useConfigUIForm: () => UseFormReturn<any, any, any>;
 
 // @public
 export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFields, }: UseCoreFormSchemaProps) => yup.ObjectSchema<{

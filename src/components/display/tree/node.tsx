@@ -1,8 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 
 import ListItem, { ListItemProps } from '@mui/material/ListItem';
-import { alpha } from '@mui/material/styles';
-import useTheme from '@mui/material/styles/useTheme';
+import { alpha, useTheme } from '@mui/material/styles';
 
 import { usePluginSectionTableListKeyboardNavigation } from './utils/useKeyboardNavigation';
 
