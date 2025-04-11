@@ -54,7 +54,7 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
       <Autocomplete
         id={`autocomplete-${name}`}
         multiple={true}
-        freeSolo={true}
+        freeSolo={!options}
         autoSelect={true}
         clearOnBlur={true}
         disabled={disabled}
