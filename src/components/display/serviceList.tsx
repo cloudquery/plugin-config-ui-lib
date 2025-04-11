@@ -78,12 +78,8 @@ export function ServiceList({
   );
 
   const allServicesSelected = useMemo(() => {
-    return Object.values(services).every((service) => value.includes(service.name));
-  }, [services, value]);
-
-  const handleAllServicesSelected = useCallback(() => {
-    onChange?.(allServicesSelected ? [] : Object.values(services).map((service) => service.name));
-  }, [allServicesSelected, onChange, services]);
+    return Object.values(filteredServices).every((service) => value.includes(service.name));
+  }, [filteredServices, value]);
 
   const handleSelectAllServices = useCallback(() => {
     onChange?.(Object.values(filteredServices).map((service) => service.name));
@@ -118,108 +114,108 @@ export function ServiceList({
             value={ServiceListMode.All}
           />
         </Tabs>
-        {value.length > 0 && (
-          <Typography variant="body1">Selected services: {value.length}</Typography>
-        )}
+        <Stack direction="row" gap={1}>
+          {value.length > 0 && (
+            <Typography variant="body1">Selected services: {value.length}</Typography>
+          )}
+          <FormControlLabel
+            disabled={disabled}
+            control={
+              <Checkbox
+                disabled={disabled}
+                checked={allServicesSelected}
+                onChange={handleSelectAllServices}
+                size="small"
+              />
+            }
+            sx={{ alignSelf: 'center' }}
+            onClick={handleSelectAllServices}
+            label={
+              showServices === ServiceListMode.Popular
+                ? 'Select all popular services'
+                : 'Select all services'
+            }
+          />
+        </Stack>
       </Stack>
-      <Stack gap={1}>
-        <FormControlLabel
-          disabled={disabled}
-          control={
-            <Checkbox
-              disabled={disabled}
-              checked={allServicesSelected}
-              onChange={handleAllServicesSelected}
-              size="small"
-            />
-          }
-          sx={{ alignSelf: 'center' }}
-          onClick={handleSelectAllServices}
-          label={
-            showServices === ServiceListMode.Popular
-              ? 'Select all popular services'
-              : 'Select all services'
-          }
-        />
-        <Box
-          sx={{
-            display: 'grid',
-            gap: 2,
-            gridTemplateColumns: { xs: 'minmax(0, 1fr) minmax(0, 1fr)' },
-            width: '100%',
-            maxHeight,
-            overflowY: 'auto',
-          }}
-        >
-          {filteredServices.map((service) => {
-            const isChecked = value?.includes(service.name);
+      <Box
+        sx={{
+          display: 'grid',
+          gap: 2,
+          gridTemplateColumns: { xs: 'minmax(0, 1fr) minmax(0, 1fr)' },
+          width: '100%',
+          maxHeight,
+          overflowY: 'auto',
+        }}
+      >
+        {filteredServices.map((service) => {
+          const isChecked = value?.includes(service.name);
 
-            return (
-              <ToggleButton
+          return (
+            <ToggleButton
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                py: 0.5,
+                pr: 0,
+              }}
+              key={service.name}
+              value={service.name}
+              disabled={disabled}
+              onClick={() =>
+                onChange?.(
+                  isChecked
+                    ? value.filter((name: string) => name !== service.name)
+                    : [...value, service.name],
+                )
+              }
+            >
+              <Box
                 sx={{
                   display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
                   justifyContent: 'space-between',
-                  py: 0.5,
-                  pr: 0,
+                  width: '100%',
                 }}
-                key={service.name}
-                value={service.name}
-                disabled={disabled}
-                onClick={() =>
-                  onChange?.(
-                    isChecked
-                      ? value.filter((name: string) => name !== service.name)
-                      : [...value, service.name],
-                  )
-                }
               >
                 <Box
                   sx={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
-                    justifyContent: 'space-between',
-                    width: '100%',
+                    flexShrink: 1,
+                    width: '70%',
                   }}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                      flexShrink: 1,
-                      width: '70%',
-                    }}
-                  >
-                    <Logo
-                      src={service.logo}
-                      fallbackSrc={fallbackLogoSrc}
-                      alt={service.name}
-                      height={32}
-                      width={32}
-                    />
-                    <Tooltip title={service.label}>
-                      <Typography
-                        variant="body1"
-                        sx={{
-                          fontWeight: 'bold',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          color: palette.grey[400],
-                        }}
-                      >
-                        {service.shortLabel ?? service.label}
-                      </Typography>
-                    </Tooltip>
-                  </Box>
-                  <Checkbox checked={isChecked} />
+                  <Logo
+                    src={service.logo}
+                    fallbackSrc={fallbackLogoSrc}
+                    alt={service.name}
+                    height={32}
+                    width={32}
+                  />
+                  <Tooltip title={service.label}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontWeight: 'bold',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        color: palette.grey[400],
+                      }}
+                    >
+                      {service.shortLabel ?? service.label}
+                    </Typography>
+                  </Tooltip>
                 </Box>
-              </ToggleButton>
-            );
-          })}
-        </Box>
-      </Stack>
+                <Checkbox checked={isChecked} />
+              </Box>
+            </ToggleButton>
+          );
+        })}
+      </Box>
       <Button
         disabled={disabled}
         fullWidth={true}
