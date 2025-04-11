@@ -82,8 +82,10 @@ export function ServiceList({
   }, [filteredServices, value]);
 
   const handleSelectAllServices = useCallback(() => {
-    onChange?.(Object.values(filteredServices).map((service) => service.name));
-  }, [onChange, filteredServices]);
+    onChange?.(
+      allServicesSelected ? [] : Object.values(filteredServices).map((service) => service.name),
+    );
+  }, [allServicesSelected, onChange, filteredServices]);
 
   return (
     <Stack
@@ -97,7 +99,7 @@ export function ServiceList({
         flexWrap="wrap"
         direction="row"
         justifyContent="space-between"
-        alignItems="flex-start"
+        alignItems="center"
         width="100%"
       >
         <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
@@ -114,9 +116,11 @@ export function ServiceList({
             value={ServiceListMode.All}
           />
         </Tabs>
-        <Stack direction="row" gap={1}>
+        <Stack direction="row" alignItems="center" gap={1}>
           {value.length > 0 && (
-            <Typography variant="body1">Selected services: {value.length}</Typography>
+            <Typography variant="body2" color="secondary">
+              {value.length} {value.length > 1 ? 'services' : 'service'} selected
+            </Typography>
           )}
           <FormControlLabel
             disabled={disabled}
