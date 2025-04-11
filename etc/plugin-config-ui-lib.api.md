@@ -603,6 +603,10 @@ export interface MultiAutocompleteProps {
     onBlur: () => void;
     // (undocumented)
     onChange: (value: any) => void;
+    // Warning: (ae-forgotten-export) The symbol "OptionObject_2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    options?: (string | OptionObject_2)[];
     // (undocumented)
     value: any;
 }
