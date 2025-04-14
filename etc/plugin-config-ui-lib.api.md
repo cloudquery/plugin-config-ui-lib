@@ -161,7 +161,7 @@ export interface ControlExclusiveToggleFieldProps {
 export { Controller }
 
 // @public
-export function ControlMultiSelectField({ name, helperText, label, codeSeparators, }: ControlMultiSelectFieldProps): JSX_2.Element;
+export function ControlMultiSelectField({ name, helperText, label, codeSeparators, options, }: ControlMultiSelectFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlMultiSelectFieldProps {
@@ -173,6 +173,8 @@ export interface ControlMultiSelectFieldProps {
     label: string;
     // (undocumented)
     name: string;
+    // (undocumented)
+    options?: MultiAutocompleteProps['options'];
 }
 
 // @public

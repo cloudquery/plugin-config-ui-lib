@@ -3,7 +3,7 @@ import { ReactNode, useMemo } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { getFieldHelperText } from '../../../utils';
-import { MultiAutocomplete } from '../../inputs/multiAutocomplete';
+import { MultiAutocomplete, MultiAutocompleteProps } from '../../inputs/multiAutocomplete';
 
 /**
  * @public
@@ -13,6 +13,7 @@ export interface ControlMultiSelectFieldProps {
   label: string;
   helperText?: ReactNode;
   codeSeparators?: string[];
+  options?: MultiAutocompleteProps['options'];
 }
 
 /**
@@ -25,6 +26,7 @@ export function ControlMultiSelectField({
   helperText = '',
   label,
   codeSeparators,
+  options,
 }: ControlMultiSelectFieldProps) {
   const { trigger, formState } = useFormContext();
 
@@ -60,6 +62,7 @@ export function ControlMultiSelectField({
             helperText={getFieldHelperText(errors as string, helperText)}
             label={label}
             codeSeparators={codeSeparators}
+            options={options}
           />
         );
       }}
