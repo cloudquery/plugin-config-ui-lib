@@ -188,6 +188,13 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
           ...(container ? { container: container as any } : {}),
         },
       },
+      MuiPopper: {
+        ...themeOptions.components?.MuiPopper,
+        defaultProps: {
+          ...themeOptions.components?.MuiPopper?.defaultProps,
+          ...(container ? { container: container as any } : {}),
+        },
+      },
       MuiInputLabel: {
         ...themeOptions.components?.MuiInputLabel,
         styleOverrides: {
