@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -175,5 +175,8 @@
     "typescript": "^5.8.2",
     "vite-plugin-monaco-editor": "^1.1.0",
     "yup": "^1.6.1"
+  },
+  "overrides": {
+    "react-is": "18.3.1"
   }
 }

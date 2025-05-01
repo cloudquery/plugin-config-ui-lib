@@ -78,12 +78,14 @@ export function ServiceList({
   );
 
   const allServicesSelected = useMemo(() => {
-    return Object.values(services).every((service) => value.includes(service.name));
-  }, [services, value]);
+    return Object.values(filteredServices).every((service) => value.includes(service.name));
+  }, [filteredServices, value]);
 
-  const handleAllServicesSelected = useCallback(() => {
-    onChange?.(allServicesSelected ? [] : Object.values(services).map((service) => service.name));
-  }, [allServicesSelected, onChange, services]);
+  const handleSelectAllServices = useCallback(() => {
+    onChange?.(
+      allServicesSelected ? [] : Object.values(filteredServices).map((service) => service.name),
+    );
+  }, [allServicesSelected, onChange, filteredServices]);
 
   return (
     <Stack
@@ -97,7 +99,7 @@ export function ServiceList({
         flexWrap="wrap"
         direction="row"
         justifyContent="space-between"
-        alignItems="flex-start"
+        alignItems="center"
         width="100%"
       >
         <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
@@ -114,19 +116,31 @@ export function ServiceList({
             value={ServiceListMode.All}
           />
         </Tabs>
-        <FormControlLabel
-          disabled={disabled}
-          control={
-            <Checkbox
-              disabled={disabled}
-              checked={allServicesSelected}
-              onChange={handleAllServicesSelected}
-              size="small"
-            />
-          }
-          sx={{ alignSelf: 'center' }}
-          label={allServicesSelected ? 'Deselect all services' : 'Select all services'}
-        />
+        <Stack direction="row" alignItems="center" gap={1}>
+          {value.length > 0 && (
+            <Typography variant="body2" color="secondary">
+              {value.length} {value.length > 1 ? 'services' : 'service'} selected
+            </Typography>
+          )}
+          <FormControlLabel
+            disabled={disabled}
+            control={
+              <Checkbox
+                disabled={disabled}
+                checked={allServicesSelected}
+                onChange={handleSelectAllServices}
+                size="small"
+              />
+            }
+            sx={{ alignSelf: 'center' }}
+            onClick={handleSelectAllServices}
+            label={
+              showServices === ServiceListMode.Popular
+                ? 'Select all popular services'
+                : 'Select all services'
+            }
+          />
+        </Stack>
       </Stack>
       <Box
         sx={{

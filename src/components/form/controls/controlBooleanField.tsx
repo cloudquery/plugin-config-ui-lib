@@ -41,7 +41,7 @@ export function ControlBooleanField({
             control={<ConcreteComponent checked={field.value} {...field} />}
             label={label}
           />
-          <FormHelperText error={!!fieldState.error?.message}>
+          <FormHelperText error={!!fieldState.error?.message} sx={{ marginLeft: 0 }}>
             {getFieldHelperText(fieldState.error?.message, helperText)}
           </FormHelperText>
         </FormControl>

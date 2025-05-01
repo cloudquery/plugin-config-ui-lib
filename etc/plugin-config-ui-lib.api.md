@@ -161,7 +161,7 @@ export interface ControlExclusiveToggleFieldProps {
 export { Controller }
 
 // @public
-export function ControlMultiSelectField({ name, helperText, label, codeSeparators, }: ControlMultiSelectFieldProps): JSX_2.Element;
+export function ControlMultiSelectField({ name, helperText, label, codeSeparators, options, }: ControlMultiSelectFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlMultiSelectFieldProps {
@@ -173,6 +173,8 @@ export interface ControlMultiSelectFieldProps {
     label: string;
     // (undocumented)
     name: string;
+    // (undocumented)
+    options?: MultiAutocompleteProps['options'];
 }
 
 // @public
@@ -603,6 +605,10 @@ export interface MultiAutocompleteProps {
     onBlur: () => void;
     // (undocumented)
     onChange: (value: any) => void;
+    // Warning: (ae-forgotten-export) The symbol "OptionObject_2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    options?: (string | OptionObject_2)[];
     // (undocumented)
     value: any;
 }

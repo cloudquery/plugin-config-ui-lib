@@ -6,6 +6,11 @@ import TextField from '@mui/material/TextField';
 
 import { getFieldHelperText } from '../../utils/getFieldHelperText';
 
+type OptionObject = {
+  value: any;
+  label: string;
+};
+
 /**
  * @public
  */
@@ -19,6 +24,7 @@ export interface MultiAutocompleteProps {
   helperText?: ReturnType<typeof getFieldHelperText>;
   label: string;
   codeSeparators?: string[];
+  options?: (string | OptionObject)[];
 }
 
 /**
@@ -38,6 +44,7 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
       helperText,
       error,
       codeSeparators = ['Space'],
+      options,
     },
     ref,
   ) => {
@@ -47,11 +54,11 @@ export const MultiAutocomplete = React.forwardRef<HTMLDivElement, MultiAutocompl
       <Autocomplete
         id={`autocomplete-${name}`}
         multiple={true}
-        freeSolo={true}
+        freeSolo={!options}
         autoSelect={true}
         clearOnBlur={true}
         disabled={disabled}
-        options={[]}
+        options={options ?? []}
         getOptionLabel={(option) => option}
         value={value}
         onChange={(_, newValue) => {
