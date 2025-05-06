@@ -954,6 +954,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
         skipTables?: string[];
         writeMode?: "append" | "overwrite" | "overwrite-delete-stale";
         connectorId?: string;
+        onboardingId?: string;
     } & {
         connectionId: string;
     }) | undefined;
@@ -1021,6 +1022,7 @@ export function useTestConnection(): {
             value?: string;
         }>;
         connector_id?: string;
+        onboarding_id?: string;
     }, teamName: string, pluginKind: "source" | "destination", isUpdating: boolean) => Promise<string>;
     testConnectionId: string | undefined;
 };

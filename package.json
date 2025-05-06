@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "8.0.1",
+  "version": "8.1.0",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -90,7 +90,7 @@
     "react-virtuoso": "^4.12.6"
   },
   "peerDependencies": {
-    "@cloudquery/plugin-config-ui-connector": "^1.0.0",
+    "@cloudquery/plugin-config-ui-connector": "^1.1.0",
     "@emotion/cache": "^11.11.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.4",
@@ -114,7 +114,7 @@
     "@babel/preset-react": "^7.26.3",
     "@babel/preset-typescript": "^7.27.0",
     "@chromatic-com/storybook": "^3.2.6",
-    "@cloudquery/plugin-config-ui-connector": "^1.0.0",
+    "@cloudquery/plugin-config-ui-connector": "^1.1.0",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
