@@ -85,6 +85,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         env: values.envs,
         name: values.name,
         connector_id: values.connectorId,
+        onboarding_id: values.onboardingId,
       },
       teamName,
       pluginKind,
