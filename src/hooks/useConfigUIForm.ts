@@ -20,7 +20,6 @@ export const useConfigUIForm = () => {
 
   const form = useForm({
     defaultValues,
-    values: defaultValues,
     resolver: formValidationResolver,
   });
 
