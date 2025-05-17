@@ -127,7 +127,10 @@ export function validateConfig(config: PluginConfig, tablesList?: PluginTable[])
       steps: (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
     ): boolean => {
       return steps.some((step) => {
-        if (step.component === 'control-table-selector') {
+        if (
+          step.component === 'control-table-selector' ||
+          step.component === 'control-services-selector'
+        ) {
           return true;
         }
         if ((step as RenderSection).children && Array.isArray((step as RenderSection).children)) {
