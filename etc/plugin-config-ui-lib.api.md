@@ -235,20 +235,14 @@ export interface ControlSelectFieldProps {
 }
 
 // @public
-export function ControlServicesSelectorField({ services, topServices, name, helperText, label, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+export function ControlServicesSelectorField({ services, topServices, }: ControlServicesSelectorFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlServicesSelectorFieldProps {
     // (undocumented)
-    helperText?: ReactNode;
+    services: Service[];
     // (undocumented)
-    label?: string;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    services: ServiceTypes;
-    // (undocumented)
-    topServices?: string[];
+    topServices: string[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "InternalPluginTableSelector" needs to be exported by the entry point index.d.ts
@@ -758,6 +752,15 @@ export interface SecretInputProps {
     value: any;
 }
 
+// @public (undocumented)
+export type Service = {
+    name: string;
+    label: string;
+    shortLabel?: string;
+    logo: string;
+    tables: string[];
+};
+
 // @public
 export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, }: ServiceListProps): JSX_2.Element;
 
@@ -770,19 +773,13 @@ export interface ServiceListProps {
     // (undocumented)
     maxHeight?: BoxProps['maxHeight'];
     // (undocumented)
-    onChange?: (value: string[]) => void;
+    onChange: (value: Record<string, boolean>) => void;
     // (undocumented)
-    services: ServiceTypes;
+    services: Service[];
     // (undocumented)
-    topServices?: string[];
-    // (undocumented)
-    value?: string[];
+    topServices: string[];
+    value: Record<string, boolean>;
 }
-
-// Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type ServiceTypes = Record<string, ServiceType>;
 
 // @public
 export function SetupGuide({ docsLink, title, children, maxHeight }: SetupGuideProps): JSX_2.Element;
@@ -825,15 +822,15 @@ export enum SyncLogLevel {
 }
 
 // @public
-export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, disabled, }: TableSelectorProps): JSX_2.Element;
+export function TableSelector({ errorMessage, value, onChange, tableList, disabled, onlySearchFilter, embeded, }: TableSelectorProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface TableSelectorProps {
     disabled?: boolean;
+    embeded?: boolean;
     errorMessage?: string;
     onChange: (value: Record<string, boolean>) => void;
-    // Warning: (ae-forgotten-export) The symbol "SubscribeToTablesValueChange" needs to be exported by the entry point index.d.ts
-    subscribeToTablesValueChange: SubscribeToTablesValueChange;
+    onlySearchFilter?: boolean;
     tableList: PluginTableListItem[];
     value: Record<string, boolean>;
 }

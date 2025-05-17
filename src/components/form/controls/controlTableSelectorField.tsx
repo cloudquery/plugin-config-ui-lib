@@ -11,7 +11,6 @@ import { TableSelector } from '../../inputs';
 
 function InternalPluginTableSelector() {
   const {
-    control,
     formState: { errors, submitCount },
     setValue,
     trigger,
@@ -33,21 +32,6 @@ function InternalPluginTableSelector() {
   );
   const errorMessage = submitCount > 0 ? (errors?.tables?.message as any) : null;
 
-  const subscribeToTablesValueChange = useCallback(
-    (callback: (value: Record<string, boolean>) => void) => {
-      const { unsubscribe } = control._subjects.state.subscribe({
-        next(payload) {
-          if (payload.name === 'tables' && payload.values?.tables) {
-            callback(payload.values?.tables);
-          }
-        },
-      });
-
-      return unsubscribe;
-    },
-    [control],
-  );
-
   if (tableList.length === 0) {
     return null;
   }
@@ -57,7 +41,6 @@ function InternalPluginTableSelector() {
       <TableSelector
         errorMessage={errorMessage}
         onChange={handleChange}
-        subscribeToTablesValueChange={subscribeToTablesValueChange}
         tableList={tableList}
         disabled={tableList.length === 1}
         value={selectedTables}

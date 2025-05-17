@@ -280,21 +280,23 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 </Stack>
               </form>
             </Box>
-            <Box
-              sx={{
-                width: {
-                  xs: 360,
-                  lg: `calc(50% - (${theme.spacing(5)} / 2))`,
-                  xl: '500px',
-                  xxl: '40%',
-                },
-                minWidth: 360,
-                position: 'sticky',
-                top: 10,
-              }}
-            >
-              <GuideComponent />
-            </Box>
+            {config.guide && (
+              <Box
+                sx={{
+                  width: {
+                    xs: 360,
+                    lg: `calc(50% - (${theme.spacing(5)} / 2))`,
+                    xl: '500px',
+                    xxl: '40%',
+                  },
+                  minWidth: 360,
+                  position: 'sticky',
+                  top: 10,
+                }}
+              >
+                <GuideComponent />
+              </Box>
+            )}
           </Stack>
         </FormProvider>
       </ThemeProvider>

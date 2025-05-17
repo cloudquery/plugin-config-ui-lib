@@ -12,7 +12,6 @@ const mockTableList: PluginTableListItem[] = [
   { name: 'Table3', parent: '', relationTables: [] },
 ];
 
-const mockSubscribeToTablesValueChange = jest.fn();
 const mockOnChange = jest.fn();
 
 describe('TableSelector', () => {
@@ -23,7 +22,6 @@ describe('TableSelector', () => {
   test('renders without crashing', () => {
     renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{}}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -40,7 +38,6 @@ describe('TableSelector', () => {
   test('filters tables based on search input', () => {
     renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{}}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -58,7 +55,6 @@ describe('TableSelector', () => {
   test('selects and deselects all tables', () => {
     const { rerender } = renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{}}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -76,7 +72,6 @@ describe('TableSelector', () => {
 
     rerender(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{
           Table1: true,
           Table2: true,
@@ -89,13 +84,16 @@ describe('TableSelector', () => {
     const deselectAllCheckbox = screen.queryByLabelText('3 tables (3 selected)');
     fireEvent.click(deselectAllCheckbox!);
 
-    expect(mockOnChange).toHaveBeenCalledWith({});
+    expect(mockOnChange).toHaveBeenCalledWith({
+      Table1: false,
+      Table2: false,
+      Table3: false,
+    });
   });
 
   test('handles individual table selection', () => {
     const { rerender } = renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{}}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -109,7 +107,6 @@ describe('TableSelector', () => {
 
     rerender(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{ Table1: true }}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -118,13 +115,12 @@ describe('TableSelector', () => {
 
     fireEvent.click(table1Checkbox);
 
-    expect(mockOnChange).toHaveBeenCalledWith({});
+    expect(mockOnChange).toHaveBeenCalledWith({ Table1: false });
   });
 
   test('displays the correct number of selected tables', () => {
     renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{ Table1: true }}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -137,7 +133,6 @@ describe('TableSelector', () => {
   test('filters tables based on selected status', () => {
     renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{ Table1: true, Table3: true }}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -155,7 +150,6 @@ describe('TableSelector', () => {
   test('filters tables based on unselected status', () => {
     renderWithTheme(
       <TableSelector
-        subscribeToTablesValueChange={mockSubscribeToTablesValueChange}
         value={{ Table1: true }}
         onChange={mockOnChange}
         tableList={mockTableList}
@@ -188,7 +182,6 @@ describe('TableSelector', () => {
 
       return (
         <TableSelector
-          subscribeToTablesValueChange={subscribeToTablesValueChange}
           value={value}
           onChange={mockOnChange}
           tableList={mockTableList}

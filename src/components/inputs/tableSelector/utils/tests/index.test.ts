@@ -31,7 +31,12 @@ describe('handleTableSelectorSelect', () => {
   test('should unselect a table if it is already selected', () => {
     const selectedTables = { TableA: true };
     const result = handleTableSelectorSelect(selectedTables, tableA);
-    expect(result).toEqual({});
+    expect(result).toEqual({
+      TableA: false,
+      TableB: false,
+      TableC: false,
+      TableD: false,
+    });
   });
 
   test('should select parent tables when a child table is selected', () => {
@@ -43,7 +48,12 @@ describe('handleTableSelectorSelect', () => {
   test('should unselect all relation tables recursively when a table is unselected', () => {
     const selectedTables = { TableA: true, TableB: true, TableC: true, TableD: true };
     const result = handleTableSelectorSelect(selectedTables, tableA);
-    expect(result).toEqual({});
+    expect(result).toEqual({
+      TableA: false,
+      TableB: false,
+      TableC: false,
+      TableD: false,
+    });
   });
 
   test('should not select already selected parent tables again', () => {
@@ -63,7 +73,9 @@ describe('handleTableSelectorSelect', () => {
     const tableE = { name: 'TableE', relationTables: [] };
     const selectedTables = { TableE: true };
     const result = handleTableSelectorSelect(selectedTables, tableE);
-    expect(result).toEqual({});
+    expect(result).toEqual({
+      TableE: false,
+    });
   });
 
   test('should correctly handle complex table relationships', () => {
@@ -87,6 +99,12 @@ describe('handleTableSelectorSelect', () => {
 
     const selectedTables = { TableA: true, TableB: true, TableC: true, TableD: true, TableE: true };
     const result = handleTableSelectorSelect(selectedTables, tableA);
-    expect(result).toEqual({});
+    expect(result).toEqual({
+      TableA: false,
+      TableB: false,
+      TableC: false,
+      TableD: false,
+      TableE: false,
+    });
   });
 });

@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "8.1.1",
+  "version": "9.0.0",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -79,7 +79,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.27.0",
-    "@cloudquery/cloud-ui": "^4.0.0",
+    "@cloudquery/cloud-ui": "^4.0.2",
     "@rudderstack/analytics-js": "^3.16.1",
     "dayjs": "^1.11.13",
     "decamelize": "^6.0.0",

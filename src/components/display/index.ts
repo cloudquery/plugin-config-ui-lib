@@ -8,6 +8,6 @@ export { RenderGuide, type RenderGuideProps } from './setupGuide/section';
 export { Link, type LinkProps } from './link';
 export { FormStepper, type SyncFormStepIconProps } from './formStepper';
 export { Logo, type LogoProps } from './logo';
-export { ServiceList, type ServiceListProps, type ServiceTypes } from './serviceList';
+export { ServiceList, type ServiceListProps, type Service } from './serviceList';
 export { FormFieldGroup, type FormFieldGroupProps } from './formFieldGroup';
 export * from './tree';

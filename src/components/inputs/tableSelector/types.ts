@@ -32,7 +32,7 @@ export interface PluginTableListItem {
   parentTable?: PluginTableListItem;
 }
 
-type Callback = (tableValues: Record<string, boolean>) => void;
+type Callback = (value: boolean) => void;
 type Unsubscribe = () => void;
 
-export type SubscribeToTablesValueChange = (callback: Callback) => Unsubscribe;
+export type SubscribeToTablesValueChange = (tableName: string, callback: Callback) => Unsubscribe;

@@ -44,14 +44,6 @@ describe('validateConfig', () => {
     expect(runTest).toThrow(errorMessages.config_no_label);
   });
 
-  test('should throw an error if config is missing the `guide` property', async () => {
-    const { guide: _, ...rest } = validConfig;
-
-    const runTest = () => validateConfig(rest as any);
-
-    expect(runTest).toThrow(errorMessages.config_no_guide);
-  });
-
   test('should throw an error if config is missing the `type` property', async () => {
     const { type: _, ...rest } = validConfig;
 
