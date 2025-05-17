@@ -13,7 +13,7 @@ const sectionRequiresTitle = (componentName: string) =>
   ['collapsible-section', 'section'].includes(componentName);
 
 const isReservedLayoutComponent = (componentName: string) =>
-  ['control-table-selector', 'control-oauth'].includes(componentName);
+  ['control-table-selector', 'control-oauth', 'control-services-selector'].includes(componentName);
 
 const componentRequiresLabel = (componentName: string) =>
   !['control-exclusive-toggle', 'control-services-selector'].includes(componentName);
