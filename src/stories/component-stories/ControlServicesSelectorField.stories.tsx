@@ -23,10 +23,8 @@ const meta = {
   },
   args: {
     component: 'control-services-selector',
-    helperText: 'Service List',
-    name: 'services',
-    label: 'Services',
     services,
+    topServices: ['ec2', 's3', 'elb', 'kms', 'cloudfront', 'route53', 'iam', 'rds'],
   },
 } satisfies Meta<LayoutServicesSelector>;
 

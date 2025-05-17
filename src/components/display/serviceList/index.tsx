@@ -30,7 +30,7 @@ export type Service = {
  */
 export interface ServiceListProps {
   services: Service[];
-  topServices?: string[];
+  topServices: string[];
   /**
    * This is the map of tables to their selected state
    */
@@ -49,7 +49,7 @@ export interface ServiceListProps {
  */
 export function ServiceList({
   services,
-  topServices = [],
+  topServices,
   fallbackLogoSrc = parseSrc('favicon.ico'),
   value,
   onChange,

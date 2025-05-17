@@ -235,20 +235,14 @@ export interface ControlSelectFieldProps {
 }
 
 // @public
-export function ControlServicesSelectorField({ services, topServices, name, helperText, label, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+export function ControlServicesSelectorField({ services, topServices, }: ControlServicesSelectorFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlServicesSelectorFieldProps {
     // (undocumented)
-    helperText?: ReactNode;
-    // (undocumented)
-    label?: string;
-    // (undocumented)
-    name: string;
-    // (undocumented)
     services: Service[];
     // (undocumented)
-    topServices?: string[];
+    topServices: string[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "InternalPluginTableSelector" needs to be exported by the entry point index.d.ts
@@ -783,7 +777,7 @@ export interface ServiceListProps {
     // (undocumented)
     services: Service[];
     // (undocumented)
-    topServices?: string[];
+    topServices: string[];
     value: Record<string, boolean>;
 }
 

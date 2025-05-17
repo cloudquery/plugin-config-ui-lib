@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
@@ -15,10 +13,7 @@ import { ServiceList, Service } from '../../display';
  */
 export interface ControlServicesSelectorFieldProps {
   services: Service[];
-  topServices?: string[];
-  name: string;
-  helperText?: ReactNode;
-  label?: string;
+  topServices: string[];
 }
 
 /**
@@ -30,18 +25,15 @@ export interface ControlServicesSelectorFieldProps {
 export function ControlServicesSelectorField({
   services,
   topServices,
-  name,
-  helperText,
-  label,
 }: ControlServicesSelectorFieldProps) {
   const { config } = usePluginContext();
 
   return (
     <Controller
-      name={name}
+      name="tables"
       render={({ field, fieldState }) => (
         <FormControl>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>Select services</FormLabel>
           <ServiceList
             topServices={topServices}
             services={services}
@@ -51,7 +43,10 @@ export function ControlServicesSelectorField({
             fallbackLogoSrc={config.iconLink}
           />
           <FormHelperText error={!!fieldState.error?.message}>
-            {getFieldHelperText(fieldState.error?.message, helperText)}
+            {getFieldHelperText(
+              fieldState.error?.message,
+              'Select services you want to sync your data from.',
+            )}
           </FormHelperText>
         </FormControl>
       )}
