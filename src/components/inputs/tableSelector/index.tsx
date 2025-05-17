@@ -148,7 +148,7 @@ export function TableSelector({
   const noResults = filteredTableList.length === 0;
 
   const numberOfSelectedTables = Object.values(value).filter(Boolean).length;
-  const maxHeight = Math.min(tableList.length, 11) * 40;
+  const maxHeight = embeded ? '300' : Math.min(tableList.length, 11) * 40;
 
   return (
     <Box

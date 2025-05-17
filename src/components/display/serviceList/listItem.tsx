@@ -91,103 +91,106 @@ function ServiceListItemInternal({
   }, [isChecked, service.tables, valueRef]);
 
   return (
-    <Box
-      border="1px solid"
-      borderColor={isExpanded || isChecked ? 'primary.main' : 'transparent'}
-      bgcolor={isExpanded ? 'primary.selected' : undefined}
-      borderRadius={1.5}
-      sx={{
-        '&:hover .expand-toggle': {
-          opacity: 1,
-        },
-      }}
-    >
-      <ToggleButton
+    <Box>
+      <Box
+        border="1px solid"
+        borderColor={isExpanded || isChecked ? 'primary.main' : 'action.active'}
+        bgcolor={isExpanded ? 'primary.selected' : undefined}
+        borderRadius={1.5}
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          py: 0.5,
-          pr: 0,
-          border: 'none',
+          '&:hover .expand-toggle': {
+            opacity: 1,
+          },
         }}
-        key={service.name}
-        value={service.name}
-        disabled={disabled}
-        onClick={() => onToggle(service, !isChecked)}
       >
-        <Stack width="100%">
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
-          >
+        <ToggleButton
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            py: 0.5,
+            pr: 0,
+            border: 'none',
+            width: '100%',
+          }}
+          key={service.name}
+          value={service.name}
+          disabled={disabled}
+          onClick={() => onToggle(service, !isChecked)}
+        >
+          <Stack width="100%">
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1,
-                flexShrink: 1,
-                width: '70%',
+                justifyContent: 'space-between',
+                width: '100%',
               }}
             >
-              <Logo
-                src={service.logo}
-                fallbackSrc={fallbackLogoSrc}
-                alt={service.name}
-                height={32}
-                width={32}
-              />
-              <Tooltip title={service.label}>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    fontWeight: 'bold',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    color: 'grey.400',
-                  }}
-                >
-                  {service.shortLabel ?? service.label}
-                </Typography>
-              </Tooltip>
-            </Box>
-            <Stack direction="row" alignItems="center" gap={1}>
-              <IconButton
-                className="expand-toggle"
-                sx={{ opacity: isExpanded ? undefined : 0, color: 'nav.evident' }}
-                size="small"
-                onClick={handleExpandToggle}
-                component="span"
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  flexShrink: 1,
+                  width: '70%',
+                }}
               >
-                {isExpanded ? <Close /> : <AdjustmentsIcon />}
-              </IconButton>
-              <Checkbox checked={isChecked} />
-            </Stack>
+                <Logo
+                  src={service.logo}
+                  fallbackSrc={fallbackLogoSrc}
+                  alt={service.name}
+                  height={32}
+                  width={32}
+                />
+                <Tooltip title={service.label}>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      fontWeight: 'bold',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      color: 'grey.400',
+                    }}
+                  >
+                    {service.shortLabel ?? service.label}
+                  </Typography>
+                </Tooltip>
+              </Box>
+              <Stack direction="row" alignItems="center" gap={1}>
+                <IconButton
+                  className="expand-toggle"
+                  sx={{ opacity: isExpanded ? undefined : 0, color: 'nav.evident' }}
+                  size="small"
+                  onClick={handleExpandToggle}
+                  component="span"
+                >
+                  {isExpanded ? <Close /> : <AdjustmentsIcon />}
+                </IconButton>
+                <Checkbox checked={isChecked} />
+              </Stack>
+            </Box>
+          </Stack>
+        </ToggleButton>
+        <Collapse in={isExpanded} unmountOnExit={true}>
+          <Box
+            sx={{
+              '& .MuiInputBase-root.MuiInputBase-root': {
+                backgroundColor: 'secondary.darkMedium',
+              },
+            }}
+          >
+            <TableSelector
+              tableList={tableList}
+              value={tablesValue}
+              onChange={handleToggleTable}
+              onlySearchFilter={true}
+              embeded={true}
+            />
           </Box>
-        </Stack>
-      </ToggleButton>
-      <Collapse in={isExpanded} unmountOnExit={true}>
-        <Box
-          sx={{
-            '& .MuiInputBase-root.MuiInputBase-root': {
-              backgroundColor: 'secondary.darkMedium',
-            },
-          }}
-        >
-          <TableSelector
-            tableList={tableList}
-            value={tablesValue}
-            onChange={handleToggleTable}
-            onlySearchFilter={true}
-            embeded={true}
-          />
-        </Box>
-      </Collapse>
+        </Collapse>
+      </Box>
     </Box>
   );
 }

@@ -51,7 +51,7 @@ export function ServiceList({
   services,
   topServices,
   fallbackLogoSrc = parseSrc('favicon.ico'),
-  value,
+  value = {},
   onChange,
   maxHeight = '400px',
   disabled,
