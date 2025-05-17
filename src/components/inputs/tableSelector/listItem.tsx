@@ -32,12 +32,9 @@ const InternalTableSelectorListItem: FC<Props> = ({
   const handleSelect = useCallback(() => onSelect(tableListItem), [onSelect, tableListItem]);
 
   useEffect(() => {
-    const unsubscribe = subscribeToTablesValueChange((tableValues) => {
-      const newValue = !!tableValues[tableListItem.name];
-      if (newValue !== valueRef.current) {
-        setValue(newValue);
-      }
-    });
+    const unsubscribe = subscribeToTablesValueChange(tableListItem.name, (value) =>
+      setValue(!!value),
+    );
 
     return unsubscribe;
   }, [subscribeToTablesValueChange, tableListItem.name]);

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -8,7 +8,7 @@ import { useTheme } from '@mui/material/styles';
 
 import { TableSelectorFilters } from './filters';
 import { TableSelectorListItem } from './listItem';
-import { PluginTableListItem, SubscribeToTablesValueChange } from './types';
+import { PluginTableListItem } from './types';
 import {
   filterTableSelectorPluginTableList,
   getTableSelectorPluginFlatTableList,
@@ -20,11 +20,6 @@ import { TreeRoot } from '../../display/tree';
  * @public
  */
 export interface TableSelectorProps {
-  /**
-   * This function is used to subscribe to the table values change.
-   * It returns a function to unsubscribe.
-   */
-  subscribeToTablesValueChange: SubscribeToTablesValueChange;
   /** Error message to display if there is an error. */
   errorMessage?: string;
   /** Current selected table values. */
@@ -35,6 +30,10 @@ export interface TableSelectorProps {
   tableList: PluginTableListItem[];
   /** Form disabled boolean */
   disabled?: boolean;
+  /** Only show the search filter */
+  onlySearchFilter?: boolean;
+  /** Embeded mode */
+  embeded?: boolean;
 }
 
 /**
@@ -43,15 +42,17 @@ export interface TableSelectorProps {
  * @public
  */
 export function TableSelector({
-  subscribeToTablesValueChange,
   errorMessage,
   value = {},
   onChange,
   tableList,
   disabled,
+  onlySearchFilter,
+  embeded,
 }: TableSelectorProps) {
   const { palette } = useTheme();
 
+  const subscriptionsRef = useRef<Record<string, ((value: boolean) => void)[]>>({});
   const [searchValue, setSearchValue] = useState('');
   const [filterTablesValue, setFilterTablesValue] = useState<'all' | 'selected' | 'unselected'>(
     'all',
@@ -68,11 +69,11 @@ export function TableSelector({
     () =>
       filterTableSelectorPluginTableList(
         tableList,
-        value,
+        selectedTablesRef.current,
         searchValueTrimmed,
         filterTablesValue,
       ).filter((table) => !table.parent),
-    [filterTablesValue, searchValueTrimmed, value, tableList],
+    [filterTablesValue, searchValueTrimmed, tableList],
   );
   const filteredFlatTableList = useMemo(
     () => getTableSelectorPluginFlatTableList(filteredTableList),
@@ -89,7 +90,12 @@ export function TableSelector({
 
   const handleSelect = useCallback(
     (tableListItem: PluginTableListItem) => {
-      onChange(handleTableSelectorSelect(selectedTablesRef.current, tableListItem));
+      const changedTables = handleTableSelectorSelect(selectedTablesRef.current, tableListItem);
+
+      onChange({
+        ...selectedTablesRef.current,
+        ...changedTables,
+      });
     },
     [onChange],
   );
@@ -99,7 +105,7 @@ export function TableSelector({
       const selected = { ...selectedTablesRef.current };
 
       for (const table of filteredFlatTableListRef.current) {
-        delete selected[table.name];
+        selected[table.name] = false;
       }
 
       onChange(selected);
@@ -109,7 +115,35 @@ export function TableSelector({
         ...Object.fromEntries(filteredFlatTableListRef.current.map(({ name }) => [name, true])),
       });
     }
+
+    for (const tableName in subscriptionsRef.current) {
+      for (const callback of subscriptionsRef.current[tableName] || []) {
+        callback(!allTablesSelectedRef.current);
+      }
+    }
   }, [onChange]);
+
+  const subscribeToTablesValueChange = useCallback(
+    (tableName: string, callback: (value: boolean) => void) => {
+      subscriptionsRef.current[tableName] = [
+        ...(subscriptionsRef.current[tableName] || []),
+        callback,
+      ];
+
+      return () => {
+        delete subscriptionsRef.current[tableName];
+      };
+    },
+    [],
+  );
+
+  useEffect(() => {
+    for (const tableName in subscriptionsRef.current) {
+      for (const callback of subscriptionsRef.current[tableName] || []) {
+        callback(value[tableName]);
+      }
+    }
+  }, [value]);
 
   const noResults = filteredTableList.length === 0;
 
@@ -119,7 +153,9 @@ export function TableSelector({
   return (
     <Box
       sx={{
-        border: `1px solid ${errorMessage ? palette.error.main : palette.text.secondary}`,
+        border: embeded
+          ? undefined
+          : `1px solid ${errorMessage ? palette.error.main : palette.text.secondary}`,
         borderRadius: 1,
         padding: 2,
       }}
@@ -137,6 +173,8 @@ export function TableSelector({
           searchValue={searchValue}
           tableTypeValue={filterTablesValue}
           disabled={disabled}
+          onlySearchFilter={onlySearchFilter}
+          embeded={embeded}
         />
       </Stack>
       <FormControlLabel

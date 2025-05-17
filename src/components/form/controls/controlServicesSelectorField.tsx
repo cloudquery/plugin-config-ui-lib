@@ -8,13 +8,13 @@ import { Controller } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
 import { getFieldHelperText } from '../../../utils';
-import { ServiceList, ServiceTypes } from '../../display';
+import { ServiceList, Service } from '../../display';
 
 /**
  * @public
  */
 export interface ControlServicesSelectorFieldProps {
-  services: ServiceTypes;
+  services: Service[];
   topServices?: string[];
   name: string;
   helperText?: ReactNode;

@@ -9,12 +9,12 @@ export function handleTableSelectorSelect(
   };
 
   if (selectedTables[tableListItem.name]) {
-    delete selected[tableListItem.name];
+    selected[tableListItem.name] = false;
 
     const unselectRelationTables = (tableListItem: PluginTableListItem) => {
       if (tableListItem.relationTables.length > 0) {
         for (const relationTable of tableListItem.relationTables) {
-          delete selected[relationTable.name];
+          selected[relationTable.name] = false;
           unselectRelationTables(relationTable);
         }
       }

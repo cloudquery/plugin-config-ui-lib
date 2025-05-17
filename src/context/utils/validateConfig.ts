@@ -112,9 +112,6 @@ export function validateConfig(config: PluginConfig, tablesList?: PluginTable[])
   if (!config.auth) {
     throw new Error(errorMessages.config_no_auth);
   }
-  if (!config.guide) {
-    throw new Error(errorMessages.config_no_guide);
-  }
   if (config.errorCodes && typeof config.errorCodes !== 'object') {
     throw new Error(errorMessages.config_bad_error_codes);
   }

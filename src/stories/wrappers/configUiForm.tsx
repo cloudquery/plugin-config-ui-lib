@@ -13,10 +13,10 @@ export const ConfigUIFormWrapper = ({ config }: { config: any }) => {
     <PluginContextProvider
       config={config}
       teamName="cq-test"
-      getTablesData={async () => tablesData}
+      getTablesData={async () => ({ default: tablesData })}
       hideStepper={true}
       pluginUiMessageHandler={pluginUiMessageHandler}
-      initialValues={{} as any}
+      initialValues={undefined}
     >
       <ConfigUIForm prepareSubmitValues={(() => {}) as any} />
     </PluginContextProvider>

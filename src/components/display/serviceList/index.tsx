@@ -1,26 +1,23 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import { FormControlLabel } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
-import ToggleButton from '@mui/material/ToggleButton';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
-import { Logo } from './logo';
-import { parseSrc } from '../../utils/parseSrc';
+import { ServiceListItem } from './listItem';
+import { parseSrc } from '../../../utils/parseSrc';
 
 enum ServiceListMode {
   All = 'all',
   Popular = 'popular',
 }
 
-type ServiceType = {
+export type Service = {
   name: string;
   label: string;
   shortLabel?: string;
@@ -29,20 +26,16 @@ type ServiceType = {
 };
 
 /**
- * ServiceTypes type is the required shape of the services for the ServiceList
- *
- * @public
- */
-export type ServiceTypes = Record<string, ServiceType>;
-
-/**
  * @public
  */
 export interface ServiceListProps {
-  services: ServiceTypes;
+  services: Service[];
   topServices?: string[];
-  value?: string[];
-  onChange?: (value: string[]) => void;
+  /**
+   * This is the map of tables to their selected state
+   */
+  value: Record<string, boolean>;
+  onChange: (value: Record<string, boolean>) => void;
   fallbackLogoSrc?: string;
   maxHeight?: BoxProps['maxHeight'];
   disabled?: boolean;
@@ -58,34 +51,87 @@ export function ServiceList({
   services,
   topServices = [],
   fallbackLogoSrc = parseSrc('favicon.ico'),
-  value = [],
+  value,
   onChange,
   maxHeight = '400px',
   disabled,
 }: ServiceListProps) {
-  const { palette } = useTheme();
+  const subscriptionsRef = useRef<Record<string, ((value: boolean) => void)[]>>({});
+  const valueRef = useRef(value);
+  valueRef.current = value;
+  const [expandedService, setExpandedService] = useState<string | null>(null);
 
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
     ServiceListMode.Popular,
   );
 
-  const filteredServices: ServiceType[] = useMemo(
+  const filteredServices: Service[] = useMemo(
     () =>
       showServices === ServiceListMode.Popular
-        ? topServices.map((name) => services[name]).filter(Boolean)
-        : Object.values(services).sort((a, b) => a.label.localeCompare(b.label)),
+        ? (topServices
+            .map((name) => services.find((service) => service.name === name))
+            .filter(Boolean) as Service[])
+        : services.sort((a, b) => a.label.localeCompare(b.label)),
     [services, showServices, topServices],
   );
 
   const allServicesSelected = useMemo(() => {
-    return Object.values(filteredServices).every((service) => value.includes(service.name));
+    return Object.values(filteredServices).every((service) =>
+      service.tables.every((table) => value?.[table]),
+    );
   }, [filteredServices, value]);
 
+  const subscribeToServiceValueChange = useCallback(
+    (serviceName: string, callback: (value: boolean) => void) => {
+      subscriptionsRef.current[serviceName] = [
+        ...(subscriptionsRef.current[serviceName] || []),
+        callback,
+      ];
+
+      return () => {
+        delete subscriptionsRef.current[serviceName];
+      };
+    },
+    [],
+  );
+
   const handleSelectAllServices = useCallback(() => {
-    onChange?.(
-      allServicesSelected ? [] : Object.values(filteredServices).map((service) => service.name),
+    const newValues = Object.fromEntries(
+      filteredServices
+        .flatMap(({ tables }) => tables)
+        .map((tableName) => [tableName, !allServicesSelected]),
     );
-  }, [allServicesSelected, onChange, filteredServices]);
+
+    onChange({
+      ...value,
+      ...newValues,
+    });
+  }, [allServicesSelected, onChange, filteredServices, value]);
+
+  const handleToggleService = useCallback(
+    (service: Service, isChecked: boolean) => {
+      onChange({
+        ...valueRef.current,
+        ...Object.fromEntries(service.tables.map((table) => [table, isChecked])),
+      });
+
+      for (const callback of subscriptionsRef.current[service.name] || []) {
+        callback(isChecked);
+      }
+    },
+    [onChange],
+  );
+
+  const handleExpandService = useCallback(
+    (serviceName: string) => {
+      setExpandedService(expandedService === serviceName ? null : serviceName);
+    },
+    [expandedService],
+  );
+
+  const selectedServices = useMemo(() => {
+    return services.filter((service) => service.tables.some((table) => value?.[table]));
+  }, [services, value]);
 
   return (
     <Stack
@@ -117,9 +163,9 @@ export function ServiceList({
           />
         </Tabs>
         <Stack direction="row" alignItems="center" gap={1}>
-          {value.length > 0 && (
+          {selectedServices.length > 0 && (
             <Typography variant="body2" color="secondary">
-              {value.length} {value.length > 1 ? 'services' : 'service'} selected
+              {value.length} {selectedServices.length > 1 ? 'services' : 'service'} selected
             </Typography>
           )}
           <FormControlLabel
@@ -152,73 +198,19 @@ export function ServiceList({
           overflowY: 'auto',
         }}
       >
-        {filteredServices.map((service) => {
-          const isChecked = value?.includes(service.name);
-
-          return (
-            <ToggleButton
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                py: 0.5,
-                pr: 0,
-              }}
-              key={service.name}
-              value={service.name}
-              disabled={disabled}
-              onClick={() =>
-                onChange?.(
-                  isChecked
-                    ? value.filter((name: string) => name !== service.name)
-                    : [...value, service.name],
-                )
-              }
-            >
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  justifyContent: 'space-between',
-                  width: '100%',
-                }}
-              >
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    flexShrink: 1,
-                    width: '70%',
-                  }}
-                >
-                  <Logo
-                    src={service.logo}
-                    fallbackSrc={fallbackLogoSrc}
-                    alt={service.name}
-                    height={32}
-                    width={32}
-                  />
-                  <Tooltip title={service.label}>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontWeight: 'bold',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        color: palette.grey[400],
-                      }}
-                    >
-                      {service.shortLabel ?? service.label}
-                    </Typography>
-                  </Tooltip>
-                </Box>
-                <Checkbox checked={isChecked} />
-              </Box>
-            </ToggleButton>
-          );
-        })}
+        {filteredServices.map((service) => (
+          <ServiceListItem
+            key={service.name}
+            onChange={onChange}
+            service={service}
+            valueRef={valueRef}
+            onExpandToggle={handleExpandService}
+            subscribeToServiceValueChange={subscribeToServiceValueChange}
+            isExpanded={expandedService === service.name}
+            fallbackLogoSrc={fallbackLogoSrc}
+            onToggle={handleToggleService}
+          />
+        ))}
       </Box>
       <Button
         disabled={disabled}
