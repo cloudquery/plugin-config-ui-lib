@@ -68,11 +68,9 @@ export function ServiceList({
   maxHeight = '400px',
   disabled,
 }: ServiceListProps) {
-  const subscriptionsRef = useRef<Record<string, ((value: boolean) => void)[]>>({});
   const valueRef = useRef(value);
   valueRef.current = value;
   const [expandedService, setExpandedService] = useState<string | null>(null);
-
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
     ServiceListMode.Popular,
   );
@@ -102,20 +100,6 @@ export function ServiceList({
     );
   }, [filteredServices, value]);
 
-  const subscribeToServiceValueChange = useCallback(
-    (serviceName: string, callback: (value: boolean) => void) => {
-      subscriptionsRef.current[serviceName] = [
-        ...(subscriptionsRef.current[serviceName] || []),
-        callback,
-      ];
-
-      return () => {
-        delete subscriptionsRef.current[serviceName];
-      };
-    },
-    [],
-  );
-
   const handleSelectAllServices = useCallback(() => {
     const newValues = Object.fromEntries(
       filteredServices
@@ -127,12 +111,6 @@ export function ServiceList({
       ...value,
       ...newValues,
     });
-
-    for (const service of filteredServices) {
-      for (const callback of subscriptionsRef.current[service.name] || []) {
-        callback(!allServicesSelected);
-      }
-    }
   }, [allServicesSelected, onChange, filteredServices, value]);
 
   const handleToggleService = useCallback(
@@ -141,10 +119,6 @@ export function ServiceList({
         ...valueRef.current,
         ...Object.fromEntries(service.tables.map((table) => [table, isChecked])),
       });
-
-      for (const callback of subscriptionsRef.current[service.name] || []) {
-        callback(isChecked);
-      }
     },
     [onChange],
   );
@@ -217,7 +191,7 @@ export function ServiceList({
         </Stack>
       </Stack>
       <Virtuoso
-        style={{ height: '280px', width: '100%', maxHeight }}
+        style={{ height: expandedService ? '380px' : '280px', width: '100%', maxHeight }}
         data={filteredServiceRows}
         components={{
           List: gridComponents.List,
@@ -230,8 +204,8 @@ export function ServiceList({
                   onChange={onChange}
                   service={service}
                   valueRef={valueRef}
+                  isSelected={service.tables.some((table) => valueRef.current?.[table])}
                   onExpandToggle={handleExpandService}
-                  subscribeToServiceValueChange={subscribeToServiceValueChange}
                   isExpanded={expandedService === service.name}
                   fallbackLogoSrc={fallbackLogoSrc}
                   onToggle={handleToggleService}

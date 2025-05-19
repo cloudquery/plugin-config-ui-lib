@@ -28,27 +28,27 @@ interface Props {
   maxHeight?: BoxProps['maxHeight'];
   disabled?: boolean;
   service: Service;
+  isSelected: boolean;
   valueRef: MutableRefObject<Record<string, boolean>>;
   onExpandToggle: (serviceName: string) => void;
-  subscribeToServiceValueChange: (serviceName: string, callback: (value: boolean) => void) => void;
   isExpanded: boolean;
   onToggle: (service: Service, isChecked: boolean) => void;
 }
 
-function ServiceListItemInternal({
+export function ServiceListItem({
   fallbackLogoSrc = parseSrc('favicon.ico'),
   service,
   disabled,
   onChange,
   valueRef,
+  isSelected,
   onExpandToggle,
-  subscribeToServiceValueChange,
   isExpanded,
   onToggle,
 }: Props) {
-  const [tablesValue, setTablesValue] = useState(() => {
-    return Object.fromEntries(service.tables.map((table) => [table, valueRef.current[table]]));
-  });
+  const [tablesValue, setTablesValue] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(service.tables.map((table) => [table, isSelected])),
+  );
 
   const tableList = useMemo(() => {
     return service.tables.map((table) => ({ name: table, relationTables: [] }));
@@ -61,7 +61,10 @@ function ServiceListItemInternal({
         ...serviceTablesValues,
       };
       onChange(newTablesValue);
-      setTablesValue(newTablesValue);
+      setTablesValue((value) => ({
+        ...value,
+        ...serviceTablesValues,
+      }));
     },
     [onChange, valueRef],
   );
@@ -75,26 +78,16 @@ function ServiceListItemInternal({
   );
 
   useEffect(() => {
-    return subscribeToServiceValueChange(service.name, () => {
-      setTablesValue(
-        Object.fromEntries(service.tables.map((table) => [table, valueRef.current[table]])),
-      );
-    });
-  }, [subscribeToServiceValueChange, service, valueRef]);
-
-  const isChecked = service.tables.some((table) => valueRef.current?.[table]);
-
-  useEffect(() => {
     setTablesValue(
       Object.fromEntries(service.tables.map((table) => [table, valueRef.current[table]])),
     );
-  }, [isChecked, service.tables, valueRef]);
+  }, [isSelected, service.tables, valueRef]);
 
   return (
     <Box>
       <Box
         border="1px solid"
-        borderColor={isExpanded || isChecked ? 'primary.main' : 'action.active'}
+        borderColor={isExpanded || isSelected ? 'primary.main' : 'action.active'}
         bgcolor={isExpanded ? 'primary.selected' : undefined}
         borderRadius={1.5}
         sx={{
@@ -122,7 +115,7 @@ function ServiceListItemInternal({
           key={service.name}
           value={service.name}
           disabled={disabled}
-          onClick={() => onToggle(service, !isChecked)}
+          onClick={() => onToggle(service, !isSelected)}
         >
           <Stack width="100%">
             <Box
@@ -176,7 +169,7 @@ function ServiceListItemInternal({
                 >
                   {isExpanded ? <Close /> : <AdjustmentsIcon />}
                 </IconButton>
-                <Checkbox checked={isChecked} />
+                <Checkbox checked={isSelected} />
               </Stack>
             </Box>
           </Stack>
@@ -188,6 +181,7 @@ function ServiceListItemInternal({
                 backgroundColor: 'secondary.darkMedium',
               },
             }}
+            onClick={(event) => event.stopPropagation()}
           >
             <TableSelector
               tableList={tableList}
@@ -202,11 +196,3 @@ function ServiceListItemInternal({
     </Box>
   );
 }
-
-/**
- * ServiceList component is multi-select form component for selecting services
- * with an expandable view of all available services.
- *
- * @public
- */
-export const ServiceListItem = React.memo(ServiceListItemInternal);

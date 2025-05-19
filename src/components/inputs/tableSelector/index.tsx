@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -53,7 +53,6 @@ export function TableSelector({
 }: TableSelectorProps) {
   const { palette } = useTheme();
 
-  const subscriptionsRef = useRef<Record<string, ((value: boolean) => void)[]>>({});
   const [searchValue, setSearchValue] = useState('');
   const [filterTablesValue, setFilterTablesValue] = useState<'all' | 'selected' | 'unselected'>(
     'all',
@@ -116,40 +115,12 @@ export function TableSelector({
         ...Object.fromEntries(filteredFlatTableListRef.current.map(({ name }) => [name, true])),
       });
     }
-
-    for (const tableName in subscriptionsRef.current) {
-      for (const callback of subscriptionsRef.current[tableName] || []) {
-        callback(!allTablesSelectedRef.current);
-      }
-    }
   }, [onChange]);
-
-  const subscribeToTablesValueChange = useCallback(
-    (tableName: string, callback: (value: boolean) => void) => {
-      subscriptionsRef.current[tableName] = [
-        ...(subscriptionsRef.current[tableName] || []),
-        callback,
-      ];
-
-      return () => {
-        delete subscriptionsRef.current[tableName];
-      };
-    },
-    [],
-  );
-
-  useEffect(() => {
-    for (const tableName in subscriptionsRef.current) {
-      for (const callback of subscriptionsRef.current[tableName] || []) {
-        callback(value[tableName]);
-      }
-    }
-  }, [value]);
 
   const noResults = filteredTableList.length === 0;
 
   const numberOfSelectedTables = Object.values(value).filter(Boolean).length;
-  const maxHeight = embeded ? '200' : Math.min(tableList.length, 11) * 40;
+  const maxHeight = embeded ? '250' : Math.min(tableList.length, 11) * 40;
 
   return (
     <Box
@@ -202,8 +173,8 @@ export function TableSelector({
       />
       <Box
         sx={{
-          height: `min(${maxHeight}px, 90vh)`,
-          maxHeight: '90vh',
+          height: `min(${maxHeight}px, 65vh)`,
+          maxHeight: '65vh',
           overflow: 'auto',
         }}
       >
@@ -214,8 +185,7 @@ export function TableSelector({
             itemContent={(_, table) => (
               <TableSelectorListItem
                 key={`${table.parent}-${table.name}`}
-                valuesRef={selectedTablesRef}
-                subscribeToTablesValueChange={subscribeToTablesValueChange}
+                value={!!value[table.name]}
                 onSelect={handleSelect}
                 selectedAsIndeterminate={filterTablesValue === 'unselected'}
                 tableListItem={table}

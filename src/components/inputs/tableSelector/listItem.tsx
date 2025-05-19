@@ -1,44 +1,31 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 
-import { PluginTableListItem, SubscribeToTablesValueChange } from './types';
+import { PluginTableListItem } from './types';
 
 interface Props {
-  valuesRef: React.MutableRefObject<Record<string, boolean>>;
+  value: boolean;
   onSelect: (tableListItem: PluginTableListItem) => void;
   selectedAsIndeterminate: boolean;
   tableListItem: PluginTableListItem;
-  subscribeToTablesValueChange: SubscribeToTablesValueChange;
   disabled?: boolean;
   depth: number;
 }
 
 const InternalTableSelectorListItem: FC<Props> = ({
-  valuesRef,
-  subscribeToTablesValueChange,
+  value,
   onSelect,
   selectedAsIndeterminate,
   tableListItem,
   disabled,
   depth,
 }) => {
-  const [value, setValue] = React.useState(!!valuesRef.current[tableListItem.name]);
-  const valueRef = React.useRef(value);
-  valueRef.current = value;
   const isIndeterminate = selectedAsIndeterminate && value;
 
   const handleSelect = useCallback(() => onSelect(tableListItem), [onSelect, tableListItem]);
-
-  useEffect(() => {
-    const unsubscribe = subscribeToTablesValueChange(tableListItem.name, (value) =>
-      setValue(!!value),
-    );
-
-    return unsubscribe;
-  }, [subscribeToTablesValueChange, tableListItem.name]);
 
   return (
     <Stack
