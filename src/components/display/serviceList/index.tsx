@@ -130,6 +130,11 @@ export function ServiceList({
     [expandedService],
   );
 
+  const handleServiceCategoryChange = useCallback((newValue: ServiceListMode) => {
+    setShowServices(newValue);
+    setExpandedService(null);
+  }, []);
+
   const selectedServices = useMemo(() => {
     return services.filter((service) => service.tables.some((table) => value?.[table]));
   }, [services, value]);
@@ -149,7 +154,10 @@ export function ServiceList({
         alignItems="center"
         width="100%"
       >
-        <Tabs value={showServices} onChange={(_, newValue) => setShowServices(newValue)}>
+        <Tabs
+          value={showServices}
+          onChange={(_, newValue) => handleServiceCategoryChange(newValue)}
+        >
           <Tab
             disabled={disabled}
             sx={{ py: '9px' }}
