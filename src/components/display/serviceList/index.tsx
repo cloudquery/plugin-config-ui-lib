@@ -71,18 +71,25 @@ export function ServiceList({
   const valueRef = useRef(value);
   valueRef.current = value;
   const [expandedService, setExpandedService] = useState<string | null>(null);
+  const popularServices = useMemo(() => {
+    return topServices
+      .map((name) => services.find((service) => service.name === name))
+      .filter(Boolean) as Service[];
+  }, [services, topServices]);
+
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
-    ServiceListMode.Popular,
+    () =>
+      popularServices.some((service) => service.tables.some((table) => value?.[table]))
+        ? ServiceListMode.Popular
+        : ServiceListMode.All,
   );
 
   const filteredServices: Service[] = useMemo(
     () =>
       showServices === ServiceListMode.Popular
-        ? (topServices
-            .map((name) => services.find((service) => service.name === name))
-            .filter(Boolean) as Service[])
+        ? popularServices
         : services.sort((a, b) => a.label.localeCompare(b.label)),
-    [services, showServices, topServices],
+    [services, showServices, popularServices],
   );
 
   const filteredServiceRows = useMemo(() => {

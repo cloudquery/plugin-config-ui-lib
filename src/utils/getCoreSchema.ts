@@ -47,7 +47,20 @@ export const getCoreSchema = ({ initialValues, tablesList, config, servicesList 
       ...(servicesList && {
         tables: yup
           .object()
-          .default(getEnabledTablesObject({ tablesList, tables: initialValues?.tables }))
+          .default(
+            getEnabledTablesObject({
+              tablesList: [...new Set(servicesList.flatMap((service) => service.tables))].map(
+                (table) => ({
+                  name: table,
+                  description: '',
+                  is_incremental: false,
+                  relations: [],
+                  title: table,
+                }),
+              ),
+              tables: initialValues?.tables,
+            }),
+          )
           .test({
             name: 'has-services',
             message: 'At least one service must be selected',
