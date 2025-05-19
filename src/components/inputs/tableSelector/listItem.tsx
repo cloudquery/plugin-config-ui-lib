@@ -1,5 +1,7 @@
 import React, { FC, useCallback } from 'react';
 
+import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material';
+import { IconButton } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
@@ -13,6 +15,9 @@ interface Props {
   tableListItem: PluginTableListItem;
   disabled?: boolean;
   depth: number;
+  collapsed: boolean;
+  onCollapse: (tableListItem: PluginTableListItem) => void;
+  hidden: boolean;
 }
 
 const InternalTableSelectorListItem: FC<Props> = ({
@@ -22,6 +27,9 @@ const InternalTableSelectorListItem: FC<Props> = ({
   tableListItem,
   disabled,
   depth,
+  collapsed,
+  onCollapse,
+  hidden,
 }) => {
   const isIndeterminate = selectedAsIndeterminate && value;
 
@@ -32,8 +40,12 @@ const InternalTableSelectorListItem: FC<Props> = ({
       sx={{
         borderRadius: 1,
         marginBottom: 0.25,
-        marginLeft: (depth + 1) * 2.25,
+        marginLeft: (depth + 1) * 2.5,
       }}
+      display={hidden ? 'none' : undefined}
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
     >
       <FormControlLabel
         disabled={disabled}
@@ -60,6 +72,11 @@ const InternalTableSelectorListItem: FC<Props> = ({
           overflowWrap: 'anywhere',
         }}
       />
+      {tableListItem.relationTables.length > 0 && (
+        <IconButton color="inherit" onClick={() => onCollapse(tableListItem)}>
+          {collapsed ? <ArrowDropDown /> : <ArrowDropUp />}
+        </IconButton>
+      )}
     </Stack>
   );
 };

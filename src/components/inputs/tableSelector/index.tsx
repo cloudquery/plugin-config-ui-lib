@@ -57,6 +57,7 @@ export function TableSelector({
   const [filterTablesValue, setFilterTablesValue] = useState<'all' | 'selected' | 'unselected'>(
     'all',
   );
+  const [collapsedTables, setCollapsedTables] = useState<Record<string, boolean>>({});
 
   // Those refs are necessary to prevent the tree from updating on every render
   // caused by changing the "handleSelect" function
@@ -116,6 +117,21 @@ export function TableSelector({
       });
     }
   }, [onChange]);
+
+  const handleCollapse = useCallback((table: PluginTableListItem) => {
+    setCollapsedTables((prev) => ({ ...prev, [table.name]: !prev[table.name] }));
+  }, []);
+
+  const checkIfHidden = useCallback(
+    (table: PluginTableListItem) => {
+      if (table.parentTable && collapsedTables[table.parentTable.name]) {
+        return true;
+      }
+
+      return table.parentTable ? checkIfHidden(table.parentTable) : false;
+    },
+    [collapsedTables],
+  );
 
   const noResults = filteredTableList.length === 0;
 
@@ -191,6 +207,9 @@ export function TableSelector({
                 tableListItem={table}
                 disabled={disabled}
                 depth={table.depth}
+                collapsed={collapsedTables[table.name]}
+                hidden={checkIfHidden(table)}
+                onCollapse={handleCollapse}
               />
             )}
           />
