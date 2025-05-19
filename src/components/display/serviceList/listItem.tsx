@@ -164,7 +164,7 @@ export function ServiceListItem({
                     {service.shortLabel ?? service.label}
                   </Typography>
                 </Tooltip>
-                {onlySomeTablesSelected && (
+                {onlySomeTablesSelected && !isExpanded && (
                   <Tooltip
                     title={
                       <Typography variant="body2" maxWidth={288} paddingY={1.5} paddingX={2}>
