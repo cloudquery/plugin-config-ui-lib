@@ -79,6 +79,7 @@ export function ServiceList({
 
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
     () =>
+      !Object.keys(value).some((key) => value[key]) ||
       popularServices.some((service) => service.tables.some((table) => value?.[table]))
         ? ServiceListMode.Popular
         : ServiceListMode.All,
