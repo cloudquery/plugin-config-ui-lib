@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { createThemeOptions } from '@cloudquery/cloud-ui';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
@@ -60,6 +60,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     pluginUiMessageHandler,
   } = usePluginContext();
 
+  const formRef = useRef<HTMLFormElement>(null);
   const form = useConfigUIForm();
   const emotionCache = useMemo(() => createCache({ key: 'css', container }), [container]);
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
@@ -187,7 +188,9 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
       }
     },
     (errors) => {
-      scrollToFirstFormFieldError(Object.keys(errors));
+      if (formRef.current) {
+        scrollToFirstFormFieldError(Object.keys(errors), formRef.current);
+      }
     },
   );
 
@@ -252,7 +255,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 zIndex: 2,
               }}
             >
-              <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
+              <form ref={formRef} autoComplete="off" noValidate={true} onSubmit={onSubmit}>
                 <Stack
                   sx={{
                     gap: 3,
