@@ -6,6 +6,7 @@ import { generateUniqueName } from './generateUniqueName';
 import { getEnabledTablesObject } from './getEnabledTablesObject';
 import { PluginTable, Service } from '../components';
 import { AuthType, PluginConfig } from '../types';
+import { convertServicesToPluginTables } from './convertServicesToPluginTables';
 
 interface Props {
   config: PluginConfig;
@@ -50,15 +51,7 @@ export const getCoreSchema = ({ initialValues, tablesList, config, servicesList 
         .object()
         .default(
           getEnabledTablesObject({
-            tablesList: [...new Set(servicesList.flatMap((service) => service.tables))].map(
-              (table) => ({
-                name: table,
-                description: '',
-                is_incremental: false,
-                relations: [],
-                title: table,
-              }),
-            ),
+            tablesList: convertServicesToPluginTables(servicesList),
             tables: initialValues?.tables,
           }),
         )

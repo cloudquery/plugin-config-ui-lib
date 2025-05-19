@@ -4,6 +4,7 @@ import { prepareOAuthValue } from './prepareOAuthValue';
 import { prepareSecretValues } from './prepareSecretValues';
 import { PluginTable, Service } from '../components';
 import { PluginConfig } from '../types';
+import { convertServicesToPluginTables } from './convertServicesToPluginTables';
 
 /**
  * Prepare values for submit
@@ -21,10 +22,12 @@ export function corePrepareSubmitValues({
   tablesList?: PluginTable[];
   servicesList?: Service[];
 }): PluginUiMessagePayload['validation_passed']['values'] {
+  const tableList =
+    tablesList || (servicesList ? convertServicesToPluginTables(servicesList) : undefined);
   const base = {
     name: values.name,
     displayName: values.displayName,
-    tables: tablesList || servicesList ? getEnabledTablesArray(values.tables) : undefined,
+    tables: tableList ? getEnabledTablesArray(values.tables, tableList) : undefined,
     spec: {} as Record<string, any>,
   };
 
@@ -42,8 +45,13 @@ export function corePrepareSubmitValues({
   };
 }
 
-const getEnabledTablesArray = (tables: Record<string, boolean>): string[] => {
-  return Object.entries(tables)
+const getEnabledTablesArray = (
+  tables: Record<string, boolean>,
+  tableList: PluginTable[],
+): string[] => {
+  const enabledTables = Object.entries(tables)
     .filter(([, isEnabled]) => !!isEnabled)
     .map(([tableName]) => tableName);
+
+  return enabledTables.length === tableList.length ? ['*'] : enabledTables;
 };
