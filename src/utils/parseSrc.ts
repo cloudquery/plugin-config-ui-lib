@@ -7,9 +7,13 @@ export function parseSrc(src: string) {
     return `${window.location.origin}${src}`;
   }
 
+  const parsedPathname = window.location.pathname.endsWith('/index.html')
+    ? window.location.pathname.slice(0, -11)
+    : window.location.pathname;
+
   if (src.startsWith('./')) {
-    return `${window.location.origin}${window.location.pathname}${src.slice(1)}`;
+    return `${window.location.origin}${parsedPathname}${src.slice(1)}`;
   }
 
-  return `${window.location.origin}${window.location.pathname}/${src}`;
+  return `${window.location.origin}${parsedPathname}/${src}`;
 }
