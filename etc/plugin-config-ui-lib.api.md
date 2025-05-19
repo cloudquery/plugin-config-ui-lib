@@ -720,7 +720,7 @@ export type RenderGuideProps = {
 export function resetYupDefaultErrorMessages(yup: typeof yup): void;
 
 // @public
-export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
+export function scrollToFirstFormFieldError(errorFieldNames: string[], formElement: HTMLFormElement): void;
 
 // @public
 export function SearchInput(props: TextFieldProps): JSX_2.Element;
