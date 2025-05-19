@@ -5,7 +5,6 @@
 ```ts
 
 import { AccordionProps } from '@mui/material/Accordion';
-import { BoxProps } from '@mui/material/Box';
 import { ButtonProps } from '@mui/material/Button';
 import { ChangeEventHandler } from 'react';
 import { Controller } from 'react-hook-form';
@@ -86,7 +85,12 @@ export interface ConfigUIFormProps {
     // (undocumented)
     container?: HTMLElement | ShadowRoot;
     // (undocumented)
-    prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
+    prepareSubmitValues: (params: {
+        config: PluginConfig;
+        values: Record<string, any>;
+        tablesList?: PluginTable[];
+        servicesList?: Service[];
+    }) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
 // @public
@@ -235,12 +239,10 @@ export interface ControlSelectFieldProps {
 }
 
 // @public
-export function ControlServicesSelectorField({ services, topServices, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlServicesSelectorFieldProps {
-    // (undocumented)
-    services: Service[];
     // (undocumented)
     topServices: string[];
 }
@@ -269,7 +271,12 @@ export interface ControlTextFieldProps {
 export function convertStringToSlug(value: string): string;
 
 // @public
-export function corePrepareSubmitValues(config: PluginConfig, values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
+export function corePrepareSubmitValues({ config, values, tablesList, servicesList, }: {
+    config: PluginConfig;
+    values: any;
+    tablesList?: PluginTable[];
+    servicesList?: Service[];
+}): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public
 export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, authenticatePayload, }: {
@@ -643,7 +650,7 @@ export type PluginConfigFormStep = {
 };
 
 // @public
-export const PluginContextProvider: ({ children, config, teamName, getTablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, teamName, getTablesData, getServicesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -651,6 +658,10 @@ export interface PluginContextProviderProps {
     children: React_2.ReactNode;
     // (undocumented)
     config: PluginConfig;
+    // (undocumented)
+    getServicesData?: () => Promise<{
+        default: Service[];
+    }>;
     // (undocumented)
     getTablesData?: () => Promise<{
         default: CloudQueryTables;
@@ -771,7 +782,7 @@ export interface ServiceListProps {
     // (undocumented)
     fallbackLogoSrc?: string;
     // (undocumented)
-    maxHeight?: BoxProps['maxHeight'];
+    maxHeight?: string | number;
     // (undocumented)
     onChange: (value: Record<string, boolean>) => void;
     // (undocumented)
