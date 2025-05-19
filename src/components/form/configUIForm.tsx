@@ -23,6 +23,7 @@ import { FormFooter, FormWrapper, GuideComponent, Service } from '../display';
 import { PluginTable } from '../inputs';
 import { Sections } from './sections/sections';
 import { PluginConfig } from '../../types';
+import { scrollToFirstFormFieldError } from '../../utils';
 
 const FormStepper = React.lazy(() =>
   import('../display/formStepper').then((module) => ({
@@ -150,39 +151,45 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 
   const isLastStep = !config.steps || step === config.steps.length - 1;
 
-  const onSubmit = handleFormSubmit(async function () {
-    const thisStep = getValues('_step');
+  const onSubmit = handleFormSubmit(
+    async function () {
+      const thisStep = getValues('_step');
 
-    if (config.steps[thisStep]?.submitGuard) {
-      setSubmitGuardLoading(true);
+      if (config.steps[thisStep]?.submitGuard) {
+        setSubmitGuardLoading(true);
 
-      const result = await config.steps[thisStep]
-        ?.submitGuard(getValues(), teamName, setValue)
-        .catch((error) => {
-          return {
-            errorMessage: error.message || 'Validation failed. Please check the form for errors.',
-          };
-        });
+        const result = await config.steps[thisStep]
+          ?.submitGuard(getValues(), teamName, setValue)
+          .catch((error) => {
+            return {
+              errorMessage: error.message || 'Validation failed. Please check the form for errors.',
+            };
+          });
 
-      setSubmitGuardLoading(false);
+        setSubmitGuardLoading(false);
 
-      const resultErrorMessage =
-        typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
-      if (result === false || resultErrorMessage) {
-        setError('root', {
-          message: resultErrorMessage || 'Validation failed. Please check the form for errors.',
-        });
+        const resultErrorMessage =
+          typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
+        if (result === false || resultErrorMessage) {
+          setError('root', {
+            message: resultErrorMessage || 'Validation failed. Please check the form for errors.',
+          });
 
-        return;
+          return;
+        }
       }
-    }
 
-    if (isLastStep) {
-      await handleTestConnection();
-    } else {
-      setValue('_step', getValues('_step') + 1);
-    }
-  });
+      if (isLastStep) {
+        await handleTestConnection();
+      } else {
+        setValue('_step', getValues('_step') + 1);
+        window.top?.document.querySelector('form')?.scrollIntoView({ block: 'start' });
+      }
+    },
+    (errors) => {
+      scrollToFirstFormFieldError(Object.keys(errors));
+    },
+  );
 
   useEffect(() => {
     if (config?.debug && form?.formState?.errors) {

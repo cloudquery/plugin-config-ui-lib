@@ -38,6 +38,7 @@ function InternalPluginTableSelector() {
 
   return (
     <FormControl>
+      <input type="hidden" name="tables" value={JSON.stringify(selectedTables)} />
       <TableSelector
         errorMessage={errorMessage}
         onChange={handleChange}
