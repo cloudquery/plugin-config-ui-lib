@@ -38,7 +38,19 @@ function InternalPluginTableSelector() {
 
   return (
     <FormControl>
-      <input type="hidden" name="tables" value={JSON.stringify(selectedTables)} />
+      <input
+        type="hidden"
+        style={{
+          maxWidth: 0,
+          overflow: 'hidden',
+          padding: 0,
+          margin: 0,
+          maxHeight: 0,
+          border: 0,
+        }}
+        name="tables"
+        value={JSON.stringify(selectedTables)}
+      />
       <TableSelector
         errorMessage={errorMessage}
         onChange={handleChange}

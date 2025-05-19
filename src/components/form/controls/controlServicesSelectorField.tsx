@@ -27,7 +27,19 @@ export function ControlServicesSelectorField({ topServices }: ControlServicesSel
       name="tables"
       render={({ field, fieldState }) => (
         <FormControl>
-          <input type="hidden" name="tables" value={JSON.stringify(field.value)} />
+          <input
+            type="text"
+            style={{
+              maxWidth: 0,
+              overflow: 'hidden',
+              padding: 0,
+              margin: 0,
+              maxHeight: 0,
+              border: 0,
+            }}
+            name="tables"
+            value={JSON.stringify(field.value)}
+          />
           <ServiceList
             topServices={topServices}
             services={servicesList || []}
