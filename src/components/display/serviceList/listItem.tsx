@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Close } from '@mui/icons-material';
+import { Close, WarningAmber } from '@mui/icons-material';
 import { Collapse, IconButton } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -83,6 +83,12 @@ export function ServiceListItem({
     );
   }, [isSelected, service.tables, valueRef]);
 
+  const onlySomeTablesSelected = useMemo(() => {
+    const selectedTables = Object.keys(tablesValue).filter((table) => tablesValue[table]);
+
+    return selectedTables.length > 0 && selectedTables.length < service.tables.length;
+  }, [tablesValue, service.tables]);
+
   return (
     <Box>
       <Box
@@ -158,6 +164,18 @@ export function ServiceListItem({
                     {service.shortLabel ?? service.label}
                   </Typography>
                 </Tooltip>
+                {onlySomeTablesSelected && (
+                  <Tooltip
+                    title={
+                      <Typography variant="body2" maxWidth={288} paddingY={1.5} paddingX={2}>
+                        Not all default tables in this service are selected. You can edit it by
+                        using the service configuration button.
+                      </Typography>
+                    }
+                  >
+                    <WarningAmber color="warning" />
+                  </Tooltip>
+                )}
               </Box>
               <Stack direction="row" alignItems="center" gap={1}>
                 <IconButton

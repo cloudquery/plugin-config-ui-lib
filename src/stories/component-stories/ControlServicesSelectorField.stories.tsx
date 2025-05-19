@@ -31,6 +31,9 @@ export default meta;
 export const Primary = {
   render: ConfigUIFormWrapper,
   args: {
+    initialValues: {
+      tables: ['aws_ec2_account_attributes'],
+    },
     config: {
       name: 'aws',
       type: 'source',
