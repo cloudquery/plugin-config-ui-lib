@@ -49,6 +49,7 @@ function InternalPluginTableSelector() {
           border: 0,
         }}
         name="tables"
+        onChange={() => null}
         value={JSON.stringify(selectedTables)}
       />
       <TableSelector

@@ -37,6 +37,7 @@ export function ControlServicesSelectorField({ topServices }: ControlServicesSel
               maxHeight: 0,
               border: 0,
             }}
+            onChange={() => null}
             name="tables"
             value={JSON.stringify(field.value)}
           />
