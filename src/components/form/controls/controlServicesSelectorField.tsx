@@ -20,7 +20,7 @@ export interface ControlServicesSelectorFieldProps {
  * @public
  */
 export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps) {
-  const { config, servicesList } = usePluginContext();
+  const { config, servicesList, initialValues } = usePluginContext();
 
   return (
     <Controller
@@ -34,6 +34,7 @@ export function ControlServicesSelectorField({ topServices }: ControlServicesSel
             onChange={field.onChange}
             maxHeight="none"
             fallbackLogoSrc={config.iconLink}
+            isUpdating={!!initialValues}
           />
           <FormHelperText error={!!fieldState.error?.message}>
             {fieldState.error?.message}
