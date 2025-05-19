@@ -51,6 +51,7 @@ export interface ServiceListProps {
   fallbackLogoSrc?: string;
   maxHeight?: string | number;
   disabled?: boolean;
+  isUpdating?: boolean;
 }
 
 /**
@@ -67,6 +68,7 @@ export function ServiceList({
   onChange,
   maxHeight = '400px',
   disabled,
+  isUpdating,
 }: ServiceListProps) {
   const valueRef = useRef(value);
   valueRef.current = value;
@@ -78,11 +80,7 @@ export function ServiceList({
   }, [services, topServices]);
 
   const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
-    () =>
-      !Object.keys(value).some((key) => value[key]) ||
-      popularServices.some((service) => service.tables.some((table) => value?.[table]))
-        ? ServiceListMode.Popular
-        : ServiceListMode.All,
+    () => (isUpdating ? ServiceListMode.All : ServiceListMode.Popular),
   );
 
   const filteredServices: Service[] = useMemo(
