@@ -184,7 +184,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
         await handleTestConnection();
       } else {
         setValue('_step', getValues('_step') + 1);
-        window.top?.document.querySelector('form')?.scrollIntoView({ block: 'start' });
+        formRef.current?.scrollIntoView({ block: 'start' });
       }
     },
     (errors) => {
