@@ -44,30 +44,30 @@ export const getCoreSchema = ({ initialValues, tablesList, config, servicesList 
           test: (value: Record<string, boolean>, context: any) =>
             context.parent._step < config.steps.length - 1 || Object.values(value).some(Boolean),
         }),
-      ...(servicesList && {
-        tables: yup
-          .object()
-          .default(
-            getEnabledTablesObject({
-              tablesList: [...new Set(servicesList.flatMap((service) => service.tables))].map(
-                (table) => ({
-                  name: table,
-                  description: '',
-                  is_incremental: false,
-                  relations: [],
-                  title: table,
-                }),
-              ),
-              tables: initialValues?.tables,
-            }),
-          )
-          .test({
-            name: 'has-services',
-            message: 'At least one service must be selected',
-            test: (value: Record<string, boolean>, context: any) =>
-              context.parent._step < config.steps.length - 1 || Object.values(value).some(Boolean),
+    }),
+    ...(servicesList && {
+      tables: yup
+        .object()
+        .default(
+          getEnabledTablesObject({
+            tablesList: [...new Set(servicesList.flatMap((service) => service.tables))].map(
+              (table) => ({
+                name: table,
+                description: '',
+                is_incremental: false,
+                relations: [],
+                title: table,
+              }),
+            ),
+            tables: initialValues?.tables,
           }),
-      }),
+        )
+        .test({
+          name: 'has-services',
+          message: 'At least one service must be selected',
+          test: (value: Record<string, boolean>, context: any) =>
+            context.parent._step < config.steps.length - 1 || Object.values(value).some(Boolean),
+        }),
     }),
   };
 
