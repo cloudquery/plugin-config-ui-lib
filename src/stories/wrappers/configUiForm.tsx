@@ -1,8 +1,16 @@
-import { ConfigUIForm } from '../../components';
+import { ConfigUIForm, Service } from '../../components';
 import { PluginContextProvider } from '../../context';
-import tablesData from '../mocks/tables.js';
+import { CloudQueryTables } from '../../utils';
 
-export const ConfigUIFormWrapper = ({ config }: { config: any }) => {
+export const ConfigUIFormWrapper = ({
+  config,
+  getServicesData,
+  getTablesData,
+}: {
+  config: any;
+  getServicesData?: () => Promise<{ default: Service[] }>;
+  getTablesData?: () => Promise<{ default: CloudQueryTables }>;
+}) => {
   const pluginUiMessageHandler = {
     sendMessage: () => {},
     subscribeToMessage: () => {},
@@ -13,7 +21,8 @@ export const ConfigUIFormWrapper = ({ config }: { config: any }) => {
     <PluginContextProvider
       config={config}
       teamName="cq-test"
-      getTablesData={async () => ({ default: tablesData })}
+      getServicesData={getServicesData}
+      getTablesData={getTablesData}
       hideStepper={true}
       pluginUiMessageHandler={pluginUiMessageHandler}
       initialValues={undefined}

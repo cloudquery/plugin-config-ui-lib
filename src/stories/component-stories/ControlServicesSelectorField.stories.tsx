@@ -1,7 +1,6 @@
 import { LayoutServicesSelector } from '../../components/form/renderer/types.js';
 import { ControlServicesSelectorField } from '../../components/index.js';
 import { AuthType } from '../../types.js';
-import { yup } from '../../utils/getYupValidationResolver.js';
 import services from '../mocks/services.js';
 
 import { ConfigUIFormWrapper } from '../wrappers/configUiForm.js';
@@ -23,7 +22,6 @@ const meta = {
   },
   args: {
     component: 'control-services-selector',
-    services,
     topServices: ['ec2', 's3', 'elb', 'kms', 'cloudfront', 'route53', 'iam', 'rds'],
   },
 } satisfies Meta<LayoutServicesSelector>;
@@ -44,23 +42,15 @@ export const Primary = {
           title: 'Configure',
           children: [
             {
-              component: 'section',
-              title: 'Select services',
-              subtitle: 'Select services you want to sync your data from.',
-              children: [
-                {
-                  component: 'control-services-selector',
-                  services,
-                  name: 'services',
-                  topServices: ['ec2', 's3', 'elb', 'kms', 'cloudfront', 'route53', 'iam', 'rds'],
-                  schema: yup.object().default({}),
-                },
-              ],
+              component: 'control-services-selector',
+              name: 'services',
+              topServices: ['ec2', 's3', 'elb', 'kms', 'cloudfront', 'route53', 'iam', 'rds'],
             },
           ],
         },
       ],
       auth: [AuthType.OTHER],
     },
+    getServicesData: async () => ({ default: services }),
   },
 };

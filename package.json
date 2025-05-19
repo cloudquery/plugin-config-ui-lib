@@ -87,7 +87,7 @@
     "humanize-string": "^3.0.0",
     "inquirer": "^12.5.0",
     "react-hook-form": "^7.55.0",
-    "react-virtuoso": "^4.12.6"
+    "react-virtuoso": "^4.12.7"
   },
   "peerDependencies": {
     "@cloudquery/plugin-config-ui-connector": "^1.1.0",

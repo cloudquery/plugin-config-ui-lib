@@ -19,7 +19,7 @@ import { usePluginContext } from '../../context/plugin';
 
 import { useConfigUIForm, useFormActions, useFormCurrentValues } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
-import { FormFooter, FormWrapper, GuideComponent } from '../display';
+import { FormFooter, FormWrapper, GuideComponent, Service } from '../display';
 import { PluginTable } from '../inputs';
 import { Sections } from './sections/sections';
 import { PluginConfig } from '../../types';
@@ -34,11 +34,12 @@ const FormStepper = React.lazy(() =>
  * @public
  */
 export interface ConfigUIFormProps {
-  prepareSubmitValues: (
-    config: PluginConfig,
-    values: Record<string, any>,
-    tablesList?: PluginTable[],
-  ) => PluginUiMessagePayload['validation_passed']['values'];
+  prepareSubmitValues: (params: {
+    config: PluginConfig;
+    values: Record<string, any>;
+    tablesList?: PluginTable[];
+    servicesList?: Service[];
+  }) => PluginUiMessagePayload['validation_passed']['values'];
   container?: HTMLElement | ShadowRoot;
 }
 
@@ -48,8 +49,15 @@ export interface ConfigUIFormProps {
  * @public
  */
 export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormProps) {
-  const { plugin, teamName, config, hideStepper, tablesList, pluginUiMessageHandler } =
-    usePluginContext();
+  const {
+    plugin,
+    teamName,
+    config,
+    hideStepper,
+    tablesList,
+    servicesList,
+    pluginUiMessageHandler,
+  } = usePluginContext();
 
   const form = useConfigUIForm();
   const emotionCache = useMemo(() => createCache({ key: 'css', container }), [container]);
@@ -60,8 +68,14 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
   const [submitGuardLoading, setSubmitGuardLoading] = useState(false);
 
   const getCurrentValues = useCallback(
-    () => prepareSubmitValues(config, form.getValues(), tablesList),
-    [config, form, tablesList, prepareSubmitValues],
+    () =>
+      prepareSubmitValues({
+        config,
+        values: form.getValues(),
+        tablesList,
+        servicesList,
+      }),
+    [config, form, tablesList, servicesList, prepareSubmitValues],
   );
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);

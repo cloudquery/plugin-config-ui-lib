@@ -1,13 +1,15 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { forwardRef, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 
 import { FormControlLabel } from '@mui/material';
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
+
+import { Virtuoso } from 'react-virtuoso';
 
 import { ServiceListItem } from './listItem';
 import { parseSrc } from '../../../utils/parseSrc';
@@ -25,6 +27,16 @@ export type Service = {
   tables: string[];
 };
 
+const gridComponents = {
+  // eslint-disable-next-line react/display-name
+  List: forwardRef<HTMLDivElement, { children?: ReactNode }>(({ children, ...props }, ref) => (
+    <Stack ref={ref} {...props} gap={1.5} width="100%">
+      {children}
+    </Stack>
+  )),
+  Item: ({ children, ...props }: { children?: ReactNode }) => <Box {...props}>{children}</Box>,
+};
+
 /**
  * @public
  */
@@ -37,7 +49,7 @@ export interface ServiceListProps {
   value: Record<string, boolean>;
   onChange: (value: Record<string, boolean>) => void;
   fallbackLogoSrc?: string;
-  maxHeight?: BoxProps['maxHeight'];
+  maxHeight?: string | number;
   disabled?: boolean;
 }
 
@@ -75,6 +87,15 @@ export function ServiceList({
     [services, showServices, topServices],
   );
 
+  const filteredServiceRows = useMemo(() => {
+    const rows: Service[][] = [];
+    for (let i = 0; i < filteredServices.length; i += 2) {
+      rows.push([filteredServices[i], filteredServices[i + 1]].filter(Boolean) as Service[]);
+    }
+
+    return rows;
+  }, [filteredServices]);
+
   const allServicesSelected = useMemo(() => {
     return Object.values(filteredServices).every((service) =>
       service.tables.every((table) => value?.[table]),
@@ -106,6 +127,12 @@ export function ServiceList({
       ...value,
       ...newValues,
     });
+
+    for (const service of filteredServices) {
+      for (const callback of subscriptionsRef.current[service.name] || []) {
+        callback(!allServicesSelected);
+      }
+    }
   }, [allServicesSelected, onChange, filteredServices, value]);
 
   const handleToggleService = useCallback(
@@ -165,7 +192,8 @@ export function ServiceList({
         <Stack direction="row" alignItems="center" gap={1}>
           {selectedServices.length > 0 && (
             <Typography variant="body2" color="secondary">
-              {value.length} {selectedServices.length > 1 ? 'services' : 'service'} selected
+              {selectedServices.length} {selectedServices.length > 1 ? 'services' : 'service'}{' '}
+              selected
             </Typography>
           )}
           <FormControlLabel
@@ -188,30 +216,31 @@ export function ServiceList({
           />
         </Stack>
       </Stack>
-      <Box
-        sx={{
-          display: 'grid',
-          gap: 2,
-          gridTemplateColumns: { xs: 'minmax(0, 1fr) minmax(0, 1fr)' },
-          width: '100%',
-          maxHeight,
-          overflowY: 'auto',
+      <Virtuoso
+        style={{ height: '280px', width: '100%', maxHeight }}
+        data={filteredServiceRows}
+        components={{
+          List: gridComponents.List,
         }}
-      >
-        {filteredServices.map((service) => (
-          <ServiceListItem
-            key={service.name}
-            onChange={onChange}
-            service={service}
-            valueRef={valueRef}
-            onExpandToggle={handleExpandService}
-            subscribeToServiceValueChange={subscribeToServiceValueChange}
-            isExpanded={expandedService === service.name}
-            fallbackLogoSrc={fallbackLogoSrc}
-            onToggle={handleToggleService}
-          />
-        ))}
-      </Box>
+        itemContent={(_, serviceRow) => (
+          <Box display="grid" gridTemplateColumns="1fr 1fr" gap={1.5} width="100%">
+            {serviceRow.map((service) => (
+              <Box key={service.name} minWidth="0">
+                <ServiceListItem
+                  onChange={onChange}
+                  service={service}
+                  valueRef={valueRef}
+                  onExpandToggle={handleExpandService}
+                  subscribeToServiceValueChange={subscribeToServiceValueChange}
+                  isExpanded={expandedService === service.name}
+                  fallbackLogoSrc={fallbackLogoSrc}
+                  onToggle={handleToggleService}
+                />
+              </Box>
+            ))}
+          </Box>
+        )}
+      />
       <Button
         disabled={disabled}
         fullWidth={true}

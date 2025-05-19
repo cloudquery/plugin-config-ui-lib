@@ -5,7 +5,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 
 import { PluginTableListItem, SubscribeToTablesValueChange } from './types';
-import { TreeGroup, TreeNode } from '../../display/tree';
 
 interface Props {
   valuesRef: React.MutableRefObject<Record<string, boolean>>;
@@ -14,6 +13,7 @@ interface Props {
   tableListItem: PluginTableListItem;
   subscribeToTablesValueChange: SubscribeToTablesValueChange;
   disabled?: boolean;
+  depth: number;
 }
 
 const InternalTableSelectorListItem: FC<Props> = ({
@@ -23,6 +23,7 @@ const InternalTableSelectorListItem: FC<Props> = ({
   selectedAsIndeterminate,
   tableListItem,
   disabled,
+  depth,
 }) => {
   const [value, setValue] = React.useState(!!valuesRef.current[tableListItem.name]);
   const valueRef = React.useRef(value);
@@ -40,55 +41,39 @@ const InternalTableSelectorListItem: FC<Props> = ({
   }, [subscribeToTablesValueChange, tableListItem.name]);
 
   return (
-    <TreeNode isExpanded={true} isSelected={value} onSelect={handleSelect} sx={{ paddingLeft: 3 }}>
-      <Stack
+    <Stack
+      sx={{
+        borderRadius: 1,
+        marginBottom: 0.25,
+        marginLeft: (depth + 1) * 2.25,
+      }}
+    >
+      <FormControlLabel
+        disabled={disabled}
+        control={
+          <Checkbox
+            disabled={disabled}
+            checked={value}
+            indeterminate={isIndeterminate}
+            name={tableListItem.name}
+            onChange={handleSelect}
+            size="small"
+            sx={{
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
+            tabIndex={-1}
+          />
+        }
+        label={tableListItem.name}
         sx={{
           borderRadius: 1,
-          marginBottom: 0.25,
+          marginLeft: 0,
+          overflowWrap: 'anywhere',
         }}
-      >
-        <FormControlLabel
-          disabled={disabled}
-          control={
-            <Checkbox
-              disabled={disabled}
-              checked={value}
-              indeterminate={isIndeterminate}
-              name={tableListItem.name}
-              onChange={handleSelect}
-              size="small"
-              sx={{
-                '&:hover': {
-                  backgroundColor: 'transparent',
-                },
-              }}
-              tabIndex={-1}
-            />
-          }
-          label={tableListItem.name}
-          sx={{
-            borderRadius: 1,
-            marginLeft: 0,
-            overflowWrap: 'anywhere',
-          }}
-        />
-      </Stack>
-      {tableListItem.relationTables.length > 0 && (
-        <TreeGroup sx={{ padding: 0, paddingY: 0 }}>
-          {tableListItem.relationTables.map((relationTable) => (
-            <TableSelectorListItem
-              key={`${relationTable.parent}-${relationTable.name}`}
-              onSelect={onSelect}
-              valuesRef={valuesRef}
-              selectedAsIndeterminate={selectedAsIndeterminate}
-              tableListItem={relationTable}
-              subscribeToTablesValueChange={subscribeToTablesValueChange}
-              disabled={disabled}
-            />
-          ))}
-        </TreeGroup>
-      )}
-    </TreeNode>
+      />
+    </Stack>
   );
 };
 

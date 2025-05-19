@@ -6,6 +6,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 
+import { Virtuoso } from 'react-virtuoso';
+
 import { TableSelectorFilters } from './filters';
 import { TableSelectorListItem } from './listItem';
 import { PluginTableListItem } from './types';
@@ -14,7 +16,6 @@ import {
   getTableSelectorPluginFlatTableList,
   handleTableSelectorSelect,
 } from './utils';
-import { TreeRoot } from '../../display/tree';
 
 /**
  * @public
@@ -148,7 +149,7 @@ export function TableSelector({
   const noResults = filteredTableList.length === 0;
 
   const numberOfSelectedTables = Object.values(value).filter(Boolean).length;
-  const maxHeight = embeded ? '300' : Math.min(tableList.length, 11) * 40;
+  const maxHeight = embeded ? '200' : Math.min(tableList.length, 11) * 40;
 
   return (
     <Box
@@ -207,8 +208,10 @@ export function TableSelector({
         }}
       >
         {!noResults && (
-          <TreeRoot sx={{ maxWidth: '100%', paddingY: 0 }}>
-            {filteredTableList.map((table) => (
+          <Virtuoso
+            style={{ height: '100%', width: '100%', maxHeight }}
+            data={filteredFlatTableList}
+            itemContent={(_, table) => (
               <TableSelectorListItem
                 key={`${table.parent}-${table.name}`}
                 valuesRef={selectedTablesRef}
@@ -217,9 +220,10 @@ export function TableSelector({
                 selectedAsIndeterminate={filterTablesValue === 'unselected'}
                 tableListItem={table}
                 disabled={disabled}
+                depth={table.depth}
               />
-            ))}
-          </TreeRoot>
+            )}
+          />
         )}
       </Box>
     </Box>

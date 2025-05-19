@@ -2,7 +2,7 @@ import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 
 import { prepareOAuthValue } from './prepareOAuthValue';
 import { prepareSecretValues } from './prepareSecretValues';
-import { PluginTable } from '../components';
+import { PluginTable, Service } from '../components';
 import { PluginConfig } from '../types';
 
 /**
@@ -10,15 +10,21 @@ import { PluginConfig } from '../types';
  *
  * @public
  */
-export function corePrepareSubmitValues(
-  config: PluginConfig,
-  values: any,
-  tablesList?: PluginTable[],
-): PluginUiMessagePayload['validation_passed']['values'] {
+export function corePrepareSubmitValues({
+  config,
+  values,
+  tablesList,
+  servicesList,
+}: {
+  config: PluginConfig;
+  values: any;
+  tablesList?: PluginTable[];
+  servicesList?: Service[];
+}): PluginUiMessagePayload['validation_passed']['values'] {
   const base = {
     name: values.name,
     displayName: values.displayName,
-    tables: tablesList ? getEnabledTablesArray(values.tables, tablesList) : undefined,
+    tables: tablesList || servicesList ? getEnabledTablesArray(values.tables) : undefined,
     spec: {} as Record<string, any>,
   };
 
@@ -36,13 +42,8 @@ export function corePrepareSubmitValues(
   };
 }
 
-const getEnabledTablesArray = (
-  tables: Record<string, boolean>,
-  tablesList: PluginTable[],
-): string[] => {
-  const enabledTables = Object.entries(tables)
+const getEnabledTablesArray = (tables: Record<string, boolean>): string[] => {
+  return Object.entries(tables)
     .filter(([, isEnabled]) => !!isEnabled)
     .map(([tableName]) => tableName);
-
-  return enabledTables.length === tablesList.length ? ['*'] : enabledTables;
 };

@@ -98,8 +98,12 @@ function ServiceListItemInternal({
         bgcolor={isExpanded ? 'primary.selected' : undefined}
         borderRadius={1.5}
         sx={{
-          '&:hover .expand-toggle': {
-            opacity: 1,
+          '&:hover': {
+            borderColor: 'primary.dark',
+            bgcolor: 'primary.hovered',
+            '.expand-toggle': {
+              opacity: 1,
+            },
           },
         }}
       >
@@ -111,6 +115,9 @@ function ServiceListItemInternal({
             pr: 0,
             border: 'none',
             width: '100%',
+            '&:hover': {
+              bgcolor: 'transparent',
+            },
           }}
           key={service.name}
           value={service.name}
@@ -134,6 +141,7 @@ function ServiceListItemInternal({
                   gap: 1,
                   flexShrink: 1,
                   width: '70%',
+                  minWidth: 0,
                 }}
               >
                 <Logo

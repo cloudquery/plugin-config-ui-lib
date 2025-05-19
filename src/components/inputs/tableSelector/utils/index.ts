@@ -75,11 +75,11 @@ export function filterTableSelectorPluginTableList(
 }
 
 export function getTableSelectorPluginFlatTableList(pluginTables: PluginTableListItem[]) {
-  const extract = (tableListItem: PluginTableListItem) => {
-    const list = [tableListItem];
+  const extract = (tableListItem: PluginTableListItem, depth = 0) => {
+    const list = [{ ...tableListItem, depth }];
     if (tableListItem.relationTables.length > 0) {
       for (const relationTable of tableListItem.relationTables) {
-        list.push(...extract(relationTable));
+        list.push(...extract(relationTable, depth + 1));
       }
     }
 

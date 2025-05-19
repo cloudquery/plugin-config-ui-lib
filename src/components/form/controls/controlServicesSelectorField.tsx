@@ -1,18 +1,15 @@
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
-import FormLabel from '@mui/material/FormLabel';
 
 import { Controller } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
-import { getFieldHelperText } from '../../../utils';
-import { ServiceList, Service } from '../../display';
+import { ServiceList } from '../../display';
 
 /**
  * @public
  */
 export interface ControlServicesSelectorFieldProps {
-  services: Service[];
   topServices: string[];
 }
 
@@ -22,31 +19,24 @@ export interface ControlServicesSelectorFieldProps {
  *
  * @public
  */
-export function ControlServicesSelectorField({
-  services,
-  topServices,
-}: ControlServicesSelectorFieldProps) {
-  const { config } = usePluginContext();
+export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps) {
+  const { config, servicesList } = usePluginContext();
 
   return (
     <Controller
       name="tables"
       render={({ field, fieldState }) => (
         <FormControl>
-          <FormLabel>Select services</FormLabel>
           <ServiceList
             topServices={topServices}
-            services={services}
+            services={servicesList || []}
             value={field.value}
             onChange={field.onChange}
             maxHeight="none"
             fallbackLogoSrc={config.iconLink}
           />
           <FormHelperText error={!!fieldState.error?.message}>
-            {getFieldHelperText(
-              fieldState.error?.message,
-              'Select services you want to sync your data from.',
-            )}
+            {fieldState.error?.message}
           </FormHelperText>
         </FormControl>
       )}

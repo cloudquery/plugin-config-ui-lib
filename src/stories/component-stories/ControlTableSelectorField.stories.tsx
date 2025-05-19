@@ -2,6 +2,7 @@ import { LayoutTableSelector } from '../../components/form/renderer/types.js';
 import { ControlTableSelectorField } from '../../components/index.js';
 import { AuthType } from '../../types.js';
 
+import tablesData from '../mocks/tables.js';
 import { ConfigUIFormWrapper } from '../wrappers/configUiForm.js';
 
 import type { Meta } from '@storybook/react';
@@ -52,5 +53,6 @@ export const Primary = {
       ],
       auth: [AuthType.OTHER],
     },
+    getTablesData: async () => ({ default: tablesData }),
   },
 };
