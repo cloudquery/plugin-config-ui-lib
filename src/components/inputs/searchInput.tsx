@@ -30,7 +30,9 @@ export function SearchInput(props: TextFieldProps) {
     <StyledTextField
       {...props}
       slotProps={{
+        ...props.slotProps,
         input: {
+          ...props.slotProps?.input,
           startAdornment: <SearchIcon sx={{ fontSize: 20, marginRight: 1 }} />,
         },
       }}

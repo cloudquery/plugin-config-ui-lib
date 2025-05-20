@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { createThemeOptions } from '@cloudquery/cloud-ui';
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
@@ -19,10 +19,11 @@ import { usePluginContext } from '../../context/plugin';
 
 import { useConfigUIForm, useFormActions, useFormCurrentValues } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
-import { FormFooter, FormWrapper, GuideComponent } from '../display';
+import { FormFooter, FormWrapper, GuideComponent, Service } from '../display';
 import { PluginTable } from '../inputs';
 import { Sections } from './sections/sections';
 import { PluginConfig } from '../../types';
+import { scrollToFirstFormFieldError } from '../../utils';
 
 const FormStepper = React.lazy(() =>
   import('../display/formStepper').then((module) => ({
@@ -34,11 +35,12 @@ const FormStepper = React.lazy(() =>
  * @public
  */
 export interface ConfigUIFormProps {
-  prepareSubmitValues: (
-    config: PluginConfig,
-    values: Record<string, any>,
-    tablesList?: PluginTable[],
-  ) => PluginUiMessagePayload['validation_passed']['values'];
+  prepareSubmitValues: (params: {
+    config: PluginConfig;
+    values: Record<string, any>;
+    tablesList?: PluginTable[];
+    servicesList?: Service[];
+  }) => PluginUiMessagePayload['validation_passed']['values'];
   container?: HTMLElement | ShadowRoot;
 }
 
@@ -48,9 +50,17 @@ export interface ConfigUIFormProps {
  * @public
  */
 export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormProps) {
-  const { plugin, teamName, config, hideStepper, tablesList, pluginUiMessageHandler } =
-    usePluginContext();
+  const {
+    plugin,
+    teamName,
+    config,
+    hideStepper,
+    tablesList,
+    servicesList,
+    pluginUiMessageHandler,
+  } = usePluginContext();
 
+  const formRef = useRef<HTMLFormElement>(null);
   const form = useConfigUIForm();
   const emotionCache = useMemo(() => createCache({ key: 'css', container }), [container]);
   const { getValues, handleSubmit: handleFormSubmit, setValue, watch, setError, formState } = form;
@@ -60,8 +70,14 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
   const [submitGuardLoading, setSubmitGuardLoading] = useState(false);
 
   const getCurrentValues = useCallback(
-    () => prepareSubmitValues(config, form.getValues(), tablesList),
-    [config, form, tablesList, prepareSubmitValues],
+    () =>
+      prepareSubmitValues({
+        config,
+        values: form.getValues(),
+        tablesList,
+        servicesList,
+      }),
+    [config, form, tablesList, servicesList, prepareSubmitValues],
   );
 
   useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
@@ -136,39 +152,47 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 
   const isLastStep = !config.steps || step === config.steps.length - 1;
 
-  const onSubmit = handleFormSubmit(async function () {
-    const thisStep = getValues('_step');
+  const onSubmit = handleFormSubmit(
+    async function () {
+      const thisStep = getValues('_step');
 
-    if (config.steps[thisStep]?.submitGuard) {
-      setSubmitGuardLoading(true);
+      if (config.steps[thisStep]?.submitGuard) {
+        setSubmitGuardLoading(true);
 
-      const result = await config.steps[thisStep]
-        ?.submitGuard(getValues(), teamName, setValue)
-        .catch((error) => {
-          return {
-            errorMessage: error.message || 'Validation failed. Please check the form for errors.',
-          };
-        });
+        const result = await config.steps[thisStep]
+          ?.submitGuard(getValues(), teamName, setValue)
+          .catch((error) => {
+            return {
+              errorMessage: error.message || 'Validation failed. Please check the form for errors.',
+            };
+          });
 
-      setSubmitGuardLoading(false);
+        setSubmitGuardLoading(false);
 
-      const resultErrorMessage =
-        typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
-      if (result === false || resultErrorMessage) {
-        setError('root', {
-          message: resultErrorMessage || 'Validation failed. Please check the form for errors.',
-        });
+        const resultErrorMessage =
+          typeof result === 'object' && 'errorMessage' in result && result.errorMessage;
+        if (result === false || resultErrorMessage) {
+          setError('root', {
+            message: resultErrorMessage || 'Validation failed. Please check the form for errors.',
+          });
 
-        return;
+          return;
+        }
       }
-    }
 
-    if (isLastStep) {
-      await handleTestConnection();
-    } else {
-      setValue('_step', getValues('_step') + 1);
-    }
-  });
+      if (isLastStep) {
+        await handleTestConnection();
+      } else {
+        setValue('_step', getValues('_step') + 1);
+        formRef.current?.scrollIntoView({ block: 'start' });
+      }
+    },
+    (errors) => {
+      if (formRef.current) {
+        scrollToFirstFormFieldError(Object.keys(errors), formRef.current);
+      }
+    },
+  );
 
   useEffect(() => {
     if (config?.debug && form?.formState?.errors) {
@@ -231,7 +255,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 zIndex: 2,
               }}
             >
-              <form autoComplete="off" noValidate={true} onSubmit={onSubmit}>
+              <form ref={formRef} autoComplete="off" noValidate={true} onSubmit={onSubmit}>
                 <Stack
                   sx={{
                     gap: 3,
@@ -280,21 +304,23 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                 </Stack>
               </form>
             </Box>
-            <Box
-              sx={{
-                width: {
-                  xs: 360,
-                  lg: `calc(50% - (${theme.spacing(5)} / 2))`,
-                  xl: '500px',
-                  xxl: '40%',
-                },
-                minWidth: 360,
-                position: 'sticky',
-                top: 10,
-              }}
-            >
-              <GuideComponent />
-            </Box>
+            {config.guide && (
+              <Box
+                sx={{
+                  width: {
+                    xs: 360,
+                    lg: `calc(50% - (${theme.spacing(5)} / 2))`,
+                    xl: '500px',
+                    xxl: '40%',
+                  },
+                  minWidth: 360,
+                  position: 'sticky',
+                  top: 10,
+                }}
+              >
+                <GuideComponent />
+              </Box>
+            )}
           </Stack>
         </FormProvider>
       </ThemeProvider>

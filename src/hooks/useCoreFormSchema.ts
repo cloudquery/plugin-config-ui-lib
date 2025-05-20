@@ -29,11 +29,11 @@ export const useCoreFormSchema = ({
   stateFields = {},
 }: UseCoreFormSchemaProps) => {
   resetYupDefaultErrorMessages(yup);
-  const { tablesList, config } = usePluginContext();
+  const { tablesList, config, servicesList } = usePluginContext();
 
   const coreSchema = useMemo(
-    () => getCoreSchema({ initialValues, tablesList, config }),
-    [initialValues, tablesList, config],
+    () => getCoreSchema({ initialValues, tablesList, config, servicesList }),
+    [initialValues, tablesList, config, servicesList],
   );
 
   return useMemo(

@@ -11,7 +11,7 @@ import { getYupValidationResolver } from '../utils';
  */
 export const useConfigUIForm = () => {
   const formValidationSchema = useFormSchema();
-  const { tablesList } = usePluginContext();
+  const { tablesList, servicesList } = usePluginContext();
   const { formValidationResolver, defaultValues } = useMemo(
     () => ({
       formValidationResolver: getYupValidationResolver(formValidationSchema),
@@ -25,10 +25,12 @@ export const useConfigUIForm = () => {
     resolver: formValidationResolver,
   });
 
+  // Because list of tables and services is loaded asynchronously,
+  // we need to update the form values when they are loaded
   useEffect(() => {
     form.setValue('tables', defaultValues.tables);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tablesList]);
+  }, [tablesList, servicesList]);
 
   return form;
 };

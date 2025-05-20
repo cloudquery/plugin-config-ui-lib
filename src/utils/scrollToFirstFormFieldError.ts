@@ -4,9 +4,12 @@
  * @param errorFieldNames - Array of field names that contain errors
  * @public
  */
-export function scrollToFirstFormFieldError(errorFieldNames: string[]) {
+export function scrollToFirstFormFieldError(
+  errorFieldNames: string[],
+  formElement: HTMLFormElement,
+) {
   const elements = errorFieldNames
-    .map((name) => document.querySelector(`[name="${name}"]`) as HTMLElement)
+    .map((name) => formElement.querySelector(`[name="${name}"]`) as HTMLElement)
     .filter((el) => !!el);
   elements.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
 

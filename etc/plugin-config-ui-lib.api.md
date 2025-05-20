@@ -5,7 +5,6 @@
 ```ts
 
 import { AccordionProps } from '@mui/material/Accordion';
-import { BoxProps } from '@mui/material/Box';
 import { ButtonProps } from '@mui/material/Button';
 import { ChangeEventHandler } from 'react';
 import { Controller } from 'react-hook-form';
@@ -32,6 +31,7 @@ import { useForm } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UseFormReturn } from 'react-hook-form';
 import { useWatch } from 'react-hook-form';
+import { VirtuosoMockContext } from 'react-virtuoso';
 import * as yup from 'yup';
 
 // @public (undocumented)
@@ -86,7 +86,12 @@ export interface ConfigUIFormProps {
     // (undocumented)
     container?: HTMLElement | ShadowRoot;
     // (undocumented)
-    prepareSubmitValues: (config: PluginConfig, values: Record<string, any>, tablesList?: PluginTable[]) => PluginUiMessagePayload['validation_passed']['values'];
+    prepareSubmitValues: (params: {
+        config: PluginConfig;
+        values: Record<string, any>;
+        tablesList?: PluginTable[];
+        servicesList?: Service[];
+    }) => PluginUiMessagePayload['validation_passed']['values'];
 }
 
 // @public
@@ -235,20 +240,12 @@ export interface ControlSelectFieldProps {
 }
 
 // @public
-export function ControlServicesSelectorField({ services, topServices, name, helperText, label, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlServicesSelectorFieldProps {
     // (undocumented)
-    helperText?: ReactNode;
-    // (undocumented)
-    label?: string;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    services: ServiceTypes;
-    // (undocumented)
-    topServices?: string[];
+    topServices: string[];
 }
 
 // Warning: (ae-forgotten-export) The symbol "InternalPluginTableSelector" needs to be exported by the entry point index.d.ts
@@ -275,7 +272,12 @@ export interface ControlTextFieldProps {
 export function convertStringToSlug(value: string): string;
 
 // @public
-export function corePrepareSubmitValues(config: PluginConfig, values: any, tablesList?: PluginTable[]): PluginUiMessagePayload['validation_passed']['values'];
+export function corePrepareSubmitValues({ config, values, tablesList, servicesList, }: {
+    config: PluginConfig;
+    values: any;
+    tablesList?: PluginTable[];
+    servicesList?: Service[];
+}): PluginUiMessagePayload['validation_passed']['values'];
 
 // @public
 export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, authenticatePayload, }: {
@@ -649,7 +651,7 @@ export type PluginConfigFormStep = {
 };
 
 // @public
-export const PluginContextProvider: ({ children, config, teamName, getTablesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, teamName, getTablesData, getServicesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -657,6 +659,10 @@ export interface PluginContextProviderProps {
     children: React_2.ReactNode;
     // (undocumented)
     config: PluginConfig;
+    // (undocumented)
+    getServicesData?: () => Promise<{
+        default: Service[];
+    }>;
     // (undocumented)
     getTablesData?: () => Promise<{
         default: CloudQueryTables;
@@ -715,7 +721,7 @@ export type RenderGuideProps = {
 export function resetYupDefaultErrorMessages(yup: typeof yup): void;
 
 // @public
-export function scrollToFirstFormFieldError(errorFieldNames: string[]): void;
+export function scrollToFirstFormFieldError(errorFieldNames: string[], formElement: HTMLFormElement): void;
 
 // @public
 export function SearchInput(props: TextFieldProps): JSX_2.Element;
@@ -758,8 +764,17 @@ export interface SecretInputProps {
     value: any;
 }
 
+// @public (undocumented)
+export type Service = {
+    name: string;
+    label: string;
+    shortLabel?: string;
+    logo: string;
+    tables: string[];
+};
+
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, }: ServiceListProps): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, isUpdating, }: ServiceListProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ServiceListProps {
@@ -768,21 +783,17 @@ export interface ServiceListProps {
     // (undocumented)
     fallbackLogoSrc?: string;
     // (undocumented)
-    maxHeight?: BoxProps['maxHeight'];
+    isUpdating?: boolean;
     // (undocumented)
-    onChange?: (value: string[]) => void;
+    maxHeight?: string | number;
     // (undocumented)
-    services: ServiceTypes;
+    onChange: (value: Record<string, boolean>) => void;
     // (undocumented)
-    topServices?: string[];
+    services: Service[];
     // (undocumented)
-    value?: string[];
+    topServices: string[];
+    value: Record<string, boolean>;
 }
-
-// Warning: (ae-forgotten-export) The symbol "ServiceType" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type ServiceTypes = Record<string, ServiceType>;
 
 // @public
 export function SetupGuide({ docsLink, title, children, maxHeight }: SetupGuideProps): JSX_2.Element;
@@ -825,15 +836,15 @@ export enum SyncLogLevel {
 }
 
 // @public
-export function TableSelector({ subscribeToTablesValueChange, errorMessage, value, onChange, tableList, disabled, }: TableSelectorProps): JSX_2.Element;
+export function TableSelector({ errorMessage, value, onChange, tableList, disabled, onlySearchFilter, embeded, }: TableSelectorProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface TableSelectorProps {
     disabled?: boolean;
+    embeded?: boolean;
     errorMessage?: string;
     onChange: (value: Record<string, boolean>) => void;
-    // Warning: (ae-forgotten-export) The symbol "SubscribeToTablesValueChange" needs to be exported by the entry point index.d.ts
-    subscribeToTablesValueChange: SubscribeToTablesValueChange;
+    onlySearchFilter?: boolean;
     tableList: PluginTableListItem[];
     value: Record<string, boolean>;
 }
@@ -1028,6 +1039,8 @@ export function useTestConnection(): {
 };
 
 export { useWatch }
+
+export { VirtuosoMockContext }
 
 // @public @deprecated
 export function writeSecretsToPrepareValues(env?: Record<string, string>): {

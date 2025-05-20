@@ -1,5 +1,5 @@
 import { reservedNames, errorMessages } from './constants';
-import { PluginTable } from '../../components';
+import { PluginTable, Service } from '../../components';
 import {
   IterableStepComponent,
   LayoutComponent,
@@ -13,7 +13,7 @@ const sectionRequiresTitle = (componentName: string) =>
   ['collapsible-section', 'section'].includes(componentName);
 
 const isReservedLayoutComponent = (componentName: string) =>
-  ['control-table-selector', 'control-oauth'].includes(componentName);
+  ['control-table-selector', 'control-oauth', 'control-services-selector'].includes(componentName);
 
 const componentRequiresLabel = (componentName: string) =>
   !['control-exclusive-toggle', 'control-services-selector'].includes(componentName);
@@ -83,7 +83,11 @@ function validateSteps(steps: PluginConfig['steps']): string[] {
   });
 }
 
-export function validateConfig(config: PluginConfig, tablesList?: PluginTable[]) {
+export function validateConfig(
+  config: PluginConfig,
+  tablesList?: PluginTable[],
+  servicesList?: Service[],
+) {
   if (!config) {
     throw new Error(errorMessages.config_no_config);
   }
@@ -112,9 +116,6 @@ export function validateConfig(config: PluginConfig, tablesList?: PluginTable[])
   if (!config.auth) {
     throw new Error(errorMessages.config_no_auth);
   }
-  if (!config.guide) {
-    throw new Error(errorMessages.config_no_guide);
-  }
   if (config.errorCodes && typeof config.errorCodes !== 'object') {
     throw new Error(errorMessages.config_bad_error_codes);
   }
@@ -123,6 +124,10 @@ export function validateConfig(config: PluginConfig, tablesList?: PluginTable[])
   const duplicateComponentNames = checkForDuplicateNames(componentFieldNames);
   if (duplicateComponentNames.length > 0) {
     throw new Error(`${errorMessages.duplicate_names}: ${duplicateComponentNames}`);
+  }
+
+  if (tablesList && tablesList.length > 0 && servicesList && servicesList.length > 0) {
+    throw new Error(errorMessages.config_both_table_and_service_selector);
   }
 
   if (tablesList && tablesList.length > 0) {
@@ -153,6 +158,37 @@ export function validateConfig(config: PluginConfig, tablesList?: PluginTable[])
       )
     ) {
       throw new Error(errorMessages.config_no_table_selector);
+    }
+  }
+
+  if (servicesList && servicesList.length > 0) {
+    const hasServiceSelector = (
+      steps: (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
+    ): boolean => {
+      return steps.some((step) => {
+        if (step.component === 'control-services-selector') {
+          return true;
+        }
+        if ((step as RenderSection).children && Array.isArray((step as RenderSection).children)) {
+          return hasServiceSelector(
+            (step as RenderSection).children as (
+              | RenderSection
+              | LayoutComponent
+              | ReservedLayoutComponent
+            )[],
+          );
+        }
+
+        return false;
+      });
+    };
+
+    if (
+      !hasServiceSelector(
+        config.steps as (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
+      )
+    ) {
+      throw new Error(errorMessages.config_no_service_selector);
     }
   }
 

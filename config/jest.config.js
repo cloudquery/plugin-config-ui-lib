@@ -13,4 +13,5 @@ module.exports = {
   transformIgnorePatterns: [
     'node_modules/(?!(@babel|react|@mui/material|humanize-string|decamelize)/)',
   ],
+  testPathIgnorePatterns: ['src/template'],
 };

@@ -28,8 +28,12 @@ export const errorMessages = {
   reserved_name: 'This is a reserved name. Please use a different identifier for your form field',
   duplicate_names:
     'These form field names have been defined more than once. Form field names can only be used a single time.',
+  config_both_table_and_service_selector:
+    'Config cannot include both a control-table-selector and control-services-selector component',
   config_no_table_selector:
     'Config must include a control-table-selector component when getTablesData returns a non-empty list of tables',
+  config_no_service_selector:
+    'Config must include a control-services-selector component when getServicesData returns a non-empty list of services',
 };
 
 // These form value names are controlled entirely from within the lib
