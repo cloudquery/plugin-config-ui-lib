@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest';
 import { render, screen, waitFor, act } from '@testing-library/react';
-import { App } from '../App';
+import App from '../App';
 import { VirtuosoMockContext } from '@cloudquery/plugin-config-ui-lib';
 
 // Mock window.open

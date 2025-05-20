@@ -79,5 +79,6 @@ export default {
     environment: 'jsdom',
     globals: true,
     setupFiles: './src/tests/setupTests.ts',
+    include: ['src/tests/**/*.test.ts', 'src/tests/**/*.test.tsx'],
   },
 };
