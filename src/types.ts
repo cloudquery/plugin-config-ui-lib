@@ -51,6 +51,7 @@ export type PluginConfigFormStep = {
     teamName: string,
     setValue: (field: string, value: any) => void,
   ) => Promise<boolean | { errorMessage: string }>;
+  submitDisabledMessage?: React.ReactNode;
 };
 
 /**

@@ -385,7 +385,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, submitDisabled, showPreviousStepButton, pluginName, teamName, testConnectionId, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, showPreviousStepButton, pluginName, teamName, testConnectionId, submitDisabledMessage, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -399,7 +399,7 @@ export interface FormFooterProps {
     pluginKind: 'source' | 'destination';
     pluginName: string;
     showPreviousStepButton: boolean;
-    submitDisabled?: boolean;
+    submitDisabledMessage?: React_2.ReactNode;
     submitLabel?: string;
     // Warning: (ae-forgotten-export) The symbol "FormValues" needs to be exported by the entry point index.d.ts
     submitPayload: (FormValues & {
@@ -648,6 +648,7 @@ export type PluginConfigFormStep = {
     submitGuard?: (formValues: any, teamName: string, setValue: (field: string, value: any) => void) => Promise<boolean | {
         errorMessage: string;
     }>;
+    submitDisabledMessage?: React_2.ReactNode;
 };
 
 // @public

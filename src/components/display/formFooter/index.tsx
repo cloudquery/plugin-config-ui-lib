@@ -1,6 +1,10 @@
+import React from 'react';
+
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+
+import Tooltip from '@mui/material/Tooltip';
 
 import { FormFooterTestConnectionResult } from './testConnectionResult';
 
@@ -30,8 +34,6 @@ export interface FormFooterProps {
   onGoToPreviousStep: () => void;
   /** Label for the submit button */
   submitLabel?: string;
-  /** Indicates whether the submit button should be disabled */
-  submitDisabled?: boolean;
   /** Callback to handle test connection success */
   onTestConnectionSuccess: () => void;
   /** Indicates whether the previous step button should be shown */
@@ -42,6 +44,9 @@ export interface FormFooterProps {
   teamName: string;
   /** The ID of the test connection */
   testConnectionId?: string;
+  /** The message to display when the submit button is disabled.
+   * If not provided, the button will be enabled. */
+  submitDisabledMessage?: React.ReactNode;
 }
 
 /**
@@ -63,11 +68,11 @@ export function FormFooter({
   onGoToPreviousStep,
   onTestConnectionSuccess,
   submitLabel,
-  submitDisabled,
   showPreviousStepButton,
   pluginName,
   teamName,
   testConnectionId,
+  submitDisabledMessage,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -106,15 +111,25 @@ export function FormFooter({
             </Button>
           )}
         </Stack>
-        <Button
-          loading={isBusy}
-          size="medium"
-          variant="contained"
-          type="submit"
-          disabled={submitDisabled}
-        >
-          {submitLabel || 'Test and save'}
-        </Button>
+        {submitDisabledMessage ? (
+          <Tooltip title={submitDisabledMessage}>
+            <span>
+              <Button
+                loading={isBusy}
+                size="medium"
+                variant="contained"
+                type="submit"
+                disabled={true}
+              >
+                {submitLabel || 'Test and save'}
+              </Button>
+            </span>
+          </Tooltip>
+        ) : (
+          <Button loading={isBusy} size="medium" variant="contained" type="submit">
+            {submitLabel || 'Test and save'}
+          </Button>
+        )}
       </Stack>
       {(isTestingConnection || testConnectionError || submitPayload) && (
         <FormFooterTestConnectionResult
