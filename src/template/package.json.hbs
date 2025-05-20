@@ -67,8 +67,8 @@
     "analyze": "source-map-explorer 'dist/assets/*.js'",
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "lint:fix": "eslint src --ext .ts,.tsx --max-warnings 0 --fix",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+    "test": "vitest --run",
+    "test:watch": "vitest",
     "test:e2e": "playwright test",
     "dev:test:e2e": "REACT_APP_USE_CLOUD_APP_MOCK=true npm run build && playwright test"
   },
