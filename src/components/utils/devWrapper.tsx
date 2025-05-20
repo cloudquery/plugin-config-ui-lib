@@ -1,5 +1,7 @@
 import React, { Fragment, Suspense } from 'react';
 
+import { VirtuosoMockContext } from 'react-virtuoso';
+
 import { CloudAppMockProps } from './cloudAppMock';
 
 const CloudAppMock: React.FC<any> = React.lazy(() =>
@@ -8,9 +10,18 @@ const CloudAppMock: React.FC<any> = React.lazy(() =>
   })),
 );
 
+// eslint-disable-next-line no-console
+console.log('env', process.env.NODE_ENV);
+
 const CloudAppMockWrapper = (props: any) => (
   <Suspense>
-    <CloudAppMock {...props} />
+    {process.env.NODE_ENV === 'test' ? (
+      <VirtuosoMockContext.Provider value={{ viewportHeight: 300, itemHeight: 100 }}>
+        <CloudAppMock {...props} />
+      </VirtuosoMockContext.Provider>
+    ) : (
+      <CloudAppMock {...props} />
+    )}
   </Suspense>
 );
 
