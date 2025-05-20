@@ -252,6 +252,11 @@ async function main() {
     const utilsDestDir = path.join(outputDir, 'src', 'utils');
     fs.cpSync(utilsSrcDir, utilsDestDir, { recursive: true });
 
+    // Copy and compile src/tests
+    const testsSrcDir = path.join(templateDir, 'src', 'tests');
+    const testsDestDir = path.join(outputDir, 'src', 'tests');
+    fs.cpSync(testsSrcDir, testsDestDir, { recursive: true });
+
     // Copy .env.json
     const envExampleSrcPath = path.join(templateDir, 'src', '.env.example.json');
     const envExampleDestPath = path.join(outputDir, 'src', '.env.example.json');

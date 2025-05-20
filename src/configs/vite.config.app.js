@@ -75,4 +75,9 @@ export default {
   server: {
     port: 3001,
   },
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/tests/setupTests.ts',
+  },
 };
