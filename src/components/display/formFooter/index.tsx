@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
@@ -112,7 +113,26 @@ export function FormFooter({
           )}
         </Stack>
         {submitDisabledMessage ? (
-          <Tooltip title={submitDisabledMessage}>
+          <Tooltip
+            placement="top"
+            title={
+              typeof submitDisabledMessage === 'string' ? (
+                <Box
+                  sx={{
+                    bgcolor: 'error.main',
+                    color: 'error.contrastText',
+                    paddingY: 0.5,
+                    paddingX: 1,
+                    borderRadius: 1,
+                  }}
+                >
+                  <Typography variant="body2">{submitDisabledMessage}</Typography>
+                </Box>
+              ) : (
+                submitDisabledMessage
+              )
+            }
+          >
             <span>
               <Button
                 loading={isBusy}
