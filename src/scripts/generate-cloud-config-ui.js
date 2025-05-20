@@ -247,15 +247,20 @@ async function main() {
       payload,
     );
 
-    // Copy and compile src/utils
+    // Copy src/utils
     const utilsSrcDir = path.join(templateDir, 'src', 'utils');
     const utilsDestDir = path.join(outputDir, 'src', 'utils');
     fs.cpSync(utilsSrcDir, utilsDestDir, { recursive: true });
 
     // Copy and compile src/tests
-    const testsSrcDir = path.join(templateDir, 'src', 'tests');
-    const testsDestDir = path.join(outputDir, 'src', 'tests');
-    fs.cpSync(testsSrcDir, testsDestDir, { recursive: true });
+    createAndCompileTemplate(
+      path.join(templateDir, 'src', 'tests', 'setupTests.ts.hbs'),
+      path.join(outputDir, 'src', 'tests', 'setupTests.ts'),
+      payload,
+    );
+    const testsSrcPath = path.join(templateDir, 'src', 'tests', 'create.test.tsx');
+    const testsDestPath = path.join(outputDir, 'src', 'tests', 'create.test.tsx');
+    fs.copyFileSync(testsSrcPath, testsDestPath);
 
     // Copy .env.json
     const envExampleSrcPath = path.join(templateDir, 'src', '.env.example.json');

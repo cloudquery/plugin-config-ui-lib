@@ -1,0 +1,11 @@
+import '@testing-library/jest-dom';
+import { vi } from 'vitest';
+
+if (typeof window !== 'undefined') {
+  Element.prototype.scrollIntoView = vi.fn();
+}
+
+process.env.REACT_APP_PLUGIN_TEAM = '{{pluginTeam}}';
+process.env.REACT_APP_PLUGIN_KIND = '{{pluginKind}}';
+process.env.REACT_APP_PLUGIN_NAME = '{{pluginName}}';
+process.env.REACT_APP_PLUGIN_VERSION = 'development';
