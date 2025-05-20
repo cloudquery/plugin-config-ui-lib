@@ -31,6 +31,7 @@ import { useForm } from 'react-hook-form';
 import { useFormContext } from 'react-hook-form';
 import { UseFormReturn } from 'react-hook-form';
 import { useWatch } from 'react-hook-form';
+import { VirtuosoMockContext } from 'react-virtuoso';
 import * as yup from 'yup';
 
 // @public (undocumented)
@@ -1038,6 +1039,8 @@ export function useTestConnection(): {
 };
 
 export { useWatch }
+
+export { VirtuosoMockContext }
 
 // @public @deprecated
 export function writeSecretsToPrepareValues(env?: Record<string, string>): {
