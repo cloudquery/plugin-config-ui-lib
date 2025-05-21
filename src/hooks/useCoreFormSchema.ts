@@ -58,10 +58,13 @@ export const useCoreFormSchema = ({
 function findTablesOrServicesStep(children: PluginConfigFormStep['children']): boolean {
   return children.some(
     (child) =>
-      typeof child !== 'function' &&
+      typeof child === 'object' &&
+      'component' in child &&
       (['control-services-selector', 'control-table-selector'].includes(
         child.component as string,
       ) ||
-        ('children' in child && findTablesOrServicesStep(child.children as any))),
+        ('children' in child &&
+          Array.isArray(child.children) &&
+          findTablesOrServicesStep(child.children))),
   );
 }
