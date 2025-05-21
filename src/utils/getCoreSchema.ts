@@ -13,9 +13,16 @@ interface Props {
   initialValues: FormMessagePayload['init']['initialValues'];
   tablesList?: PluginTable[];
   servicesList?: Service[];
+  tablesOrServicesStep: number;
 }
 
-export const getCoreSchema = ({ initialValues, tablesList, config, servicesList }: Props) => {
+export const getCoreSchema = ({
+  initialValues,
+  tablesList,
+  config,
+  servicesList,
+  tablesOrServicesStep,
+}: Props) => {
   const coreFieldProps = {
     name: yup.string().default(initialValues?.name ?? generateUniqueName(config.name)),
     displayName: yup
@@ -43,7 +50,7 @@ export const getCoreSchema = ({ initialValues, tablesList, config, servicesList 
           name: 'has-tables',
           message: 'At least one table must be selected',
           test: (value: Record<string, boolean>, context: any) =>
-            context.parent._step < config.steps.length - 1 || Object.values(value).some(Boolean),
+            context.parent._step !== tablesOrServicesStep || Object.values(value).some(Boolean),
         }),
     }),
     ...(servicesList && {
@@ -59,7 +66,7 @@ export const getCoreSchema = ({ initialValues, tablesList, config, servicesList 
           name: 'has-services',
           message: 'At least one service must be selected',
           test: (value: Record<string, boolean>, context: any) =>
-            context.parent._step < config.steps.length - 1 || Object.values(value).some(Boolean),
+            context.parent._step !== tablesOrServicesStep || Object.values(value).some(Boolean),
         }),
     }),
   };

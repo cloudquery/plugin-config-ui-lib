@@ -236,6 +236,8 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     return createTheme(themeOptions);
   }, [container]);
 
+  const currentStep = config.steps?.[step];
+
   return (
     <CacheProvider value={emotionCache}>
       <ThemeProvider theme={theme}>
@@ -264,21 +266,17 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                   <FormWrapper formDisabled={formDisabled}>
                     <Sections>
                       <ConfigUIFormHeader />
-                      {config.steps?.map(({ children }, index) => {
-                        return (
-                          step === index && (
-                            <Sections key={index}>
-                              {children.map((section, index) => (
-                                <ComponentsRenderer
-                                  section={section}
-                                  key={index}
-                                  container={container}
-                                />
-                              ))}
-                            </Sections>
-                          )
-                        );
-                      })}
+                      {currentStep && (
+                        <Sections>
+                          {currentStep.children.map((section, index) => (
+                            <ComponentsRenderer
+                              section={section}
+                              key={index}
+                              container={container}
+                            />
+                          ))}
+                        </Sections>
+                      )}
                       <FormHelperText sx={{ textAlign: 'right' }} error={true}>
                         {formState.errors.root?.message}
                       </FormHelperText>
@@ -296,6 +294,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     onDelete={handleDelete}
                     onGoToPreviousStep={onGoToPreviousStep}
                     submitLabel={isLastStep ? undefined : 'Continue'}
+                    submitEnabledState={currentStep?.submitEnabledState}
                     showPreviousStepButton={!editMode || step !== 0}
                     pluginName={plugin.name}
                     teamName={teamName}

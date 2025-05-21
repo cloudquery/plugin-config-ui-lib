@@ -4,6 +4,7 @@ import { FormMessagePayload } from '@cloudquery/plugin-config-ui-connector';
 import * as yup from 'yup';
 
 import { usePluginContext } from '../context/plugin';
+import { PluginConfigFormStep } from '../types';
 import { getCoreSchema } from '../utils/getCoreSchema';
 import { resetYupDefaultErrorMessages } from '../utils/getYupValidationResolver';
 
@@ -31,9 +32,14 @@ export const useCoreFormSchema = ({
   resetYupDefaultErrorMessages(yup);
   const { tablesList, config, servicesList } = usePluginContext();
 
+  const tablesOrServicesStep = useMemo(
+    () => config.steps.findIndex((step) => findTablesOrServicesStep(step.children)),
+    [config.steps],
+  );
+
   const coreSchema = useMemo(
-    () => getCoreSchema({ initialValues, tablesList, config, servicesList }),
-    [initialValues, tablesList, config, servicesList],
+    () => getCoreSchema({ initialValues, tablesList, config, servicesList, tablesOrServicesStep }),
+    [initialValues, tablesList, config, servicesList, tablesOrServicesStep],
   );
 
   return useMemo(
@@ -48,3 +54,17 @@ export const useCoreFormSchema = ({
     [coreSchema, stateFields, fields, secretFields],
   );
 };
+
+function findTablesOrServicesStep(children: PluginConfigFormStep['children']): boolean {
+  return children.some(
+    (child) =>
+      typeof child === 'object' &&
+      'component' in child &&
+      (['control-services-selector', 'control-table-selector'].includes(
+        child.component as string,
+      ) ||
+        ('children' in child &&
+          Array.isArray(child.children) &&
+          findTablesOrServicesStep(child.children))),
+  );
+}

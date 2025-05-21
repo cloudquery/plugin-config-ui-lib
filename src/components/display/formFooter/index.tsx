@@ -1,6 +1,11 @@
+import React from 'react';
+
 import { PluginUiMessagePayload } from '@cloudquery/plugin-config-ui-connector';
+import { Box, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+
+import Tooltip from '@mui/material/Tooltip';
 
 import { FormFooterTestConnectionResult } from './testConnectionResult';
 
@@ -30,8 +35,6 @@ export interface FormFooterProps {
   onGoToPreviousStep: () => void;
   /** Label for the submit button */
   submitLabel?: string;
-  /** Indicates whether the submit button should be disabled */
-  submitDisabled?: boolean;
   /** Callback to handle test connection success */
   onTestConnectionSuccess: () => void;
   /** Indicates whether the previous step button should be shown */
@@ -42,6 +45,8 @@ export interface FormFooterProps {
   teamName: string;
   /** The ID of the test connection */
   testConnectionId?: string;
+  /** The state of the submit button */
+  submitEnabledState?: { enabled: true } | { enabled: false; errorMessage: string };
 }
 
 /**
@@ -63,11 +68,11 @@ export function FormFooter({
   onGoToPreviousStep,
   onTestConnectionSuccess,
   submitLabel,
-  submitDisabled,
   showPreviousStepButton,
   pluginName,
   teamName,
   testConnectionId,
+  submitEnabledState,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -106,15 +111,38 @@ export function FormFooter({
             </Button>
           )}
         </Stack>
-        <Button
-          loading={isBusy}
-          size="medium"
-          variant="contained"
-          type="submit"
-          disabled={submitDisabled}
-        >
-          {submitLabel || 'Test and save'}
-        </Button>
+        {submitEnabledState && !submitEnabledState.enabled ? (
+          <Tooltip
+            placement="top"
+            title={
+              typeof submitEnabledState.errorMessage === 'string' ? (
+                <Box
+                  sx={{
+                    bgcolor: 'error.main',
+                    color: 'error.contrastText',
+                    paddingY: 0.5,
+                    paddingX: 1,
+                    borderRadius: 1,
+                  }}
+                >
+                  <Typography variant="body2">{submitEnabledState.errorMessage}</Typography>
+                </Box>
+              ) : (
+                submitEnabledState.errorMessage
+              )
+            }
+          >
+            <span>
+              <Button size="medium" variant="contained" type="submit" disabled={true}>
+                {submitLabel || 'Test and save'}
+              </Button>
+            </span>
+          </Tooltip>
+        ) : (
+          <Button loading={isBusy} size="medium" variant="contained" type="submit">
+            {submitLabel || 'Test and save'}
+          </Button>
+        )}
       </Stack>
       {(isTestingConnection || testConnectionError || submitPayload) && (
         <FormFooterTestConnectionResult

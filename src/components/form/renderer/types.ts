@@ -55,7 +55,7 @@ export type LayoutComponent =
   | LayoutServicesSelector
   | LayoutCodeField;
 
-export type ReservedLayoutComponent = LayoutTableSelector | LayoutOAuth;
+export type ReservedLayoutComponent = LayoutTableSelector | LayoutOAuth | LayoutServicesSelector;
 
 // Components
 
