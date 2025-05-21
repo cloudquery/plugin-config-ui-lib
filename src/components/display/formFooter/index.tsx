@@ -45,9 +45,8 @@ export interface FormFooterProps {
   teamName: string;
   /** The ID of the test connection */
   testConnectionId?: string;
-  /** The message to display when the submit button is disabled.
-   * If not provided, the button will be enabled. */
-  submitDisabledMessage?: React.ReactNode;
+  /** The state of the submit button */
+  submitEnabledState?: { enabled: true } | { enabled: false; errorMessage: string };
 }
 
 /**
@@ -73,7 +72,7 @@ export function FormFooter({
   pluginName,
   teamName,
   testConnectionId,
-  submitDisabledMessage,
+  submitEnabledState,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -112,11 +111,11 @@ export function FormFooter({
             </Button>
           )}
         </Stack>
-        {submitDisabledMessage ? (
+        {submitEnabledState && !submitEnabledState.enabled ? (
           <Tooltip
             placement="top"
             title={
-              typeof submitDisabledMessage === 'string' ? (
+              typeof submitEnabledState.errorMessage === 'string' ? (
                 <Box
                   sx={{
                     bgcolor: 'error.main',
@@ -126,10 +125,10 @@ export function FormFooter({
                     borderRadius: 1,
                   }}
                 >
-                  <Typography variant="body2">{submitDisabledMessage}</Typography>
+                  <Typography variant="body2">{submitEnabledState.errorMessage}</Typography>
                 </Box>
               ) : (
-                submitDisabledMessage
+                submitEnabledState.errorMessage
               )
             }
           >

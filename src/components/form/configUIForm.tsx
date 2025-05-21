@@ -294,7 +294,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     onDelete={handleDelete}
                     onGoToPreviousStep={onGoToPreviousStep}
                     submitLabel={isLastStep ? undefined : 'Continue'}
-                    submitDisabledMessage={currentStep?.submitDisabledMessage}
+                    submitEnabledState={currentStep?.submitEnabledState}
                     showPreviousStepButton={!editMode || step !== 0}
                     pluginName={plugin.name}
                     teamName={teamName}
