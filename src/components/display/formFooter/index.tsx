@@ -133,13 +133,7 @@ export function FormFooter({
             }
           >
             <span>
-              <Button
-                loading={isBusy}
-                size="medium"
-                variant="contained"
-                type="submit"
-                disabled={true}
-              >
+              <Button size="medium" variant="contained" type="submit" disabled={true}>
                 {submitLabel || 'Test and save'}
               </Button>
             </span>
