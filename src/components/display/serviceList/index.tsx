@@ -8,9 +8,9 @@ import Typography from '@mui/material/Typography';
 
 import { Virtuoso } from 'react-virtuoso';
 
+import { ServiceListFilters } from './filters';
 import { ServiceListItem } from './listItem';
 import { parseSrc } from '../../../utils/parseSrc';
-import { SearchInput } from '../../inputs';
 
 export type Service = {
   name: string;
@@ -61,16 +61,50 @@ export function ServiceList({
   onChange,
   maxHeight = '400px',
   disabled,
+  isUpdating,
 }: ServiceListProps) {
   const valueRef = useRef(value);
   valueRef.current = value;
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [search, setSearch] = useState('');
+  const [filterServicesValue, setFilterServicesValue] = useState<
+    'all' | 'popular' | 'selected' | 'unselected'
+  >(isUpdating ? 'selected' : 'all');
+
   const filteredAndSortedServices: Service[] = useMemo(() => {
+    const searchValueTrimmed = search.trim().toLowerCase();
     const filteredServices =
-      search.trim() === ''
+      !searchValueTrimmed && filterServicesValue === 'all'
         ? services
-        : services.filter((service) => service.label.toLowerCase().includes(search.toLowerCase()));
+        : services.filter((service) => {
+            if (
+              searchValueTrimmed &&
+              !service.label.toLowerCase().includes(searchValueTrimmed) &&
+              !service.tables.some((table) => table.toLowerCase().includes(searchValueTrimmed))
+            ) {
+              return false;
+            }
+
+            if (filterServicesValue === 'popular' && !topServices.includes(service.name)) {
+              return false;
+            }
+
+            if (
+              filterServicesValue === 'selected' &&
+              !service.tables.some((table) => value?.[table])
+            ) {
+              return false;
+            }
+
+            if (
+              filterServicesValue === 'unselected' &&
+              service.tables.some((table) => value?.[table])
+            ) {
+              return false;
+            }
+
+            return true;
+          });
 
     return filteredServices.sort((a, b) => {
       if (topServices.includes(a.name) && !topServices.includes(b.name)) {
@@ -82,7 +116,7 @@ export function ServiceList({
 
       return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
     });
-  }, [services, search, topServices]);
+  }, [services, search, topServices, filterServicesValue, value]);
 
   const serviceRows = useMemo(() => {
     const rows: Service[][] = [];
@@ -98,10 +132,30 @@ export function ServiceList({
   }, [filteredAndSortedServices]);
 
   const allServicesSelected = useMemo(() => {
-    return Object.values(filteredAndSortedServices).every((service) =>
-      service.tables.every((table) => value?.[table]),
+    return (
+      filteredAndSortedServices.length > 0 &&
+      Object.values(filteredAndSortedServices).every((service) =>
+        service.tables.every((table) => value?.[table]),
+      )
     );
   }, [filteredAndSortedServices, value]);
+
+  const selectedServices = useMemo(() => {
+    return services.filter((service) => service.tables.some((table) => value?.[table]));
+  }, [services, value]);
+
+  const handleSearchChange = useCallback((value: string) => {
+    setSearch(value);
+    setExpandedService(null);
+  }, []);
+
+  const handleServiceTypeChange = useCallback(
+    (value: 'all' | 'popular' | 'selected' | 'unselected') => {
+      setFilterServicesValue(value);
+      setExpandedService(null);
+    },
+    [],
+  );
 
   const handleSelectAllServices = useCallback(() => {
     const newValues = Object.fromEntries(
@@ -133,10 +187,6 @@ export function ServiceList({
     [expandedService],
   );
 
-  const selectedServices = useMemo(() => {
-    return services.filter((service) => service.tables.some((table) => value?.[table]));
-  }, [services, value]);
-
   return (
     <Stack
       sx={{
@@ -160,7 +210,7 @@ export function ServiceList({
             </Typography>
           )}
           <FormControlLabel
-            disabled={disabled}
+            disabled={disabled || filteredAndSortedServices.length === 0}
             control={
               <Checkbox
                 disabled={disabled}
@@ -170,43 +220,51 @@ export function ServiceList({
               />
             }
             sx={{ alignSelf: 'center' }}
-            label="Select all services"
+            label={
+              filteredAndSortedServices.length === services.length
+                ? 'Select all services'
+                : 'Select all filtered services'
+            }
           />
         </Stack>
       </Stack>
-      <SearchInput
-        sx={{ width: '100%' }}
-        value={search}
-        placeholder="Search services"
-        size="small"
-        onChange={(e) => setSearch(e.target.value)}
+      <ServiceListFilters
+        onSearchChange={handleSearchChange}
+        onServiceTypeChange={handleServiceTypeChange}
+        searchValue={search}
+        serviceTypeValue={filterServicesValue}
+        disabled={disabled}
       />
-      <Virtuoso
-        style={{ height: expandedService ? '380px' : '280px', width: '100%', maxHeight }}
-        data={serviceRows}
-        components={{
-          List: gridComponents.List,
-        }}
-        itemContent={(_, serviceRow) => (
-          <Box display="grid" gridTemplateColumns="1fr 1fr" gap={1.5} width="100%">
-            {serviceRow.map((service) => (
-              <Box key={service.name} minWidth="0">
-                <ServiceListItem
-                  onChange={onChange}
-                  service={service}
-                  valueRef={valueRef}
-                  isSelected={service.tables.some((table) => valueRef.current?.[table])}
-                  onExpandToggle={handleExpandService}
-                  isExpanded={expandedService === service.name}
-                  fallbackLogoSrc={fallbackLogoSrc}
-                  onToggle={handleToggleService}
-                  isPopular={topServices.includes(service.name)}
-                />
-              </Box>
-            ))}
-          </Box>
-        )}
-      />
+      {filteredAndSortedServices.length > 0 ? (
+        <Virtuoso
+          style={{ height: expandedService ? '380px' : '280px', width: '100%', maxHeight }}
+          data={serviceRows}
+          components={{
+            List: gridComponents.List,
+          }}
+          itemContent={(_, serviceRow) => (
+            <Box display="grid" gridTemplateColumns="1fr 1fr" gap={1.5} width="100%">
+              {serviceRow.map((service) => (
+                <Box key={service.name} minWidth="0">
+                  <ServiceListItem
+                    onChange={onChange}
+                    service={service}
+                    valueRef={valueRef}
+                    isSelected={service.tables.some((table) => valueRef.current?.[table])}
+                    onExpandToggle={handleExpandService}
+                    isExpanded={expandedService === service.name}
+                    fallbackLogoSrc={fallbackLogoSrc}
+                    onToggle={handleToggleService}
+                    isPopular={topServices.includes(service.name)}
+                  />
+                </Box>
+              ))}
+            </Box>
+          )}
+        />
+      ) : (
+        <Typography variant="body2">No services found</Typography>
+      )}
     </Stack>
   );
 }

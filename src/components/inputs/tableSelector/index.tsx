@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 
 import { Virtuoso } from 'react-virtuoso';
@@ -59,22 +58,16 @@ export function TableSelector({
   );
   const [collapsedTables, setCollapsedTables] = useState<Record<string, boolean>>({});
 
-  // Those refs are necessary to prevent the tree from updating on every render
-  // caused by changing the "handleSelect" function
-  const filteredFlatTableListRef = useRef<PluginTableListItem[]>([]);
-  const allTablesSelectedRef = useRef(false);
-  const selectedTablesRef = useRef<Record<string, boolean>>(value);
-
   const searchValueTrimmed = searchValue.trim().toLowerCase();
   const filteredTableList = useMemo(
     () =>
       filterTableSelectorPluginTableList(
         tableList,
-        selectedTablesRef.current,
+        value,
         searchValueTrimmed,
         filterTablesValue,
       ).filter((table) => !table.parent),
-    [filterTablesValue, searchValueTrimmed, tableList],
+    [filterTablesValue, searchValueTrimmed, tableList, value],
   );
   const filteredFlatTableList = useMemo(
     () => getTableSelectorPluginFlatTableList(filteredTableList),
@@ -85,38 +78,34 @@ export function TableSelector({
     [filteredFlatTableList, value],
   );
 
-  filteredFlatTableListRef.current = filteredFlatTableList;
-  selectedTablesRef.current = value;
-  allTablesSelectedRef.current = allTablesSelected;
-
   const handleSelect = useCallback(
     (tableListItem: PluginTableListItem) => {
-      const changedTables = handleTableSelectorSelect(selectedTablesRef.current, tableListItem);
+      const changedTables = handleTableSelectorSelect(value, tableListItem);
 
       onChange({
-        ...selectedTablesRef.current,
+        ...value,
         ...changedTables,
       });
     },
-    [onChange],
+    [onChange, value],
   );
 
   const handleSelectAll = useCallback(() => {
-    if (allTablesSelectedRef.current) {
-      const selected = { ...selectedTablesRef.current };
+    if (allTablesSelected) {
+      const selected = { ...value };
 
-      for (const table of filteredFlatTableListRef.current) {
+      for (const table of filteredFlatTableList) {
         selected[table.name] = false;
       }
 
       onChange(selected);
     } else {
       onChange({
-        ...selectedTablesRef.current,
-        ...Object.fromEntries(filteredFlatTableListRef.current.map(({ name }) => [name, true])),
+        ...value,
+        ...Object.fromEntries(filteredFlatTableList.map(({ name }) => [name, true])),
       });
     }
-  }, [onChange]);
+  }, [onChange, value, filteredFlatTableList, allTablesSelected]);
 
   const handleCollapse = useCallback((table: PluginTableListItem) => {
     setCollapsedTables((prev) => ({ ...prev, [table.name]: !prev[table.name] }));
@@ -148,23 +137,15 @@ export function TableSelector({
         padding: 2,
       }}
     >
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{
-          marginBottom: 2,
-        }}
-      >
-        <TableSelectorFilters
-          onSearchChange={setSearchValue}
-          onTableTypeChange={setFilterTablesValue}
-          searchValue={searchValue}
-          tableTypeValue={filterTablesValue}
-          disabled={disabled}
-          onlySearchFilter={onlySearchFilter}
-          embeded={embeded}
-        />
-      </Stack>
+      <TableSelectorFilters
+        onSearchChange={setSearchValue}
+        onTableTypeChange={setFilterTablesValue}
+        searchValue={searchValue}
+        tableTypeValue={filterTablesValue}
+        disabled={disabled}
+        onlySearchFilter={onlySearchFilter}
+        embeded={embeded}
+      />
       <FormControlLabel
         disabled={disabled}
         control={

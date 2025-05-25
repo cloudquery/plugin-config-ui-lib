@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, within } from '@testing-library/react';
 
 import { renderWithTheme } from '../../../utils/tests/renderWithTheme';
 import { ServiceList } from '../serviceList';
@@ -38,12 +38,13 @@ describe('ServiceList Component', () => {
     renderWithTheme(<ServiceList {...defaultProps} />);
 
     expect(screen.getByLabelText('Option C')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option D')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option E')).toBeInTheDocument();
     expect(screen.queryByLabelText('Option B')).not.toBeInTheDocument();
   });
 
   test('inits with values already checked', () => {
-    console.log('here1');
-    const { container } = renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true }} />);
+    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true }} />);
 
     expect(
       screen.getByRole('button', { name: 'Option C Option C' }).querySelector('.Mui-checked'),
@@ -56,5 +57,133 @@ describe('ServiceList Component', () => {
     const newValue = { 'table3': true, 'table8': true };
     fireEvent.click(screen.getByRole('button', { name: 'Option H Option H' }));
     expect(defaultProps.onChange).toHaveBeenCalledWith(newValue);
+  });
+
+  test('search filters services correctly by service name', () => {
+    renderWithTheme(<ServiceList {...defaultProps} />);
+    
+    // Search for Option C
+    const searchInput = screen.getByPlaceholderText('Search services or tables');
+    fireEvent.change(searchInput, { target: { value: 'Option C' } });
+    
+    // Option C should be visible
+    expect(screen.getByLabelText('Option C')).toBeInTheDocument();
+    
+    // Other options should not be visible
+    expect(screen.queryByLabelText('Option D')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Option E')).not.toBeInTheDocument();
+  });
+  
+  test('search filters services correctly by table name', () => {
+    renderWithTheme(<ServiceList {...defaultProps} />);
+    
+    // Search for table3
+    const searchInput = screen.getByPlaceholderText('Search services or tables');
+    fireEvent.change(searchInput, { target: { value: 'table3' } });
+    
+    // Option C (which has table3) should be visible
+    expect(screen.getByLabelText('Option C')).toBeInTheDocument();
+    
+    // Other options should not be visible
+    expect(screen.queryByLabelText('Option D')).not.toBeInTheDocument();
+  });
+
+  test('filter shows only popular services', () => {
+    renderWithTheme(<ServiceList {...defaultProps} />);
+    
+    // Open filter menu
+    const filterButton = screen.getByRole('button', { name: 'Filter' });
+    fireEvent.click(filterButton);
+    
+    // Select "Show popular" option
+    const popularRadio = screen.getByLabelText('Show popular');
+    fireEvent.click(popularRadio);
+    
+    // Popular options (C-J) should be visible, unpopular options (A-B) should not
+    expect(screen.getByLabelText('Option C')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option D')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option E')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option F')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option G')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option H')).toBeInTheDocument();
+    expect(screen.queryByLabelText('Option A')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Option B')).not.toBeInTheDocument();
+  });
+  
+  test('filter shows only selected services', () => {
+    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
+    
+    // Open filter menu
+    const filterButton = screen.getByRole('button', { name: 'Filter' });
+    fireEvent.click(filterButton);
+    
+    // Select "Show selected" option
+    const selectedRadio = screen.getByLabelText('Show selected');
+    fireEvent.click(selectedRadio);
+    
+    // Selected options (C and E) should be visible
+    expect(screen.getByLabelText('Option C')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option E')).toBeInTheDocument();
+    
+    // Unselected options should not be visible
+    expect(screen.queryByLabelText('Option D')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Option F')).not.toBeInTheDocument();
+  });
+  
+  test('filter shows only unselected services', () => {
+    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
+    
+    // Open filter menu
+    const filterButton = screen.getByRole('button', { name: 'Filter' });
+    fireEvent.click(filterButton);
+    
+    // Select "Show unselected" option
+    const unselectedRadio = screen.getByLabelText('Show unselected');
+    fireEvent.click(unselectedRadio);
+    
+    // Unselected options should be visible
+    expect(screen.getByLabelText('Option D')).toBeInTheDocument();
+    expect(screen.getByLabelText('Option F')).toBeInTheDocument();
+    
+    // Selected options (C and E) should not be visible
+    expect(screen.queryByLabelText('Option C')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Option E')).not.toBeInTheDocument();
+  });
+
+  test('select all checkbox selects all filtered services', () => {
+    renderWithTheme(<ServiceList {...defaultProps} />);
+    
+    // First search to filter services
+    const searchInput = screen.getByPlaceholderText('Search services or tables');
+    fireEvent.change(searchInput, { target: { value: 'Option C' } });
+    
+    // Click select all checkbox
+    const selectAllCheckbox = screen.getByLabelText('Select all filtered services');
+    fireEvent.click(selectAllCheckbox);
+    
+    // onChange should be called with only Option C's table selected
+    expect(defaultProps.onChange).toHaveBeenCalledWith({ 'table3': true });
+  });
+  
+  test('displays correct number of selected services', () => {
+    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
+    
+    // Should display "2 services selected"
+    expect(screen.getByText('2 services selected')).toBeInTheDocument();
+    
+    // Select another service
+    fireEvent.click(screen.getByRole('button', { name: 'Option D Option D' }));
+    
+    // Mock a new value object that would be passed back to the component
+    const updatedProps = {
+      ...defaultProps,
+      value: { 'table3': true, 'table5': true, 'table4': true }
+    };
+    
+    // Re-render with the new value
+    renderWithTheme(<ServiceList {...updatedProps} />);
+    
+    // Should now display "3 services selected"
+    expect(screen.getByText('3 services selected')).toBeInTheDocument();
   });
 });
