@@ -1,3 +1,4 @@
+import { describe, test, expect, vi } from 'vitest';
 import { act } from 'react';
 
 import {
@@ -26,11 +27,11 @@ describe('usePluginUiFormSubmit', () => {
 
   afterEach(() => {
     window.parent.postMessage = originalPostMessage;
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   test('validation succeeded', async () => {
-    const onValidate = jest.fn(() =>
+    const onValidate = vi.fn(() =>
       Promise.resolve({ values: { email: 'john@doe.com', name: 'John Doe' } }),
     );
     renderHook(() => useFormSubmit(onValidate as any, getPluginUiMessageHandler()));
@@ -39,8 +40,8 @@ describe('usePluginUiFormSubmit', () => {
       formMessageHandler.sendMessage('validate');
 
       originalPostMessage = window.parent.postMessage;
-      window.parent.postMessage = jest.fn();
-      jest.spyOn(window, 'addEventListener');
+      window.parent.postMessage = vi.fn();
+      vi.spyOn(window, 'addEventListener');
       await new Promise((resolve) => setTimeout(resolve, 100));
     });
 
@@ -56,15 +57,15 @@ describe('usePluginUiFormSubmit', () => {
   });
 
   test('validation failed', async () => {
-    const onValidate = jest.fn(() => Promise.resolve({ errors: { key: 'value' } }));
+    const onValidate = vi.fn(() => Promise.resolve({ errors: { key: 'value' } }));
     renderHook(() => useFormSubmit(onValidate as any, getPluginUiMessageHandler()));
 
     await act(async () => {
       formMessageHandler.sendMessage('validate');
 
       originalPostMessage = window.parent.postMessage;
-      window.parent.postMessage = jest.fn();
-      jest.spyOn(window, 'addEventListener');
+      window.parent.postMessage = vi.fn();
+      vi.spyOn(window, 'addEventListener');
       await new Promise((resolve) => setTimeout(resolve, 100));
     });
 
@@ -80,7 +81,7 @@ describe('usePluginUiFormSubmit', () => {
   });
 
   test('formDisabled state', async () => {
-    const onValidate = jest.fn(() =>
+    const onValidate = vi.fn(() =>
       Promise.resolve({ values: { email: 'john@doe.com', name: 'John Doe' } }),
     );
 

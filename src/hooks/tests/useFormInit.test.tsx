@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { act } from 'react';
 
 import {
@@ -28,6 +29,7 @@ const exampleUser = {
 
 describe('usePluginUiFormInit', () => {
   test('no initial values', async () => {
+    console.log('here', window)
     const pluginUiMessageHandler = getPluginUiMessageHandler();
     const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
     expect(result.current).toEqual({

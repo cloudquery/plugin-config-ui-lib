@@ -66,41 +66,46 @@ export function ServiceList({
   valueRef.current = value;
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [search, setSearch] = useState('');
-  const filteredServices: Service[] = useMemo(
-    () =>
-      services
-        .filter((service) => service.label.toLowerCase().includes(search.toLowerCase()))
-        .sort((a, b) => {
-          if (topServices.includes(a.name)) {
-            return -1;
-          }
-          if (topServices.includes(b.name)) {
-            return 1;
-          }
+  const filteredAndSortedServices: Service[] = useMemo(() => {
+    const filteredServices =
+      search.trim() === ''
+        ? services
+        : services.filter((service) => service.label.toLowerCase().includes(search.toLowerCase()));
 
-          return a.label.localeCompare(b.label);
-        }),
-    [services, search, topServices],
-  );
+    return filteredServices.sort((a, b) => {
+      if (topServices.includes(a.name) && !topServices.includes(b.name)) {
+        return -1;
+      }
+      if (!topServices.includes(a.name) && topServices.includes(b.name)) {
+        return 1;
+      }
 
-  const filteredServiceRows = useMemo(() => {
+      return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
+    });
+  }, [services, search, topServices]);
+
+  const serviceRows = useMemo(() => {
     const rows: Service[][] = [];
-    for (let i = 0; i < filteredServices.length; i += 2) {
-      rows.push([filteredServices[i], filteredServices[i + 1]].filter(Boolean) as Service[]);
+    for (let i = 0; i < filteredAndSortedServices.length; i += 2) {
+      rows.push(
+        [filteredAndSortedServices[i], filteredAndSortedServices[i + 1]].filter(
+          Boolean,
+        ) as Service[],
+      );
     }
 
     return rows;
-  }, [filteredServices]);
+  }, [filteredAndSortedServices]);
 
   const allServicesSelected = useMemo(() => {
-    return Object.values(filteredServices).every((service) =>
+    return Object.values(filteredAndSortedServices).every((service) =>
       service.tables.every((table) => value?.[table]),
     );
-  }, [filteredServices, value]);
+  }, [filteredAndSortedServices, value]);
 
   const handleSelectAllServices = useCallback(() => {
     const newValues = Object.fromEntries(
-      filteredServices
+      filteredAndSortedServices
         .flatMap(({ tables }) => tables)
         .map((tableName) => [tableName, !allServicesSelected]),
     );
@@ -109,7 +114,7 @@ export function ServiceList({
       ...value,
       ...newValues,
     });
-  }, [allServicesSelected, onChange, filteredServices, value]);
+  }, [allServicesSelected, onChange, filteredAndSortedServices, value]);
 
   const handleToggleService = useCallback(
     (service: Service, isChecked: boolean) => {
@@ -178,7 +183,7 @@ export function ServiceList({
       />
       <Virtuoso
         style={{ height: expandedService ? '380px' : '280px', width: '100%', maxHeight }}
-        data={filteredServiceRows}
+        data={serviceRows}
         components={{
           List: gridComponents.List,
         }}

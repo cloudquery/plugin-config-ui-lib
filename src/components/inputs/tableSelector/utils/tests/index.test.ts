@@ -1,3 +1,5 @@
+import { describe, expect, test, beforeEach } from 'vitest';
+
 import { handleTableSelectorSelect } from '..';
 import { PluginTableListItem } from '../../types';
 

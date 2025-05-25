@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { render } from "@testing-library/react";
 import { ComponentsRenderer } from "..";
 import * as yup from "yup";
@@ -12,7 +13,7 @@ const TestWrapper = ({ children }: any) => {
 describe("Renderer", () => {
   const originalError = console.error;
   beforeAll(() => {
-    console.error = jest.fn();
+    console.error = vi.fn();
   });
 
   // Restore console.error after tests

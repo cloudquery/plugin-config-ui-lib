@@ -1,4 +1,5 @@
-import { PluginConfig } from '../../types';
+import { describe, test, expect, beforeAll, afterAll, vi } from 'vitest';
+
 import { validateConfig } from '../utils/validateConfig';
 import validConfig from './data/valid-config';
 import { errorMessages } from '../utils/constants';
@@ -6,7 +7,7 @@ import { errorMessages } from '../utils/constants';
 describe('validateConfig', () => {
   const originalError = console.error;
   beforeAll(() => {
-    console.error = jest.fn();
+    console.error = vi.fn();
   });
 
   // Restore console.error after tests

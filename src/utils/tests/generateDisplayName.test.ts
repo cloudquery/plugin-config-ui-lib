@@ -1,8 +1,9 @@
+import { describe, expect, test, beforeAll, afterAll, vi } from 'vitest';
 import { generateDisplayName } from '../generateDisplayName';
 
 beforeAll(() => {
-  jest.useFakeTimers();
-  jest.setSystemTime(new Date(2020, 3, 1));
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2020, 3, 1));
 });
 
 describe('generateDisplayName', () => {
@@ -14,5 +15,5 @@ describe('generateDisplayName', () => {
 });
 
 afterAll(() => {
-  jest.useRealTimers();
+  vi.useRealTimers();
 });

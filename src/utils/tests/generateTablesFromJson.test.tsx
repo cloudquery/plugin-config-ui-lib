@@ -1,3 +1,5 @@
+import { describe, test, expect } from 'vitest';
+
 import { generateTablesFromJson } from '../generateTablesFromJson';
 
 const tablesJson = require('./data/cqTables.json');

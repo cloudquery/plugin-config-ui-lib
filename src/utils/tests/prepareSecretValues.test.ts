@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { PluginConfigFormStep } from '../../types';
 import { yup } from '../getYupValidationResolver';
 import { findShouldRenderFunctions, prepareSecretValues } from '../prepareSecretValues';
@@ -131,8 +132,8 @@ describe('findShouldRenderFunctions', () => {
   });
 
   it('should return an array of shouldRender functions', () => {
-    const shouldRender1 = jest.fn();
-    const shouldRender2 = jest.fn();
+    const shouldRender1 = vi.fn();
+    const shouldRender2 = vi.fn();
     const result = findShouldRenderFunctions(
       [
         {
@@ -156,13 +157,13 @@ describe('findShouldRenderFunctions', () => {
   });
 
   it('should return an array of shouldRender functions (nested)', () => {
-    const shouldRender1 = jest.fn();
-    const shouldRender2 = jest.fn();
-    const shouldRender3 = jest.fn();
-    const shouldRender4 = jest.fn();
-    const shouldRender5 = jest.fn();
-    const shouldRender6 = jest.fn();
-    const shouldRender7 = jest.fn();
+    const shouldRender1 = vi.fn();
+    const shouldRender2 = vi.fn();
+    const shouldRender3 = vi.fn();
+    const shouldRender4 = vi.fn();
+    const shouldRender5 = vi.fn();
+    const shouldRender6 = vi.fn();
+    const shouldRender7 = vi.fn();
     const result = findShouldRenderFunctions(
       [
         {
