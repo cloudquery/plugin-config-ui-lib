@@ -785,7 +785,7 @@ export type Service = {
 };
 
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, }: ServiceListProps): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, maxHeight, disabled, isUpdating, }: ServiceListProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ServiceListProps {
