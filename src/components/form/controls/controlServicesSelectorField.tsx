@@ -50,9 +50,11 @@ export function ControlServicesSelectorField({ topServices }: ControlServicesSel
             fallbackLogoSrc={config.iconLink}
             isUpdating={!!initialValues}
           />
-          <FormHelperText error={!!fieldState.error?.message}>
-            {fieldState.error?.message}
-          </FormHelperText>
+          {!!fieldState.error?.message && (
+            <FormHelperText error={!!fieldState.error?.message} sx={{ mt: 2 }}>
+              {fieldState.error?.message}
+            </FormHelperText>
+          )}
         </FormControl>
       )}
     />
