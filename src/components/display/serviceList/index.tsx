@@ -59,7 +59,6 @@ export function ServiceList({
   fallbackLogoSrc = parseSrc('favicon.ico'),
   value = {},
   onChange,
-  maxHeight = '400px',
   disabled,
   isUpdating,
 }: ServiceListProps) {
@@ -237,7 +236,7 @@ export function ServiceList({
       />
       {filteredAndSortedServices.length > 0 ? (
         <Virtuoso
-          style={{ height: expandedService ? '380px' : '280px', width: '100%', maxHeight }}
+          style={{ height: 470, width: '100%', maxHeight: '90vh' }}
           data={serviceRows}
           components={{
             List: gridComponents.List,
