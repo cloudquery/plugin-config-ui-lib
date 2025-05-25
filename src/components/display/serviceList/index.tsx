@@ -2,22 +2,15 @@ import { forwardRef, ReactNode, useCallback, useMemo, useRef, useState } from 'r
 
 import { FormControlLabel } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 
 import { Virtuoso } from 'react-virtuoso';
 
 import { ServiceListItem } from './listItem';
 import { parseSrc } from '../../../utils/parseSrc';
-
-enum ServiceListMode {
-  All = 'all',
-  Popular = 'popular',
-}
+import { SearchInput } from '../../inputs';
 
 export type Service = {
   name: string;
@@ -68,27 +61,26 @@ export function ServiceList({
   onChange,
   maxHeight = '400px',
   disabled,
-  isUpdating,
 }: ServiceListProps) {
   const valueRef = useRef(value);
   valueRef.current = value;
   const [expandedService, setExpandedService] = useState<string | null>(null);
-  const popularServices = useMemo(() => {
-    return topServices
-      .map((name) => services.find((service) => service.name === name))
-      .filter(Boolean) as Service[];
-  }, [services, topServices]);
-
-  const [showServices, setShowServices] = useState<ServiceListMode.All | ServiceListMode.Popular>(
-    () => (isUpdating ? ServiceListMode.All : ServiceListMode.Popular),
-  );
-
+  const [search, setSearch] = useState('');
   const filteredServices: Service[] = useMemo(
     () =>
-      showServices === ServiceListMode.Popular
-        ? popularServices
-        : services.sort((a, b) => a.label.localeCompare(b.label)),
-    [services, showServices, popularServices],
+      services
+        .filter((service) => service.label.toLowerCase().includes(search.toLowerCase()))
+        .sort((a, b) => {
+          if (topServices.includes(a.name)) {
+            return -1;
+          }
+          if (topServices.includes(b.name)) {
+            return 1;
+          }
+
+          return a.label.localeCompare(b.label);
+        }),
+    [services, search, topServices],
   );
 
   const filteredServiceRows = useMemo(() => {
@@ -136,11 +128,6 @@ export function ServiceList({
     [expandedService],
   );
 
-  const handleServiceCategoryChange = useCallback((newValue: ServiceListMode) => {
-    setShowServices(newValue);
-    setExpandedService(null);
-  }, []);
-
   const selectedServices = useMemo(() => {
     return services.filter((service) => service.tables.some((table) => value?.[table]));
   }, [services, value]);
@@ -156,27 +143,10 @@ export function ServiceList({
         gap={2}
         flexWrap="wrap"
         direction="row"
-        justifyContent="space-between"
+        justifyContent="flex-end"
         alignItems="center"
         width="100%"
       >
-        <Tabs
-          value={showServices}
-          onChange={(_, newValue) => handleServiceCategoryChange(newValue)}
-        >
-          <Tab
-            disabled={disabled}
-            sx={{ py: '9px' }}
-            label={<Typography variant="subtitle1">Popular services</Typography>}
-            value={ServiceListMode.Popular}
-          />
-          <Tab
-            disabled={disabled}
-            sx={{ py: '9px' }}
-            label={<Typography variant="subtitle1">All services</Typography>}
-            value={ServiceListMode.All}
-          />
-        </Tabs>
         <Stack direction="row" alignItems="center" gap={1}>
           {selectedServices.length > 0 && (
             <Typography variant="body2" color="secondary">
@@ -195,15 +165,17 @@ export function ServiceList({
               />
             }
             sx={{ alignSelf: 'center' }}
-            onClick={handleSelectAllServices}
-            label={
-              showServices === ServiceListMode.Popular
-                ? 'Select all popular services'
-                : 'Select all services'
-            }
+            label="Select all services"
           />
         </Stack>
       </Stack>
+      <SearchInput
+        sx={{ width: '100%' }}
+        value={search}
+        placeholder="Search services"
+        size="small"
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <Virtuoso
         style={{ height: expandedService ? '380px' : '280px', width: '100%', maxHeight }}
         data={filteredServiceRows}
@@ -223,28 +195,13 @@ export function ServiceList({
                   isExpanded={expandedService === service.name}
                   fallbackLogoSrc={fallbackLogoSrc}
                   onToggle={handleToggleService}
+                  isPopular={topServices.includes(service.name)}
                 />
               </Box>
             ))}
           </Box>
         )}
       />
-      <Button
-        disabled={disabled}
-        fullWidth={true}
-        onClick={() =>
-          setShowServices(
-            showServices === ServiceListMode.Popular
-              ? ServiceListMode.All
-              : ServiceListMode.Popular,
-          )
-        }
-        sx={{ width: 'auto' }}
-      >
-        {showServices === ServiceListMode.Popular
-          ? 'Show all services'
-          : 'Show only popular services'}
-      </Button>
     </Stack>
   );
 }

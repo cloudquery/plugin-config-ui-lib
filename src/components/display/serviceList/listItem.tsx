@@ -1,6 +1,6 @@
 import React, { MutableRefObject, useCallback, useEffect, useMemo, useState } from 'react';
 
-import { Close, WarningAmber } from '@mui/icons-material';
+import { Close, Star, WarningAmber } from '@mui/icons-material';
 import { Collapse, IconButton } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -33,6 +33,7 @@ interface Props {
   onExpandToggle: (serviceName: string) => void;
   isExpanded: boolean;
   onToggle: (service: Service, isChecked: boolean) => void;
+  isPopular?: boolean;
 }
 
 export function ServiceListItem({
@@ -45,6 +46,7 @@ export function ServiceListItem({
   onExpandToggle,
   isExpanded,
   onToggle,
+  isPopular,
 }: Props) {
   const [tablesValue, setTablesValue] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(service.tables.map((table) => [table, isSelected])),
@@ -164,6 +166,11 @@ export function ServiceListItem({
                     {service.shortLabel ?? service.label}
                   </Typography>
                 </Tooltip>
+                {isPopular && (
+                  <Tooltip title="Popular service">
+                    <Star color="primary" />
+                  </Tooltip>
+                )}
                 {onlySomeTablesSelected && !isExpanded && (
                   <Tooltip
                     title={

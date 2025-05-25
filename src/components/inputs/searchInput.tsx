@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
+const StyledTextField = styled(TextField)(({ theme, size = 'medium' }) => ({
   '& .MuiInputBase-input': {
     '&::placeholder': {
       color: theme.palette.neutral[200],
@@ -14,7 +14,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     backgroundColor: theme.palette.background.paperTertiary,
     border: 'none',
     borderRadius: 12,
-    height: 52,
+    height: size === 'small' ? 40 : 52,
     padding: '0 24px',
     width: '100%',
   },
