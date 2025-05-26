@@ -130,7 +130,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     }
   }, [submitError, getValues, setError]);
 
-  const formDisabled = isSubmitting || isTestingConnection || submitGuardLoading;
+  const formDisabled = isSubmitting || isTestingConnection || submitGuardLoading || isDisabled;
 
   const onTestConnectionSuccess = async () => {
     await handleSubmit(getCurrentValues());
@@ -269,7 +269,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     gap: 3,
                   }}
                 >
-                  <FormWrapper formDisabled={formDisabled || isDisabled}>
+                  <FormWrapper formDisabled={formDisabled}>
                     <Sections>
                       <ConfigUIFormHeader />
                       {currentStep && (
