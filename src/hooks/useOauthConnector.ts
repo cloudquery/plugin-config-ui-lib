@@ -40,6 +40,7 @@ export function useOauthConnector({
   getConnectPayloadSpec,
   getFinishPayloadSpec,
 }: UseOauthConnectorProps) {
+  const openedWindowRef = useRef<Window | undefined | null>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [connectorId, setConnectorId] = useState<string | null>(null);
@@ -95,7 +96,7 @@ export function useOauthConnector({
 
       setConnectorId(connectorId);
 
-      window.top?.open(redirectUrl, '_blank');
+      openedWindowRef.current = window.top?.open(redirectUrl, '_blank');
     } catch (error: any) {
       setIsLoading(false);
       setConnectorId(null);
@@ -136,6 +137,7 @@ export function useOauthConnector({
         'auth_connector_result',
         async (payload) => {
           try {
+            openedWindowRef.current?.close();
             await finishConnectorAuthentication(connectorId, payload);
             setAuthConnectorResult(payload);
           } catch (error: any) {
