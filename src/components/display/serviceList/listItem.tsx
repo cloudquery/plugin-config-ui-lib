@@ -112,7 +112,9 @@ export function ServiceListItem({
           key={service.name}
           value={service.name}
           disabled={disabled}
-          onClick={() => onToggle(service, !isSelected)}
+          onClick={() =>
+            isExpanded ? onExpandToggle(service.name) : onToggle(service, !isSelected)
+          }
         >
           <Stack width="100%">
             <Box

@@ -71,6 +71,9 @@ export function ServiceList({
   const [filterServicesValue, setFilterServicesValue] = useState<'all' | 'selected' | 'unselected'>(
     'all',
   );
+  const [changedServiceNamesWithCurrentFilter, setChangedServiceNamesWithCurrentFilter] = useState<
+    string[]
+  >([]);
 
   const filteredAndSortedServices: Service[] = useMemo(() => {
     const searchValueTrimmed = search.trim().toLowerCase();
@@ -88,14 +91,16 @@ export function ServiceList({
 
             if (
               filterServicesValue === 'selected' &&
-              !service.tables.some((table) => value?.[table])
+              !service.tables.some((table) => value?.[table]) &&
+              !changedServiceNamesWithCurrentFilter.includes(service.name)
             ) {
               return false;
             }
 
             if (
               filterServicesValue === 'unselected' &&
-              service.tables.some((table) => value?.[table])
+              service.tables.some((table) => value?.[table]) &&
+              !changedServiceNamesWithCurrentFilter.includes(service.name)
             ) {
               return false;
             }
@@ -113,7 +118,14 @@ export function ServiceList({
 
       return a.label.toLowerCase().localeCompare(b.label.toLowerCase());
     });
-  }, [services, search, topServices, filterServicesValue, value]);
+  }, [
+    services,
+    search,
+    topServices,
+    filterServicesValue,
+    value,
+    changedServiceNamesWithCurrentFilter,
+  ]);
 
   const serviceRows = useMemo(() => {
     const rows: Service[][] = [];
@@ -149,6 +161,7 @@ export function ServiceList({
   const handleServiceTypeChange = useCallback((value: 'all' | 'selected' | 'unselected') => {
     setFilterServicesValue(value);
     setExpandedService(null);
+    setChangedServiceNamesWithCurrentFilter([]);
   }, []);
 
   const handleSelectAllServices = useCallback(() => {
@@ -170,8 +183,11 @@ export function ServiceList({
         ...value,
         ...Object.fromEntries(service.tables.map((table) => [table, isChecked])),
       });
+      if (['selected', 'unselected'].includes(filterServicesValue)) {
+        setChangedServiceNamesWithCurrentFilter((prev) => [...prev, service.name]);
+      }
     },
-    [onChange, value],
+    [onChange, value, filterServicesValue],
   );
 
   const handleExpandService = useCallback(
