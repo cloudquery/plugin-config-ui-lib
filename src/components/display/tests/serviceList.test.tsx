@@ -87,28 +87,6 @@ describe('ServiceList Component', () => {
     // Other options should not be visible
     expect(screen.queryByLabelText('Option D')).not.toBeInTheDocument();
   });
-
-  test('filter shows only popular services', () => {
-    renderWithTheme(<ServiceList {...defaultProps} />);
-    
-    // Open filter menu
-    const filterButton = screen.getByRole('button', { name: 'Filter' });
-    fireEvent.click(filterButton);
-    
-    // Select "Show popular" option
-    const popularRadio = screen.getByLabelText('Show popular');
-    fireEvent.click(popularRadio);
-    
-    // Popular options (C-J) should be visible, unpopular options (A-B) should not
-    expect(screen.getByLabelText('Option C')).toBeInTheDocument();
-    expect(screen.getByLabelText('Option D')).toBeInTheDocument();
-    expect(screen.getByLabelText('Option E')).toBeInTheDocument();
-    expect(screen.getByLabelText('Option F')).toBeInTheDocument();
-    expect(screen.getByLabelText('Option G')).toBeInTheDocument();
-    expect(screen.getByLabelText('Option H')).toBeInTheDocument();
-    expect(screen.queryByLabelText('Option A')).not.toBeInTheDocument();
-    expect(screen.queryByLabelText('Option B')).not.toBeInTheDocument();
-  });
   
   test('filter shows only selected services', () => {
     renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);

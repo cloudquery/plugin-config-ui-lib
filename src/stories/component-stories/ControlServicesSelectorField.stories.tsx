@@ -23,6 +23,7 @@ const meta = {
   args: {
     component: 'control-services-selector',
     topServices: ['ec2', 's3', 'elb', 'kms', 'cloudfront', 'route53', 'iam', 'rds'],
+    slowTables: ['aws_ec2_account_attributes'],
   },
 } satisfies Meta<LayoutServicesSelector>;
 
@@ -45,6 +46,13 @@ export const Primary = {
               component: 'control-services-selector',
               name: 'services',
               topServices: ['ec2', 's3', 'elb', 'kms', 'cloudfront', 'route53', 'iam', 'rds'],
+              slowTables: [
+                'aws_ec2_account_attributes',
+                'aws_ec2_byoip_cidrs',
+                'aws_ec2_capacity_reservations',
+                'aws_ec2_customer_gateways',
+                'aws_ec2_dhcp_options',
+              ],
             },
           ],
         },

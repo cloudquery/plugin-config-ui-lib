@@ -14,7 +14,7 @@ import { SearchInput } from '../../inputs/searchInput';
 
 interface Props {
   onSearchChange: (value: string) => void;
-  onServiceTypeChange: (value: 'all' | 'popular' | 'selected' | 'unselected') => void;
+  onServiceTypeChange: (value: 'all' | 'selected' | 'unselected') => void;
   searchValue: string;
   serviceTypeValue: 'all' | 'popular' | 'selected' | 'unselected';
   disabled?: boolean;
@@ -110,11 +110,6 @@ export function ServiceListFilters({
               value={serviceTypeValue}
             >
               <FormControlLabel control={<Radio size="small" />} label="Show all" value="all" />
-              <FormControlLabel
-                control={<Radio size="small" />}
-                label="Show popular"
-                value="popular"
-              />
               <FormControlLabel
                 control={<Radio size="small" />}
                 label="Show selected"

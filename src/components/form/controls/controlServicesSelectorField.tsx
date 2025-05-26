@@ -11,6 +11,7 @@ import { ServiceList } from '../../display';
  */
 export interface ControlServicesSelectorFieldProps {
   topServices: string[];
+  slowTables: string[];
 }
 
 /**
@@ -19,7 +20,10 @@ export interface ControlServicesSelectorFieldProps {
  *
  * @public
  */
-export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps) {
+export function ControlServicesSelectorField({
+  topServices,
+  slowTables,
+}: ControlServicesSelectorFieldProps) {
   const { config, servicesList, initialValues } = usePluginContext();
 
   return (
@@ -49,6 +53,7 @@ export function ControlServicesSelectorField({ topServices }: ControlServicesSel
             maxHeight="none"
             fallbackLogoSrc={config.iconLink}
             isUpdating={!!initialValues}
+            slowTables={slowTables}
           />
           {!!fieldState.error?.message && (
             <FormHelperText error={!!fieldState.error?.message} sx={{ mt: 2 }}>

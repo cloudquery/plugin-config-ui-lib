@@ -257,51 +257,49 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
               }}
             >
               <form ref={formRef} autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-                <fieldset disabled={isDisabled}>
-                  <Stack
-                    sx={{
-                      gap: 3,
-                    }}
-                  >
-                    <FormWrapper formDisabled={formDisabled}>
-                      <Sections>
-                        <ConfigUIFormHeader />
-                        {currentStep && (
-                          <Sections>
-                            {currentStep.children.map((section, index) => (
-                              <ComponentsRenderer
-                                section={section}
-                                key={index}
-                                container={container}
-                              />
-                            ))}
-                          </Sections>
-                        )}
-                        <FormHelperText sx={{ textAlign: 'right' }} error={true}>
-                          {formState.errors.root?.message}
-                        </FormHelperText>
-                      </Sections>
-                    </FormWrapper>
-                    <FormFooter
-                      isUpdating={editMode}
-                      pluginKind={plugin.kind as any}
-                      isTestingConnection={isTestingConnection}
-                      isSubmitting={isSubmitting || submitGuardLoading}
-                      testConnectionError={parsedTestConnectionError}
-                      submitPayload={submitPayload}
-                      onCancelTestConnection={handleCancelTestConnection}
-                      onTestConnectionSuccess={onTestConnectionSuccess}
-                      onDelete={handleDelete}
-                      onGoToPreviousStep={onGoToPreviousStep}
-                      submitLabel={isLastStep ? undefined : 'Continue'}
-                      submitEnabledState={currentStep?.submitEnabledState}
-                      showPreviousStepButton={!editMode || step !== 0}
-                      pluginName={plugin.name}
-                      teamName={teamName}
-                      testConnectionId={testConnectionId}
-                    />
-                  </Stack>
-                </fieldset>
+                <Stack
+                  sx={{
+                    gap: 3,
+                  }}
+                >
+                  <FormWrapper formDisabled={formDisabled || isDisabled}>
+                    <Sections>
+                      <ConfigUIFormHeader />
+                      {currentStep && (
+                        <Sections>
+                          {currentStep.children.map((section, index) => (
+                            <ComponentsRenderer
+                              section={section}
+                              key={index}
+                              container={container}
+                            />
+                          ))}
+                        </Sections>
+                      )}
+                      <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+                        {formState.errors.root?.message}
+                      </FormHelperText>
+                    </Sections>
+                  </FormWrapper>
+                  <FormFooter
+                    isUpdating={editMode}
+                    pluginKind={plugin.kind as any}
+                    isTestingConnection={isTestingConnection}
+                    isSubmitting={isSubmitting || submitGuardLoading}
+                    testConnectionError={parsedTestConnectionError}
+                    submitPayload={submitPayload}
+                    onCancelTestConnection={handleCancelTestConnection}
+                    onTestConnectionSuccess={onTestConnectionSuccess}
+                    onDelete={handleDelete}
+                    onGoToPreviousStep={onGoToPreviousStep}
+                    submitLabel={isLastStep ? undefined : 'Continue'}
+                    submitEnabledState={currentStep?.submitEnabledState}
+                    showPreviousStepButton={!editMode || step !== 0}
+                    pluginName={plugin.name}
+                    teamName={teamName}
+                    testConnectionId={testConnectionId}
+                  />
+                </Stack>
               </form>
             </Box>
             {config.guide && (

@@ -240,10 +240,12 @@ export interface ControlSelectFieldProps {
 }
 
 // @public
-export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps): JSX_2.Element;
+export function ControlServicesSelectorField({ topServices, slowTables, }: ControlServicesSelectorFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlServicesSelectorFieldProps {
+    // (undocumented)
+    slowTables: string[];
     // (undocumented)
     topServices: string[];
 }
@@ -787,7 +789,7 @@ export type Service = {
 };
 
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, disabled, isUpdating, }: ServiceListProps): JSX_2.Element;
+export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, disabled, slowTables, }: ServiceListProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ServiceListProps {
@@ -804,7 +806,9 @@ export interface ServiceListProps {
     // (undocumented)
     services: Service[];
     // (undocumented)
-    topServices: string[];
+    slowTables?: string[];
+    // (undocumented)
+    topServices?: string[];
     value: Record<string, boolean>;
 }
 

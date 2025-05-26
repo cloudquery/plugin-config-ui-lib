@@ -38,6 +38,7 @@ describe('usePluginUiFormInit', () => {
       teamName: '',
       isManagedDestination: false,
       user: emptyUser,
+      isDisabled: false,
     });
 
     await act(async () => {
@@ -64,6 +65,7 @@ describe('usePluginUiFormInit', () => {
       context: 'wizard',
       isManagedDestination: false,
       user: exampleUser,
+      isDisabled: false,
     });
   });
 
@@ -76,6 +78,7 @@ describe('usePluginUiFormInit', () => {
       teamName: '',
       isManagedDestination: false,
       user: emptyUser,
+      isDisabled: false,
     });
 
     await act(async () => {
@@ -122,6 +125,7 @@ describe('usePluginUiFormInit', () => {
       context: 'wizard',
       isManagedDestination: false,
       user: exampleUser,
+      isDisabled: false,
     });
   });
 
@@ -134,6 +138,7 @@ describe('usePluginUiFormInit', () => {
       teamName: '',
       isManagedDestination: false,
       user: emptyUser,
+      isDisabled: false,
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -180,6 +185,7 @@ describe('usePluginUiFormInit', () => {
       context: 'wizard',
       isManagedDestination: false,
       user: exampleUser,
+      isDisabled: false,
     });
   });
 });

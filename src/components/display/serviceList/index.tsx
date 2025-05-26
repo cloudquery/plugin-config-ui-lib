@@ -1,6 +1,6 @@
-import { forwardRef, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
+import { forwardRef, ReactNode, useCallback, useMemo, useState } from 'react';
 
-import { FormControlLabel } from '@mui/material';
+import { Alert, AlertTitle, Button, FormControlLabel } from '@mui/material';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
@@ -35,7 +35,7 @@ const gridComponents = {
  */
 export interface ServiceListProps {
   services: Service[];
-  topServices: string[];
+  topServices?: string[];
   /**
    * This is the map of tables to their selected state
    */
@@ -45,7 +45,11 @@ export interface ServiceListProps {
   maxHeight?: string | number;
   disabled?: boolean;
   isUpdating?: boolean;
+  slowTables?: string[];
 }
+
+const defaultTopServices = [];
+const defaultSlowTables = [];
 
 /**
  * ServiceList component is multi-select form component for selecting services
@@ -55,20 +59,18 @@ export interface ServiceListProps {
  */
 export function ServiceList({
   services,
-  topServices,
+  topServices = defaultTopServices,
   fallbackLogoSrc = parseSrc('favicon.ico'),
   value = {},
   onChange,
   disabled,
-  isUpdating,
+  slowTables = defaultSlowTables,
 }: ServiceListProps) {
-  const valueRef = useRef(value);
-  valueRef.current = value;
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [search, setSearch] = useState('');
-  const [filterServicesValue, setFilterServicesValue] = useState<
-    'all' | 'popular' | 'selected' | 'unselected'
-  >(isUpdating ? 'selected' : 'all');
+  const [filterServicesValue, setFilterServicesValue] = useState<'all' | 'selected' | 'unselected'>(
+    'all',
+  );
 
   const filteredAndSortedServices: Service[] = useMemo(() => {
     const searchValueTrimmed = search.trim().toLowerCase();
@@ -81,10 +83,6 @@ export function ServiceList({
               !service.label.toLowerCase().includes(searchValueTrimmed) &&
               !service.tables.some((table) => table.toLowerCase().includes(searchValueTrimmed))
             ) {
-              return false;
-            }
-
-            if (filterServicesValue === 'popular' && !topServices.includes(service.name)) {
               return false;
             }
 
@@ -148,13 +146,10 @@ export function ServiceList({
     setExpandedService(null);
   }, []);
 
-  const handleServiceTypeChange = useCallback(
-    (value: 'all' | 'popular' | 'selected' | 'unselected') => {
-      setFilterServicesValue(value);
-      setExpandedService(null);
-    },
-    [],
-  );
+  const handleServiceTypeChange = useCallback((value: 'all' | 'selected' | 'unselected') => {
+    setFilterServicesValue(value);
+    setExpandedService(null);
+  }, []);
 
   const handleSelectAllServices = useCallback(() => {
     const newValues = Object.fromEntries(
@@ -172,11 +167,11 @@ export function ServiceList({
   const handleToggleService = useCallback(
     (service: Service, isChecked: boolean) => {
       onChange({
-        ...valueRef.current,
+        ...value,
         ...Object.fromEntries(service.tables.map((table) => [table, isChecked])),
       });
     },
-    [onChange],
+    [onChange, value],
   );
 
   const handleExpandService = useCallback(
@@ -186,10 +181,28 @@ export function ServiceList({
     [expandedService],
   );
 
+  const selectedSlowTables = useMemo(() => {
+    return slowTables
+      .filter((table) => value?.[table])
+      .map((table) => ({
+        table,
+        service: services.find((service) => service.tables.includes(table)),
+      }));
+  }, [slowTables, value, services]);
+
+  const handleUnselectAllSlowTables = useCallback(() => {
+    const newValues = Object.fromEntries(selectedSlowTables.map(({ table }) => [table, false]));
+
+    onChange({
+      ...value,
+      ...newValues,
+    });
+  }, [onChange, selectedSlowTables, value]);
+
   return (
     <Stack
       sx={{
-        gap: 2,
+        gap: 3,
       }}
       alignItems="center"
     >
@@ -248,8 +261,8 @@ export function ServiceList({
                   <ServiceListItem
                     onChange={onChange}
                     service={service}
-                    valueRef={valueRef}
-                    isSelected={service.tables.some((table) => valueRef.current?.[table])}
+                    value={value}
+                    isSelected={service.tables.some((table) => value?.[table])}
                     onExpandToggle={handleExpandService}
                     isExpanded={expandedService === service.name}
                     fallbackLogoSrc={fallbackLogoSrc}
@@ -263,6 +276,28 @@ export function ServiceList({
         />
       ) : (
         <Typography variant="body2">No services found</Typography>
+      )}
+      {selectedSlowTables.length > 0 && (
+        <Alert variant="filled" severity="warning">
+          <AlertTitle>Slow tables selected</AlertTitle>
+          The following tables are slow to sync. Make sure that this is intentional or unselect
+          them:
+          <Box component="ul" sx={{ margin: 0, paddingLeft: 3 }}>
+            {selectedSlowTables.map(({ table, service }) => (
+              <li key={table}>
+                {table} ({service?.label})
+              </li>
+            ))}
+          </Box>
+          <Button
+            sx={{ marginTop: 1 }}
+            variant="outlined"
+            color="inherit"
+            onClick={handleUnselectAllSlowTables}
+          >
+            Unselect all slow tables
+          </Button>
+        </Alert>
       )}
     </Stack>
   );
