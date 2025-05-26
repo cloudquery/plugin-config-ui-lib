@@ -112,9 +112,7 @@ export function ServiceListItem({
           key={service.name}
           value={service.name}
           disabled={disabled}
-          onClick={() =>
-            isExpanded ? onExpandToggle(service.name) : onToggle(service, !isSelected)
-          }
+          onClick={() => (isExpanded ? undefined : onToggle(service, !isSelected))}
         >
           <Stack width="100%">
             <Box
@@ -180,7 +178,13 @@ export function ServiceListItem({
                 >
                   {isExpanded ? <Close /> : <AdjustmentsIcon />}
                 </IconButton>
-                <Checkbox checked={isSelected} />
+                <Checkbox
+                  checked={isSelected}
+                  onChange={(event) => {
+                    event.stopPropagation();
+                    onToggle(service, event.target.checked);
+                  }}
+                />
               </Stack>
             </Box>
           </Stack>
