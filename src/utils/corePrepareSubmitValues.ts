@@ -21,7 +21,7 @@ export function corePrepareSubmitValues({
   values: any;
   tablesList?: PluginTable[];
   servicesList?: Service[];
-}): PluginUiMessagePayload['validation_passed']['values'] {
+}): PluginUiMessagePayload['submitted']['submitPayload'] {
   const tableList =
     tablesList || (servicesList ? convertServicesToPluginTables(servicesList) : undefined);
   const base = {

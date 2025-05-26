@@ -95,24 +95,14 @@ export function useOauthConnector({
 
       setConnectorId(connectorId);
 
-      pluginUiMessageHandler.sendMessage('open_url', {
-        url: redirectUrl,
-      });
+      window.top?.open(redirectUrl, '_blank');
     } catch (error: any) {
       setIsLoading(false);
       setConnectorId(null);
       setAuthConnectorResult(null);
       setError(error?.body || error);
     }
-  }, [
-    pluginKind,
-    pluginName,
-    pluginTeamName,
-    pluginUiMessageHandler,
-    successBaseUrl,
-    teamName,
-    getConnectPayloadSpec,
-  ]);
+  }, [pluginKind, pluginName, pluginTeamName, successBaseUrl, teamName, getConnectPayloadSpec]);
 
   /**
    * Finish connector authentication

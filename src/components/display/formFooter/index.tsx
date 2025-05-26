@@ -9,7 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { FormFooterTestConnectionResult } from './testConnectionResult';
 
-type FormValues = PluginUiMessagePayload['current_values']['values'];
+type FormValues = PluginUiMessagePayload['submitted']['submitPayload'];
 
 /**
  * @public

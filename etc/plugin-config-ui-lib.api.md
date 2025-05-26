@@ -91,7 +91,7 @@ export interface ConfigUIFormProps {
         values: Record<string, any>;
         tablesList?: PluginTable[];
         servicesList?: Service[];
-    }) => PluginUiMessagePayload['validation_passed']['values'];
+    }) => PluginUiMessagePayload['submitted']['submitPayload'];
 }
 
 // @public
@@ -277,7 +277,7 @@ export function corePrepareSubmitValues({ config, values, tablesList, servicesLi
     values: any;
     tablesList?: PluginTable[];
     servicesList?: Service[];
-}): PluginUiMessagePayload['validation_passed']['values'];
+}): PluginUiMessagePayload['submitted']['submitPayload'];
 
 // @public
 export function createAndAuthenticateConnector<T>({ connectorId: existingConnectorId, teamName, pluginTeamName, authPluginType, pluginName, pluginKind, authenticatePayload, }: {
@@ -336,7 +336,7 @@ export function finishAuthConnectorAuthentication({ authPluginType, connectorId,
 }): Promise<void>;
 
 // @public (undocumented)
-export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
+export type FormActionsFormValues = PluginUiMessagePayload['submitted']['submitPayload'];
 
 // @public (undocumented)
 export interface FormActionsSyncDestinationPayload {
@@ -662,7 +662,7 @@ export type PluginConfigFormStep = {
 };
 
 // @public
-export const PluginContextProvider: ({ children, config, teamName, getTablesData, getServicesData, hideStepper, pluginUiMessageHandler, initialValues, }: PluginContextProviderProps) => JSX_2.Element;
+export const PluginContextProvider: ({ children, config, teamName, getTablesData, getServicesData, hideStepper, pluginUiMessageHandler, initialValues, isDisabled, }: PluginContextProviderProps) => JSX_2.Element;
 
 // @public (undocumented)
 export interface PluginContextProviderProps {
@@ -682,6 +682,8 @@ export interface PluginContextProviderProps {
     hideStepper: boolean;
     // (undocumented)
     initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+    // (undocumented)
+    isDisabled?: boolean;
     // (undocumented)
     pluginUiMessageHandler: any;
     // (undocumented)
@@ -986,10 +988,7 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({ ge
 export { useFormContext }
 
 // @public
-export function useFormCurrentValues(pluginUiMessageHandler: PluginUiMessageHandler, getCurrentValues: () => PluginUiMessagePayload['current_values']['values']): void;
-
-// @public
-export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, implementsCustomFooter: boolean): {
+export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
     teamName: string;
@@ -1000,19 +999,11 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler, impl
         name: string;
         email: string;
     };
+    isDisabled: boolean;
 };
 
 // @public (undocumented)
 export const useFormSchema: () => yup.AnyObjectSchema;
-
-// Warning: (ae-forgotten-export) The symbol "FormSubmitSuccess" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "FormSubmitFailure" needs to be exported by the entry point index.d.ts
-//
-// @public
-export function useFormSubmit(onValidate: () => Promise<FormSubmitSuccess | FormSubmitFailure> | FormSubmitSuccess | FormSubmitFailure, pluginUiMessageHandler: PluginUiMessageHandler): {
-    formDisabled: boolean;
-    submitError: any | undefined;
-};
 
 // Warning: (ae-forgotten-export) The symbol "UseOauthConnectorProps" needs to be exported by the entry point index.d.ts
 //

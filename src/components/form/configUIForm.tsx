@@ -17,7 +17,7 @@ import { ConfigUIFormHeader } from './header';
 import { ComponentsRenderer } from './renderer';
 import { usePluginContext } from '../../context/plugin';
 
-import { useConfigUIForm, useFormActions, useFormCurrentValues } from '../../hooks';
+import { useConfigUIForm, useFormActions } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { FormFooter, FormWrapper, GuideComponent, Service } from '../display';
 import { PluginTable } from '../inputs';
@@ -40,7 +40,7 @@ export interface ConfigUIFormProps {
     values: Record<string, any>;
     tablesList?: PluginTable[];
     servicesList?: Service[];
-  }) => PluginUiMessagePayload['validation_passed']['values'];
+  }) => PluginUiMessagePayload['submitted']['submitPayload'];
   container?: HTMLElement | ShadowRoot;
 }
 
@@ -58,6 +58,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     tablesList,
     servicesList,
     pluginUiMessageHandler,
+    isDisabled,
   } = usePluginContext();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -79,8 +80,6 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
       }),
     [config, form, tablesList, servicesList, prepareSubmitValues],
   );
-
-  useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
 
   const {
     handleCancelTestConnection,
@@ -258,49 +257,51 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
               }}
             >
               <form ref={formRef} autoComplete="off" noValidate={true} onSubmit={onSubmit}>
-                <Stack
-                  sx={{
-                    gap: 3,
-                  }}
-                >
-                  <FormWrapper formDisabled={formDisabled}>
-                    <Sections>
-                      <ConfigUIFormHeader />
-                      {currentStep && (
-                        <Sections>
-                          {currentStep.children.map((section, index) => (
-                            <ComponentsRenderer
-                              section={section}
-                              key={index}
-                              container={container}
-                            />
-                          ))}
-                        </Sections>
-                      )}
-                      <FormHelperText sx={{ textAlign: 'right' }} error={true}>
-                        {formState.errors.root?.message}
-                      </FormHelperText>
-                    </Sections>
-                  </FormWrapper>
-                  <FormFooter
-                    isUpdating={editMode}
-                    pluginKind={plugin.kind as any}
-                    isTestingConnection={isTestingConnection}
-                    isSubmitting={isSubmitting || submitGuardLoading}
-                    testConnectionError={parsedTestConnectionError}
-                    submitPayload={submitPayload}
-                    onCancelTestConnection={handleCancelTestConnection}
-                    onTestConnectionSuccess={onTestConnectionSuccess}
-                    onDelete={handleDelete}
-                    onGoToPreviousStep={onGoToPreviousStep}
-                    submitLabel={isLastStep ? undefined : 'Continue'}
-                    submitEnabledState={currentStep?.submitEnabledState}
-                    showPreviousStepButton={!editMode || step !== 0}
-                    pluginName={plugin.name}
-                    teamName={teamName}
-                    testConnectionId={testConnectionId}
-                  />
-                </Stack>
+                <fieldset disabled={isDisabled}>
+                  <Stack
+                    sx={{
+                      gap: 3,
+                    }}
+                  >
+                    <FormWrapper formDisabled={formDisabled}>
+                      <Sections>
+                        <ConfigUIFormHeader />
+                        {currentStep && (
+                          <Sections>
+                            {currentStep.children.map((section, index) => (
+                              <ComponentsRenderer
+                                section={section}
+                                key={index}
+                                container={container}
+                              />
+                            ))}
+                          </Sections>
+                        )}
+                        <FormHelperText sx={{ textAlign: 'right' }} error={true}>
+                          {formState.errors.root?.message}
+                        </FormHelperText>
+                      </Sections>
+                    </FormWrapper>
+                    <FormFooter
+                      isUpdating={editMode}
+                      pluginKind={plugin.kind as any}
+                      isTestingConnection={isTestingConnection}
+                      isSubmitting={isSubmitting || submitGuardLoading}
+                      testConnectionError={parsedTestConnectionError}
+                      submitPayload={submitPayload}
+                      onCancelTestConnection={handleCancelTestConnection}
+                      onTestConnectionSuccess={onTestConnectionSuccess}
+                      onDelete={handleDelete}
+                      onGoToPreviousStep={onGoToPreviousStep}
+                      submitLabel={isLastStep ? undefined : 'Continue'}
+                      submitEnabledState={currentStep?.submitEnabledState}
+                      showPreviousStepButton={!editMode || step !== 0}
+                      pluginName={plugin.name}
+                      teamName={teamName}
+                      testConnectionId={testConnectionId}
+                    />
+                  </Stack>
+                </fieldset>
               </form>
             </Box>
             {config.guide && (

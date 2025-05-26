@@ -12,7 +12,7 @@ import { isApiAbortError } from '../utils/errors';
 /**
  * @public
  */
-export type FormActionsFormValues = PluginUiMessagePayload['current_values']['values'];
+export type FormActionsFormValues = PluginUiMessagePayload['submitted']['submitPayload'];
 
 /**
  * @public
@@ -178,7 +178,6 @@ export function useFormActions<PluginKind extends 'source' | 'destination'>({
         });
       } catch (error: any) {
         setSubmitError(error?.body || error);
-        pluginUiMessageHandler.sendMessage('submit_failed', error?.body || error);
       } finally {
         setIsSubmitting(false);
         setSubmitPayload(undefined);

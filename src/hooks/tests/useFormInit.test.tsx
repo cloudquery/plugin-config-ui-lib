@@ -31,7 +31,7 @@ describe('usePluginUiFormInit', () => {
   test('no initial values', async () => {
     console.log('here', window)
     const pluginUiMessageHandler = getPluginUiMessageHandler();
-    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
+    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler));
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
@@ -69,7 +69,7 @@ describe('usePluginUiFormInit', () => {
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
-    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
+    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler));
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
@@ -127,7 +127,7 @@ describe('usePluginUiFormInit', () => {
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
-    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
+    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler));
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
