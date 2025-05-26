@@ -866,6 +866,9 @@ export interface TableSelectorProps {
     value: Record<string, boolean>;
 }
 
+// @public (undocumented)
+export function throwFallbackToYamlError(): never;
+
 // @public
 export const TreeGroup: React_2.NamedExoticComponent<TreeGroupProps>;
 
