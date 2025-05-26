@@ -23,3 +23,4 @@ export {
   getAuthenticateConnector,
 } from './authConnectorAuthentication';
 export { getAppRootElements } from './getAppRootElements';
+export { throwFallbackToYamlError } from './throwFallbackToYamlError';

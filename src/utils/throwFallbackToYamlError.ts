@@ -5,6 +5,6 @@ class FallbackToYamlError extends Error {
   }
 }
 
-export function throwFallbackToYamlError() {
+export function throwFallbackToYamlError(): never {
   throw new FallbackToYamlError(`Fallback to YAML`);
 }
