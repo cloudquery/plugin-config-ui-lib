@@ -38,13 +38,7 @@ export function TableSelectorFilters({
   const menuToggleId = useId();
 
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      sx={{
-        marginBottom: 2,
-      }}
-    >
+    <Stack direction="row" gap={1} marginBottom={2}>
       <SearchInput
         fullWidth={true}
         onChange={(e) => onSearchChange(e.target.value)}

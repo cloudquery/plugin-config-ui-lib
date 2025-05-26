@@ -34,14 +34,7 @@ export function ServiceListFilters({
   const menuToggleId = useId();
 
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      sx={{
-        marginBottom: 2,
-      }}
-      width="100%"
-    >
+    <Stack direction="row" gap={1} marginBottom={2} width="100%">
       <SearchInput
         fullWidth={true}
         onChange={(e) => onSearchChange(e.target.value)}
