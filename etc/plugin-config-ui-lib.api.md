@@ -920,6 +920,7 @@ export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFie
     _editMode: boolean;
     _authType: {};
     _step: number;
+    _currentStepSubmitted: boolean;
     tables?: unknown;
     name: string;
     displayName: string;
@@ -929,6 +930,7 @@ export const useCoreFormSchema: ({ initialValues, fields, secretFields, stateFie
     _editMode: boolean;
     _authType: AuthType;
     _step: 0;
+    _currentStepSubmitted: false;
     tables?: undefined;
     name: string;
     displayName: string;
