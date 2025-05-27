@@ -145,6 +145,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     if (step === 0) {
       handleGoToPreviousStep();
     } else {
+      setValue('_currentStepSubmitted', false);
       setValue('_step', getValues('_step') - 1);
     }
   };
@@ -153,6 +154,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 
   const onSubmit = handleFormSubmit(
     async function () {
+      setValue('_currentStepSubmitted', true);
       const thisStep = getValues('_step');
 
       if (config.steps[thisStep]?.submitGuard) {
@@ -182,11 +184,13 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
       if (isLastStep) {
         await handleTestConnection();
       } else {
+        setValue('_currentStepSubmitted', false);
         setValue('_step', getValues('_step') + 1);
         formRef.current?.scrollIntoView({ block: 'start' });
       }
     },
     (errors) => {
+      setValue('_currentStepSubmitted', true);
       if (formRef.current) {
         scrollToFirstFormFieldError(Object.keys(errors), formRef.current);
       }
