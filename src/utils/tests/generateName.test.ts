@@ -1,8 +1,9 @@
+import { vi } from 'vitest';
 import { generateName } from '../generateName';
 
 beforeAll(() => {
-  jest.useFakeTimers();
-  jest.setSystemTime(new Date(2020, 3, 1));
+  vi.useFakeTimers();
+  vi.setSystemTime(new Date(2020, 3, 1));
 });
 
 describe('generateName', () => {
@@ -13,5 +14,5 @@ describe('generateName', () => {
 });
 
 afterAll(() => {
-  jest.useRealTimers();
+  vi.useRealTimers();
 });

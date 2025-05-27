@@ -17,7 +17,7 @@ import { ConfigUIFormHeader } from './header';
 import { ComponentsRenderer } from './renderer';
 import { usePluginContext } from '../../context/plugin';
 
-import { useConfigUIForm, useFormActions, useFormCurrentValues } from '../../hooks';
+import { useConfigUIForm, useFormActions } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
 import { FormFooter, FormWrapper, GuideComponent, Service } from '../display';
 import { PluginTable } from '../inputs';
@@ -40,7 +40,7 @@ export interface ConfigUIFormProps {
     values: Record<string, any>;
     tablesList?: PluginTable[];
     servicesList?: Service[];
-  }) => PluginUiMessagePayload['validation_passed']['values'];
+  }) => PluginUiMessagePayload['submitted']['submitPayload'];
   container?: HTMLElement | ShadowRoot;
 }
 
@@ -58,6 +58,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     tablesList,
     servicesList,
     pluginUiMessageHandler,
+    isDisabled,
   } = usePluginContext();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -79,8 +80,6 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
       }),
     [config, form, tablesList, servicesList, prepareSubmitValues],
   );
-
-  useFormCurrentValues(pluginUiMessageHandler, getCurrentValues);
 
   const {
     handleCancelTestConnection,
@@ -131,7 +130,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     }
   }, [submitError, getValues, setError]);
 
-  const formDisabled = isSubmitting || isTestingConnection || submitGuardLoading;
+  const formDisabled = isSubmitting || isTestingConnection || submitGuardLoading || isDisabled;
 
   const onTestConnectionSuccess = async () => {
     await handleSubmit(getCurrentValues());
@@ -146,6 +145,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
     if (step === 0) {
       handleGoToPreviousStep();
     } else {
+      setValue('_currentStepSubmitted', false);
       setValue('_step', getValues('_step') - 1);
     }
   };
@@ -154,6 +154,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
 
   const onSubmit = handleFormSubmit(
     async function () {
+      setValue('_currentStepSubmitted', true);
       const thisStep = getValues('_step');
 
       if (config.steps[thisStep]?.submitGuard) {
@@ -183,11 +184,13 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
       if (isLastStep) {
         await handleTestConnection();
       } else {
+        setValue('_currentStepSubmitted', false);
         setValue('_step', getValues('_step') + 1);
         formRef.current?.scrollIntoView({ block: 'start' });
       }
     },
     (errors) => {
+      setValue('_currentStepSubmitted', true);
       if (formRef.current) {
         scrollToFirstFormFieldError(Object.keys(errors), formRef.current);
       }
@@ -216,6 +219,13 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
         ...themeOptions.components?.MuiPopper,
         defaultProps: {
           ...themeOptions.components?.MuiPopper?.defaultProps,
+          ...(container ? { container: container as any } : {}),
+        },
+      },
+      MuiModal: {
+        ...themeOptions.components?.MuiModal,
+        defaultProps: {
+          ...themeOptions.components?.MuiModal?.defaultProps,
           ...(container ? { container: container as any } : {}),
         },
       },

@@ -108,7 +108,7 @@ export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageEl
             {!isLoaded && <CircularProgress />}
             <img
               {...props}
-              height={typeof window === 'undefined' ? 0 : window.innerHeight}
+              height={typeof window === 'undefined' ? 0 : window.top?.innerHeight}
               onLoad={() => setIsLoaded(true)}
               sizes="100vw"
               style={{
@@ -117,7 +117,7 @@ export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageEl
                 maxWidth: '100%',
                 width: 'auto',
               }}
-              width={typeof window === 'undefined' ? 0 : window.innerWidth}
+              width={typeof window === 'undefined' ? 0 : window.top?.innerWidth}
             />
           </Stack>
         </Box>

@@ -107,19 +107,10 @@ export function CloudAppMock({
 
   useEffect(() => {
     if (searchParams.size > 0 && window.opener) {
-      const pluginUIMessageHandler = new MessageHandler<
-        PluginUiMessageType,
-        PluginUiMessagePayload,
-        FormMessageType,
-        FormMessagePayload
-      >(pluginUiMessageTypes, formMessageTypes, window.opener);
-
       window.localStorage.setItem(
         'authConnectorResult',
         JSON.stringify(Object.fromEntries(searchParams.entries())),
       );
-
-      pluginUIMessageHandler.sendMessage('close');
     } else {
       window.addEventListener('storage', () => {
         const authConnectorResult = window.localStorage.getItem('authConnectorResult');

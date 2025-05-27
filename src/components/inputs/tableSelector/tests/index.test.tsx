@@ -1,3 +1,4 @@
+import { describe, test, expect, beforeEach, vi } from 'vitest';
 import { useState } from 'react';
 
 import { screen, fireEvent, act } from '@testing-library/react';
@@ -12,11 +13,11 @@ const mockTableList: PluginTableListItem[] = [
   { name: 'Table3', parent: '', relationTables: [] },
 ];
 
-const mockOnChange = jest.fn();
+const mockOnChange = vi.fn();
 
 describe('TableSelector', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test('renders without crashing', () => {

@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest';
 import { act } from 'react';
 
 import {
@@ -29,13 +30,14 @@ const exampleUser = {
 describe('usePluginUiFormInit', () => {
   test('no initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
-    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
+    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler));
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
       teamName: '',
       isManagedDestination: false,
       user: emptyUser,
+      isDisabled: false,
     });
 
     await act(async () => {
@@ -62,18 +64,20 @@ describe('usePluginUiFormInit', () => {
       context: 'wizard',
       isManagedDestination: false,
       user: exampleUser,
+      isDisabled: false,
     });
   });
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
-    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
+    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler));
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
       teamName: '',
       isManagedDestination: false,
       user: emptyUser,
+      isDisabled: false,
     });
 
     await act(async () => {
@@ -120,18 +124,20 @@ describe('usePluginUiFormInit', () => {
       context: 'wizard',
       isManagedDestination: false,
       user: exampleUser,
+      isDisabled: false,
     });
   });
 
   test('initial values', async () => {
     const pluginUiMessageHandler = getPluginUiMessageHandler();
-    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler, false));
+    const { rerender, result } = renderHook(() => useFormInit(pluginUiMessageHandler));
     expect(result.current).toEqual({
       initialized: false,
       initialValues: undefined,
       teamName: '',
       isManagedDestination: false,
       user: emptyUser,
+      isDisabled: false,
     });
     const formMessageHandler = new MessageHandler<
       FormMessageType,
@@ -178,6 +184,7 @@ describe('usePluginUiFormInit', () => {
       context: 'wizard',
       isManagedDestination: false,
       user: exampleUser,
+      isDisabled: false,
     });
   });
 });

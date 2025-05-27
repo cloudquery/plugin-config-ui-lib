@@ -21,6 +21,7 @@ export interface PluginContextProviderProps {
   children: React.ReactNode;
   pluginUiMessageHandler: any;
   initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+  isDisabled?: boolean;
 }
 
 interface PluginContextProps {
@@ -37,6 +38,7 @@ interface PluginContextProps {
   servicesList?: Service[];
   pluginUiMessageHandler: any;
   initialValues?: FormMessagePayload['init']['initialValues'] | undefined;
+  isDisabled: boolean;
 }
 
 const PluginContext = createContext<PluginContextProps>({
@@ -64,6 +66,7 @@ const PluginContext = createContext<PluginContextProps>({
   servicesList: undefined,
   pluginUiMessageHandler: undefined,
   initialValues: undefined,
+  isDisabled: false,
 });
 
 /**
@@ -87,6 +90,7 @@ export const PluginContextProvider = ({
   hideStepper,
   pluginUiMessageHandler,
   initialValues,
+  isDisabled,
 }: PluginContextProviderProps) => {
   const [tablesList, setTablesList] = useState<PluginTable[]>();
   useEffect(() => {
@@ -120,6 +124,7 @@ export const PluginContextProvider = ({
         pluginUiMessageHandler,
         initialValues,
         servicesList,
+        isDisabled: isDisabled || false,
       }}
     >
       {children}

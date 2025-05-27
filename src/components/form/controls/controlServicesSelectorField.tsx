@@ -1,7 +1,7 @@
 import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 
-import { Controller } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
 import { ServiceList } from '../../display';
@@ -11,6 +11,7 @@ import { ServiceList } from '../../display';
  */
 export interface ControlServicesSelectorFieldProps {
   topServices: string[];
+  slowTables: string[];
 }
 
 /**
@@ -19,8 +20,13 @@ export interface ControlServicesSelectorFieldProps {
  *
  * @public
  */
-export function ControlServicesSelectorField({ topServices }: ControlServicesSelectorFieldProps) {
+export function ControlServicesSelectorField({
+  topServices,
+  slowTables,
+}: ControlServicesSelectorFieldProps) {
   const { config, servicesList, initialValues } = usePluginContext();
+  const { watch } = useFormContext();
+  const currentStepSubmitted = watch('_currentStepSubmitted');
 
   return (
     <Controller
@@ -49,10 +55,13 @@ export function ControlServicesSelectorField({ topServices }: ControlServicesSel
             maxHeight="none"
             fallbackLogoSrc={config.iconLink}
             isUpdating={!!initialValues}
+            slowTables={slowTables}
           />
-          <FormHelperText error={!!fieldState.error?.message}>
-            {fieldState.error?.message}
-          </FormHelperText>
+          {!!fieldState.error?.message && currentStepSubmitted && (
+            <FormHelperText error={!!fieldState.error?.message} sx={{ mt: 2 }}>
+              {fieldState.error?.message}
+            </FormHelperText>
+          )}
         </FormControl>
       )}
     />

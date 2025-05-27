@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import { Close, WarningAmber } from '@mui/icons-material';
 import { Collapse, IconButton } from '@mui/material';
@@ -29,10 +29,11 @@ interface Props {
   disabled?: boolean;
   service: Service;
   isSelected: boolean;
-  valueRef: MutableRefObject<Record<string, boolean>>;
   onExpandToggle: (serviceName: string) => void;
   isExpanded: boolean;
   onToggle: (service: Service, isChecked: boolean) => void;
+  isPopular?: boolean;
+  value: Record<string, boolean>;
 }
 
 export function ServiceListItem({
@@ -40,15 +41,15 @@ export function ServiceListItem({
   service,
   disabled,
   onChange,
-  valueRef,
+  value,
   isSelected,
   onExpandToggle,
   isExpanded,
   onToggle,
 }: Props) {
-  const [tablesValue, setTablesValue] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(service.tables.map((table) => [table, isSelected])),
-  );
+  const tablesValue = useMemo(() => {
+    return Object.fromEntries(service.tables.map((table) => [table, value[table]]));
+  }, [service.tables, value]);
 
   const tableList = useMemo(() => {
     return service.tables.map((table) => ({ name: table, relationTables: [] }));
@@ -57,16 +58,12 @@ export function ServiceListItem({
   const handleToggleTable = useCallback(
     (serviceTablesValues: Record<string, boolean>) => {
       const newTablesValue = {
-        ...valueRef.current,
+        ...value,
         ...serviceTablesValues,
       };
       onChange(newTablesValue);
-      setTablesValue((value) => ({
-        ...value,
-        ...serviceTablesValues,
-      }));
     },
-    [onChange, valueRef],
+    [onChange, value],
   );
 
   const handleExpandToggle = useCallback(
@@ -76,12 +73,6 @@ export function ServiceListItem({
     },
     [onExpandToggle, service.name],
   );
-
-  useEffect(() => {
-    setTablesValue(
-      Object.fromEntries(service.tables.map((table) => [table, valueRef.current[table]])),
-    );
-  }, [isSelected, service.tables, valueRef]);
 
   const onlySomeTablesSelected = useMemo(() => {
     const selectedTables = Object.keys(tablesValue).filter((table) => tablesValue[table]);

@@ -14,13 +14,14 @@ function InternalPluginTableSelector() {
     formState: { errors, submitCount },
     setValue,
     trigger,
+    watch,
   } = useFormContext();
   const { tablesList } = usePluginContext();
   const selectedTables: Record<string, boolean> = useWatch({
     exact: true,
     name: 'tables',
   });
-
+  const currentStepSubmitted = watch('_currentStepSubmitted');
   const tableList = useMemo(() => generatePluginTableList(tablesList), [tablesList]);
 
   const handleChange = useCallback(
@@ -59,7 +60,9 @@ function InternalPluginTableSelector() {
         disabled={tableList.length === 1}
         value={selectedTables}
       />
-      <FormHelperText error={!!errorMessage}>{errorMessage}</FormHelperText>
+      {currentStepSubmitted && !!errorMessage && (
+        <FormHelperText error={!!errorMessage}>{errorMessage}</FormHelperText>
+      )}
     </FormControl>
   );
 }

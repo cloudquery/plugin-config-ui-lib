@@ -78,6 +78,7 @@ export const getCoreSchema = ({
       .oneOf(Object.values(AuthType))
       .default(config.auth[0] ?? AuthType.OTHER),
     _step: yup.number().default(0),
+    _currentStepSubmitted: yup.boolean().default(false),
   };
 
   return {

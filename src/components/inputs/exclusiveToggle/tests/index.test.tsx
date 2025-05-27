@@ -1,3 +1,4 @@
+import { describe, test, expect, vi } from 'vitest';
 import { screen, fireEvent } from '@testing-library/react';
 
 import { ExclusiveToggle } from '..';
@@ -11,7 +12,7 @@ const options = [
 
 const defaultProps = {
   noExistingItems: false,
-  onChange: jest.fn(),
+  onChange: vi.fn(),
   value: '1',
   title: 'Test Title',
   options,

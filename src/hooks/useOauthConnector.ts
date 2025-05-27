@@ -40,6 +40,7 @@ export function useOauthConnector({
   getConnectPayloadSpec,
   getFinishPayloadSpec,
 }: UseOauthConnectorProps) {
+  const openedWindowRef = useRef<Window | undefined | null>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [connectorId, setConnectorId] = useState<string | null>(null);
@@ -95,24 +96,14 @@ export function useOauthConnector({
 
       setConnectorId(connectorId);
 
-      pluginUiMessageHandler.sendMessage('open_url', {
-        url: redirectUrl,
-      });
+      openedWindowRef.current = window.top?.open(redirectUrl, '_blank');
     } catch (error: any) {
       setIsLoading(false);
       setConnectorId(null);
       setAuthConnectorResult(null);
       setError(error?.body || error);
     }
-  }, [
-    pluginKind,
-    pluginName,
-    pluginTeamName,
-    pluginUiMessageHandler,
-    successBaseUrl,
-    teamName,
-    getConnectPayloadSpec,
-  ]);
+  }, [pluginKind, pluginName, pluginTeamName, successBaseUrl, teamName, getConnectPayloadSpec]);
 
   /**
    * Finish connector authentication
@@ -146,6 +137,7 @@ export function useOauthConnector({
         'auth_connector_result',
         async (payload) => {
           try {
+            openedWindowRef.current?.close();
             await finishConnectorAuthentication(connectorId, payload);
             setAuthConnectorResult(payload);
           } catch (error: any) {
