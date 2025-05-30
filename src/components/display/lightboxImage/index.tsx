@@ -66,7 +66,13 @@ export function LightboxImage({ sizes, ...props }: ImgHTMLAttributes<HTMLImageEl
         <img
           {...props}
           sizes={sizes}
-          style={{ display: 'block', height: 'auto', maxWidth: '100%', ...props.style }}
+          style={{
+            display: 'block',
+            height: 'auto',
+            maxWidth: '100%',
+            borderRadius: '8px',
+            ...props.style,
+          }}
         />
       </button>
       <Modal

@@ -106,6 +106,32 @@ async function main() {
       }));
     }
 
+    let createServicesSelector = false;
+    let topServices = '';
+    let slowTables = '';
+    if (pluginKind === 'source') {
+      ({ createServicesSelector } = await inquirer.prompt({
+        type: 'confirm',
+        name: 'createServicesSelector',
+        message: 'Does the plugin support service selection?',
+        required: true,
+      }));
+
+      if (createServicesSelector) {
+        ({ topServices } = await inquirer.prompt({
+          type: 'input',
+          name: 'topServices',
+          message: 'Provide the list of top services (comma separated, e.g. "service1,service2"):',
+        }));
+
+        ({ slowTables } = await inquirer.prompt({
+          type: 'input',
+          name: 'slowTables',
+          message: 'Provide the list of slow tables (comma separated, e.g. "table1,table2"):',
+        }));
+      }
+    }
+
     const { authentication } = await inquirer.prompt({
       type: 'select',
       name: 'authentication',
@@ -135,25 +161,104 @@ async function main() {
       });
     }
 
-    const { advancedOptions: advancedOptionsInput } = await inquirer.prompt([
-      {
-        type: 'input',
-        name: 'advancedOptions',
-        message:
-          'If you want to include any advanced options, provide the list of spec properties (comma separated, e.g. "max_requests_per_second):',
-        required: false,
-      },
-    ]);
-    const advancedOptions = advancedOptionsInput
-      ? advancedOptionsInput.split(',').map((option) => {
-          const name = option.trim();
+    // Advanced options collection
+    const advancedOptions = [];
+    const { includeAdvancedOptions } = await inquirer.prompt({
+      type: 'confirm',
+      name: 'includeAdvancedOptions',
+      message: 'Would you like to include any advanced options?',
+      default: false,
+    });
 
-          return {
-            name,
-            label: humanizeString(name),
-          };
-        })
-      : [];
+    let addMoreOptions = includeAdvancedOptions;
+    while (addMoreOptions) {
+      const { name } = await inquirer.prompt({
+        type: 'input',
+        name: 'name',
+        message: 'Enter the name of the advanced option (e.g. max_requests_per_second):',
+        required: true,
+        validate: (input) => input.trim().length > 0 || 'Name is required',
+      });
+
+      const { label } = await inquirer.prompt({
+        type: 'input',
+        name: 'label',
+        message: 'Enter the label for this option:',
+        default: humanizeString(name),
+      });
+
+      const { type } = await inquirer.prompt({
+        type: 'list',
+        name: 'type',
+        message: 'Select the data type for this option:',
+        choices: ['string', 'number', 'boolean'],
+        required: true,
+      });
+
+      let numberConstraints = {};
+      if (type === 'number') {
+        const { isPositive } = await inquirer.prompt({
+          type: 'confirm',
+          name: 'isPositive',
+          message: 'Should this number be positive only?',
+          default: false,
+        });
+
+        const { isInteger } = await inquirer.prompt({
+          type: 'confirm',
+          name: 'isInteger',
+          message: 'Should this number be an integer?',
+          default: false,
+        });
+
+        numberConstraints = { isPositive, isInteger };
+      }
+
+      const { required } = await inquirer.prompt({
+        type: 'confirm',
+        name: 'required',
+        message: 'Is this option required?',
+        default: false,
+      });
+
+      const { value } = await inquirer.prompt({
+        type: type === 'boolean' ? 'confirm' : 'input',
+        name: 'value',
+        message: 'Enter the default value:',
+        validate: (input) => {
+          if (type === 'number') {
+            const num = Number(input);
+            if (isNaN(num)) return 'Must be a valid number';
+            if (numberConstraints.isPositive && num <= 0) return 'Must be positive';
+            if (numberConstraints.isInteger && !Number.isInteger(num)) return 'Must be an integer';
+          }
+          return true;
+        },
+        transformer: (input) => {
+          if (type === 'number') return Number(input);
+          if (type === 'boolean') return input === 'true';
+          return input;
+        },
+      });
+      
+      advancedOptions.push({
+        name,
+        label,
+        type,
+        required,
+        default: type === 'number' ? Number(value) : type === 'boolean' ? value === 'true' : `'${value}'`,
+        ...(type === 'number' ? numberConstraints : {}),
+      });
+
+      const { addAnother } = await inquirer.prompt({
+        type: 'confirm',
+        name: 'addAnother',
+        message: 'Would you like to add another advanced option?',
+        default: false,
+      });
+
+      addMoreOptions = addAnother;
+    }
 
     const packageJson = JSON.parse(
       fs.readFileSync(path.join(__dirname, '..', '..', 'package.json'), 'utf8'),
@@ -176,6 +281,9 @@ async function main() {
           ? '[AuthType.OAUTH]'
           : '[AuthType.OTHER]',
       createTablesSelector,
+      createServicesSelector,
+      topServices: topServices.split(',').map((service) => `'${service.trim()}'`).join(', '),
+      slowTables: slowTables.split(',').map((table) => `'${table.trim()}'`).join(', '),
       advancedOptions: advancedOptions.length > 0 ? advancedOptions : undefined,
       authTokenSpecProperties,
       cloudQueryPluginConfigUiLibVersion: packageJson.version,
@@ -193,13 +301,6 @@ async function main() {
     fs.mkdirSync(outputDir);
 
     const templateDir = path.join(__dirname, '..', 'template');
-
-    // Copy and compile e2e-tests folder
-    createAndCompileTemplate(
-      path.join(templateDir, 'e2e-tests', 'spec.ts.hbs'),
-      path.join(outputDir, 'e2e-tests', `${pluginName}.spec.ts`),
-      payload,
-    );
 
     // Copy and compile index.html
     createAndCompileTemplate(
@@ -315,11 +416,6 @@ async function main() {
       path.join(outputDir, 'package.json'),
       payload,
     );
-
-    // Copy playwright.config.ts
-    const playwrightConfigSrcPath = path.join(templateDir, 'playwright.config.ts');
-    const playwrightConfigDestPath = path.join(outputDir, 'playwright.config.ts');
-    fs.copyFileSync(playwrightConfigSrcPath, playwrightConfigDestPath);
 
     // Copy and compile README.md
     createAndCompileTemplate(

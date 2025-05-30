@@ -8,17 +8,10 @@ import Typography from '@mui/material/Typography';
 
 import { Virtuoso } from 'react-virtuoso';
 
-import { ServiceListFilters } from './filters';
-import { ServiceListItem } from './listItem';
+import { ServiceSelectorFilters } from './filters';
+import { ServiceSelectorListItem } from './listItem';
+import { Service } from './types';
 import { parseSrc } from '../../../utils/parseSrc';
-
-export type Service = {
-  name: string;
-  label: string;
-  shortLabel?: string;
-  logo: string;
-  tables: string[];
-};
 
 const gridComponents = {
   // eslint-disable-next-line react/display-name
@@ -33,7 +26,7 @@ const gridComponents = {
 /**
  * @public
  */
-export interface ServiceListProps {
+export interface ServiceSelectorProps {
   services: Service[];
   topServices?: string[];
   /**
@@ -52,12 +45,12 @@ const defaultTopServices = [];
 const defaultSlowTables = [];
 
 /**
- * ServiceList component is multi-select form component for selecting services
+ * ServiceSelector component is multi-select form component for selecting services
  * with an expandable view of all available services.
  *
  * @public
  */
-export function ServiceList({
+export function ServiceSelector({
   services,
   topServices = defaultTopServices,
   fallbackLogoSrc = parseSrc('favicon.ico'),
@@ -65,7 +58,7 @@ export function ServiceList({
   onChange,
   disabled,
   slowTables = defaultSlowTables,
-}: ServiceListProps) {
+}: ServiceSelectorProps) {
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterServicesValue, setFilterServicesValue] = useState<'all' | 'selected' | 'unselected'>(
@@ -256,7 +249,7 @@ export function ServiceList({
           />
         </Stack>
       </Stack>
-      <ServiceListFilters
+      <ServiceSelectorFilters
         onSearchChange={handleSearchChange}
         onServiceTypeChange={handleServiceTypeChange}
         searchValue={search}
@@ -274,7 +267,7 @@ export function ServiceList({
             <Box display="grid" gridTemplateColumns="1fr 1fr" gap={1.5} width="100%">
               {serviceRow.map((service) => (
                 <Box key={service.name} minWidth="0">
-                  <ServiceListItem
+                  <ServiceSelectorListItem
                     onChange={onChange}
                     service={service}
                     value={value}

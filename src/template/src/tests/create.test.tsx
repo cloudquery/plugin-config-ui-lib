@@ -3,12 +3,6 @@ import { render, screen, waitFor, act } from '@testing-library/react';
 import App from '../App';
 import { VirtuosoMockContext } from '@cloudquery/plugin-config-ui-lib';
 
-// Mock window.open
-const mockOpen = vi.fn();
-window.open = mockOpen;
-
-const baseUrl = 'https://api.cloudquery.io/teams/undefined';
-
 test('Create an integration', { timeout: 1000 * 60 }, async () => {
   let container: HTMLElement = document.createElement('div');
   await act(async () => {

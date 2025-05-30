@@ -95,6 +95,19 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
               ],
             },
             {{/if}}
+            {{#if createServicesSelector}}
+            {
+              component: 'section',
+              title: 'Services',
+              children: [
+                {
+                  component: 'control-services-selector',
+                  topServices: [{{{topServices}}}],
+                  slowTables: [{{{slowTables}}}],
+                },
+              ],
+            },
+            {{/if}}
             {{#if advancedOptions}}
             {
               component: 'collapsible-section',
@@ -107,10 +120,17 @@ export const useConfig = ({ initialValues }: Props): SourceConfig => {
                   name: '{{name}}',
                   label: '{{label}}',
                   schema: yup
-                    .number()
+                    .{{type}}()
+                    {{#if isPositive}}
                     .positive()
+                    {{/if}}
+                    {{#if isInteger}}
                     .integer()
-                    .default(initialValues?.spec?.{{name}} ?? 5),
+                    {{/if}}
+                    {{#if required}}
+                    .required()
+                    {{/if}}
+                    .default(initialValues?.spec?.{{name}} ?? {{{default}}}),
                 },
                 {{/each}}
               ],

@@ -4,7 +4,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { usePluginContext } from '../../../context';
-import { ServiceList } from '../../display';
+import { ServiceSelector } from '../../inputs/serviceSelector';
 
 /**
  * @public
@@ -47,7 +47,7 @@ export function ControlServicesSelectorField({
             name="tables"
             value={JSON.stringify(field.value)}
           />
-          <ServiceList
+          <ServiceSelector
             topServices={topServices}
             services={servicesList || []}
             value={field.value}

@@ -10,7 +10,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useTheme } from '@mui/material/styles';
 
-import { SearchInput } from '../../inputs/searchInput';
+import { SearchInput } from '../searchInput';
 
 interface Props {
   onSearchChange: (value: string) => void;
@@ -20,7 +20,7 @@ interface Props {
   disabled?: boolean;
 }
 
-export function ServiceListFilters({
+export function ServiceSelectorFilters({
   onSearchChange,
   onServiceTypeChange,
   searchValue,

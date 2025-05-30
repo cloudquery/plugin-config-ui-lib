@@ -9,8 +9,3 @@
 
 # misc
 .env.json
-
-# e2e-tests
-/playwright-report
-/test-results
-/temp

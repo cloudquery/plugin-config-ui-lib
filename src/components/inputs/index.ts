@@ -7,3 +7,5 @@ export { SearchInput } from './searchInput';
 export { MultiAutocomplete, type MultiAutocompleteProps } from './multiAutocomplete';
 export { UploadJSON, type UploadJSONProps } from './uploadJSON';
 export type { PluginTable, PluginTableListItem } from './tableSelector/types';
+export { ServiceSelector, type ServiceSelectorProps } from './serviceSelector';
+export type { Service } from './serviceSelector/types';
