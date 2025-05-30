@@ -417,11 +417,6 @@ async function main() {
       payload,
     );
 
-    // Copy playwright.config.ts
-    const playwrightConfigSrcPath = path.join(templateDir, 'playwright.config.ts');
-    const playwrightConfigDestPath = path.join(outputDir, 'playwright.config.ts');
-    fs.copyFileSync(playwrightConfigSrcPath, playwrightConfigDestPath);
-
     // Copy and compile README.md
     createAndCompileTemplate(
       path.join(templateDir, 'README.md.hbs'),
