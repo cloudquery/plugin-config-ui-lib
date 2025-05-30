@@ -8,8 +8,8 @@ import Typography from '@mui/material/Typography';
 
 import { Virtuoso } from 'react-virtuoso';
 
-import { ServiceListFilters } from './filters';
-import { ServiceListItem } from './listItem';
+import { ServiceSelectorFilters } from './filters';
+import { ServiceSelectorListItem } from './listItem';
 import { parseSrc } from '../../../utils/parseSrc';
 
 export type Service = {
@@ -52,12 +52,12 @@ const defaultTopServices = [];
 const defaultSlowTables = [];
 
 /**
- * ServiceList component is multi-select form component for selecting services
+ * ServiceSelector component is multi-select form component for selecting services
  * with an expandable view of all available services.
  *
  * @public
  */
-export function ServiceList({
+export function ServiceSelector({
   services,
   topServices = defaultTopServices,
   fallbackLogoSrc = parseSrc('favicon.ico'),
@@ -256,7 +256,7 @@ export function ServiceList({
           />
         </Stack>
       </Stack>
-      <ServiceListFilters
+      <ServiceSelectorFilters
         onSearchChange={handleSearchChange}
         onServiceTypeChange={handleServiceTypeChange}
         searchValue={search}
@@ -274,7 +274,7 @@ export function ServiceList({
             <Box display="grid" gridTemplateColumns="1fr 1fr" gap={1.5} width="100%">
               {serviceRow.map((service) => (
                 <Box key={service.name} minWidth="0">
-                  <ServiceListItem
+                  <ServiceSelectorListItem
                     onChange={onChange}
                     service={service}
                     value={value}

@@ -42,7 +42,9 @@ export const reservedNames = [
   'displayName',
   'name',
   'connectorId',
+  'onboardingId',
   '_secretKeys',
   '_editMode',
   '_step',
+  '_currentStep',
 ];

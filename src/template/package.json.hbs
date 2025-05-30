@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@playwright/test": "^1.51.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -69,9 +68,7 @@
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "lint:fix": "eslint src --ext .ts,.tsx --max-warnings 0 --fix",
     "test": "vitest --run",
-    "test:watch": "vitest",
-    "test:e2e": "playwright test",
-    "dev:test:e2e": "REACT_APP_USE_CLOUD_APP_MOCK=true npm run build && playwright test"
+    "test:watch": "vitest"
   },
   "eslintConfig": {
     "extends": [

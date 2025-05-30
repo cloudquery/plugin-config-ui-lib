@@ -9,10 +9,10 @@ import ToggleButton from '@mui/material/ToggleButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
+import { TableSelector } from '..';
 import { parseSrc } from '../../../utils/parseSrc';
+import { Logo } from '../../display';
 import { AdjustmentsIcon } from '../../icons/adjustments';
-import { TableSelector } from '../../inputs';
-import { Logo } from '../logo';
 
 export type Service = {
   name: string;
@@ -36,7 +36,7 @@ interface Props {
   value: Record<string, boolean>;
 }
 
-export function ServiceListItem({
+export function ServiceSelectorListItem({
   fallbackLogoSrc = parseSrc('favicon.ico'),
   service,
   disabled,
