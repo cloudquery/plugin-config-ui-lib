@@ -107,8 +107,8 @@ async function main() {
     }
 
     let createServicesSelector = false;
-    let topServices = [];
-    let slowTables = [];
+    let topServices = '';
+    let slowTables = '';
     if (pluginKind === 'source') {
       ({ createServicesSelector } = await inquirer.prompt({
         type: 'confirm',
@@ -282,8 +282,8 @@ async function main() {
           : '[AuthType.OTHER]',
       createTablesSelector,
       createServicesSelector,
-      topServices: topServices.split(',').map((service) => `'${service.trim().replace(/'/g, "\\'")}'`).join(', '),
-      slowTables: slowTables.split(',').map((table) => `'${table.trim().replace(/'/g, "\\'")}'`).join(', '),
+      topServices: topServices.split(',').map((service) => `'${service.trim()}'`).join(', '),
+      slowTables: slowTables.split(',').map((table) => `'${table.trim()}'`).join(', '),
       advancedOptions: advancedOptions.length > 0 ? advancedOptions : undefined,
       authTokenSpecProperties,
       cloudQueryPluginConfigUiLibVersion: packageJson.version,
