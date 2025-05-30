@@ -789,10 +789,10 @@ export type Service = {
 };
 
 // @public
-export function ServiceList({ services, topServices, fallbackLogoSrc, value, onChange, disabled, slowTables, }: ServiceListProps): JSX_2.Element;
+export function ServiceSelector({ services, topServices, fallbackLogoSrc, value, onChange, disabled, slowTables, }: ServiceSelectorProps): JSX_2.Element;
 
 // @public (undocumented)
-export interface ServiceListProps {
+export interface ServiceSelectorProps {
     // (undocumented)
     disabled?: boolean;
     // (undocumented)

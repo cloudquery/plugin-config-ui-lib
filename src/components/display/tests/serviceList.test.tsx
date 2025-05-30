@@ -2,7 +2,7 @@ import { describe, expect, test, vi } from 'vitest';
 import { screen, fireEvent, within } from '@testing-library/react';
 
 import { renderWithTheme } from '../../../utils/tests/renderWithTheme';
-import { ServiceList } from '../serviceList';
+import { ServiceSelector } from '../../inputs';
 
 const services = [
   { label: 'Option A', name: 'Option A', logo: '1', tables: ['table1'], shortlabel: '1' },
@@ -33,9 +33,9 @@ const defaultProps = {
   value: {},
 };
 
-describe('ServiceList Component', () => {
+describe('ServiceSelector Component', () => {
   test('renders correctly with given props', () => {
-    renderWithTheme(<ServiceList {...defaultProps} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} />);
 
     expect(screen.getByLabelText('Option C')).toBeInTheDocument();
     expect(screen.getByLabelText('Option D')).toBeInTheDocument();
@@ -44,7 +44,7 @@ describe('ServiceList Component', () => {
   });
 
   test('inits with values already checked', () => {
-    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true }} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} value={{ 'table3': true }} />);
 
     expect(
       screen.getByRole('button', { name: 'Option C Option C' }).querySelector('.Mui-checked'),
@@ -52,7 +52,7 @@ describe('ServiceList Component', () => {
   });
 
   test('onChange is called with correct value when an item is clicked', () => {
-    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true }} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} value={{ 'table3': true }} />);
 
     const newValue = { 'table3': true, 'table8': true };
     fireEvent.click(screen.getByRole('button', { name: 'Option H Option H' }));
@@ -60,7 +60,7 @@ describe('ServiceList Component', () => {
   });
 
   test('search filters services correctly by service name', () => {
-    renderWithTheme(<ServiceList {...defaultProps} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} />);
     
     // Search for Option C
     const searchInput = screen.getByPlaceholderText('Search services or tables');
@@ -75,7 +75,7 @@ describe('ServiceList Component', () => {
   });
   
   test('search filters services correctly by table name', () => {
-    renderWithTheme(<ServiceList {...defaultProps} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} />);
     
     // Search for table3
     const searchInput = screen.getByPlaceholderText('Search services or tables');
@@ -89,7 +89,7 @@ describe('ServiceList Component', () => {
   });
   
   test('filter shows only selected services', () => {
-    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
     
     // Open filter menu
     const filterButton = screen.getByRole('button', { name: 'Filter' });
@@ -109,7 +109,7 @@ describe('ServiceList Component', () => {
   });
   
   test('filter shows only unselected services', () => {
-    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
     
     // Open filter menu
     const filterButton = screen.getByRole('button', { name: 'Filter' });
@@ -129,7 +129,7 @@ describe('ServiceList Component', () => {
   });
 
   test('select all checkbox selects all filtered services', () => {
-    renderWithTheme(<ServiceList {...defaultProps} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} />);
     
     // First search to filter services
     const searchInput = screen.getByPlaceholderText('Search services or tables');
@@ -144,7 +144,7 @@ describe('ServiceList Component', () => {
   });
   
   test('displays correct number of selected services', () => {
-    renderWithTheme(<ServiceList {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
+    renderWithTheme(<ServiceSelector {...defaultProps} value={{ 'table3': true, 'table5': true }} />);
     
     // Should display "2 services selected"
     expect(screen.getByText('2 services selected')).toBeInTheDocument();
@@ -159,7 +159,7 @@ describe('ServiceList Component', () => {
     };
     
     // Re-render with the new value
-    renderWithTheme(<ServiceList {...updatedProps} />);
+    renderWithTheme(<ServiceSelector {...updatedProps} />);
     
     // Should now display "3 services selected"
     expect(screen.getByText('3 services selected')).toBeInTheDocument();

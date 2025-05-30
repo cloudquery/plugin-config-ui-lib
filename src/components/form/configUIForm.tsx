@@ -19,8 +19,8 @@ import { usePluginContext } from '../../context/plugin';
 
 import { useConfigUIForm, useFormActions } from '../../hooks';
 import { parseTestConnectionError } from '../../utils/parseTestConnectionError';
-import { FormFooter, FormWrapper, GuideComponent, Service } from '../display';
-import { PluginTable } from '../inputs';
+import { FormFooter, FormWrapper, GuideComponent } from '../display';
+import { PluginTable, Service } from '../inputs';
 import { Sections } from './sections/sections';
 import { PluginConfig } from '../../types';
 import { scrollToFirstFormFieldError } from '../../utils';

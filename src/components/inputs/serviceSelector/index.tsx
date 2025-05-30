@@ -10,15 +10,8 @@ import { Virtuoso } from 'react-virtuoso';
 
 import { ServiceSelectorFilters } from './filters';
 import { ServiceSelectorListItem } from './listItem';
+import { Service } from './types';
 import { parseSrc } from '../../../utils/parseSrc';
-
-export type Service = {
-  name: string;
-  label: string;
-  shortLabel?: string;
-  logo: string;
-  tables: string[];
-};
 
 const gridComponents = {
   // eslint-disable-next-line react/display-name
@@ -33,7 +26,7 @@ const gridComponents = {
 /**
  * @public
  */
-export interface ServiceListProps {
+export interface ServiceSelectorProps {
   services: Service[];
   topServices?: string[];
   /**
@@ -65,7 +58,7 @@ export function ServiceSelector({
   onChange,
   disabled,
   slowTables = defaultSlowTables,
-}: ServiceListProps) {
+}: ServiceSelectorProps) {
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [filterServicesValue, setFilterServicesValue] = useState<'all' | 'selected' | 'unselected'>(

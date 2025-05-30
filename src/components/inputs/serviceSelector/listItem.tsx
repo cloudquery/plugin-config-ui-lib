@@ -10,17 +10,10 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import { TableSelector } from '..';
+import { Service } from './types';
 import { parseSrc } from '../../../utils/parseSrc';
 import { Logo } from '../../display';
 import { AdjustmentsIcon } from '../../icons/adjustments';
-
-export type Service = {
-  name: string;
-  label: string;
-  shortLabel?: string;
-  logo: string;
-  tables: string[];
-};
 
 interface Props {
   onChange: (value: Record<string, boolean>) => void;
