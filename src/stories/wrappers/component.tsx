@@ -9,11 +9,15 @@ import { theme } from '../../utils/tests/renderWithTheme';
 export const ComponentWrapper = ({
   args,
   yupBase = 'string()',
+  defaultValues,
 }: {
   yupBase?: string;
   args: any;
+  defaultValues?: any;
 }) => {
-  const form = useForm();
+  const form = useForm({
+    defaultValues,
+  });
   let text = JSON.stringify(
     { ...args, shouldRender: '{shouldRender}', schema: '{schema}' },
     undefined,
