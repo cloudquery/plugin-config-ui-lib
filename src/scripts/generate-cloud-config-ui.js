@@ -109,6 +109,7 @@ async function main() {
     let createServicesSelector = false;
     let topServices = '';
     let slowTables = '';
+    let expensiveTables = '';
     if (pluginKind === 'source') {
       ({ createServicesSelector } = await inquirer.prompt({
         type: 'confirm',
@@ -128,6 +129,12 @@ async function main() {
           type: 'input',
           name: 'slowTables',
           message: 'Provide the list of slow tables (comma separated, e.g. "table1,table2"):',
+        }));
+
+        ({ expensiveTables } = await inquirer.prompt({
+          type: 'input',
+          name: 'expensiveTables',
+          message: 'Provide the list of expensive tables (comma separated, e.g. "table1,table2"):',
         }));
       }
     }
@@ -284,6 +291,7 @@ async function main() {
       createServicesSelector,
       topServices: topServices.split(',').map((service) => `'${service.trim()}'`).join(', '),
       slowTables: slowTables.split(',').map((table) => `'${table.trim()}'`).join(', '),
+      expensiveTables: expensiveTables.split(',').map((table) => `'${table.trim()}'`).join(', '),
       advancedOptions: advancedOptions.length > 0 ? advancedOptions : undefined,
       authTokenSpecProperties,
       cloudQueryPluginConfigUiLibVersion: packageJson.version,
@@ -362,13 +370,6 @@ async function main() {
     const testsSrcPath = path.join(templateDir, 'src', 'tests', 'create.test.tsx');
     const testsDestPath = path.join(outputDir, 'src', 'tests', 'create.test.tsx');
     fs.copyFileSync(testsSrcPath, testsDestPath);
-
-    // Copy .env.json
-    const envExampleSrcPath = path.join(templateDir, 'src', '.env.example.json');
-    const envExampleDestPath = path.join(outputDir, 'src', '.env.example.json');
-    const envDestPath = path.join(outputDir, 'src', '.env.json');
-    fs.copyFileSync(envExampleSrcPath, envExampleDestPath);
-    fs.copyFileSync(envExampleSrcPath, envDestPath);
 
     // Copy and compile src/App.tsx
     createAndCompileTemplate(

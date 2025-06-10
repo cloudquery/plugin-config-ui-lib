@@ -62,11 +62,13 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
     const [showPlainText, setShowPlainText] = useState(false);
     const handleReset = () => {
       setFieldResetted(true);
+      setShowPlainText(false);
       setValue(name as any, '');
     };
 
     const handelCancelReset = () => {
       setFieldResetted(false);
+      setShowPlainText(false);
       setValue(name as any, getDefaultValue(defaultValues, name));
     };
 
@@ -111,17 +113,18 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
           size="small"
           slotProps={{
             input: {
-              endAdornment: disableVisibilityToggle ? null : (
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle visibility"
-                    edge="end"
-                    onClick={() => setShowPlainText(!showPlainText)}
-                  >
-                    {showPlainText ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
+              endAdornment:
+                !disableVisibilityToggle && !isObscured ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle visibility"
+                      edge="end"
+                      onClick={() => setShowPlainText(!showPlainText)}
+                    >
+                      {showPlainText ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ) : null,
             },
           }}
         />
