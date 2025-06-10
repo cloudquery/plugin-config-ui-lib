@@ -73,7 +73,7 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
     const isSecret = editMode && isOrHasSecret(getDefaultValue(defaultValues, name));
     const isObscured = isSecret && !fieldResetted && isOrHasSecret(getValues(name as any));
     const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
-    const isBlurred = !showPlainText && !value && !isObscured;
+    const isBlurred = !showPlainText && !!value && !isObscured;
 
     return (
       <Stack
