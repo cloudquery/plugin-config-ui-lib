@@ -4,6 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import terser from "@rollup/plugin-terser";
 import copy from 'rollup-plugin-copy'
+import json from '@rollup/plugin-json'
 
 const componentInputs = ["src/components/utils/devWrapper.tsx"];
 
@@ -30,6 +31,7 @@ export default [
       peerDepsExternal(),
       resolve(),
       commonjs(),
+      json(),
       typescript({
         tsconfig: "./tsconfig.json",
         outDir: "dist",
@@ -71,6 +73,7 @@ export default [
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),
       commonjs(),
+      json(),
       typescript({
         tsconfig: "./tsconfig.json",
         outDir: "dist/components",
@@ -109,6 +112,7 @@ export default [
         extensions: [".js", ".jsx", ".ts", ".tsx"],
       }),
       commonjs(),
+      json(),
       typescript({
         tsconfig: "./tsconfig.json",
         outDir: "dist/e2e-utils",

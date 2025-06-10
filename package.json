@@ -1,7 +1,7 @@
 {
   "name": "@cloudquery/plugin-config-ui-lib",
   "description": "Plugin configuration UI library for CloudQuery Cloud App",
-  "version": "10.1.1",
+  "version": "10.2.0",
   "private": false,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -87,6 +87,7 @@
     "humanize-string": "^3.0.0",
     "inquirer": "^12.5.0",
     "react-hook-form": "^7.55.0",
+    "react-syntax-highlighter": "^15.6.1",
     "react-virtuoso": "^4.12.7"
   },
   "peerDependencies": {
@@ -126,6 +127,7 @@
     "@mui/system": "^7.0.1",
     "@mui/x-date-pickers": "^7.28.2",
     "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.2",

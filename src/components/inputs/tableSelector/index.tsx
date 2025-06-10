@@ -34,6 +34,10 @@ export interface TableSelectorProps {
   onlySearchFilter?: boolean;
   /** Embeded mode */
   embeded?: boolean;
+  /** Slow tables */
+  slowTables?: string[];
+  /** Expensive tables */
+  expensiveTables?: string[];
 }
 
 /**
@@ -49,6 +53,8 @@ export function TableSelector({
   disabled,
   onlySearchFilter,
   embeded,
+  slowTables,
+  expensiveTables,
 }: TableSelectorProps) {
   const { palette } = useTheme();
 
@@ -152,6 +158,9 @@ export function TableSelector({
           <Checkbox
             disabled={disabled || noResults}
             checked={allTablesSelected || noResults}
+            indeterminate={
+              numberOfSelectedTables > 0 && numberOfSelectedTables < filteredFlatTableList.length
+            }
             onChange={handleSelectAll}
             size="small"
             sx={{
@@ -191,6 +200,8 @@ export function TableSelector({
                 collapsed={collapsedTables[table.name]}
                 hidden={checkIfHidden(table)}
                 onCollapse={handleCollapse}
+                isSlow={!!slowTables?.includes(table.name)}
+                isExpensive={!!expensiveTables?.includes(table.name)}
               />
             )}
           />

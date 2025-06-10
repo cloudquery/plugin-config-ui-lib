@@ -12,6 +12,7 @@ import { ServiceSelector } from '../../inputs/serviceSelector';
 export interface ControlServicesSelectorFieldProps {
   topServices: string[];
   slowTables: string[];
+  expensiveTables: string[];
 }
 
 /**
@@ -23,6 +24,7 @@ export interface ControlServicesSelectorFieldProps {
 export function ControlServicesSelectorField({
   topServices,
   slowTables,
+  expensiveTables,
 }: ControlServicesSelectorFieldProps) {
   const { config, servicesList, initialValues } = usePluginContext();
   const { watch } = useFormContext();
@@ -56,6 +58,7 @@ export function ControlServicesSelectorField({
             fallbackLogoSrc={config.iconLink}
             isUpdating={!!initialValues}
             slowTables={slowTables}
+            expensiveTables={expensiveTables}
           />
           {!!fieldState.error?.message && currentStepSubmitted && (
             <FormHelperText error={!!fieldState.error?.message} sx={{ mt: 2 }}>

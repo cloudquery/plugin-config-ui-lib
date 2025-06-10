@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ContentCopiedIcon from '@mui/icons-material/ContentCopyRounded';
+import { Tooltip } from '@mui/material';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import { SxProps } from '@mui/material/styles';
@@ -33,16 +34,18 @@ export function CopyToClipboardButton({ sx, text }: Props) {
   };
 
   return (
-    <Box sx={sx}>
-      <IconButton
-        aria-label="copy"
-        onClick={handleClick}
-        sx={{
-          cursor: 'pointer',
-        }}
-      >
-        {wasCopied ? <ContentCopiedIcon /> : <ContentCopyIcon />}
-      </IconButton>
-    </Box>
+    <Tooltip title={wasCopied ? 'Copied' : 'Copy'}>
+      <Box sx={sx} onMouseLeave={() => window.setTimeout(() => setWasCopied(false), 100)}>
+        <IconButton
+          aria-label="copy"
+          onClick={handleClick}
+          sx={{
+            cursor: 'pointer',
+          }}
+        >
+          {wasCopied ? <ContentCopiedIcon /> : <ContentCopyIcon />}
+        </IconButton>
+      </Box>
+    </Tooltip>
   );
 }

@@ -1,5 +1,7 @@
 import React, { ChangeEventHandler, ReactNode, Ref, useState } from 'react';
 
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { IconButton, InputAdornment } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
@@ -28,6 +30,7 @@ export interface SecretInputProps {
   getValues: (name?: string) => any;
   error?: boolean;
   helperText?: ReactNode;
+  disableVisibilityToggle?: boolean;
 }
 
 /**
@@ -51,11 +54,12 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
       getValues,
       error,
       helperText,
+      disableVisibilityToggle,
     },
     ref,
   ) => {
     const [fieldResetted, setFieldResetted] = useState(false);
-
+    const [showPlainText, setShowPlainText] = useState(false);
     const handleReset = () => {
       setFieldResetted(true);
       setValue(name as any, '');
@@ -90,9 +94,35 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
           disabled={disabled || isObscured}
           value={displayValue}
           {...textFieldProps}
+          sx={{
+            ...textFieldProps?.sx,
+            input: {
+              ...(textFieldProps?.sx as any)?.input,
+              filter: showPlainText || !value ? undefined : 'blur(3px)',
+            },
+            textarea: {
+              ...(textFieldProps?.sx as any)?.textarea,
+              filter: showPlainText || !value ? undefined : 'blur(3px)',
+            },
+          }}
           ref={ref}
           name={name}
           size="small"
+          slotProps={{
+            input: {
+              endAdornment: disableVisibilityToggle ? null : (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle visibility"
+                    edge="end"
+                    onClick={() => setShowPlainText(!showPlainText)}
+                  >
+                    {showPlainText ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
         />
         {isSecret && (
           <FormFieldReset

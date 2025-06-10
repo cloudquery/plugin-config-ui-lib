@@ -1,66 +1,65 @@
-import { useMemo } from 'react';
-
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
+
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 import { CopyToClipboardButton } from './copyToClipboard';
-import { highlightSyntax } from './highlightSyntax';
 
 /**
  * @public
  */
 export interface CodeSnippetProps {
   text: string;
+  language?: string;
 }
 
 /**
- * CodeSnippet component displays text in specialized text with a copy button.
+ * CodeSnippet component displays text as a code block with a copy button.
  *
  * @public
  */
-export function CodeSnippet({ text }: CodeSnippetProps) {
-  const { palette } = useTheme();
-
-  const code = useMemo(() => {
-    try {
-      return JSON.stringify(JSON.parse(text), undefined, 4);
-    } catch {
-      return text;
-    }
-  }, [text]);
-
+export function CodeSnippet({ text, language = 'bash' }: CodeSnippetProps) {
   return (
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'start',
-        bgcolor: 'background.paperTertiary',
+        alignItems: 'center',
+        paddingLeft: 1.5,
+        bgcolor: 'secondary.darkMedium',
         borderRadius: 1,
+        borderColor: 'neutral.300',
+        border: '1px solid',
         justifyContent: 'space-between',
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          minHeight: '40px',
-          '& pre': {
-            whiteSpace: 'break-spaces',
-            outline: 'none',
-            margin: 1.5,
-            fontSize: '12px',
+      <SyntaxHighlighter
+        codeTagProps={{
+          style: {
+            backgroundColor: 'transparent',
+            fontSize: '13px',
+            fontVariantLigatures: 'none',
+            lineHeight: '150%',
+            maxWidth: '100%',
+            overflow: 'auto',
+            verticalAlign: 'middle',
           },
-          '& .value': { color: palette.text.secondary },
-          '& .key': { color: palette.info.main },
         }}
+        customStyle={{
+          background: 'transparent',
+          borderBottomLeftRadius: 8,
+          borderBottomRightRadius: 8,
+          fontFamily: "'Azeret Mono Variable', sans-serif",
+          marginBottom: 0,
+          marginTop: 0,
+          padding: 0,
+        }}
+        language={language}
+        style={oneDark}
+        useInlineStyles={true}
       >
-        <pre
-          dangerouslySetInnerHTML={{
-            __html: highlightSyntax(code),
-          }}
-        />
-      </Box>
-      <CopyToClipboardButton text={code} />
+        {text}
+      </SyntaxHighlighter>
+      <CopyToClipboardButton text={text} sx={{ alignSelf: 'flex-start' }} />
     </Box>
   );
 }

@@ -49,7 +49,7 @@ export function RenderGuide({ sections }: RenderGuideProps) {
 
 function RenderGuideSectionBody({ body }: { body: GuideSectionBody }) {
   if (body.code) {
-    return <CodeSnippet text={body.code} />;
+    return <CodeSnippet text={body.code} language={body.codeLanguage} />;
   } else if (body.image) {
     return <LightboxImage key={body.image} src={parseSrc(body.image)} alt={body.text} />;
   } else {

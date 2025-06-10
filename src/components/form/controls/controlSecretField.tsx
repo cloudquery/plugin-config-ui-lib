@@ -14,6 +14,7 @@ export interface ControlSecretFieldProps {
   helperText?: ReactNode;
   label: ReactNode;
   textFieldProps?: TextFieldProps;
+  disableVisibilityToggle?: boolean;
 }
 
 /**
@@ -26,6 +27,7 @@ export function ControlSecretField({
   label,
   helperText = '',
   textFieldProps = {},
+  disableVisibilityToggle,
 }: ControlSecretFieldProps) {
   const { watch, formState, getValues, setValue } = useFormContext();
   const editMode = watch('_editMode');
@@ -43,6 +45,7 @@ export function ControlSecretField({
           helperText={getFieldHelperText(fieldState.error?.message, helperText)}
           error={!!fieldState.error}
           textFieldProps={textFieldProps}
+          disableVisibilityToggle={disableVisibilityToggle}
           {...field}
         />
       )}

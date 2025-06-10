@@ -70,10 +70,12 @@ export interface CloudQueryTable {
 export type CloudQueryTables = CloudQueryTable[];
 
 // @public
-export function CodeSnippet({ text }: CodeSnippetProps): JSX_2.Element;
+export function CodeSnippet({ text, language }: CodeSnippetProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface CodeSnippetProps {
+    // (undocumented)
+    language?: string;
     // (undocumented)
     text: string;
 }
@@ -208,10 +210,12 @@ export type ControlOAuthFieldProps = {
 };
 
 // @public
-export function ControlSecretField({ name, label, helperText, textFieldProps, }: ControlSecretFieldProps): JSX_2.Element;
+export function ControlSecretField({ name, label, helperText, textFieldProps, disableVisibilityToggle, }: ControlSecretFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlSecretFieldProps {
+    // (undocumented)
+    disableVisibilityToggle?: boolean;
     // (undocumented)
     helperText?: ReactNode;
     // (undocumented)
@@ -240,10 +244,12 @@ export interface ControlSelectFieldProps {
 }
 
 // @public
-export function ControlServicesSelectorField({ topServices, slowTables, }: ControlServicesSelectorFieldProps): JSX_2.Element;
+export function ControlServicesSelectorField({ topServices, slowTables, expensiveTables, }: ControlServicesSelectorFieldProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ControlServicesSelectorFieldProps {
+    // (undocumented)
+    expensiveTables: string[];
     // (undocumented)
     slowTables: string[];
     // (undocumented)
@@ -387,7 +393,7 @@ export interface FormFieldResetProps {
 }
 
 // @public
-export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, showPreviousStepButton, pluginName, teamName, testConnectionId, submitEnabledState, }: FormFooterProps): JSX_2.Element;
+export function FormFooter({ isUpdating, isSubmitting, isTestingConnection, testConnectionError, pluginKind, submitPayload, onCancelTestConnection, onDelete, onGoToPreviousStep, onTestConnectionSuccess, submitLabel, showPreviousStepButton, pluginName, teamName, testConnectionId, submitEnabledState, showTestConnectionResult, }: FormFooterProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface FormFooterProps {
@@ -401,6 +407,7 @@ export interface FormFooterProps {
     pluginKind: 'source' | 'destination';
     pluginName: string;
     showPreviousStepButton: boolean;
+    showTestConnectionResult?: boolean;
     submitEnabledState?: {
         enabled: true;
     } | {
@@ -556,6 +563,7 @@ export type GuideSection = {
 // @public (undocumented)
 export type GuideSectionBody = {
     code?: string;
+    codeLanguage?: string;
     image?: string;
     text?: any;
     shouldRender?: (values: any) => boolean;
@@ -754,6 +762,8 @@ export interface SecretInputProps {
     // (undocumented)
     disabled?: boolean;
     // (undocumented)
+    disableVisibilityToggle?: boolean;
+    // (undocumented)
     editMode: boolean;
     // (undocumented)
     error?: boolean;
@@ -789,12 +799,14 @@ export type Service = {
 };
 
 // @public
-export function ServiceSelector({ services, topServices, fallbackLogoSrc, value, onChange, disabled, slowTables, }: ServiceSelectorProps): JSX_2.Element;
+export function ServiceSelector({ services, topServices, fallbackLogoSrc, value, onChange, disabled, slowTables, expensiveTables, }: ServiceSelectorProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface ServiceSelectorProps {
     // (undocumented)
     disabled?: boolean;
+    // (undocumented)
+    expensiveTables?: string[];
     // (undocumented)
     fallbackLogoSrc?: string;
     // (undocumented)
@@ -853,15 +865,17 @@ export enum SyncLogLevel {
 }
 
 // @public
-export function TableSelector({ errorMessage, value, onChange, tableList, disabled, onlySearchFilter, embeded, }: TableSelectorProps): JSX_2.Element;
+export function TableSelector({ errorMessage, value, onChange, tableList, disabled, onlySearchFilter, embeded, slowTables, expensiveTables, }: TableSelectorProps): JSX_2.Element;
 
 // @public (undocumented)
 export interface TableSelectorProps {
     disabled?: boolean;
     embeded?: boolean;
     errorMessage?: string;
+    expensiveTables?: string[];
     onChange: (value: Record<string, boolean>) => void;
     onlySearchFilter?: boolean;
+    slowTables?: string[];
     tableList: PluginTableListItem[];
     value: Record<string, boolean>;
 }
@@ -1064,7 +1078,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/types.ts:47:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 // src/utils/authConnectorAuthentication.ts:47:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)

@@ -47,6 +47,8 @@ export interface FormFooterProps {
   testConnectionId?: string;
   /** The state of the submit button */
   submitEnabledState?: { enabled: true } | { enabled: false; errorMessage: string };
+  /** Whether to show the test connection result */
+  showTestConnectionResult?: boolean;
 }
 
 /**
@@ -73,6 +75,7 @@ export function FormFooter({
   teamName,
   testConnectionId,
   submitEnabledState,
+  showTestConnectionResult,
 }: FormFooterProps) {
   const isBusy = isTestingConnection || isSubmitting;
 
@@ -144,18 +147,19 @@ export function FormFooter({
           </Button>
         )}
       </Stack>
-      {(isTestingConnection || testConnectionError || submitPayload) && (
-        <FormFooterTestConnectionResult
-          failureError={testConnectionError}
-          isLoading={isTestingConnection}
-          onCancel={onCancelTestConnection}
-          onSuccess={onTestConnectionSuccess}
-          pluginKind={pluginKind}
-          pluginName={pluginName}
-          teamName={teamName}
-          testConnectionId={testConnectionId}
-        />
-      )}
+      {(isTestingConnection || testConnectionError || submitPayload) &&
+        showTestConnectionResult && (
+          <FormFooterTestConnectionResult
+            failureError={testConnectionError}
+            isLoading={isTestingConnection}
+            onCancel={onCancelTestConnection}
+            onSuccess={onTestConnectionSuccess}
+            pluginKind={pluginKind}
+            pluginName={pluginName}
+            teamName={teamName}
+            testConnectionId={testConnectionId}
+          />
+        )}
     </Stack>
   );
 }

@@ -18,6 +18,7 @@ export enum AuthType {
  */
 export type GuideSectionBody = {
   code?: string;
+  codeLanguage?: string;
   image?: string;
   text?: any;
   shouldRender?: (values: any) => boolean;
