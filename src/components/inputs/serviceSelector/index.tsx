@@ -39,11 +39,12 @@ export interface ServiceSelectorProps {
   disabled?: boolean;
   isUpdating?: boolean;
   slowTables?: string[];
+  expensiveTables?: string[];
 }
 
 const defaultTopServices = [];
 const defaultSlowTables = [];
-
+const defaultExpensiveTables = [];
 /**
  * ServiceSelector component is multi-select form component for selecting services
  * with an expandable view of all available services.
@@ -58,6 +59,7 @@ export function ServiceSelector({
   onChange,
   disabled,
   slowTables = defaultSlowTables,
+  expensiveTables = defaultExpensiveTables,
 }: ServiceSelectorProps) {
   const [expandedService, setExpandedService] = useState<string | null>(null);
   const [search, setSearch] = useState('');
@@ -277,6 +279,8 @@ export function ServiceSelector({
                     fallbackLogoSrc={fallbackLogoSrc}
                     onToggle={handleToggleService}
                     isPopular={topServices.includes(service.name)}
+                    slowTables={slowTables}
+                    expensiveTables={expensiveTables}
                   />
                 </Box>
               ))}

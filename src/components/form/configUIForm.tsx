@@ -309,6 +309,7 @@ export function ConfigUIForm({ prepareSubmitValues, container }: ConfigUIFormPro
                     pluginName={plugin.name}
                     teamName={teamName}
                     testConnectionId={testConnectionId}
+                    showTestConnectionResult={isLastStep}
                   />
                 </Stack>
               </form>

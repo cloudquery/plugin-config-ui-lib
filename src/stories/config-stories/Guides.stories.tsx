@@ -38,6 +38,31 @@ export const Primary = {
               {
                 text: 'CloudQuery reads information from your DataDog accounts and loads it into any supported CloudQuery destination.',
               },
+              {
+                code: `export EXTERNAL_ID=$(uuidgen)`,
+              },
+              {
+                code: `cat >third-party-trust.json <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::\${CLOUDQUERY_ACCOUNT_ID}:role/\${SUB_DOMAIN}-cloudquery"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "\${EXTERNAL_ID}"
+        }
+      }
+    }
+  ]
+}
+EOF`,
+                language: 'bash',
+              },
             ],
           },
         ],

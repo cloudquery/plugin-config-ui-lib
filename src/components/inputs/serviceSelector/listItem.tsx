@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 
-import { Close, WarningAmber } from '@mui/icons-material';
+import { Close } from '@mui/icons-material';
 import { Collapse, IconButton } from '@mui/material';
 import Box, { BoxProps } from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -27,6 +27,8 @@ interface Props {
   onToggle: (service: Service, isChecked: boolean) => void;
   isPopular?: boolean;
   value: Record<string, boolean>;
+  slowTables?: string[];
+  expensiveTables?: string[];
 }
 
 export function ServiceSelectorListItem({
@@ -39,6 +41,8 @@ export function ServiceSelectorListItem({
   onExpandToggle,
   isExpanded,
   onToggle,
+  slowTables,
+  expensiveTables,
 }: Props) {
   const tablesValue = useMemo(() => {
     return Object.fromEntries(service.tables.map((table) => [table, value[table]]));
@@ -67,11 +71,13 @@ export function ServiceSelectorListItem({
     [onExpandToggle, service.name],
   );
 
-  const onlySomeTablesSelected = useMemo(() => {
-    const selectedTables = Object.keys(tablesValue).filter((table) => tablesValue[table]);
+  const selectedTables = useMemo(() => {
+    return Object.keys(tablesValue).filter((table) => tablesValue[table]);
+  }, [tablesValue]);
 
+  const onlySomeTablesSelected = useMemo(() => {
     return selectedTables.length > 0 && selectedTables.length < service.tables.length;
-  }, [tablesValue, service.tables]);
+  }, [selectedTables, service.tables]);
 
   return (
     <Box>
@@ -105,7 +111,7 @@ export function ServiceSelectorListItem({
           key={service.name}
           value={service.name}
           disabled={disabled}
-          onClick={() => onToggle(service, !isSelected)}
+          onClick={() => onToggle(service, onlySomeTablesSelected ? true : !isSelected)}
         >
           <Stack width="100%">
             <Box
@@ -148,30 +154,21 @@ export function ServiceSelectorListItem({
                     {service.shortLabel ?? service.label}
                   </Typography>
                 </Tooltip>
-                {onlySomeTablesSelected && !isExpanded && (
-                  <Tooltip
-                    title={
-                      <Typography variant="body2" maxWidth={288} paddingY={1.5} paddingX={2}>
-                        Not all default tables in this service are selected. You can edit it by
-                        using the service configuration button.
-                      </Typography>
-                    }
-                  >
-                    <WarningAmber color="warning" />
-                  </Tooltip>
-                )}
               </Box>
               <Stack direction="row" alignItems="center" gap={1}>
                 <IconButton
                   className="expand-toggle"
-                  sx={{ opacity: isExpanded ? undefined : 0, color: 'nav.evident' }}
+                  sx={{
+                    opacity: isExpanded || selectedTables.length > 0 ? undefined : 0,
+                    color: 'nav.evident',
+                  }}
                   size="small"
                   onClick={handleExpandToggle}
                   component="span"
                 >
                   {isExpanded ? <Close /> : <AdjustmentsIcon />}
                 </IconButton>
-                <Checkbox checked={isSelected} />
+                <Checkbox checked={isSelected} indeterminate={onlySomeTablesSelected} />
               </Stack>
             </Box>
           </Stack>
@@ -191,6 +188,8 @@ export function ServiceSelectorListItem({
               onChange={handleToggleTable}
               onlySearchFilter={true}
               embeded={true}
+              slowTables={slowTables}
+              expensiveTables={expensiveTables}
             />
           </Box>
         </Collapse>

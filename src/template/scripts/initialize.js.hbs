@@ -1,13 +1,11 @@
 import minimist from 'minimist';
 
-import setEnvironment from '@cloudquery/plugin-config-ui-lib/scripts/set_environment.js';
 {{#if createTablesSelector}}
 import generateTables from '@cloudquery/plugin-config-ui-lib/scripts/gen_tables.js';
 {{/if}}
 
 const argv = minimist(process.argv.slice(2));
 
-setEnvironment();
 {{#if createTablesSelector}}
 generateTables(argv.f);
 {{/if}}

@@ -3,12 +3,15 @@ import { ConfigUIForm, PluginContextProvider, useFormInit } from '@cloudquery/pl
 import { DevWrapper } from '@cloudquery/plugin-config-ui-lib/components/devWrapper';
 
 import { useConfig } from './hooks/useConfig';
-import { envJson } from './utils/envJson';
 import { pluginUiMessageHandler } from './utils/messageHandler';
 import { prepareSubmitValues } from './utils/prepareSubmitValues';
 
 {{#if createTablesSelector}}
 const getTablesData = () => import('./data/__tables.json');
+{{/if}}
+
+{{#if createServicesSelector}}
+const getServicesData = () => import('./data/__services.json');
 {{/if}}
 
 function App({ container }: { container?: HTMLElement }) {
@@ -18,12 +21,15 @@ function App({ container }: { container?: HTMLElement }) {
   const config = useConfig({ initialValues });
 
   return (
-    <DevWrapper {...envJson}>
+    <DevWrapper>
       <PluginContextProvider
         config={config}
         teamName={teamName}
         {{#if createTablesSelector}}
         getTablesData={getTablesData}
+        {{/if}}
+        {{#if createServicesSelector}}
+        getServicesData={getServicesData}
         {{/if}}
         hideStepper={context === 'wizard'} // TODO: Delete after iframe deprecation
         pluginUiMessageHandler={pluginUiMessageHandler}

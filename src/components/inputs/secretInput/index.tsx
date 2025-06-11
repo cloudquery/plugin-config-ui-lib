@@ -1,5 +1,7 @@
 import React, { ChangeEventHandler, ReactNode, Ref, useState } from 'react';
 
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { IconButton, InputAdornment } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import TextField, { TextFieldProps } from '@mui/material/TextField';
 
@@ -28,6 +30,7 @@ export interface SecretInputProps {
   getValues: (name?: string) => any;
   error?: boolean;
   helperText?: ReactNode;
+  disableVisibilityToggle?: boolean;
 }
 
 /**
@@ -51,24 +54,28 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
       getValues,
       error,
       helperText,
+      disableVisibilityToggle,
     },
     ref,
   ) => {
     const [fieldResetted, setFieldResetted] = useState(false);
-
+    const [showPlainText, setShowPlainText] = useState(false);
     const handleReset = () => {
       setFieldResetted(true);
+      setShowPlainText(false);
       setValue(name as any, '');
     };
 
     const handelCancelReset = () => {
       setFieldResetted(false);
+      setShowPlainText(false);
       setValue(name as any, getDefaultValue(defaultValues, name));
     };
 
     const isSecret = editMode && isOrHasSecret(getDefaultValue(defaultValues, name));
     const isObscured = isSecret && !fieldResetted && isOrHasSecret(getValues(name as any));
     const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
+    const isBlurred = !showPlainText && !!value && !isObscured;
 
     return (
       <Stack
@@ -90,9 +97,36 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
           disabled={disabled || isObscured}
           value={displayValue}
           {...textFieldProps}
+          sx={{
+            ...textFieldProps?.sx,
+            input: {
+              ...(textFieldProps?.sx as any)?.input,
+              filter: isBlurred ? 'blur(3px)' : undefined,
+            },
+            textarea: {
+              ...(textFieldProps?.sx as any)?.textarea,
+              filter: isBlurred ? 'blur(3px)' : undefined,
+            },
+          }}
           ref={ref}
           name={name}
           size="small"
+          slotProps={{
+            input: {
+              endAdornment:
+                !disableVisibilityToggle && !isObscured ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle visibility"
+                      edge="end"
+                      onClick={() => setShowPlainText(!showPlainText)}
+                    >
+                      {showPlainText ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ) : null,
+            },
+          }}
         />
         {isSecret && (
           <FormFieldReset
