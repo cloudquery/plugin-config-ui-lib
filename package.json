@@ -91,7 +91,7 @@
     "react-virtuoso": "^4.12.7"
   },
   "peerDependencies": {
-    "@cloudquery/plugin-config-ui-connector": "^2.0.0",
+    "@cloudquery/plugin-config-ui-connector": "rc",
     "@emotion/cache": "^11.11.4",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.4",
