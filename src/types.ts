@@ -16,11 +16,25 @@ export enum AuthType {
 /**
  * @public
  */
+export type GuideSectionBodyTab = {
+  title: string;
+  content: Omit<GuideSectionBody, 'tabs'>[];
+};
+
+/**
+ * @public
+ */
+export type GuideSectionBodyTabs = GuideSectionBodyTab[];
+
+/**
+ * @public
+ */
 export type GuideSectionBody = {
   code?: string;
   codeLanguage?: string;
   image?: string;
   text?: any;
+  tabs?: GuideSectionBodyTabs;
   shouldRender?: (values: any) => boolean;
 };
 
