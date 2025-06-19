@@ -566,8 +566,18 @@ export type GuideSectionBody = {
     codeLanguage?: string;
     image?: string;
     text?: any;
+    tabs?: GuideSectionBodyTabs;
     shouldRender?: (values: any) => boolean;
 };
+
+// @public (undocumented)
+export type GuideSectionBodyTab = {
+    title: string;
+    content: Omit<GuideSectionBody, 'tabs'>[];
+};
+
+// @public (undocumented)
+export type GuideSectionBodyTabs = GuideSectionBodyTab[];
 
 // @public
 export function isApiAbortError(error: Error): boolean;
@@ -1078,7 +1088,7 @@ export function writeSecretsToPrepareValues(env?: Record<string, string>): {
 
 // Warnings were encountered during analysis:
 //
-// src/types.ts:48:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
+// src/types.ts:62:3 - (ae-forgotten-export) The symbol "IterableStepComponent" needs to be exported by the entry point index.d.ts
 // src/utils/authConnectorAuthentication.ts:47:3 - (ae-forgotten-export) The symbol "AuthPluginType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
