@@ -1024,6 +1024,7 @@ export { useFormContext }
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
     initialized: boolean;
     initialValues: FormMessagePayload['init']['initialValues'] | undefined;
+    pluginVersion: FormMessagePayload['init']['pluginVersion'];
     teamName: string;
     context: FormMessagePayload['init']['context'] | undefined;
     isManagedDestination: boolean;
