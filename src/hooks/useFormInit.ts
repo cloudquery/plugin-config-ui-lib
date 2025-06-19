@@ -14,6 +14,7 @@ import { RudderAnalytics } from '@rudderstack/analytics-js';
 export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
   initialized: boolean;
   initialValues: FormMessagePayload['init']['initialValues'] | undefined;
+  pluginVersion: FormMessagePayload['init']['pluginVersion'];
   teamName: string;
   context: FormMessagePayload['init']['context'] | undefined;
   isManagedDestination: boolean;
@@ -29,6 +30,10 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
   const [user, setUser] = useState({ id: '', name: '', email: '' });
   const [isManagedDestination, setIsManagedDestination] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [pluginVersion, setPluginVersion] = useState<
+    FormMessagePayload['init']['pluginVersion'] | undefined
+  >();
+
   useEffect(() => {
     pluginUiMessageHandler.sendMessage('loaded');
 
@@ -42,6 +47,7 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
         isManagedDestination,
         user,
         isDisabled,
+        pluginVersion,
       }) => {
         if (rudderstackConfig) {
           const rudderAnalytics = new RudderAnalytics();
@@ -66,6 +72,10 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
           setInitialValues(initialValues);
         }
 
+        if (pluginVersion) {
+          setPluginVersion(pluginVersion);
+        }
+
         setTeamName(teamName);
         setContext(context);
         setIsManagedDestination(!!isManagedDestination);
@@ -83,7 +93,16 @@ export function useFormInit(pluginUiMessageHandler: PluginUiMessageHandler): {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialized]);
 
-  return { initialized, initialValues, teamName, context, isManagedDestination, user, isDisabled };
+  return {
+    initialized,
+    initialValues,
+    teamName,
+    context,
+    isManagedDestination,
+    user,
+    isDisabled,
+    pluginVersion,
+  };
 }
 
 function trackAllClicks(rudderAnalytics: RudderAnalytics) {
