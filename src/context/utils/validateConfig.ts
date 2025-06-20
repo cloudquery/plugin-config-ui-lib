@@ -16,7 +16,9 @@ const isReservedLayoutComponent = (componentName: string) =>
   ['control-table-selector', 'control-oauth', 'control-services-selector'].includes(componentName);
 
 const componentRequiresLabel = (componentName: string) =>
-  !['control-exclusive-toggle', 'control-services-selector'].includes(componentName);
+  !['control-exclusive-toggle', 'control-services-selector', 'control-code-field'].includes(
+    componentName,
+  );
 
 function checkForDuplicateNames(names: string[]): string[] {
   return names.filter((e, i, a) => a.indexOf(e) !== i);

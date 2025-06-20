@@ -1,3 +1,5 @@
+import { Stack } from '@mui/material';
+
 import { ControlCodeField } from '../../components/form/controls/controlCodeField.js';
 import { LayoutCodeField } from '../../components/form/renderer/types.js';
 import { ComponentWrapper } from '../wrappers/component.js';
@@ -30,6 +32,21 @@ export default meta;
 export const Primary = {
   render: (args) => (
     <ComponentWrapper args={args} yupBase="string().default(initialValues?.spec?.yaml  || '')" />
+  ),
+  args: {},
+};
+
+export const WithoutLabel = {
+  render: () => (
+    <Stack>
+      <ComponentWrapper
+        args={{
+          component: 'control-code-field',
+          name: 'option',
+        }}
+        yupBase="string().default(initialValues?.spec?.yaml  || '')"
+      />
+    </Stack>
   ),
   args: {},
 };
