@@ -108,6 +108,11 @@ export const ControlCodeField = forwardRef<MonacoEditor, ControlCodeFieldProps>(
           paddingY: 1,
           paddingX: 1.5,
           bgcolor: '#15202E',
+          ...(!label && {
+            '& .monaco-editor': {
+              outline: 'none',
+            },
+          }),
         }}
       >
         {!!label && <FormLabel sx={{ mb: 1 }}>{label}</FormLabel>}
