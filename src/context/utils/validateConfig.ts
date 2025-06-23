@@ -163,36 +163,5 @@ export function validateConfig(
     }
   }
 
-  if (servicesList && servicesList.length > 0) {
-    const hasServiceSelector = (
-      steps: (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
-    ): boolean => {
-      return steps.some((step) => {
-        if (step.component === 'control-services-selector') {
-          return true;
-        }
-        if ((step as RenderSection).children && Array.isArray((step as RenderSection).children)) {
-          return hasServiceSelector(
-            (step as RenderSection).children as (
-              | RenderSection
-              | LayoutComponent
-              | ReservedLayoutComponent
-            )[],
-          );
-        }
-
-        return false;
-      });
-    };
-
-    if (
-      !hasServiceSelector(
-        config.steps as (RenderSection | LayoutComponent | ReservedLayoutComponent)[],
-      )
-    ) {
-      throw new Error(errorMessages.config_no_service_selector);
-    }
-  }
-
   return config;
 }
