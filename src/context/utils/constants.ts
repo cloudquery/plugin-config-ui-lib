@@ -32,8 +32,6 @@ export const errorMessages = {
     'Config cannot include both a control-table-selector and control-services-selector component',
   config_no_table_selector:
     'Config must include a control-table-selector component when getTablesData returns a non-empty list of tables',
-  config_no_service_selector:
-    'Config must include a control-services-selector component when getServicesData returns a non-empty list of services',
 };
 
 // These form value names are controlled entirely from within the lib
