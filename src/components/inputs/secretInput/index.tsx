@@ -12,6 +12,17 @@ const getDefaultValue = (object: any, path: string) =>
   // eslint-disable-next-line unicorn/no-array-reduce
   path.split('.').reduce((a, b) => a[b], object);
 
+function checkWebkitTextSecuritySupported() {
+  const input = document.createElement('input');
+  input.style.display = 'none';
+  document.body.append(input);
+  const style = window.getComputedStyle(input);
+
+  return !!(style as any).webkitTextSecurity;
+}
+
+const isWebkitTextSecuritySupported = checkWebkitTextSecuritySupported();
+
 /**
  * @public
  */
@@ -77,6 +88,10 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
     const displayValue = isObscured ? obfuscateSecretDisplay(value) : value;
     const isBlurred = !showPlainText && !!value && !isObscured;
 
+    // The goal is to use webkitTextSecurity only if the browser supports it or if the field is multiline.
+    // If the browser does not support webkitTextSecurity, we will use the password type.
+    const useWebkitTextSecurity = isWebkitTextSecuritySupported || textFieldProps?.multiline;
+
     return (
       <Stack
         direction="row"
@@ -90,7 +105,7 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
           fullWidth={true}
           helperText={helperText}
           label={label}
-          autoComplete="off"
+          autoComplete={useWebkitTextSecurity ? 'off' : 'one-time-code'}
           required={true}
           onChange={onChange}
           onBlur={onBlur}
@@ -101,11 +116,11 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
             ...textFieldProps?.sx,
             input: {
               ...(textFieldProps?.sx as any)?.input,
-              filter: isBlurred ? 'blur(3px)' : undefined,
+              WebkitTextSecurity: useWebkitTextSecurity && isBlurred ? 'disc' : undefined,
             },
             textarea: {
               ...(textFieldProps?.sx as any)?.textarea,
-              filter: isBlurred ? 'blur(3px)' : undefined,
+              WebkitTextSecurity: useWebkitTextSecurity && isBlurred ? 'disc' : undefined,
             },
           }}
           ref={ref}
@@ -127,6 +142,9 @@ export const SecretInput = React.forwardRef<HTMLDivElement, SecretInputProps>(
                 ) : null,
             },
           }}
+          type={
+            !useWebkitTextSecurity && isBlurred && !textFieldProps?.multiline ? 'password' : 'text'
+          }
         />
         {isSecret && (
           <FormFieldReset
