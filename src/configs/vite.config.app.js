@@ -80,5 +80,11 @@ export default {
     globals: true,
     setupFiles: './src/tests/setupTests.ts',
     include: ['src/tests/**/*.test.ts', 'src/tests/**/*.test.tsx'],
+    alias: [
+      {
+        find: /^monaco-editor$/,
+        replacement: __dirname + '/node_modules/monaco-editor/esm/vs/editor/editor.api',
+      },
+    ],
   },
 };
