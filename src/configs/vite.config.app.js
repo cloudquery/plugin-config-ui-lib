@@ -2,6 +2,8 @@ import 'dotenv/config';
 
 import react from '@vitejs/plugin-react-swc';
 import { minify as htmlMinify } from 'html-minifier-terser';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import monacoEditorVitePlugin from 'vite-plugin-monaco-editor';
 
