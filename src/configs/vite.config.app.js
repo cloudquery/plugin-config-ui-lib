@@ -2,15 +2,10 @@ import 'dotenv/config';
 
 import react from '@vitejs/plugin-react-swc';
 import { minify as htmlMinify } from 'html-minifier-terser';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 import monacoEditorVitePlugin from 'vite-plugin-monaco-editor';
 
 const monacoEditorPlugin = monacoEditorVitePlugin.default;
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const envVariables = {};
 
@@ -88,7 +83,7 @@ export default {
     alias: [
       {
         find: /^monaco-editor$/,
-        replacement: __dirname + '/node_modules/monaco-editor/esm/vs/editor/editor.api',
+        replacement: '/node_modules/monaco-editor/esm/vs/editor/editor.api',
       },
     ],
   },
