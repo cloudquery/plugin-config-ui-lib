@@ -7,6 +7,9 @@ import monacoEditorVitePlugin from 'vite-plugin-monaco-editor';
 
 const monacoEditorPlugin = monacoEditorVitePlugin.default;
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const envVariables = {};
 
 for (const key of Object.keys(process.env)) {
