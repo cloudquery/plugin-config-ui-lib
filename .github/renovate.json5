@@ -5,5 +5,5 @@
       matchPackageNames: ["*"],
       groupName: "everything",
     },
-  },
+  ],
 }
