@@ -86,7 +86,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
       - name: Create comment
-        uses: peter-evans/create-or-update-comment@cf1a4a2020fa08820c81f4127c6aad2fa212beb8
+        uses: peter-evans/create-or-update-comment@2b6bdb56ad3073fa0e4beef00447158f55a18414
         with:
           token: ${{ secrets.GH_CQ_BOT }}
           issue-number: ${{ github.event.pull_request.number }}
